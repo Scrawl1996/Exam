@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xm.exam.mapper.haul.custom.HaulinfoCustomMapper">
+
+	<!--S 查询分页总数 -->
+	<select id="getHaulinfoTotalByCondition" parameterType="hashmap"
+		resultType="_int">
+		SELECT
+		COUNT(bigId) FROM haulinfo
+		<where>
+			<include refid="queryHaulWhere"></include>
+		</where>
+	</select>
+	<!--E 查询分页总数 -->
+	<!--S 分页查询大修 -->
+	<select id="getHaulinfoslByCondition" resultType="cn.xm.exam.bean.haul.Haulinfo"
+		parameterType="hashmap">
+		SELECT * FROM haulinfo
+		<where>
+			<include refid="queryHaulWhere"></include>
+		</where>
+		ORDER BY bigCreateDate DESC
+		<include refid="queryHaulLimit"></include>
+	</select>
+	<!--E 分页查询大修 -->
+
+	<!--S 查询大修树与外来单位树 -->
+	<!-- 为大修部门树准备数据 -->
+	<select id="getOverHaulInfoTree" resultType="map">
+		SELECT bigid id,CASE
+		WHEN TRUE THEN NULL ELSE 1 END upid,bigName `name` from haulinfo ORDER BY bigCreateDate DESC
+	</select>
+
+	<select id="getDepartInfoTree" resultType="map">
+		SELECT unitid id
+		,bigid upid,(SELECT unit.`name` FROM unit WHERE unitId =
+		haulunit.unitId) `name` FROM haulunit
+	</select>
+	<!--E 查询大修树与外来单位树 -->
+
+
+
+	<!--S 组装查询条件 -->
+	<sql id="queryHaulWhere">
+		<if test="bigName!=null">
+			and bigName LIKE '%${bigName}%'
+		</if>
+		<if test="bigStatus!=null">
+			and bigStatus=#{bigStatus}
+		</if>
+		<if test="startMonth!=null">
+			and DATE_FORMAT(bigCreateDate,'%Y-%m')=#{startMonth}
+		</if>
+	</sql>
+	<!--E 组装查询条件 -->
+	<!--S 分页条件 -->
+	<sql id="queryHaulLimit">
+		<if test="index!=null">
+			LIMIT #{index},#{currentCount}
+		</if>
+	</sql>
+	<!--E 组装分页条件 -->
+
+	<!--S 根据大修ID查询所有的大修部门ID -->
+	<select id="getHaulUnitByHaulid" parameterType="string"
+		resultType="string">
+		SELECT unitId FROM haulunit WHERE bigId=#{value}
+	</select>
+	<!--E 根据大修ID查询所有的大修部门ID -->
+
+	<!--S 查询大修的名字与ID集合 -->
+	<select id="getHaulNameAndIdsForExam" resultType="map">
+		SELECT
+		bigName,bigId,bigStatus FROM haulinfo WHERE bigStatus !='已结束' order by
+		bigCreateDate DESC
+	</select>
+	<!--E 查询大修的名字与ID集合 -->
+
+
+</mapper>

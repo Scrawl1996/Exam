@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xm.exam.mapper.employee.out.ProjectMapper" >
+  <resultMap id="BaseResultMap" type="cn.xm.exam.bean.employee.out.Project" >
+    <id column="projectId" property="projectid" jdbcType="INTEGER" />
+    <result column="unitBigId" property="unitbigid" jdbcType="VARCHAR" />
+    <result column="unitId" property="unitid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="startDate" property="startdate" jdbcType="DATE" />
+    <result column="endDate" property="enddate" jdbcType="DATE" />
+    <result column="contactPerson" property="contactperson" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    projectId, unitBigId, unitId, name, startDate, endDate, contactPerson, phone, status, 
+    description
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.xm.exam.bean.employee.out.ProjectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from project
+    where projectId = #{projectid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from project
+    where projectId = #{projectid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.xm.exam.bean.employee.out.ProjectExample" >
+    delete from project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.xm.exam.bean.employee.out.Project" >
+    insert into project (projectId, unitBigId, unitId, 
+      name, startDate, endDate, 
+      contactPerson, phone, status, 
+      description)
+    values (#{projectid,jdbcType=INTEGER}, #{unitbigid,jdbcType=VARCHAR}, #{unitid,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{startdate,jdbcType=DATE}, #{enddate,jdbcType=DATE}, 
+      #{contactperson,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xm.exam.bean.employee.out.Project" >
+    insert into project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="projectid != null" >
+        projectId,
+      </if>
+      <if test="unitbigid != null" >
+        unitBigId,
+      </if>
+      <if test="unitid != null" >
+        unitId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="startdate != null" >
+        startDate,
+      </if>
+      <if test="enddate != null" >
+        endDate,
+      </if>
+      <if test="contactperson != null" >
+        contactPerson,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="projectid != null" >
+        #{projectid,jdbcType=INTEGER},
+      </if>
+      <if test="unitbigid != null" >
+        #{unitbigid,jdbcType=VARCHAR},
+      </if>
+      <if test="unitid != null" >
+        #{unitid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=DATE},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=DATE},
+      </if>
+      <if test="contactperson != null" >
+        #{contactperson,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.xm.exam.bean.employee.out.ProjectExample" resultType="java.lang.Integer" >
+    select count(*) from project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update project
+    <set >
+      <if test="record.projectid != null" >
+        projectId = #{record.projectid,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitbigid != null" >
+        unitBigId = #{record.unitbigid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitid != null" >
+        unitId = #{record.unitid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startdate != null" >
+        startDate = #{record.startdate,jdbcType=DATE},
+      </if>
+      <if test="record.enddate != null" >
+        endDate = #{record.enddate,jdbcType=DATE},
+      </if>
+      <if test="record.contactperson != null" >
+        contactPerson = #{record.contactperson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update project
+    set projectId = #{record.projectid,jdbcType=INTEGER},
+      unitBigId = #{record.unitbigid,jdbcType=VARCHAR},
+      unitId = #{record.unitid,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      startDate = #{record.startdate,jdbcType=DATE},
+      endDate = #{record.enddate,jdbcType=DATE},
+      contactPerson = #{record.contactperson,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xm.exam.bean.employee.out.Project" >
+    update project
+    <set >
+      <if test="unitbigid != null" >
+        unitBigId = #{unitbigid,jdbcType=VARCHAR},
+      </if>
+      <if test="unitid != null" >
+        unitId = #{unitid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        startDate = #{startdate,jdbcType=DATE},
+      </if>
+      <if test="enddate != null" >
+        endDate = #{enddate,jdbcType=DATE},
+      </if>
+      <if test="contactperson != null" >
+        contactPerson = #{contactperson,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where projectId = #{projectid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xm.exam.bean.employee.out.Project" >
+    update project
+    set unitBigId = #{unitbigid,jdbcType=VARCHAR},
+      unitId = #{unitid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      startDate = #{startdate,jdbcType=DATE},
+      endDate = #{enddate,jdbcType=DATE},
+      contactPerson = #{contactperson,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR}
+    where projectId = #{projectid,jdbcType=INTEGER}
+  </update>
+</mapper>

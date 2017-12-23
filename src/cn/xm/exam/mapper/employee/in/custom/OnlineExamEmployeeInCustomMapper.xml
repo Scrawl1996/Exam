@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xm.exam.mapper.employee.in.custom.OnlineExamEmployeeInCustomMapper" >
+ 	
+ 	<!-- 根据用户ID查询用户表中的相关信息 -->
+ 	<select id="getOnlineExamUserInfoByEmployeeInId" parameterType="String" resultType="cn.xm.exam.bean.system.User">
+ 		SELECT * FROM `user` WHERE employeeId=#{value}
+ 	</select>
+ 	<!-- 根据用户ID修改用户的登录密码 -->
+ 	<update id="updateOnlineExamUserInfo" parameterType="map">
+ 		UPDATE `user` SET `password`=#{newPassword} WHERE employeeId = #{employeeInId}
+ 	</update>
+ 	
+</mapper>

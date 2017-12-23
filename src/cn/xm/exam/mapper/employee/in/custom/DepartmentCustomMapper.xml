@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xm.exam.mapper.employee.in.custom.DepartmentCustomMapper">
+
+
+	<!-- S qlq -->
+	<!-- S 查询部门树 -->
+	<select id="getDepartmentTreeForExam" resultType="map"
+		parameterType="String">
+		SELECT
+		departmentId,upDepartmentId,departmentName FROM department
+		<if test="value != null">
+			where departmentId like '${value}%'
+		</if>
+	</select>
+	<select id="getCountByCondition" resultType="_int"
+		parameterType="map">
+		select count(departmentId) from department
+		<where>
+			<include refid="query_department_where"></include>
+		</where>
+	</select>
+	<select id="getDepartmentInfoByCondition" resultType="map"
+		parameterType="map">
+		SELECT
+		depart.departmentid,
+		depart.updepartmentId,
+		depart.departmentname,
+		depart.departmenttype,
+		depart.departprojectnames,
+		(SELECT
+		departmentName
+		FROM
+		department
+		WHERE
+		departmentId = depart.upDepartmentId) AS
+		upDepartName,
+		depart.employeeName,
+		depart.sort,
+		depart.phone,
+		(SELECT
+		COUNT(employeeId)
+		FROM
+		employee_in
+		WHERE departmentId =
+		depart.departmentId) AS perNum,
+		IFNULL((SELECT SUM(empInMinusNum) FROM
+		emplyin_breakrules, employee_in
+		WHERE
+		emplyin_breakrules.empInEmployeeId = employee_in.employeeId AND
+		employee_in.departmentId = depart.departmentId
+		<if test="fstarttime != null">
+			and empInBreakTime &gt;= #{fstarttime}
+		</if>
+		<if test="fendtime != null">
+			and empInBreakTime &lt;= #{fendtime}
+		</if>
+		),0) AS totalMinus
+		FROM
+		department depart
+		<where>
+			<include refid="query_department_where"></include>
+		</where>
+		ORDER BY
+		<if test="fstarttime != null or fendtime != null">
+			totalMinus desc
+		</if>
+		<if test="fstarttime == null and fendtime == null">
+			sort DESC
+		</if>
+
+		<include refid="query_department_limit"></include>
+	</select>
+	<!--查询部门的条件 -->
+	<sql id="query_department_where">
+		<if test="updepartmentid!=null">
+			and updepartmentid=#{updepartmentid}
+		</if>
+		<if test="departmentId != null">
+			AND departmentId like '${departmentId}%'
+		</if>
+		<if test="departmentname!=null">
+			and departmentname like '%${departmentname}%'
+		</if>
+		<if test="1 == 1">
+			and departmentid !='01'
+		</if>
+	</sql>
+	<sql id="query_department_limit">
+		<if test="index!=null">
+			LIMIT #{index},#{currentCount}
+		</if>
+	</sql>
+	<!-- E 查询部门树 -->
+
+	<!-- E qlq -->
+
+
+	<!--S zhangwenyi -->
+
+	<!-- 查询分页 -->
+	<sql id="queryPage_limit">
+		<if test="index!=null">
+			LIMIT #{index},#{currentCount}
+		</if>
+	</sql>
+
+
+
+	<!-- 按条件查出所有的部门 -->
+	<select id="findDepartmentByCondition" resultType="cn.xm.exam.bean.employee.in.Department"
+		parameterType="hashmap">
+		SELECT * FROM department
+
+		<where>
+			<include refid="query_department_where"></include>
+			and departmentid !='01'
+		</where>
+		order by sort DESC
+		<include refid="queryPage_limit"></include>
+
+	</select>
+
+	<!-- 得到符合该条件的部门数量 -->
+	<select id="getDepartmentCountByCondition" resultType="int"
+		parameterType="hashmap">
+		SELECT count(departmentid) FROM department
+		<where>
+			<include refid="query_department_where"></include>
+		</where>
+	</select>
+
+	<!-- 查询机构树信息 -->
+	<select id="getDepartmentTree" resultType="map" parameterType="string">
+		select departmentid,
+		updepartmentid,departmentname
+		FROM department
+		<if test="value != null">
+			where departmentId like '${value}%'
+		</if>
+	</select>
+
+	<!-- 根据上级机构Id查询下一个要插入的下一级机构Id -->
+	<select id="getNextDepartmentId" parameterType="string"
+		resultType="string">
+		SELECT MAX(departmentid) FROM department WHERE
+		updepartment=#{updepartment}
+	</select>
+
+	<!-- 通过id得到相应的name -->
+	<select id="getDepartmentNameById" parameterType="string"
+		resultType="string">
+		SELECT departmentname FROM department WHERE
+		departmentid=#{departmentid}
+	</select>
+
+	<!-- 通过id得到相应的部门 -->
+	<!-- <select id="getDepartmentNameById" parameterType="string" resultType="string"> 
+		SELECT * FROM department WHERE departmentname=#{departmentname} </select> -->
+
+	<!-- 通过name得到相应的id -->
+	<select id="getIdByDepartmentName" parameterType="string"
+		resultType="string">
+		SELECT departmentid FROM department WHERE
+		departmentname=#{departmentname}
+	</select>
+
+	<!-- 通过上级id得到下级部门数量 -->
+	<select id="getDepartmentCountByUpId" parameterType="string"
+		resultType="int">
+		select count(*) from department where
+		updepartmentid=#{updepartmentid};
+	</select>
+
+	<!-- 通过id得到下级部门最大id -->
+	<select id="getMaxDepartmentId" parameterType="string"
+		resultType="string">
+		SELECT MAX(departmentid) FROM department WHERE
+		updepartmentid=#{updepartmentid}
+
+
+	</select>
+
+	<select id="getEmployeeInCountsById" parameterType="string"
+		resultType="int">
+		select COUNT(*) from employee_in where
+		departmentid=#{departmentid};
+	</select>
+
+	<!-- 得到该部门下的所有员工的idcode -->
+	<select id="getIdcodeListAll" resultType="string">
+		SELECT idCode
+		from
+		employee_in;
+	</select>
+
+
+	<!-- 分页查询该部门下的所有员工的所有违章信息 -->
+	<sql id="queryBreakrulesCaseInfo_limit">
+		<if test="index!=null">
+			LIMIT #{index},#{currentCount}
+		</if>
+	</sql>
+	<select id="getBreakrulesCaseInfoByCondition" resultType="hashmap"
+		parameterType="hashmap">
+		SELECT
+		employee_in.name,emplyin_breakrules.empInBreakContent,emplyin_breakrules.empInBreakTime,emplyin_breakrules.empInMinusNum
+		FROM employee_in,department,emplyin_breakrules where
+		department.departmentid=#{breakrulesbumen} and
+		department.departmentId=employee_in.departmentId and
+		employee_in.employeeId=emplyin_breakrules.empInEmployeeId
+		<if test="fstarttime!=null">
+			and emplyin_breakrules.empInBreakTime &gt;= #{fstarttime}
+		</if>
+		<if test="fendtime!=null">
+			and emplyin_breakrules.empInBreakTime &lt;= #{fendtime}
+		</if>
+		order by
+		emplyin_breakrules.empInBreakTime DESC
+		<include refid="queryBreakrulesCaseInfo_limit"></include>
+	</select>
+
+	<!--该部门下所有员工的所有违章数 -->
+	<!-- 通过departmentid得到该部门的员工数量 -->
+	<select id="getBreakrulesCountByDepartmentId" resultType="int"
+		parameterType="map">
+		SELECT count(emplyin_breakrules.empInBreakId) FROM
+		employee_in,department,emplyin_breakrules where
+		department.departmentid=#{breakrulesbumen} and
+		department.departmentId=employee_in.departmentId
+		<if test="fstarttime!=null">
+			and emplyin_breakrules.empInBreakTime &gt;= #{fstarttime}
+		</if>
+		<if test="fendtime!=null">
+			and emplyin_breakrules.empInBreakTime &lt;= #{fendtime}
+		</if>
+		<if test="1 == 1">
+			and
+			employee_in.employeeId=emplyin_breakrules.empInEmployeeId;
+		</if>
+
+	</select>
+
+	<!--E zhangwenyi -->
+
+	<!--S lxy -->
+	<!-- 根据部门名称找到对应的部门编号 -->
+	<select id="getDeptIdByDeptName" parameterType="string"
+		resultType="string">
+		select departmentId
+		from department
+		where departmentName =
+		#{departmentName}
+	</select>
+	<!--E lxy -->
+<!-- S leilong -->
+	<!-- 调用修改部门编号的存储过程 -->
+	<select id="updateDepartmentIds" parameterType="map" statementType="CALLABLE">
+		{call updateDepartmentIds(#{oldDepartmentId, jdbcType=VARCHAR, mode=IN}, #{upDepartmentId, jdbcType=VARCHAR, mode=IN})}
+	</select>
+	<!-- E leilong -->
+
+</mapper>
