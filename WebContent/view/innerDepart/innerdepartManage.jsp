@@ -22,6 +22,7 @@
 
 <script src="../../js/innerDepart/innerDepart.js"></script>
 <script>
+	var hasOperatingDepart=false;
 	$(function() {
 		
 		$("#inpstart2").jeDate({
@@ -106,16 +107,14 @@
 									</div>
 									<div class="col-md-6" id="el_breakTimeIndex">
 										<div class="input-group" id="el_startEndTime" role="toolbar">
-											<span class="el_spans">违章时间：</span> 
-											<input type="text"
-												class=" form-control query_dep_starttime" name="fstarttime" id="inpstart2" placeholder="开始时间"
-												readonly> 
-											<input type="text"
-												class=" form-control query_dep_endtime" id="inpend2" name="fendtime" placeholder="结束时间"
-												readonly>
+											<span class="el_spans">违章时间：</span> <input type="text"
+												class=" form-control query_dep_starttime" name="fstarttime"
+												id="inpstart2" placeholder="开始时间" readonly> <input
+												type="text" class=" form-control query_dep_endtime"
+												id="inpend2" name="fendtime" placeholder="结束时间" readonly>
 										</div>
 									</div>
-									
+
 									<!--清空按钮-->
 
 									<button type="reset"
@@ -147,13 +146,14 @@
 											<div class="el_topButton">
 												<!-- 按钮触发模态框1 -->
 												<div class="col-md-5">
-													<button class="btn btn-primary"
-														onclick="el_addDepartment()">添加部门</button>
-												
-													<select class="btn btn-primary" id="el_departType" title="请选择" name="examLevel">
+													<shiro:hasPermission name="department:add">
+														<button class="btn btn-primary"
+															onclick="el_addDepartment()">添加部门</button>
+													</shiro:hasPermission>
+													<!-- <select class="btn btn-primary" id="el_departType" title="请选择" name="examLevel">
 				                                        <option value="0">内部部门</option>
 				                                        <option value="1">长期外来单位</option>
-				                                    </select>
+				                                    </select> -->
 												</div>
 											</div>
 										</div>
@@ -171,7 +171,14 @@
 												<th>员工数</th>
 												<th>违章积分</th>
 												<th>加权积分</th>
-												<th width="120">操作</th>
+												<!-- 有权限就讲全局变量有操作部门的权限置为true -->
+												<shiro:hasPermission name="department:operating">
+												<script>
+												hasOperatingDepart = true;
+												</script>
+												</shiro:hasPermission>
+													<th width="120">操作</th>
+												
 											</tr>
 										</thead>
 										<tbody id="tbody">
@@ -185,7 +192,8 @@
 
 							<!-- 模态框 部门添加-->
 							<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-								aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+								aria-labelledby="myModalLabel" aria-hidden="true"
+								data-backdrop="static" data-keyboard="false">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
@@ -218,9 +226,9 @@
 												</div>
 
 												<div class="input-group el_modellist" role="toolbar">
-													<span class="el_spans">负&nbsp;责&nbsp;人&nbsp;：</span> <input type="text"
-														class="form-control" name="department.employeename"
-														id="AddEmployeename" />
+													<span class="el_spans">负&nbsp;责&nbsp;人&nbsp;：</span> <input
+														type="text" class="form-control"
+														name="department.employeename" id="AddEmployeename" />
 												</div>
 
 												<div class="input-group el_modellist" role="toolbar">
@@ -299,12 +307,13 @@
 
 							<!-- 模态框 部门修改-->
 							<div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
-								aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+								aria-labelledby="myModalLabel" aria-hidden="true"
+								data-backdrop="static" data-keyboard="false">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
-											<button type="button" onclick="closeModal_symbol()" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
+											<button type="button" onclick="closeModal_symbol()"
+												class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 											<!--关闭符号-->
 											<!--标题-->
 											<h4 class="modal-title" id="myModalLabel2">修改部门信息</h4>
@@ -341,9 +350,9 @@
 
 
 												<div class="input-group el_modellist" role="toolbar">
-													<span class="el_spans">负&nbsp;责&nbsp;人&nbsp;：</span> <input type="text"
-														class="form-control" name="department.employeename"
-														id="updateEmployeename" />
+													<span class="el_spans">负&nbsp;责&nbsp;人&nbsp;：</span> <input
+														type="text" class="form-control"
+														name="department.employeename" id="updateEmployeename" />
 												</div>
 
 												<div class="input-group el_modellist" role="toolbar">
@@ -383,7 +392,7 @@
 												<div>
 
 													<ul id="treeDemo11" class="ztree"
-														style="display: none; margin-left: 89px;border:none !important; width: 327px !important;"></ul>
+														style="display: none; margin-left: 89px; border: none !important; width: 327px !important;"></ul>
 
 												</div>
 
@@ -417,8 +426,8 @@
 
 
 											<div class="modal-footer">
-												<button type="button" onclick="closeModal_symbol()" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
+												<button type="button" onclick="closeModal_symbol()"
+													class="btn btn-default" data-dismiss="modal">关闭</button>
 												<button type="button" class="btn btn-primary"
 													onclick="saveUpdateButton()">保存</button>
 											</div>
@@ -450,11 +459,11 @@
 												<input type="hidden" name="currentCount" id="currentCount3" />
 												<table class="table table-bordered" id="table2">
 													<thead>
-													<tr>
-														<th>姓名</th>
-														<th>性别</th>
-														<th>职务</th>
-														<th>联系方式</th>
+														<tr>
+															<th>姓名</th>
+															<th>性别</th>
+															<th>职务</th>
+															<th>联系方式</th>
 														</tr>
 													</thead>
 													<tbody id="EmpCase_tbody">
@@ -501,10 +510,10 @@
 												<table class="table table-bordered" id="table2">
 													<thead>
 														<tr>
-														<th>姓名</th>
-														<th>违章内容</th>
-														<th>违章时间</th>
-														<th>扣分</th>
+															<th>姓名</th>
+															<th>违章内容</th>
+															<th>违章时间</th>
+															<th>扣分</th>
 														</tr>
 														<!-- <th>考试情况</th> -->
 													</thead>
@@ -531,7 +540,8 @@
 
 
 							<!-- 模态框   信息删除确认 -->
-							<div class="modal fade" id="delcfmModel" data-backdrop="static" data-keyboard="false">
+							<div class="modal fade" id="delcfmModel" data-backdrop="static"
+								data-keyboard="false">
 								<div class="modal-dialog">
 									<div class="modal-content message_align">
 										<div class="modal-header">

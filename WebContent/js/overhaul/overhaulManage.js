@@ -124,11 +124,14 @@ function showHaulTable(response) {
 				+ haulinfos[i].bigbegindate + '  到  ' + haulinfos[i].bigenddate
 				+ '</td><td>' + haulinfos[i].bigstatus + '</td><td>'
 				+ haulinfos[i].bigdescription + '</td><td>';
+
 		tr += '<a href="' + contextPath
 				+ '/view/overhaul/overhaulInfo.jsp?haulId='
 				+ haulinfos[i].bigid + '">详情</a>';
-		tr += '<a href="javascript:void(0)" onclick="el_modifyOverhaul(this)">修改</a>'
-		tr += '<a href="javascript:void(0)" onclick="showDeleteModal(this)">删除</a>';
+		if (hasOperatingJianxiu) {
+			tr += '<a href="javascript:void(0)" onclick="el_modifyOverhaul(this)">修改</a>'
+			tr += '<a href="javascript:void(0)" onclick="showDeleteModal(this)">删除</a>';
+		}
 		tr += '</td></tr>';
 		// 填充表格
 		$("#haulTbody").append(tr);

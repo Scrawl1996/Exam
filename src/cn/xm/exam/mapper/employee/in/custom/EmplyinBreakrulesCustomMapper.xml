@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.xm.exam.mapper.employee.in.custom.EmplyinBreakrulesCustomMapper">
-	<!-- *********************************************** -->
+<!-- *********************************************** -->
 	<!-- lixianyuan start -->
 	<!-- 查询部门表的所有信息，用于初始化左侧的部门树 -->
 	<select id="initLeftDepartmentTree" resultType="map">
@@ -84,6 +84,15 @@
 		<if test="departmentId != null and departmentId != ''">
 			and employee_in.departmentId like '${departmentId}%'
 		</if>
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and empInBreakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND empInBreakTime between #{history_Year} AND NOW()
+		</if>
+		
 		order by
 		sumBreakScore desc,department.departmentName desc
 		LIMIT
@@ -102,6 +111,14 @@
 		department.departmentId
 		<if test="value != null">
 			and employee_in.departmentId like '${value}%'
+		</if>
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and empInBreakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND empInBreakTime between #{history_Year} AND NOW()
 		</if>
 	</select>
 
@@ -128,6 +145,14 @@
 		</if>
 		<if test="fendtime!=null">
 			and empInBreakTime &lt;= #{fendtime}
+		</if>
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and emplyin_breakrules.empInBreakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND emplyin_breakrules.empInBreakTime between #{history_Year} AND NOW()
 		</if>
 	</select>
 	<!-- E QLQ -->
@@ -158,6 +183,15 @@
 		<if test="fendtime!=null">
 			and empInBreakTime &lt;= #{fendtime}
 		</if>
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and emplyin_breakrules.empInBreakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND emplyin_breakrules.empInBreakTime between #{history_Year} AND NOW()
+		</if>
+		ORDER BY empInBreakTime DESC
 	</select>
 
 	<!-- 根据职工id从黑名单中删除该职工id的信息 只删除内部员工 -->
@@ -184,7 +218,16 @@
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
 		from emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
-		employee_in.employeeId),0) as
+		employee_in.employeeId
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and emplyin_breakrules.empInBreakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND emplyin_breakrules.empInBreakTime between #{history_Year} AND NOW()
+		</if>
+		),0) as
 		"sumBreakScore",
 		IFNULL((select
 		blacklist.temporaryInStatus from blacklist where
@@ -244,6 +287,14 @@
 		<if test="fendtime != null">
 			and emplyin_breakrules.empInBreakTime &lt;= #{fendtime}
 		</if>
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and emplyin_breakrules.empInBreakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND emplyin_breakrules.empInBreakTime between #{history_Year} AND NOW()
+		</if>
 		group by emplyin_breakrules.empInEmployeeId
 		),0) as
 		"sumBreakScore",
@@ -288,7 +339,8 @@
 				department.upDepartmentId like '${departmentid}%' or
 				department.departmentId = '${departmentid}')
 			</if>
-
+			
+			
 		</where>
 		order by sumBreakScore desc,department.departmentName desc
 		LIMIT
@@ -323,6 +375,14 @@
 			</if>
 			<if test="fendtime != null"> and emplyin_breakrules.empInBreakTime
 				&lt;= #{fendtime}
+			</if>
+			<!-- 当前年 -->
+			<if test="current_Year != null and current_Year != ''">
+				and emplyin_breakrules.empInBreakTime LIKE  '${current_Year}%'
+			</if>
+			<!-- 历史年 -->
+			<if test="history_Year != null and history_Year != ''">
+				AND emplyin_breakrules.empInBreakTime between #{history_Year} AND NOW()
 			</if>
 			group by emplyin_breakrules.empInEmployeeId
 			),0)
@@ -359,6 +419,14 @@
 		</if>
 		<if test="fendtime != null"> and emplyin_breakrules.empInBreakTime
 			&lt;= #{fendtime}
+		</if>
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and emplyin_breakrules.empInBreakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND emplyin_breakrules.empInBreakTime between #{history_Year} AND NOW()
 		</if>
 		group by emplyin_breakrules.empInEmployeeId
 		),0) as
@@ -470,6 +538,14 @@
 		</if>
 		<if test="fendtime != null"> and emplyin_breakrules.empInBreakTime
 			&lt;= #{fendtime}
+		</if>
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and emplyin_breakrules.empInBreakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND emplyin_breakrules.empInBreakTime between #{history_Year} AND NOW()
 		</if>
 		group by emplyin_breakrules.empInEmployeeId),0) as
 		"sumBreakScore",
@@ -584,6 +660,14 @@
 		select blacklist.temporaryInStatus from blacklist where
 		blacklist.employeestatus = '0' and blacklist.employeeId =
 		#{employeeid}
+	</select>
+	
+		<!-- 根据内部员工id获取当前年 该员工的违章总积分 -->
+	<select id="getSingleEmplyInBreakScoreSum" parameterType="map" resultType="int">
+		select IFNULL(SUM(emplyin_breakrules.empInMinusNum),0) as "perInBreakSum"
+		from emplyin_breakrules
+		where emplyin_breakrules.empInEmployeeId = #{empinemployeeid}
+			and emplyin_breakrules.empInBreakTime >= (SELECT DATE_FORMAT(NOW(), '%Y') FROM DUAL )
 	</select>
 	<!-- lixianyuan end -->
 

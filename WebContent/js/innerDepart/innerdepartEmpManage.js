@@ -174,13 +174,15 @@ function clearPage() {
 	/**
 	 * 清空管理人员,同时改变隐藏域的值
 	 */
-	
-	/*$("#el_showManager option[value='true'] ").attr("selected",false);
-	$("#el_showManager option[value='false'] ").attr("selected",true);
 
-	var isManager = $("#el_showManager").val();
-	$("#el_showManagerInput").val(isManager);*/
-	
+	/*
+	 * $("#el_showManager option[value='true'] ").attr("selected",false);
+	 * $("#el_showManager option[value='false'] ").attr("selected",true);
+	 * 
+	 * var isManager = $("#el_showManager").val();
+	 * $("#el_showManagerInput").val(isManager);
+	 */
+
 	$("#currentPage").val("");// 清空页号
 	InnerEmpQuery();
 }
@@ -262,9 +264,11 @@ function InnerEmpQuery() {
 						str += "<td><a onclick='allInfo(this)' class='el_delButton'>详情</a>&nbsp;";
 						// str+="<a
 						// onclick='updateEmployeeIn(this)'>修改</a>&nbsp;"
-
-						str += "<a href='/Exam/employeein_toUpdateEmployeeIn.action?method="
-								+ employeeIns[i].employeeid + "'>修改</a>&nbsp;";
+						if (hasOperatingEmpin) {
+							str += "<a href='/Exam/employeein_toUpdateEmployeeIn.action?method="
+									+ employeeIns[i].employeeid
+									+ "'>修改</a>&nbsp;";
+						}
 						str += "<input type='hidden' id='employeeid' value= '"
 								+ employeeIns[i].employeeid + "'/>";
 
@@ -286,8 +290,10 @@ function InnerEmpQuery() {
 								+ finger + "'/>";
 						str += "<input type='hidden' id='employeeminusnum' value='"
 								+ employeeIns[i].trainstatus + "'/>";
-
-						str += "<a class='el_delButton' onclick='deleteEmployeeIn(this)' >删除</a></td></tr>";
+						if (hasOperatingEmpin) {
+							str += "<a class='el_delButton' onclick='deleteEmployeeIn(this)' >删除</a>";
+						}
+						str += "</td></tr>";
 						t_body.append(str);
 
 					}

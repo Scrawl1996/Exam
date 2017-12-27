@@ -1,14 +1,17 @@
 package cn.xm.exam.service.impl.employee.in;
 
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import cn.xm.exam.bean.employee.in.EmployeeIn;
+import cn.xm.exam.bean.employee.in.EmplyinBreakrules;
 import cn.xm.exam.bean.system.User;
 import cn.xm.exam.mapper.employee.in.EmployeeInMapper;
 import cn.xm.exam.mapper.employee.in.custom.OnlineExamEmployeeInCustomMapper;
 import cn.xm.exam.service.employee.in.OnlineExamEmployeeInService;
+import cn.xm.exam.utils.PageBean;
 
 /**   
 *    
@@ -72,6 +75,33 @@ public class OnlineExamEmployeeInServiceImpl implements OnlineExamEmployeeInServ
 	public boolean updateOnlineExamUserInfo(Map<String, Object> map) throws Exception {
 		int isUpate = onlineExamEmployeeInCustomMapper.updateOnlineExamUserInfo(map);
 		return isUpate>0 ? true:false;
+	}
+	
+	/**
+	 * 根据时间段查询在线考试员工的违章信息,分页显示
+	 * @param currentPage
+	 * @param currentTotal
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public PageBean<EmplyinBreakrules> getOnlineEmployeeBreakInfoByCondition(int currentPage, int currentTotal,
+			Map<String, Object> condition) throws Exception {
+		
+		PageBean<EmplyinBreakrules> pageBean = new PageBean<EmplyinBreakrules>();
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setCurrentCount(currentTotal);
+		int totalCount = onlineExamEmployeeInCustomMapper.getOnlineEmployeeBreakInfoCountByCondition(condition);
+		pageBean.setTotalCount(totalCount);
+		int totalPage = (int) Math.ceil(totalCount*1.0/currentTotal);
+		pageBean.setTotalPage(totalPage);
+		int index = (currentPage-1)*currentTotal;
+		condition.put("index", index);
+		condition.put("currentCount",currentTotal);
+		List<EmplyinBreakrules> productList = onlineExamEmployeeInCustomMapper.getOnlineEmployeeBreakInfoByCondition(condition);
+		pageBean.setProductList(productList);
+		return pageBean;
 	}
 
 }

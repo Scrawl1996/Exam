@@ -339,45 +339,55 @@ public class EmployeeInServiceImpl implements EmployeeInService {
 	}
 
 	@Override
-	public boolean addEmployeeInBatch(List<EmployeeIn> employeeInList) {
+	public boolean addEmployeeInBatch(List<EmployeeIn> employeeInList) throws Exception {
 
-		int flag = 0;
-		if (employeeInList != null && employeeInList.size() > 0) {
+		//员工编号集合
+				List<String> employeeInIds = new ArrayList<String>();
+				int flag = 0;
+				if (employeeInList != null && employeeInList.size() > 0) {
 
-			for (EmployeeIn employeein : employeeInList) {
+					for (EmployeeIn employeein : employeeInList) {
 
-				// 这里需要设置他自己的id
-				// String employeeid =
-				// UUID.randomUUID().toString().replaceAll("-", "");
-				employeein.setEmployeeid(UUIDUtil.getUUID2());
-				// 员工编号
-				employeein.setEmployeenumber(employeein.getIdcode());
-				if (ValidateCheck.isNull(employeein.getPhone())) {
-					employeein.setPhone("无");
+						// 这里需要设置他自己的id
+						// String employeeid =
+						// UUID.randomUUID().toString().replaceAll("-", "");
+						employeein.setEmployeeid(UUIDUtil.getUUID2());
+						//将员工ID添加到员工ID集合中
+						employeeInIds.add(employeein.getEmployeeid());
+						
+						// 员工编号
+						employeein.setEmployeenumber(employeein.getIdcode());
+						if (ValidateCheck.isNull(employeein.getPhone())) {
+							employeein.setPhone("无");
+						}
+
+						// 按时间排序
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ms");
+						employeein.setSort(sdf.format(new Date()));
+						// 设置培训状态
+						employeein.setTrainstatus(0);
+
+						// 设置图片名称
+						String name = employeein.getIdcode() + ".jpg";
+						employeein.setPhoto(name);
+
+					}
+					// 批量导入内部部门员工的基本信息
+					flag = employeeInCustomMapper.addEmployeeInBatch(employeeInList);
+				} else {
+					return false;
 				}
-
-				// 按时间排序
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ms");
-				employeein.setSort(sdf.format(new Date()));
-				// 设置培训状态
-				employeein.setTrainstatus(0);
-
-				// 设置图片名称
-				String name = employeein.getIdcode() + ".jpg";
-				employeein.setPhoto(name);
-
-			}
-			// 批量导入外来单位的员工的基本信息
-			flag = employeeInCustomMapper.addEmployeeInBatch(employeeInList);
-		} else {
-			return false;
-		}
-		if (flag > 0) {
-			return true;
-		} else {
-			return false;
-		}
-
+				if (flag > 0) {
+					//批量插入后为员工创建个人账户，调用非哥的service接口		
+					boolean addUsers = userService.addUsers(employeeInIds);			
+					if(addUsers){				
+						return true;
+					}else{
+						return false;
+					}
+				} else {
+					return false;
+				}
 	}
 
 	@Override

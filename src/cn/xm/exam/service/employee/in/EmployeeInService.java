@@ -105,7 +105,7 @@ public interface EmployeeInService {
 	public List<String> getALLEmployeeInByDepartmentId(String departmentid);
 	
 	public boolean isIdCode(String myIdcode);
-	public boolean addEmployeeInBatch(List<EmployeeIn> employeeInList);
+	public boolean addEmployeeInBatch(List<EmployeeIn> employeeInList) throws Exception;
 
 	public String isBlackList(String idcode);
 

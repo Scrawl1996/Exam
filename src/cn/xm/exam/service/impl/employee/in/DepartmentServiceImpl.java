@@ -161,7 +161,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 			 */
 			// department.setUpdepartmentid("01001");
 			// 给内部部门设置id
-			System.out.println("department.getUpdepartmentid()" + department.getUpdepartmentid());
 			String nextDepartmentId = getNextDepartmentId(department.getUpdepartmentid());
 			department.setDepartmentid(nextDepartmentId);
 			// flag = departmentMapper.insert(department);
@@ -172,23 +171,18 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 			flag = departmentMapper.insertSelective(department);
 			if (flag == 1) {
-				System.out.println(flag);
 				return "添加成功";
 			} else if (flag == 2) {
-				System.out.println(flag);
 				return "添加失败";
 			}
 
 		} else {
-			System.out.println("1");
 			return "添加失败";
 		}
-		System.out.println("2");
 		return "添加失败";
 	}
 
 	private String getIdByDepartmentName(String updepartmentname) {
-
 		return departmentCustomMapper.getIdByDepartmentName(updepartmentname);
 	}
 

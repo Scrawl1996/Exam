@@ -23,6 +23,8 @@ import cn.xm.exam.bean.employee.in.EmplyinBreakrules;
 import cn.xm.exam.bean.employee.out.Blacklist;
 import cn.xm.exam.bean.system.User;
 import cn.xm.exam.service.employee.in.EmployeeInBreakrulesService;
+import cn.xm.exam.utils.DateHandler;
+import cn.xm.exam.utils.DefaultValue;
 import cn.xm.exam.utils.ValidateCheck;
 
 /**
@@ -85,6 +87,15 @@ public class EmployInBreakrulesAction extends ActionSupport {
 	private String fcurtotal;// 每页显示的记录数
 	private String fstarttime;// 违章时间段的开始时间
 	private String fendtime;// 违章时间段的结束时间
+	private String empBreakInfoType;//员工违章记录类型
+		
+	public String getEmpBreakInfoType() {
+		return empBreakInfoType;
+	}
+
+	public void setEmpBreakInfoType(String empBreakInfoType) {
+		this.empBreakInfoType = empBreakInfoType;
+	}
 
 	public String getFstarttime() {
 		return fstarttime;
@@ -290,6 +301,10 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		mapInit.put("curPage", curPage);// 当前页页号 (当前页页号-1)*每页显示的记录数
 		mapInit.put("curTotal", curTotal);// 每页显示的记录数
 		mapInit.put("departmentId", departmentId);// 部门ID
+		
+		//封装违章信息显示类型的条件
+		mapInit = generateConditionForbreakInfoType(mapInit);
+				
 		List<Map<String, Object>> initPageDate = employeeInBreakrulesService.initPageDate(mapInit);
 
 		// 获取总记录数
@@ -410,7 +425,12 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		if (ValidateCheck.isNotNull(fendtime)) {
 			condition.put("fendtime", fendtime);
 		}
+					
 		/***S QLQ封装查询条件*****/
+		
+		//封装违章信息显示类型的条件
+		condition = generateConditionForbreakInfoType(condition);
+		
 		// 5.违章总积分
 		// 根据职工id去内部员工违章记录表中查询该职工的违章总积分
 		Integer sumBreakScore = employeeInBreakrulesService.selSumBreakScoreByEmpId(condition);
@@ -617,6 +637,9 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		mapLeft.put("departmentid", departmentid);// 部门id
 		mapLeft.put("curPage", curPage);//// (当前页页号-1)*每页显示的记录数
 		mapLeft.put("curTotal", curTotal);// 每页显示的记录数
+		//封装违章信息显示类型的条件
+		mapLeft = generateConditionForbreakInfoType(mapLeft);
+		
 		List<Map<String, Object>> clickLeftShowEmpInMsgList = employeeInBreakrulesService
 				.clickLeftShowEmpInMsg(mapLeft);
 
@@ -678,7 +701,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		String str = breakscoreRange;// "1,1000";
 
 		/*
-		 * if(isBreak!=null){ if("是".equals(isBreak)){ blackStatus = "是"; }else
+		 * if(isBreak!=null){ if("是".fins(isBreak)){ blackStatus = "是"; }else
 		 * if("否".equals(isBreak)){ blackStatus = "否"; } }else
 		 * if(isBreak==null){ blackStatus = "无"; }
 		 */
@@ -720,7 +743,10 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			if (ValidateCheck.isNotNull(departmentId)) {
 				mapLeftAndCondition.put("departmentId", departmentId);
 			}
-
+			
+			//封装违章信息显示类型的条件
+			mapLeftAndCondition = generateConditionForbreakInfoType(mapLeftAndCondition);
+			
 			List<Map<String, Object>> leftTreeAndConditionMsgList = employeeInBreakrulesService
 					.leftTreeAndConditionMsg(mapLeftAndCondition);
 
@@ -742,7 +768,10 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			if (ValidateCheck.isNotNull(departmentId)) {
 				mapLeftAndConditionCount.put("departmentId", departmentId);
 			}
-
+			//封装违章信息显示类型的条件
+			mapLeftAndConditionCount = generateConditionForbreakInfoType(mapLeftAndConditionCount);
+			
+			
 			int count = employeeInBreakrulesService.leftTreeAndConditionMsgCount(mapLeftAndConditionCount);
 			// 1.4返回结果给jsp
 			if (count > 0 && leftTreeAndConditionMsgList != null) {
@@ -787,7 +816,10 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			if (ValidateCheck.isNotNull(fendtime)) {
 				mapLeftAndConditionIsBlack.put("fendtime", fendtime);// 结束时间
 			}
-
+			//封装违章信息显示类型的条件
+			mapLeftAndConditionIsBlack = generateConditionForbreakInfoType(mapLeftAndConditionIsBlack);
+		
+			
 			List<Map<String, Object>> leftTreeAndConditionIsBlacklistMsg = employeeInBreakrulesService
 					.leftTreeAndConditionIsBlacklistMsg(mapLeftAndConditionIsBlack);
 			// 2.2查询总记录数
@@ -806,6 +838,11 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			if (ValidateCheck.isNotNull(fendtime)) {
 				mapLeftAndConditionIsBlackCount.put("fendtime", fendtime);// 结束时间
 			}
+			
+			//封装违章信息显示类型的条件
+			mapLeftAndConditionIsBlackCount = generateConditionForbreakInfoType(mapLeftAndConditionIsBlackCount);
+			
+			
 			int count = employeeInBreakrulesService
 					.leftTreeAndConditionIsBlacklistMsgCount(mapLeftAndConditionIsBlackCount);
 			// 2.3返回结果给jsp
@@ -852,6 +889,10 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			if (ValidateCheck.isNotNull(fendtime)) {
 				mapLeftAndConditionNoBlack.put("fendtime", fendtime);// 结束时间
 			}
+			//封装违章信息显示类型的条件
+			mapLeftAndConditionNoBlack = generateConditionForbreakInfoType(mapLeftAndConditionNoBlack);
+			
+			
 			List<Map<String, Object>> leftTreeAndConditionNoBlacklistMsg = employeeInBreakrulesService
 					.leftTreeAndConditionNoBlacklistMsg(mapLeftAndConditionNoBlack);
 
@@ -871,6 +912,8 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			if (ValidateCheck.isNotNull(fendtime)) {
 				mapLeftAndConditionNoBlackCount.put("fendtime", fendtime);// 结束时间
 			}
+			//封装违章信息显示类型的条件
+			mapLeftAndConditionNoBlackCount = generateConditionForbreakInfoType(mapLeftAndConditionNoBlackCount);					
 			int count = employeeInBreakrulesService
 					.leftTreeAndConditionNoBlacklistMsgCount(mapLeftAndConditionNoBlackCount);
 			// 3.3返回结果给jsp
@@ -888,5 +931,53 @@ public class EmployInBreakrulesAction extends ActionSupport {
 
 		return "ok";
 	}
-
+	
+	/**
+	 * 查询单个内部员工今年的违章总积分
+	 * @return
+	 */
+	public String getSingleEmplyInBreakScoreSum() {
+		//实例化要转成json的map集合
+		map = new LinkedHashMap<String,Object>();
+		
+		//接收从jsp传过来的员工id
+		String employeeid = ServletActionContext.getRequest().getParameter("employeeid");
+		
+		Map<String, Object> map5 = new LinkedHashMap<String,Object>();
+		map5.put("empinemployeeid", employeeid);//内部员工id
+		int sumBreakScore = employeeInBreakrulesService.getSingleEmplyInBreakScoreSum(map5);
+		
+		
+		map.put("result", sumBreakScore);
+		
+		return "ok";
+	}
+	
+	/*****leilong******/
+	//组装查询条件,封装违章信息显示类型的条件
+	private Map<String,Object> generateConditionForbreakInfoType(Map<String,Object> condition){
+		/*判断若为0表示显示的是当前违章信息，封装条件获取当前年
+		 * 若为1表示的是历史违章信息，封装条件为历史年份
+		 * 默认为当前年的违章信息
+		 */
+		if(empBreakInfoType!=null &&empBreakInfoType.equals("1")){
+			//获取系统当前时间为积分周期为一年封装条件
+			String currentYear = DateHandler.dateToString(new Date(), "yyyy");			
+			Integer currentYear_Int = Integer.valueOf(currentYear);			
+			//根据当前年计算历史记录年份
+			String historyYear = String.valueOf(currentYear_Int-DefaultValue.YEAR_RANGE);
+			if(ValidateCheck.isNotNull(historyYear)){
+				condition.put("history_Year", historyYear+"0101");
+			}
+		}else{
+			//获取系统当前时间为积分周期为一年封装条件
+			String currentYear = DateHandler.dateToString(new Date(), "yyyy");			
+			if(ValidateCheck.isNotNull(currentYear)){
+				condition.put("current_Year", currentYear);
+			}
+		}
+		return condition;
+	}
 }
+
+

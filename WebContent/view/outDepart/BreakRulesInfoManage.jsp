@@ -276,8 +276,10 @@
 											<div class="el_topButton">
 												<!-- 按钮触发模态框1 -->
 												<div class="col-md-2">
+												<shiro:hasPermission name="outempbreak:add">
 													<button id="el_addBreakRules" class="btn btn-primary"
 														onclick="el_addBreakInfo()">添加违章信息</button>
+														</shiro:hasPermission>
 												</div>
 											</div>
 

@@ -8,5 +8,9 @@ package cn.xm.exam.utils;
  */
 public class DefaultValue {
 	public static final String PAGE_SIZE = "8";
+	
+
+	//历史违章记录年限范围，前两年
+	public static final Integer YEAR_RANGE = 2;
 
 }

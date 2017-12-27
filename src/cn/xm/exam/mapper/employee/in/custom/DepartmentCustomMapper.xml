@@ -38,13 +38,14 @@
 		depart.employeeName,
 		depart.sort,
 		depart.phone,
-		(SELECT
+		@a:= (SELECT
 		COUNT(employeeId)
 		FROM
 		employee_in
 		WHERE departmentId =
 		depart.departmentId) AS perNum,
-		IFNULL((SELECT SUM(empInMinusNum) FROM
+		@b:=IFNULL((SELECT SUM(empInMinusNum)
+		FROM
 		emplyin_breakrules, employee_in
 		WHERE
 		emplyin_breakrules.empInEmployeeId = employee_in.employeeId AND
@@ -55,7 +56,8 @@
 		<if test="fendtime != null">
 			and empInBreakTime &lt;= #{fendtime}
 		</if>
-		),0) AS totalMinus
+		),0) AS totalMinus,
+		TRUNCATE(IFNULL(@b/@a,0),3) AS jiaquan
 		FROM
 		department depart
 		<where>
@@ -63,10 +65,10 @@
 		</where>
 		ORDER BY
 		<if test="fstarttime != null or fendtime != null">
-			totalMinus desc
+			jiaquan desc,CONVERT(departmentname USING gbk)
 		</if>
 		<if test="fstarttime == null and fendtime == null">
-			sort DESC
+			jiaquan desc,CONVERT(departmentname USING gbk)
 		</if>
 
 		<include refid="query_department_limit"></include>
@@ -253,10 +255,13 @@
 		#{departmentName}
 	</select>
 	<!--E lxy -->
-<!-- S leilong -->
+	<!-- S leilong -->
 	<!-- 调用修改部门编号的存储过程 -->
-	<select id="updateDepartmentIds" parameterType="map" statementType="CALLABLE">
-		{call updateDepartmentIds(#{oldDepartmentId, jdbcType=VARCHAR, mode=IN}, #{upDepartmentId, jdbcType=VARCHAR, mode=IN})}
+	<select id="updateDepartmentIds" parameterType="map"
+		statementType="CALLABLE">
+		{call updateDepartmentIds(#{oldDepartmentId,
+		jdbcType=VARCHAR, mode=IN}, #{upDepartmentId, jdbcType=VARCHAR,
+		mode=IN})}
 	</select>
 	<!-- E leilong -->
 

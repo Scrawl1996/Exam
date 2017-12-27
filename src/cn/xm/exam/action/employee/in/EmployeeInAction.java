@@ -181,7 +181,13 @@ public class EmployeeInAction extends ActionSupport {
 		result = new HashMap<String, Object>();
 
 		// 批量导入外来单位员工的基本信息
-		boolean flag = employeeInService.addEmployeeInBatch(employeeInList);
+		boolean flag = false;
+		try {
+			flag = employeeInService.addEmployeeInBatch(employeeInList);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (flag) {
 			result.put("flag", "添加成功！");
 		} else {

@@ -2,6 +2,7 @@
  * var obj = eval("("+employees+")"); alert(obj)
  */
 var zNodes10, zNodes11;// 内部部门与外部部门节点、
+var departmentIds="";//全部部门ID串
 var inner_open = false, out_open = false;// 用于记录两个模态框是否打开
 // 初始化工作
 function init() {
@@ -138,6 +139,7 @@ function beforeCheck(treeId, treeNode) {
 	el_id = treeNode.departmentName;
 	// 判断点击的节点是否被选中，返回false 和 true
 	if (!treeNode.checked) {// 选中
+		departmentIds+=treeNode.departmentId+",";
 		showLog10(treeNode.departmentName + ',');
 		$("#department_employee_in")
 				.append(
@@ -151,6 +153,7 @@ function beforeCheck(treeId, treeNode) {
 								+ '(人数：<span class="employeeNum">0</span>)</div>'
 								+ '<div class="panel-body"></div>' + '</div>');
 	} else { // 点击选中，向让其未选中
+		departmentIds=departmentIds.replace(treeNode.departmentId+",","");
 		$("#" + treeNode.departmentName).remove();// 删除部门
 		noshowLog10(treeNode.departmentName + ',', treeNode);
 		var parentzTree = treeNode.getParentNode();
@@ -354,6 +357,7 @@ var showInDepartment = function(employees) {
 		for (var k = 0, length_3 = nodes.length; k < length_3; k++) {
 			if (departmentName[j] == nodes[k].departmentName) {
 				nodes[k].checked = "true";
+				departmentIds+=nodes[k].departmentId+",";//全部部门ID串
 				// alert("选中");
 				break;
 			}
@@ -603,7 +607,8 @@ var queryInnerEmployee = function() {
 	var departments = $("#el_chooseDepart1").text();// 获取部门名字
 	// 如果没有选择部门提醒选择部门，否则查询
 	if (departments.length > 0) {
-		departments = departments.substring(0, departments.length - 1);
+//		departments = departments.substring(0, departments.length - 1);
+		departments = departmentIds.substring(0, departmentIds.length - 1);
 		$("input[name='queryInnerEmployeesCondition.departments']").val(
 				departments);
 		ajaxQueryEmployeeIn(departments);
@@ -634,7 +639,7 @@ function showEmployeeInModal(response) {
 		var trainInt = examEmployeeIns[i].trainStatus;
 		var tarinStr;
 		if (trainInt == 0) {
-			tarinStr = "一级也未考";
+			tarinStr = "未参加考试";
 		}
 		if (trainInt == 1) {
 			tarinStr = "通过一级考试";
@@ -692,7 +697,7 @@ var checkInHasChecked = function() {
 
 // 确认选中员工函数
 var seleInnerEmployee = function() {
-	if (confirm("确认选择这些员工，下次选择将清空已选员工")) {
+	if (confirm("确认选择这些员工?")) {
 		$("[name='employeeFlag']").val("111");// 用于验证员工是否为空
 		var employeeInnerIdcode = $("input[name='employeeIn']:checked")// 获取选择的内部员工元素
 		$("#innerEmployeeDiv").html("");// 清空存放员工ID的多选框的存放ID的标签
@@ -745,7 +750,7 @@ var seleInnerEmployee = function() {
 
 /** *S 确认修改试卷 */
 var updateExam = function() {
-	if (confirm("确认修改试卷并退出?")) {
+	if (confirm("确认修改考试并退出?")) {
 		$.validator.methods.compareDate = function(value, element, param) {  
 	        var startDate = $("#inpstart0").val();  //开始日期
 	          var d1 = new Date(startDate);

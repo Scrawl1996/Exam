@@ -55,8 +55,11 @@ function showUnitTale(response) {
 	var units = response.pageBean.productList;// 获取所有的单位
 	for (var i = 0, length_1 = units.length; i < length_1; i++) {
 		// 先列出所有的操作
-		var delUpdate = '<a href="javascript:void(0)" onclick="openUpdateModal(this)">修改</a>&nbsp;'
-				+ ' <a href="javascript:void(0)" onclick="deleteUnit(this)">删除</a><br />';
+		var delUpdate = "--";
+		if (hasOutunitOperating) {
+			delUpdate = '<a href="javascript:void(0)" onclick="openUpdateModal(this)">修改</a>&nbsp;'
+					+ ' <a href="javascript:void(0)" onclick="deleteUnit(this)">删除</a><br />';
+		}
 		// 如果大修已经结束就把操作隐藏掉
 		var operation = units[i].bigStatus == "已结束" ? "--" : delUpdate;
 		$("#haunUnitTbody")

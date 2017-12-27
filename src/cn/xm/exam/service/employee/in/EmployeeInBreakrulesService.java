@@ -148,6 +148,10 @@ public interface EmployeeInBreakrulesService {
      */
     String getBlackStatusByEmpInId(String employeeid); 
     
-   
+    
+    /**
+	 * <!-- 根据内部员工id获取该员工的违章总积分 -->
+	 */
+	int getSingleEmplyInBreakScoreSum(Map<String,Object> map);
 
 }

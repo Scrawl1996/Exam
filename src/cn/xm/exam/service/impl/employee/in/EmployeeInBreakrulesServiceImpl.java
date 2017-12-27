@@ -371,5 +371,15 @@ public class EmployeeInBreakrulesServiceImpl implements EmployeeInBreakrulesServ
 			return 0;
 		}
 	}
+	@Override
+	public int getSingleEmplyInBreakScoreSum(Map<String, Object> map) {
+		int sumBreakScore = emplyinBreakrulesCustomMapper.getSingleEmplyInBreakScoreSum(map);
+		if(sumBreakScore>0){
+			return sumBreakScore;
+		}else{
+			return 0;
+		}
+	}
+	
 
 }

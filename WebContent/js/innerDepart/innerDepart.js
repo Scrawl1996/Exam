@@ -169,21 +169,23 @@ var successList = function List(result) {
 	var t_body = $("#tbody");
 	// 循环添加每一行
 	for (var i = 0; i < departments.length; i++) {
-
-		str = '<tr><td>'
-				+ departments[i].departmentname
-				+ '</td><td>'
-				+ departments[i].upDepartName
-				+ '</td><td><a onclick="openBreakrulesModal(this)">'
-				+ departments[i].totalMinus
-				+ '</a></td><td>'
-				+ departments[i].employeeName
-				+ '</td><td>'
+		var departmentType_1 = departments[i].departmenttype == "0" ? "内部单位"
+				: "长期外来单位"
+		str = '<tr><td>' + departments[i].departmentname + '</td><td>'
+				+ departmentType_1 + '</td><td>' + departments[i].upDepartName
+				+ '</td><td>' + departments[i].employeeName + '</td><td>'
 				+ departments[i].phone
 				+ '</td><td><a onclick="openEmpCaseModal(this)">'
-				+ departments[i].perNum
-				+ '</a></td><td><a onclick="updateDepartment(this)" class="el_delButton">修改</a>&nbsp;';
-				
+				+ departments[i].perNum + '</a></td><td>'
+				+ '<a onclick="openBreakrulesModal(this)">'
+				+ departments[i].totalMinus + '</a></td><td>'
+				+ departments[i].jiaquan + "</td><td>";
+		// 有删除修改权限就显示连接
+		if (hasOperatingDepart) {
+			str += '<a onclick="updateDepartment(this)" class="el_delButton">修改</a>&nbsp;';
+		} else {
+			str += "-";
+		}
 
 		str += "<input type='hidden' id='count' value='"
 				+ departments[i].perNum + "' />";
@@ -201,7 +203,13 @@ var successList = function List(result) {
 				+ departments[i].updepartmentId + "'>";
 		str += "<input type='hidden' id='departmenttype' value='"
 				+ departments[i].departmenttype + "'/>";
-		str += "<a class='el_delButton' onclick='deleteDepartment(this)' >删除</a></td></tr>";
+		// 有删除修改权限就显示连接
+		if (hasOperatingDepart) {
+			str += "<a class='el_delButton' onclick='deleteDepartment(this)' >删除</a>";
+		} else {
+			str += "-";
+		}
+		str += "</td></tr>";
 		t_body.append(str);
 
 	}
@@ -226,7 +234,7 @@ function openBreakrulesModal(obj) {
  * 显示违章信息
  */
 function getBreakrulesCase() {
-	//向隐藏的时间文本框赋值
+	// 向隐藏的时间文本框赋值
 	$("#q_starttime").val($(".query_dep_starttime").val());
 	$("#q_endtime").val($(".query_dep_endtime").val());
 	$.ajax({
@@ -534,7 +542,7 @@ function saveDepartmentButton() {
  */
 
 function updateDepartment(obj) {
-	//先将历史记录清空
+	// 先将历史记录清空
 	$("#two").find("input[type='radio']:eq(0)").prop("disabled", false);
 	// 获取到这一行的所有内容的对象
 	$tds = $(obj).parents('tr').children('td');
@@ -543,10 +551,9 @@ function updateDepartment(obj) {
 	// $("#updateManager").val($tds.eq(1).html());
 	$("#updateEmployeename").val($tds.eq(3).html());
 	$("#updatePhone").val($tds.eq(4).html());
-	$("#update_updepartmentid").val($tds.eq(6).find(".up_Id").val())
-	$("#updateUpdepartmentid").val($tds.eq(1).html());
-	
-	
+	$("#update_updepartmentid").val($tds.eq(8).find(".up_Id").val())
+	$("#updateUpdepartmentid").val($tds.eq(2).html());
+
 	// 显示工程文本框
 	var departprojectnames = $(obj).parents("tr").find("#departprojectnames")
 			.val();
@@ -571,33 +578,36 @@ function updateDepartment(obj) {
 		$("#projectnamediv2").hide();
 
 	}
-	
-	var up_departmentId = $tds.eq(6).find(".depart_id").val();
+
+	var up_departmentId = $tds.eq(8).find(".depart_id").val();
 	$("#update_departmentid").val(up_departmentId)
 	// var departmentId = $(obj).parents("tr").find("#departmentid").val();
 
 	bumenshu2();
-	//根据上级部门ID判断上级部门是否是内部部门
+	// 根据上级部门ID判断上级部门是否是内部部门
 	$.ajax({
-		url:"employeein_isNeibu.action",
-		data:{"yincangbumenid":$tds.eq(6).find(".up_Id").val()},
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(!data.flag){
-					$("#two").find("input[type='radio']:eq(0)").prop("disabled", "true");
-				}
-				// 弹出模态框
-				$('#myModal2').modal();
+		url : "employeein_isNeibu.action",
+		data : {
+			"yincangbumenid" : $tds.eq(8).find(".up_Id").val()
+		},
+		type : "post",
+		dataType : "json",
+		success : function(data) {
+			if (!data.flag) {
+				$("#two").find("input[type='radio']:eq(0)").prop("disabled",
+						"true");
 			}
-		})
-	
+			// 弹出模态框
+			$('#myModal2').modal();
+		}
+	})
+
 }
 
-//增加的全局变量
-//是否是内部部门标记
+// 增加的全局变量
+// 是否是内部部门标记
 var departmentIsIn = true;
-//是否移动的下级部门标记
+// 是否移动的下级部门标记
 var departmentIdEqual = true;
 function saveUpdateButton() {
 	var val = $("#two").find("input:radio[value='0']:checked").val();
@@ -616,7 +626,7 @@ function saveUpdateButton() {
 					"isMobile",
 					function(value, element) {
 						var length = value.length;
-						var mobile = /(^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$)|(^((\(\d{3}\))|(\d{3}\-))?(1[358]\d{9})$)/;
+						var mobile = /(^(0[0-9]{2,3}\-)?([2-9][0-9]86,7})+(\-[0-9]{1,4})?$)|(^((\(\d{3}\))|(\d{3}\-))?(1[358]\d{9})$)/;
 						var tel = /^\d{3,4}-?\d{7,9}$/;
 						var tel2 = /^\d{7,9}$/;
 						return this.optional(element) || (tel.test(value))
@@ -652,12 +662,12 @@ function saveUpdateButton() {
 			"department.updepartmentid" : {
 				required : "不能为空"
 			}
-		
+
 		}
 
 	});
-		
-	if (isNotNull.form()&&departmentIdEqual&&departmentIsIn) {
+
+	if (isNotNull.form() && departmentIdEqual && departmentIsIn) {
 		$.ajax({
 			url : '/Exam/department_updateDepartment.action',
 			data : $("#updateDepartmentForm").serialize(),
@@ -729,10 +739,10 @@ function urlSubmit() {
 			alert(result.message);
 			// 关闭模态框
 			$('#delcfmModel').modal('hide');
-			if(result.message == "该部门还有下级部门，不能删除"){
+			if (result.message == "该部门还有下级部门，不能删除") {
 				return;
 			}
-			//query();
+			// query();
 			window.location.reload();
 		}
 	});
@@ -763,7 +773,7 @@ function bumenshu2() {
 
 		$("#el_chooseUpdateDepart").append("<li class='dark'>" + hiV + "</li>");
 
-	}else{
+	} else {
 		$("#el_chooseUpdateDepart").empty();
 		$("#el_chooseUpdateDepart").append("<li class='dark'>" + hiV + "</li>");
 	}
@@ -806,66 +816,73 @@ function getTree_4(result) {
 		},
 		callback : {
 			onClick : function(event, treeId, treeNode) {
-				//leilong s
-				//获取当前部门的id，与选中的部门ID进行判断
+				// leilong s
+				// 获取当前部门的id，与选中的部门ID进行判断
 				var departmentId_ll = $("#update_departmentid").val();
 				var upDepartmentId_ll = treeNode.departmentid;
-				if(upDepartmentId_ll.length>=departmentId_ll.length){				
-					if(upDepartmentId_ll.substring(0,departmentId_ll.length)==departmentId_ll){
+				if (upDepartmentId_ll.length >= departmentId_ll.length) {
+					if (upDepartmentId_ll.substring(0, departmentId_ll.length) == departmentId_ll) {
 						departmentIdEqual = false;
-						alert("不能将部门移动到自己的下级部门中！");						
+						alert("不能将部门移动到自己的下级部门中！");
 					} else {
 						departmentIdEqual = true;
 					}
 				} else {
 					departmentIdEqual = true;
 				}
-				if(departmentIdEqual){	
-					
+				if (departmentIdEqual) {
+
 					$.ajax({
-						url:"employeein_isNeibu.action",
-						data:{"yincangbumenid":departmentId_ll},
-						type:"post",
-						async:false,
-						dataType:"json",
-						success:function(data){
-							if(data.flag){		//外部部门								
+						url : "employeein_isNeibu.action",
+						data : {
+							"yincangbumenid" : departmentId_ll
+						},
+						type : "post",
+						async : false,
+						dataType : "json",
+						success : function(data) {
+							if (data.flag) { // 外部部门
 								$.ajax({
-									url:"employeein_isNeibu.action",
-									data:{"yincangbumenid":upDepartmentId_ll},
-									type:"post",
-									async:false,
-									dataType:"json",
-									success:function(result){
-										if(!result.flag){
-											departmentIsIn = false;		
+									url : "employeein_isNeibu.action",
+									data : {
+										"yincangbumenid" : upDepartmentId_ll
+									},
+									type : "post",
+									async : false,
+									dataType : "json",
+									success : function(result) {
+										if (!result.flag) {
+											departmentIsIn = false;
 											alert("不能将内部部门移动到外来长期单位中！");
 										} else {
-											departmentIsIn = true;		
+											departmentIsIn = true;
 										}
-										
+
 									}
-								})							
+								})
 							}
 						}
 					})
-				}												
-				//leilong e
-				
-				/*$("#update_updepartmentid").val(treeNode.departmentid);
-				$("#updateUpdepartmentid").val(treeNode.departmentname);
-				var hiV = $("#updateUpdepartmentid").val();*/
+				}
+				// leilong e
+
+				/*
+				 * $("#update_updepartmentid").val(treeNode.departmentid);
+				 * $("#updateUpdepartmentid").val(treeNode.departmentname); var
+				 * hiV = $("#updateUpdepartmentid").val();
+				 */
 				if ($("#el_chooseUpdateDepart > li").length > 0) {// 先清空
 					$("#el_chooseUpdateDepart").children("li").remove();
 				}
-				if(departmentIdEqual&&departmentIsIn){
+				if (departmentIdEqual && departmentIsIn) {
 					$("#update_updepartmentid").val(treeNode.departmentid);
 					$("#updateUpdepartmentid").val(treeNode.departmentname);
 					var hiV = $("#updateUpdepartmentid").val();
 					// 插入值
 					if ($("#el_chooseUpdateDepart > li").length == 0) {
 						$("#el_chooseUpdateDepart").append(
-								"<li class='" + className + "'>" + hiV + "</li>");
+								"<li class='" + className + "'>" + hiV
+										+ "</li>");
 					}
 				}
 				/* 判断是否插入进入，若插入进入，关闭树框 */
@@ -888,10 +905,10 @@ function getTree_4(result) {
 
 }
 
-//修改模态框右上角关闭符号当点击模态框中的取消和关闭按钮时进行的操作
+// 修改模态框右上角关闭符号当点击模态框中的取消和关闭按钮时进行的操作
 function closeModal_symbol() {
-	//是否是内部部门标记
-	 departmentIsIn = true;
-	//是否移动的下级部门标记
-	 departmentIdEqual = true;
+	// 是否是内部部门标记
+	departmentIsIn = true;
+	// 是否移动的下级部门标记
+	departmentIdEqual = true;
 }

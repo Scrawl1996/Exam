@@ -96,7 +96,7 @@ function showEmployeeBaseInfo(data) {
 				.replace("2", "通过二级考试").replace("3", "通过三级考试")
 				+ "</td><td>"
 				+ "<a href='javascript:void(0)' onclick='allInfo(this)'>详细信息</a>&nbsp;";
-		if (employeeOutBaseInfoList[i].bigstatus != "已结束") {
+		if (employeeOutBaseInfoList[i].bigstatus != "已结束" && hasOperatingEmpout) {
 			showEmployeeOutBaseInfoList += "<a href='javascript:void(0)' onclick='el_modifyEmp(this)'>修改</a>&nbsp;"
 					+ "<a class='el_delButton' onClick='delcfm(this)'>删除</a><br />"
 					+ "</td></tr>";

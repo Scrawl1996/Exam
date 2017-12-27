@@ -300,7 +300,7 @@ function detailInBtn(obj) {
 	$("#q_endtime").val($(".query_dep_endtime").val());
 	$("#detailemployeeId").val($(obj).parents('td').children('input').eq(0).val());// 职工id
 	$("#detailunitName").val($(obj).parents('td').children('input').eq(2).val());// 部门名称
-
+	$("#detail_breakInfoType").val($("#el_breakType").val());
 	$("#detailInForm").submit();
 
 }
@@ -380,8 +380,8 @@ function leftBtn() {
 		data : {
 			"departmentid" : $("#departmentidTree").val(),// 部门id
 			"curPage" : $("#yeHao").val(),// 当前页页号
-			"curTotal" : $("#jiLuShu").val()
-		// 每页显示的记录数
+			"curTotal" : $("#jiLuShu").val(),// 每页显示的记录数
+			"empBreakInfoType":$("#el_breakType").val()
 		},
 		dataType : "json",
 		type : "POST",
@@ -599,6 +599,28 @@ function addSaveBtn(){
 	} 
 }
 
+/**
+ * 给出"正式员工积分12分为厂级下岗，8分为部门内部下岗，"的提醒 的方法
+ */
+function addAlertMsg(){
+	//$("#addEmpID").val(empId);//当天添加记分的员工id
+	$.ajax({
+		url:contextPath+"/empInbreakrules_getSingleEmplyInBreakScoreSum.action",
+		data:{"employeeid":$("#addEmpID").val()},
+		dataType:"json",
+		type:"POST",
+		async:true,
+		success:function(data){
+			//给出提示
+			if((data.result>=8) && (data.result<12)){
+				alert("该员工部门内部下岗");
+			}else if(data.result>=12){
+				alert("该员工厂级下岗");
+			}
+		},
+	});
+}
+
 //点击了警告提示框 的确定按钮之后的事件
 function addAlertModelBtn2(){
 	//执行添加违章记分的后续操作
@@ -653,6 +675,8 @@ function addSaveAfterBtn(){
 				}/*else if($("#allMark").val()=="initData"){
 					initData();
 				}*/
+				//记分添加完成之后，给出"正式员工积分12分为厂级下岗，8分为部门内部下岗，"的提醒
+				addAlertMsg();
 			},
 			error:function(){
 				alert("添加失败，请从新添加")
@@ -669,3 +693,12 @@ function addSaveAfterBtn(){
 
 
 /** *****************lixianyuan end ********* */
+//查看历史违章信息
+function historyBreakInfoFind(){
+	var type = $("#el_breakType").val();
+	$("#breakInfo_Type").val(type);
+	$("#yeHao").val("1");
+	findSaveBtn();
+}
+
+

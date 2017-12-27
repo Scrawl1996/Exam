@@ -40,49 +40,50 @@
 <script
 	src="${pageContext.request.contextPath }/controls/validate/messages_zh.js"></script>
 <script>
-$(function(){
-	
-$("#inpstart2").jeDate({
-    isinitVal:false,
-    minDate: '2000-06-16',
-    maxDate: '2225-06-16',
-    format : 'YYYY-MM-DD',
-    zIndex:3000
-})
+	$(function() {
 
-$("#inpend2").jeDate({
-    isinitVal:false,
-    minDate: '2000-06-16',
-    maxDate: '2225-06-16',
-    format : 'YYYY-MM-DD',
-    zIndex:3000
-})
+		$("#inpstart2").jeDate({
+			isinitVal : false,
+			minDate : '2000-06-16',
+			maxDate : '2225-06-16',
+			format : 'YYYY-MM-DD',
+			zIndex : 3000
+		})
+
+		$("#inpend2").jeDate({
+			isinitVal : false,
+			minDate : '2000-06-16',
+			maxDate : '2225-06-16',
+			format : 'YYYY-MM-DD',
+			zIndex : 3000
+		})
 
 	})
 </script>
-			<!-- 与左边的树绑定之后的点击查询按钮的点击事件  未点击黑名单  和点击了黑名单的情况 -->
-			<script type="text/javascript">
-				
-			</script>
-			
-			<style>
-			#el_breakTimeIndex input{
-				width:33% !important;
-				margin-right:10px;
-			}
-			#el_breakTimeIndex{
-				margin-left:15px;
-			}
-			
-			
-#el_breakType{
-	font-size:13px;
+<!-- 与左边的树绑定之后的点击查询按钮的点击事件  未点击黑名单  和点击了黑名单的情况 -->
+<script type="text/javascript">
+	
+</script>
+
+<style>
+#el_breakTimeIndex input {
+	width: 33% !important;
+	margin-right: 10px;
 }
-#el_breakType option{
-	background-color:white;
-	color:black;
+
+#el_breakTimeIndex {
+	margin-left: 15px;
 }
-			</style>
+
+#el_breakType {
+	font-size: 13px;
+}
+
+#el_breakType option {
+	background-color: white;
+	color: black;
+}
+</style>
 </head>
 <body>
 
@@ -94,7 +95,8 @@ $("#inpend2").jeDate({
 			type="hidden" name="fendtime" id="q_endtime"> <input
 			id="detailunitName" name="detailunitName" type="hidden" value="" />
 		<input id="detailemployeeId" name="detailemployeeId" type="hidden"
-			value="" />
+			value="" /> <input id="detail_breakInfoType" name="empBreakInfoType"
+			type="hidden" value="0" />
 	</form>
 
 	<!-- 隐藏域 start -->
@@ -143,8 +145,9 @@ $("#inpend2").jeDate({
 									<div class="row el_queryBoxrow">
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
-												<span class="el_spans">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span> <input id="initName"
-													type="text" class="form-control" name="fName" value="" />
+												<span class="el_spans">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span>
+												<input id="initName" type="text" class="form-control"
+													name="fName" value="" />
 											</div>
 										</div>
 
@@ -197,8 +200,7 @@ $("#inpend2").jeDate({
 									<div class="row el_queryBoxrow">
 										<div class="col-md-6" id="el_breakTimeIndex">
 											<div class="input-group" id="el_startEndTime" role="toolbar">
-												<span class="el_spans">违章时间：</span> 
-												 <input type="text"
+												<span class="el_spans">违章时间：</span> <input type="text"
 													class=" form-control query_dep_starttime" name="fstarttime"
 													placeholder="开始时间" id="inpstart2" readonly> <input
 													type="text" class="form-control query_dep_endtime"
@@ -213,7 +215,9 @@ $("#inpend2").jeDate({
 									<!-- 隐藏一个左侧的树选中的部门的部门id -->
 									<input id="departmentidTree" type="hidden" name="fdepartmentid"
 										value="" />
-
+									<!-- 隐藏违章信息查询类型，默认查询当前年 -->
+									<input id="breakInfo_Type" type="hidden" value="0"
+										name="empBreakInfoType">
 									<!--提交查询按钮-->
 									<button type="button" onclick="clearPagenum()"
 										class="btn btn-primary el_queryButton btn-sm">查询</button>
@@ -231,18 +235,41 @@ $("#inpend2").jeDate({
 							</script>
 							<!-- 解决违章记分和黑名单冲突 -->
 							<script>
-								$(function() {
-									$("#el_breakSelect").change(function() {
-										var breakValue = $(this).val();
+								$(
+										function() {
+											$("#el_breakSelect")
+													.change(
+															function() {
+																var breakValue = $(
+																		this)
+																		.val();
 
-										if (breakValue != "") {
-											$("#el_blackCheckbox").find("input").attr("disabled",true);
-											$("#el_blackCheckbox").find("input").attr("checked",false);
-										} else {
-											$("#el_blackCheckbox").find("input").attr("disabled",false);
-										}
-									})
-								})
+																if (breakValue != "") {
+																	$(
+																			"#el_blackCheckbox")
+																			.find(
+																					"input")
+																			.attr(
+																					"disabled",
+																					true);
+																	$(
+																			"#el_blackCheckbox")
+																			.find(
+																					"input")
+																			.attr(
+																					"checked",
+																					false);
+																} else {
+																	$(
+																			"#el_blackCheckbox")
+																			.find(
+																					"input")
+																			.attr(
+																					"disabled",
+																					false);
+																}
+															})
+										})
 							</script>
 
 
@@ -259,20 +286,25 @@ $("#inpend2").jeDate({
 									<div class="panel panel-default">
 										<div class="panel-body el_MainxiaoMain">
 
-											<shiro:hasPermission name="breakrules:operating">
-												<div class="el_topButton">
-													<!-- 按钮触发模态框1 -->
-													<div class="col-md-5">
+											<div class="el_topButton">
+												<div class="col-md-5">
+													<shiro:hasPermission name="breakrules:add">
+														<!-- 按钮触发模态框1 -->
+
 														<button id="el_addBreakRules" class="btn btn-primary"
 															onclick="el_addBreakInfo()">添加违章信息</button>
-														
-														<select class="btn btn-primary" id="el_breakType" title="请选择" name="examLevel">
-					                                        <option value="0">当前违章</option>
-					                                        <option value="1">历史违章</option>
-					                                    </select>	
-													</div>
+
+
+													</shiro:hasPermission>
+													<select class="btn btn-primary" id="el_breakType"
+														title="请选择" onclick="historyBreakInfoFind()">
+														<!-- <select class="btn btn-primary" id="el_breakType"
+													title="请选择" name="examLevel"> -->
+														<option value="0">当前违章</option>
+														<option value="1">历史违章</option>
+													</select>
 												</div>
-											</shiro:hasPermission>
+											</div>
 
 										</div>
 									</div>
@@ -304,8 +336,9 @@ $("#inpend2").jeDate({
 							</div>
 
 							<!-- 模态框 违章信息添加-->
-							<div class="modal fade" id="el_addBreakInfo" tabindex="-1" data-backdrop="static" data-keyboard="false"
-								role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal fade" id="el_addBreakInfo" tabindex="-1"
+								data-backdrop="static" data-keyboard="false" role="dialog"
+								aria-labelledby="myModalLabel" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
@@ -333,12 +366,12 @@ $("#inpend2").jeDate({
 														</thead>
 														<tbody>
 															<tr>
-																<td id="addName">asdf</td>
-																<td id="addSex">asdf</td>
+																<td id="addName"></td>
+																<td id="addSex"></td>
 																<!--  <td id="addPhone">asdf</td> -->
-																<td id="addunitName">asdf</td>
-																<td id="addbreakScore">asdf</td>
-																<td id="addIsBreak">asdf</td>
+																<td id="addunitName"></td>
+																<td id="addbreakScore"></td>
+																<td id="addIsBreak"></td>
 															</tr>
 														</tbody>
 													</table>
@@ -388,7 +421,8 @@ $("#inpend2").jeDate({
 							</div>
 
 							<!-- 模态框，用于提示本次添加的 违章记分>=12分的情况   start-->
-							<div class="modal fade" id="addyAlertModel2" data-backdrop="static" data-keyboard="false">
+							<div class="modal fade" id="addyAlertModel2"
+								data-backdrop="static" data-keyboard="false">
 								<div class="modal-dialog">
 									<div class="modal-content message_align">
 										<div class="modal-header">
@@ -419,7 +453,7 @@ $("#inpend2").jeDate({
 							<!-- 隐藏域，隐藏一个添加前的违章总积分 -->
 							<input id="breakScoreSum" type="hidden" value="" />
 							<script type="text/javascript">
-							
+								
 							</script>
 
 

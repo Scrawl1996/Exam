@@ -24,13 +24,11 @@
 	<sql id="getExamEmployeeIns_where">
 		<!-- 根据部门名称查询部门ID -->
 		<if test="departmentNames !=null">
-			and e.departmentId in(select departmentId from department where
-			departmentName in
+			and e.departmentId in
 			<foreach collection="departmentNames" item="departmentName"
 				separator="," open="(" close=")">
 				#{departmentName}
 			</foreach>
-			)
 		</if>
 		<if test="sex!=null">
 			and e.sex=#{sex}
@@ -205,6 +203,7 @@
 		resultType="cn.xm.exam.bean.employee.in.EmployeeIn">
 		SELECT * from employee_in where idCode=#{idcode};
 	</select>
+	
 	<!-- E zwy -->
 
 

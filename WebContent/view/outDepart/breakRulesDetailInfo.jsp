@@ -179,8 +179,9 @@ function queryFy(resultCount,currentPage,currentTotal){
 												<th>违章时间</th>
 												<th>违章积分</th>
 												<th>违章内容</th>
-
+												<shiro:hasPermission name="outempbreak:operating">
 												<th width="190">操作</th>
+												</shiro:hasPermission>
 											</tr>
 										</thead>
 
@@ -205,10 +206,12 @@ function queryFy(resultCount,currentPage,currentTotal){
 													<input type="hidden" value="${bigid }" />
 													<!-- 隐藏域，隐藏一个职工id -->
 													<input type="hidden" value="${breakrules.employeeid}" />
+													<shiro:hasPermission name="outempbreak:operating">
 													<td><a href="javascript:void(0)"
 														onclick="modifyBreak(this)">修改</a>&nbsp; <a
 														class="el_delButton" onClick="delcfm(this)">删除</a> <br />
 													</td>
+													</shiro:hasPermission>
 												</tr>
 											</c:forEach>
 										</tbody>

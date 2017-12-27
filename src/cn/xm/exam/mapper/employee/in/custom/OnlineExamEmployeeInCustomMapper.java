@@ -1,8 +1,10 @@
 package cn.xm.exam.mapper.employee.in.custom;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
+import cn.xm.exam.bean.employee.in.EmplyinBreakrules;
 import cn.xm.exam.bean.system.User;
 
 /**   
@@ -33,4 +35,20 @@ public interface OnlineExamEmployeeInCustomMapper {
 	 * @throws SQLException
 	 */
 	public int updateOnlineExamUserInfo(Map<String, Object> map) throws SQLException;
+	
+	/**
+	 * 根据条件查询单个员工的违章信息用于分页显示
+	 * @param condition
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<EmplyinBreakrules> getOnlineEmployeeBreakInfoByCondition(Map<String,Object> condition) throws SQLException;
+
+	/**
+	 * 根据条件查询统计单个员工的违章信息条数
+	 * @param condition
+	 * @return
+	 * @throws SQLException
+	 */
+	public int getOnlineEmployeeBreakInfoCountByCondition(Map<String,Object> condition) throws SQLException;
 }

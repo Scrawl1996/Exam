@@ -342,8 +342,12 @@ function showUnitTale(response) {
 	var units = response.pageBean.productList;// 获取所有的单位
 	for (var i = 0, length_1 = units.length; i < length_1; i++) {
 		// 先列出所有的操作
-		var delUpdate='<a href="javascript:void(0)" onclick="openUpdateModal(this)">修改</a>&nbsp;'
-		+ ' <a href="javascript:void(0)" onclick="deleteUnit(this)">删除</a><br />';
+		var delUpdate="--";
+			if(hasOutunitOperating){
+				delUpdate='<a href="javascript:void(0)" onclick="openUpdateModal(this)">修改</a>&nbsp;'
+					+ ' <a href="javascript:void(0)" onclick="deleteUnit(this)">删除</a><br />';
+			}
+			
 		// 如果大修已经结束就把操作隐藏掉
 		var operation=units[i].bigStatus =="已结束"?"--":delUpdate;
 		$("#haunUnitTbody")
@@ -505,7 +509,7 @@ function updateUnit() {
 /** *E 修改单位信息** */
 
 /** *S 根据单位与检修编号查询人数*** */
-//初始化数据
+// 初始化数据
 function initVariable(obj){
 	var $tds = $(obj).parent().parent().children();
 	var unitid = $($tds[0]).children("input:hidden:eq(0)").val();// 获取到部门ID
@@ -514,7 +518,7 @@ function initVariable(obj){
 	$("#q_unitId").val(unitid);
 	queryEmployeeOut();
 }
-//查询内部员工
+// 查询内部员工
 function queryEmployeeOut() {
 	$.post(contextPath + '/unit_getEmployeesByHaulidAndUnitId.action', {
 		"currentPage":$("#currentPage2").val(),
@@ -552,7 +556,7 @@ function showEmployeeModal(response) {
 		});
 	}
 }
-//显示分页
+// 显示分页
 function page3(currentPage, totalCount, currentCount) {
 	// 修改分页的基本属性
 	$('#paginationIDU2').pagination(

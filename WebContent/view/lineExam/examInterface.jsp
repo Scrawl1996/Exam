@@ -64,11 +64,11 @@
                     	所有考试
                 </a>
             </div>
-            <div class="el_MenuContent">
+            <!-- <div class="el_MenuContent">
                 <a href="#breakInfo" aria-controls="profile" role="tab" data-toggle="tab">
                     	个人违章信息管理
                 </a>
-            </div>
+            </div> -->
         </div>
 
         <div class="el_Menu">
@@ -84,6 +84,11 @@
             <div class="el_MenuContent">
                 <a href="#messages" aria-controls="profile" role="tab" data-toggle="tab" onclick="clearOldInfo()">
                     修改密码
+                </a>
+            </div>
+            <div class="el_MenuContent">
+                <a href="#breakInfo" aria-controls="profile" role="tab" data-toggle="tab">
+                    	个人违章信息管理
                 </a>
             </div>
         </div>
@@ -228,23 +233,26 @@
                 <h4 class="el_smallTitle">个人违章信息</h4>
 
                 <div class="row el_queryBox">
-                    <form id="form_onlineBreakInfo">
-
-                        
+                    <form id="form_onlineBreakInfo">                       
 							<div class="col-md-6" id="el_breakTimeIndex">
 								<div class="input-group" id="el_startEndTime" role="toolbar">
 									<span class="el_spans">违章时间：</span> 
 									<input type="text"
-										class=" form-control query_dep_starttime" placeholder="开始时间" name="fstarttime"
+										class=" form-control query_dep_starttime" placeholder="开始时间" name="breakTimeLeft"
 										id="inpstart2" readonly> 
 									<input type="text"
 										class="form-control query_dep_endtime" id="inpend2"  placeholder="结束时间"
-										name="fendtime" readonly>
+										name="breakTimeRight" readonly>
 								</div>
 							</div>
-
+							<!-- 隐藏员工ID -->
+							<input type="hidden" name="employeeInId" value="${session.userinfo.employeeid}"  />
+							<!-- 隐藏当前页和显示条数 -->
+	                        <input type="hidden" name="currentPage" id="currentPage_break" />
+							<input type="hidden" name="currentCount" id="currentCount_break" />
+                       
 	                        <!--提交查询按钮-->
-	                        <button type="button" class="btn btn-primary el_queryButton btn-sm" onclick="queryOnlineExamInfo()">查询</button>
+	                        <button type="button" class="btn btn-primary el_queryButton btn-sm" onclick="selectPersonBreakInfos()">查询</button>
 	                    	<button type="reset" class="btn btn-default el_queryButton0 btn-sm">清空</button>
                     
                     </form>
@@ -258,12 +266,11 @@
 							<th>违章内容</th>
 						</tr>
 					</thead>
-					<tbody id="tbody">
-
+					<tbody id="breakRulesInfoList">						
 					</tbody>
 				</table>
 
-				<!--分页  用于左侧的树的-->
+				<!--分页 -->
 				<div id="paginationID"></div>
                 
             </div>

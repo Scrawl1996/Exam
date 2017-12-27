@@ -7,6 +7,7 @@
  * qlq写的 添加考试
  */
 var departIndex = 0;
+var departmentIds="";//全部部门ID串
 var inner_open = false, out_open = false;// 用于记录两个模态框是否打开
 var departmentr4Query = [];// 等价于var departmentr4Query=new Array();
 $(function() {
@@ -103,7 +104,8 @@ function initSomdeThing() {
 }
 /** *S 查询内部部门员工 */
 var queryInnerEmployee = function() {
-	var departments = $("#el_chooseDepart1").text();// 获取部门名字
+//	var departments = $("#el_chooseDepart1").text();// 获取部门名字
+	var departments = departmentIds;// 获取部门名字
 	// 如果没有选择部门提醒选择部门，否则查询
 	if (departments.length > 0) {
 		departments = departments.substring(0, departments.length - 1);
@@ -291,7 +293,7 @@ function showEmployeeOutModal(response) {
 		var trainInt = examEmployeeOuts[i].trainStatus;
 		var tarinStr;
 		if (trainInt == 0) {
-			tarinStr = "未通过考试";
+			tarinStr = "未参加考试";
 		}
 		if (trainInt == 1) {
 			tarinStr = "通过一级考试";
@@ -621,10 +623,12 @@ function zTreeOnCheck(event, treeId, treeNode) {
 var el_chooseDepart1, className10 = "dark", el_id;
 // 点击前面的复选框之前的事件
 function beforeCheck(treeId, treeNode) {
+//	alert(departmentIds);
 	className10 = (className10 === "dark" ? "" : "dark");
 	el_id = treeNode.departmentId;
 	// 判断点击的节点是否被选中，返回false 和 true
 	if (!treeNode.checked) {// 选中
+		departmentIds+=treeNode.departmentId+",";
 		showLog10(treeNode.departmentName + ',');
 		$("#department_employee_in")
 				.append(
@@ -638,6 +642,7 @@ function beforeCheck(treeId, treeNode) {
 								+ '(人数：<span class="employeeNum">0</span>)</div>'
 								+ '<div class="panel-body"></div>' + '</div>');
 	} else { // 点击选中，向让其未选中
+		departmentIds=departmentIds.replace(treeNode.departmentId+",","");
 		$("#" + treeNode.departmentName).remove();// 删除部门
 		noshowLog10(treeNode.departmentName + ',', treeNode);
 		var parentzTree = treeNode.getParentNode();

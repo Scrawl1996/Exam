@@ -307,6 +307,7 @@ function gradeManage_page(currentPage, totalCount,currentCount) {
 
 }
 
+
 //倒计时方法
 function downTimer(startTime,seq){
 	 var ts = (new Date(startTime)) - (getServerDate());//计算剩余的毫秒数      
@@ -552,6 +553,7 @@ function getServerDate(){
 		}
 	})	
 	return new Date(nowTimeStr);
+	//return new Date();
 }
 
 
@@ -573,4 +575,73 @@ $(function() {
 	    format : 'YYYY-MM-DD',
 	    zIndex:3000
 	})
+	//查询员工的违章信息
+	findPersonBreakInfos();
 })
+
+//点击个人违章信息查询按钮执行的操作
+function selectPersonBreakInfos(){
+	//将违章信息的当前页中的值清空
+	$("#currentPage_break").val('');
+	//调用查询的方法
+	findPersonBreakInfos();
+}
+
+
+//个人违章信息查询方法
+function findPersonBreakInfos(){
+	$.ajax({
+		url:"onlineEmployeeInfo_getEmployeeBreakInfoList.action",
+		data:$("#form_onlineBreakInfo").serialize(),
+		type:"post",
+		dataType:"json",
+		success:showPersonBreakInfos
+	})
+}
+
+//显示个人违章信息
+function showPersonBreakInfos(data){
+	var result = data;
+	//当前页显示条数
+	var currentCount = result.pageBean.currentCount;
+	var personBreakInfoList = result.pageBean.productList;
+	var showPersonBreakInfoList = '';
+	for(var i=0;i<personBreakInfoList.length;i++){
+		var index = i+1;
+		showPersonBreakInfoList += "<tr><td>"
+								+(index + (result.pageBean.currentPage - 1) * currentCount)+"</td><td>"
+								+Format(new Date(personBreakInfoList[i].empinbreaktime.replace(/T/g," ").replace(/-/g,"/")),"yyyy-MM-dd")+"</td><td>"
+								+personBreakInfoList[i].empinminusnum+"</td><td>"
+								+personBreakInfoList[i].empinbreakcontent+"</td></tr>";
+								
+	}
+	$("#breakRulesInfoList").empty();
+	$("#breakRulesInfoList").append(showPersonBreakInfoList);
+	//当前页
+	var currentPage = result.pageBean.currentPage;
+	//总条数
+	var totalCount = result.pageBean.totalCount;
+	//调用分页的函数
+	breakInfos_page(currentPage, totalCount,currentCount);
+}
+
+//违章信息的分页
+function breakInfos_page(currentPage, totalCount,currentCount) {
+	$('#paginationID').pagination({
+        //组件属性
+        "total": totalCount,//数字 当分页建立时设置记录的总数量 
+        "pageSize": currentCount,//数字 每一页显示的数量 10
+        "pageNumber": currentPage,//数字 当分页建立时，显示的页数 1
+        "pageList": [8,15,20],//数组 用户可以修改每一页的大小，
+        //功能
+        "layout": ['list', 'sep', 'first', 'prev', 'manual', 'next', 'last', 'links'],
+        "onSelectPage": function (pageNumber, b) {
+        	//向隐藏域中设置值
+        	$("#currentPage_break").val(pageNumber);
+        	$("#currentCount_break").val(b);
+        	//调用查找函数
+        	findPersonBreakInfos();
+        }
+    });
+
+}

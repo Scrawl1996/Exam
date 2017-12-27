@@ -32,7 +32,14 @@
 	/* 初始化的时候设置一个项目名字全局变量与大修ID变量 */
 	var contextPath = "${baseurl}";
 	var haulId = "${haulId}";
+	var hasOutunitOperating = false;//记录是否有删除外来单位权限
 </script>
+<!-- 有修改删除外来单位的权限就修改全局变量的值 -->
+<shiro:hasPermission name="outunit:operating">
+<script>
+hasOutunitOperating = true;
+</script>
+</shiro:hasPermission>
 
 <!--验证-->
 <script src="<%=path%>/controls/validate/jquery.validate.js"></script>
@@ -149,10 +156,12 @@ label.success {
 											</a>
 											<button class="btn btn-primary btn-sm" onclick="el_addEmp()">
 												添加员工</button> --%>
+												<shiro:hasPermission name="outunit:add">
 											<a
 												href="<%=path%>/view/outDepart/outdepartManage.jsp?haulId=${haulId}">
 												<button class="btn btn-primary btn-sm">添加单位</button>
 											</a>
+											</shiro:hasPermission>
 										</c:if>
 									</div>
 								</div>

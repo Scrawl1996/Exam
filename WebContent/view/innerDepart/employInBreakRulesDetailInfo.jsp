@@ -389,7 +389,8 @@
 
 									var employeeid = $(obj).parents("tr")
 											.children("input").eq(2).val();//职工id
-
+											//为用于查询今年该员工的总违章记分的员工id隐藏域赋值
+											$("#empid").val(employeeid);
 									//alert("违章id"+breakId + " 职工id"+employeeid)
 
 									//为修改前的违章记分 的隐藏域赋值
@@ -549,6 +550,35 @@
 							</script>
 
 
+
+							<!-- 隐藏域，隐藏员工id，用于查询该员工今年的违章总积分 -->
+							<input id="empid" type="hidden" value="">
+							
+							<script type="text/javascript">
+								/**
+								 * 给出"正式员工积分12分为厂级下岗，8分为部门内部下岗，"的提醒 的方法
+								 */
+								function addAlertMsg(){
+									//$("#addEmpID").val(empId);//当天添加记分的员工id
+									$.ajax({
+										url:"${pageContext.request.contextPath}/empInbreakrules_getSingleEmplyInBreakScoreSum.action",
+										data:{"employeeid":$("#empid").val()},
+										dataType:"json",
+										type:"POST",
+										async:true,
+										success:function(data){
+											//给出提示
+											if((data.result>=8) && (data.result<12)){
+												alert("部门内部下岗");
+											}else if(data.result>=12){
+												alert("厂级下岗");
+											}
+										},
+									});
+								}
+							</script>
+							
+							
 							<!-- 以下是删除的操作 -->
 							<!-- 隐藏域  ，隐藏一个当前和删除按钮同一行的职工的违章id,用于删除操作 -->
 							<input id="delEmployeeBreakId" type="hidden" value="" />
@@ -562,6 +592,9 @@
 									var employeeid = $(obj).parents("tr")
 											.children("input").eq(2).val();//职工id
 
+											
+									//为用于查询今年该员工的总违章记分的员工id隐藏域赋值
+									$("#empid").val(employeeid);
 									$("#delEmployeeId").val(employeeid);//职工id
 									$("#delEmployeeBreakId").val(breakId);//为隐藏域赋值 违章id
 									if ($("#topBlackStatus").text() == "是") {

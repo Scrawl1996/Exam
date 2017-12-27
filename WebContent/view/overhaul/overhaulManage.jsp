@@ -40,38 +40,43 @@ label.success {
 		10px 3px;
 	padding-left: 30px;
 }
-.workinput{
-	width:145px !important;
-	margin-right:20px !important;
+
+.workinput {
+	width: 145px !important;
+	margin-right: 20px !important;
 }
-#inpend0,#inpend1{
-	margin-right:0 !important;
+
+#inpend0, #inpend1 {
+	margin-right: 0 !important;
 }
 </style>
 <script>
 	/* 定义一个全局变量为项目名字 */
+	var hasOperatingJianxiu = false;//是否有修改删除检修的权限
 	var contextPath = "${baseurl}";
 	$(function() {
 
 		//日历
 		var start0 = {
-			format: 'YYYY-MM-DD',
-		    minDate: '2004-06-16', //设定最小日期为当前日期
-		    festival:false,
-		    ishmsVal:false,
-		    choosefun: function(elem, val, date){
-		        end0.minDate = date; //开始日选好后，重置结束日的最小日期
-		        endDates0();
-		    }
+			format : 'YYYY-MM-DD',
+			minDate : '2004-06-16', //设定最小日期为当前日期
+			festival : false,
+			ishmsVal : false,
+			choosefun : function(elem, val, date) {
+				end0.minDate = date; //开始日选好后，重置结束日的最小日期
+				endDates0();
+			}
 		};
 		var end0 = {
-			format: 'YYYY-MM-DD',
-		    minDate: $.nowDate({DD:"-60"}), //设定最小日期为当前日期
-		    festival:false,
-		    maxDate: '2299-06-16', //最大日期
-		    choosefun: function(elem, val, date){
-		        start0.maxDate = date; //将结束日的初始值设定为开始日的最大日期
-		    }
+			format : 'YYYY-MM-DD',
+			minDate : $.nowDate({
+				DD : "-60"
+			}), //设定最小日期为当前日期
+			festival : false,
+			maxDate : '2299-06-16', //最大日期
+			choosefun : function(elem, val, date) {
+				start0.maxDate = date; //将结束日的初始值设定为开始日的最大日期
+			}
 		};
 		//这里是日期联动的关键        
 		function endDates0() {
@@ -79,32 +84,35 @@ label.success {
 			end0.trigger = false;
 			$("#inpend0").jeDate(end0);
 		}
-		
+
 		$('#inpstart0').jeDate(start0);
 		$('#inpend0').jeDate(end0);
-		
-		
+
 		/* 修改 */
 		var start1 = {
-			format: 'YYYY-MM-DD',
-		    minDate: '2004-06-16', //设定最小日期为当前日期
-		    isinitVal:true,
-		    festival:false,
-		    ishmsVal:false,
-		    maxDate: $.nowDate({DD:"+60"}), //最大日期
-		    choosefun: function(elem, val, date){
-		        end1.minDate = date; //开始日选好后，重置结束日的最小日期
-		        endDates1();
-		    }
+			format : 'YYYY-MM-DD',
+			minDate : '2004-06-16', //设定最小日期为当前日期
+			isinitVal : true,
+			festival : false,
+			ishmsVal : false,
+			maxDate : $.nowDate({
+				DD : "+60"
+			}), //最大日期
+			choosefun : function(elem, val, date) {
+				end1.minDate = date; //开始日选好后，重置结束日的最小日期
+				endDates1();
+			}
 		};
 		var end1 = {
-			format: 'YYYY-MM-DD',
-		    minDate: $.nowDate({DD:"-60"}), //设定最小日期为当前日期
-		    festival:false,
-		    maxDate: '2299-06-16', //最大日期
-		    choosefun: function(elem, val, date){
-		        start1.maxDate = date; //将结束日的初始值设定为开始日的最大日期
-		    }
+			format : 'YYYY-MM-DD',
+			minDate : $.nowDate({
+				DD : "-60"
+			}), //设定最小日期为当前日期
+			festival : false,
+			maxDate : '2299-06-16', //最大日期
+			choosefun : function(elem, val, date) {
+				start1.maxDate = date; //将结束日的初始值设定为开始日的最大日期
+			}
 		};
 		//这里是日期联动的关键        
 		function endDates1() {
@@ -112,12 +120,17 @@ label.success {
 			end1.trigger = false;
 			$("#inpend1").jeDate(end1);
 		}
-		
+
 		$('#inpstart1').jeDate(start1);
-		$('#inpend1').jeDate(end1); 
+		$('#inpend1').jeDate(end1);
 	})
-		
 </script>
+<!-- 如果有删除修改检修的权限执行下面代码修改全局变量 -->
+<shiro:hasPermission name="jianxiu:operating">
+	<script>
+		hasOperatingJianxiu = true;
+	</script>
+</shiro:hasPermission>
 </head>
 <body>
 
@@ -167,8 +180,8 @@ label.success {
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
 												<span class="el_spans">检修时间：</span> <input type="text"
-													name="startMonth" id="test" class="wicon el_noVlaue form-control"
-													readonly />
+													name="startMonth" id="test"
+													class="wicon el_noVlaue form-control" readonly />
 											</div>
 										</div>
 
@@ -209,8 +222,10 @@ label.success {
 										<div class="panel-body el_MainxiaoMain">
 
 											<div class="el_topButton">
-												<button class="btn btn-primary" onclick="el_addOverhaul()">
-													创建检修</button>
+												<shiro:hasPermission name="jianxiu:add">
+													<button class="btn btn-primary" onclick="el_addOverhaul()">
+														创建检修</button>
+												</shiro:hasPermission>
 											</div>
 										</div>
 									</div>
@@ -255,13 +270,14 @@ label.success {
 														class="form-control el_modelinput clearAdd" name="bigname" />
 												</div>
 												<div class="input-group el_modellist" role="toolbar">
-													<span class="el_spans">检修时间：</span>
-													  <input type="text"  placeholder="开始时间"
-														class="workinput form-control el_noVlaue wicon" id="inpstart0"  placeholder="开始时间"
-														name="bigbegindate" readonly> 
-														<input type="text" name="bigenddate" placeholder="结束时间"
-														class="workinput el_noVlaue form-control wicon clearAdd" id="inpend0"
-														readonly>
+													<span class="el_spans">检修时间：</span> <input type="text"
+														placeholder="开始时间"
+														class="workinput form-control el_noVlaue wicon"
+														id="inpstart0" placeholder="开始时间" name="bigbegindate"
+														readonly> <input type="text" name="bigenddate"
+														placeholder="结束时间"
+														class="workinput el_noVlaue form-control wicon clearAdd"
+														id="inpend0" readonly>
 												</div>
 												<div class="input-group el_modellist" role="toolbar">
 													<span class="el_spans">检修简介：</span>
@@ -306,9 +322,11 @@ label.success {
 												</div>
 												<div class="input-group el_modellist" role="toolbar">
 													<span class="el_spans">检修时间：</span> <input type="text"
-														class="workinput form-control el_noVlaue wicon" id="inpstart1" placeholder="开始时间"
-														name="bigbegindate" readonly> <input type="text" placeholder="结束时间"
-														name="bigenddate" class="workinput el_noVlaue form-control wicon"
+														class="workinput form-control el_noVlaue wicon"
+														id="inpstart1" placeholder="开始时间" name="bigbegindate"
+														readonly> <input type="text" placeholder="结束时间"
+														name="bigenddate"
+														class="workinput el_noVlaue form-control wicon"
 														id="inpend1" readonly>
 												</div>
 												<div class="input-group el_modellist" role="toolbar">

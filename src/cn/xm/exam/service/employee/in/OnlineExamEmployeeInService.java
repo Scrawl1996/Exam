@@ -3,7 +3,9 @@ package cn.xm.exam.service.employee.in;
 import java.util.Map;
 
 import cn.xm.exam.bean.employee.in.EmployeeIn;
+import cn.xm.exam.bean.employee.in.EmplyinBreakrules;
 import cn.xm.exam.bean.system.User;
+import cn.xm.exam.utils.PageBean;
 
 /**   
 *    
@@ -51,4 +53,16 @@ public interface OnlineExamEmployeeInService {
 	 * @throws Exception
 	 */
 	public boolean updateOnlineExamUserInfo(Map<String,Object> map) throws Exception;
+	
+	/**
+	 * 根据时间段查询在线考试员工的违章信息
+	 * @param currentPage
+	 * @param currentTotal
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	public PageBean<EmplyinBreakrules> getOnlineEmployeeBreakInfoByCondition(int currentPage, int currentTotal,Map<String,Object> condition) throws Exception;
+
+	
 }

@@ -38,8 +38,15 @@
 	 });
 	 }); */
 	var contextPath = "${baseurl}";//记录项目名字
+	var hasOutunitOperating = false;//记录是否有删除外来单位权限
 	var haulId = "${haulId}";//记录传过来的检修ID
 </script>
+<!-- 有修改删除外来单位的权限就修改全局变量的值 -->
+<shiro:hasPermission name="outunit:operating">
+<script>
+hasOutunitOperating = true;
+</script>
+</shiro:hasPermission>
 <style type="text/css">
 /*validate中不成功显示的样式设置*/
 label.error {
@@ -68,19 +75,19 @@ label.success {
 <script>
 	$(function() {
 		$("#inpstart2").jeDate({
-		    isinitVal:false,
-		    minDate: '2000-06-16',
-		    maxDate: '2225-06-16',
-		    format : 'YYYY-MM-DD',
-		    zIndex:3000
+			isinitVal : false,
+			minDate : '2000-06-16',
+			maxDate : '2225-06-16',
+			format : 'YYYY-MM-DD',
+			zIndex : 3000
 		})
 
 		$("#inpend2").jeDate({
-		    isinitVal:false,
-		    minDate: '2000-06-16',
-		    maxDate: '2225-06-16',
-		    format : 'YYYY-MM-DD',
-		    zIndex:3000
+			isinitVal : false,
+			minDate : '2000-06-16',
+			maxDate : '2225-06-16',
+			format : 'YYYY-MM-DD',
+			zIndex : 3000
 		})
 	})
 </script>
@@ -156,10 +163,10 @@ label.success {
 									<div class="col-md-6" id="el_breakTimeIndex">
 										<div class="input-group" id="el_startEndTime" role="toolbar">
 											<span class="el_spans">违章时间：</span> <input type="text"
-												class=" form-control query_dep_starttime" name="fstarttime" placeholder="开始时间"
-												id="inpstart2" readonly> <input type="text"
-												class=" form-control query_dep_endtime" id="inpend2" placeholder="结束时间"
-												name="fendtime" readonly>
+												class=" form-control query_dep_starttime" name="fstarttime"
+												placeholder="开始时间" id="inpstart2" readonly> <input
+												type="text" class=" form-control query_dep_endtime"
+												id="inpend2" placeholder="结束时间" name="fendtime" readonly>
 										</div>
 									</div>
 
@@ -185,9 +192,10 @@ label.success {
 										<div class="panel-body el_MainxiaoMain">
 
 											<div class="el_topButton">
-												<button class="btn btn-primary" onclick="addUnit()">
-													添加单位</button>
-
+												<shiro:hasPermission name="outunit:add">
+													<button class="btn btn-primary" onclick="addUnit()">
+														添加单位</button>
+												</shiro:hasPermission>
 												<%-- <a id="" href="${baseurl }/view/outDepart/projectManage.jsp">
 													<button class="btn btn-primary">工程管理</button>
 												</a> --%>
@@ -447,12 +455,13 @@ label.success {
 										</form>
 										<!--查询违章信息的条件  -->
 										<form id="query_break_form">
-											<input type="hidden" id="query_unitid"  name="unitId">
-											<input type="hidden" id="query_bigid" name="bigId">
-											<input type="hidden" id="query_fstarttime" name="fstarttime">
+											<input type="hidden" id="query_unitid" name="unitId">
+											<input type="hidden" id="query_bigid" name="bigId"> <input
+												type="hidden" id="query_fstarttime" name="fstarttime">
 											<input type="hidden" id="query_fendtime" name="fendtime">
-											<input type="hidden" id="currentPage1" name="currentPage" value="1">
-											<input type="hidden" id="currentCount1" name="currentCount" value="8">
+											<input type="hidden" id="currentPage1" name="currentPage"
+												value="1"> <input type="hidden" id="currentCount1"
+												name="currentCount" value="8">
 										</form>
 									</div>
 									<!-- /.modal-content -->
@@ -496,10 +505,10 @@ label.success {
 													</tbody>
 												</table>
 												<!-- 隐藏查询条件 -->
-												<input type="hidden" id="currentPage2" name="currentPage" value="1">
-											    <input type="hidden" id="currentCount2" name="currentCount" value="8">
-											    <input type="hidden" id="q_bigId" >
-											    <input type="hidden" id="q_unitId">
+												<input type="hidden" id="currentPage2" name="currentPage"
+													value="1"> <input type="hidden" id="currentCount2"
+													name="currentCount" value="8"> <input type="hidden"
+													id="q_bigId"> <input type="hidden" id="q_unitId">
 												<div id="paginationIDU2" class="paginationID"></div>
 											</div>
 											<div class="modal-footer">

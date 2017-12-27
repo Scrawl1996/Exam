@@ -115,6 +115,10 @@ public interface EmplyinBreakrulesCustomMapper {
 	 * <!-- 根据内部员工id 获取黑名单状态 -->
 	 */
 	String getBlackStatusByEmpInId(String employeeid);
+	/**
+	 * <!-- 根据内部员工id获取该员工的违章总积分 -->
+	 */
+	int getSingleEmplyInBreakScoreSum(Map<String,Object> map);
 
 	// *******************lixianyuan end
 
