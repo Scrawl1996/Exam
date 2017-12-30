@@ -573,6 +573,136 @@ public class EmployeeexamExample {
             addCriterion("employeeType not between", value1, value2, "employeetype");
             return (Criteria) this;
         }
+
+        public Criteria andUnitidIsNull() {
+            addCriterion("unitid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitidIsNotNull() {
+            addCriterion("unitid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitidEqualTo(String value) {
+            addCriterion("unitid =", value, "unitid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitidNotEqualTo(String value) {
+            addCriterion("unitid <>", value, "unitid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitidGreaterThan(String value) {
+            addCriterion("unitid >", value, "unitid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitidGreaterThanOrEqualTo(String value) {
+            addCriterion("unitid >=", value, "unitid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitidLessThan(String value) {
+            addCriterion("unitid <", value, "unitid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitidLessThanOrEqualTo(String value) {
+            addCriterion("unitid <=", value, "unitid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitidLike(String value) {
+            addCriterion("unitid like", value, "unitid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitidNotLike(String value) {
+            addCriterion("unitid not like", value, "unitid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitidIn(List<String> values) {
+            addCriterion("unitid in", values, "unitid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitidNotIn(List<String> values) {
+            addCriterion("unitid not in", values, "unitid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitidBetween(String value1, String value2) {
+            addCriterion("unitid between", value1, value2, "unitid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitidNotBetween(String value1, String value2) {
+            addCriterion("unitid not between", value1, value2, "unitid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeidIsNull() {
+            addCriterion("distributeid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeidIsNotNull() {
+            addCriterion("distributeid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeidEqualTo(Integer value) {
+            addCriterion("distributeid =", value, "distributeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeidNotEqualTo(Integer value) {
+            addCriterion("distributeid <>", value, "distributeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeidGreaterThan(Integer value) {
+            addCriterion("distributeid >", value, "distributeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("distributeid >=", value, "distributeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeidLessThan(Integer value) {
+            addCriterion("distributeid <", value, "distributeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeidLessThanOrEqualTo(Integer value) {
+            addCriterion("distributeid <=", value, "distributeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeidIn(List<Integer> values) {
+            addCriterion("distributeid in", values, "distributeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeidNotIn(List<Integer> values) {
+            addCriterion("distributeid not in", values, "distributeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeidBetween(Integer value1, Integer value2) {
+            addCriterion("distributeid between", value1, value2, "distributeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeidNotBetween(Integer value1, Integer value2) {
+            addCriterion("distributeid not between", value1, value2, "distributeid");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

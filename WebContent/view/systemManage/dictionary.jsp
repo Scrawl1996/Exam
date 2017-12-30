@@ -1052,8 +1052,10 @@
 											tr.children("td").eq(2).text());
 
 									//字典描述
+									/* $("#dicDescUp2").val(
+											tr.find(".docID").val()); */
 									$("#dicDescUp2").val(
-											tr.find(".docID").val());
+											tr.children("td").eq(4).text());
 
 									//开启模态框
 									$('#modifyUserInfo2').modal();

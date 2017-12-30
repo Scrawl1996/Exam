@@ -912,3 +912,19 @@ function closeModal_symbol() {
 	// 是否移动的下级部门标记
 	departmentIdEqual = true;
 }
+
+
+
+/**
+ * 内部部门查询按类型
+ */
+function queryDepartIn(){
+	$("[name='departType']").val($("#el_departType option:selected").val());
+//	清空页号然后进行查询
+	clearPageNum();
+}
+
+
+
+
+

@@ -15,6 +15,10 @@ public class Employeeexam {
 
     private String employeetype;
 
+    private String unitid;
+
+    private Integer distributeid;
+
     public Integer getGradeid() {
         return gradeid;
     }
@@ -69,5 +73,21 @@ public class Employeeexam {
 
     public void setEmployeetype(String employeetype) {
         this.employeetype = employeetype == null ? null : employeetype.trim();
+    }
+
+    public String getUnitid() {
+        return unitid;
+    }
+
+    public void setUnitid(String unitid) {
+        this.unitid = unitid == null ? null : unitid.trim();
+    }
+
+    public Integer getDistributeid() {
+        return distributeid;
+    }
+
+    public void setDistributeid(Integer distributeid) {
+        this.distributeid = distributeid;
     }
 }

@@ -162,7 +162,7 @@ function getTree_1(treeList2) {
 								tdStr += "<a href='javascript:void(0)' onclick='modifyUserInfoTree(this)' >修改</a>";
 							}
 
-							if (treeLevel == 1) {
+							if (treeLevel == 1 && dicId!="400" ) {
 								tdStr += "<a href='javascript:void(0)' class='el_delButton' onClick='delcfmTree(this)'>删除</a>";
 							}
 							tdStr += "</td>";

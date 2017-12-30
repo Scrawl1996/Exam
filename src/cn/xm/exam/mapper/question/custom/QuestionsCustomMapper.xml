@@ -254,11 +254,11 @@
 		</where>
 	</select>
 	<sql id="bankGenePaper_where">
-		<if test="1==1">
-			and q.questionId=o.questionId
-		</if>
 		<if test="type!=null">
 			and type=#{type}
+		</if>
+		<if test="1==1">
+			and q.questionId=o.questionId
 		</if>
 		<!-- 创建一级试卷需要一级权限，如果没有一级权限且抽一级题会抽不出来 -->
 		<if test="level=='1' and isManageChangji==null">

@@ -81,6 +81,9 @@
 		<if test="departmentId != null">
 			AND departmentId like '${departmentId}%'
 		</if>
+		<if test="departType != null">
+			AND departmentType=#{departType}
+		</if>
 		<if test="departmentname!=null">
 			and departmentname like '%${departmentname}%'
 		</if>

@@ -114,6 +114,7 @@
 												id="inpend2" name="fendtime" placeholder="结束时间" readonly>
 										</div>
 									</div>
+									<input type="hidden" name="departType"/>
 
 									<!--清空按钮-->
 
@@ -150,10 +151,11 @@
 														<button class="btn btn-primary"
 															onclick="el_addDepartment()">添加部门</button>
 													</shiro:hasPermission>
-													<!-- <select class="btn btn-primary" id="el_departType" title="请选择" name="examLevel">
+													<select class="btn btn-primary" id="el_departType" title="请选择" onchange="queryDepartIn()">
 				                                        <option value="0">内部部门</option>
 				                                        <option value="1">长期外来单位</option>
-				                                    </select> -->
+				                                        <option value="" selected="selected">全部单位</option>
+				                                    </select>
 												</div>
 											</div>
 										</div>

@@ -321,6 +321,17 @@ public class DepartmentAction extends ActionSupport {
 	/*
 	 * 将条件判断之后放到一个集合中
 	 */
+	
+	private String departType;
+	
+	public String getDepartType() {
+		return departType;
+	}
+
+	public void setDepartType(String departType) {
+		this.departType = departType;
+	}
+
 	private Map<String, Object> generateCondition(Map<String, Object> condition) {
 		/** S QLQ 范围管理 */
 		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
@@ -331,6 +342,9 @@ public class DepartmentAction extends ActionSupport {
 		String departmentId = permitted ? null : departmentIdSession;
 		if (ValidateCheck.isNotNull(departmentId)) {
 			condition.put("departmentId", departmentId);
+		}
+		if (ValidateCheck.isNotNull(departType)) {
+			condition.put("departType", departType);
 		}
 		/** S QLQ 范围管理 */
 
