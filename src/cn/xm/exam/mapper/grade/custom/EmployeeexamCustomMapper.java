@@ -134,7 +134,33 @@ public interface EmployeeexamCustomMapper {
 	 * @throws SQLException
 	 */
 	public int updateEmployeeOutTrainStatus(Map<String, Object> condition) throws SQLException;
-
+	
+	
+	/**
+	 * 根据考试ID和身份证号设置外来单位员工的考试成绩
+	 * 条件：考试编号，身份证号，成绩
+	 * @param condition
+	 * @return
+	 * @throws SQLException
+	 */
+	public int updateEmployeeOutGradeInfo(Map<String,Object> condition) throws SQLException;
+	
+	/**
+	 * 根据考试ID查询通过线下考试的员工的分配员工表的主键
+	 * @param examId
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<String> selectPassOutExamDistributeIds(String examId) throws SQLException;
+	
+	/**
+	 * 根据员工分配表的主键批量修改考试状态
+	 * @param list
+	 * @return
+	 * @throws SQLException
+	 */
+	public int updateEmpDistributeExamStatusByIds(List<String> list) throws SQLException;
+	
 	/****** S QLQ ***********/
 	/**
 	 * 添加员工成绩(用于初始化成绩表)

@@ -169,7 +169,30 @@
 			</if>
 		</where>
 	</update>
-
+	
+	<!-- 根据考试编号和身份证号设置外来单位员工的考试成绩 -->
+	<update id="updateEmployeeOutGradeInfo" parameterType="map">
+		UPDATE employeeexam SET grade = #{exam_grade} WHERE examId=#{exam_examId} AND employeeId=#{exam_IdCard}
+	</update>
+	
+	<!-- 根据考试编号查询通过线下考试的员工的分配员工表主键 -->
+	<select id="selectPassOutExamDistributeIds" parameterType="String" resultType="String">
+		SELECT employeeexam.distributeid FROM employeeexam,exam,exampaper WHERE employeeexam.examId = exam.examId 
+			AND exam.paperId = exampaper.paperId AND employeeexam.grade >= exampaper.paperScore*0.9 AND exam.examId = #{value}
+	</select>
+	
+	<!-- 根据员工分配表的主键批量修改考试状态 -->
+	<update id="updateEmpDistributeExamStatusByIds" parameterType="list">
+		UPDATE employeeoutdistribute SET empOutexamStatus = "1" 
+		<where>
+			<foreach collection="list" item="distributeId"
+				open="and distributeid in (" close=")" separator=",">
+				<!--每个遍历需要拼接的串 -->
+				#{distributeId}
+			</foreach>
+		</where>
+	</update>
+	
 	<!-- 查询考试成绩信息的条件 -->
 	<sql id="query_ExamGradesInfo_where">
 

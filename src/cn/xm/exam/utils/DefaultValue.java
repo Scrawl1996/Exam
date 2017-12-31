@@ -12,5 +12,7 @@ public class DefaultValue {
 
 	//历史违章记录年限范围，前两年
 	public static final Integer YEAR_RANGE = 2;
+	//厂级试卷负责部门字典ID
+	public static final String DICTIONARY_ID = "400001";
 
 }

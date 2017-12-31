@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import cn.xm.exam.bean.common.Dictionary;
 import cn.xm.exam.bean.employee.out.Breakrules;
 import cn.xm.exam.bean.employee.out.EmployeeOut;
+import cn.xm.exam.bean.employee.out.Employeeoutdistribute;
 import cn.xm.exam.bean.haul.Haulemployeeout;
 import cn.xm.exam.vo.employee.out.EmployeeOutBaseInfo;
 import cn.xm.exam.vo.exam.ExamEmployeeOutQueryVo;
@@ -154,5 +156,28 @@ public interface EmployeeOutCustomMapper {
 	 * @throws SQLException
 	 */
 	public List<String> getExamIdsByCondition(Map<String, Object> condition) throws SQLException;
-
+	
+	/**
+	 * 初始化外来单位员工分配表
+	 * @param distributeInfoList
+	 * @return
+	 * @throws SQLException
+	 */
+	public int addEmpOutDistributeInfoList(List<Employeeoutdistribute> distributeInfoList) throws SQLException;
+	
+	/**
+	 * 根据字典编号查询字典信息
+	 * @param dictionaryId
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getDictionaryInfoById(String dictionaryId) throws SQLException;
+	
+	/**
+	 * 根据身份证号在外来单位员工分配表中设置外来单位员工的姓名
+	 * @param empOutIdCard
+	 * @return
+	 * @throws SQLException
+	 */
+	public int updateEmployeeOutNameByIdCard() throws SQLException;
 }
