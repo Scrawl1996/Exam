@@ -196,7 +196,32 @@
 			</if>
 		</where>
 	</select>
-
+	
+	<!-- 批量添加外来单位员工分配信息用于初始化表 -->
+	<insert id="addEmpOutDistributeInfoList" parameterType="list">
+		 insert into employeeoutdistribute ( bigid, haulempid, 
+	      unitid, departmentId, outempname, 
+	      empOutIdCard, empOutexamStatus, empOutTrainGrade
+	      )
+	    values 
+	    <foreach collection="list" item="distributeInfoList"
+			separator=",">
+	      (#{distributeInfoList.bigid,jdbcType=VARCHAR}, #{distributeInfoList.haulempid,jdbcType=VARCHAR}, 
+	      #{distributeInfoList.unitid,jdbcType=VARCHAR}, #{distributeInfoList.departmentid,jdbcType=VARCHAR}, #{distributeInfoList.outempname,jdbcType=VARCHAR}, 
+	      #{distributeInfoList.empoutidcard,jdbcType=VARCHAR}, #{distributeInfoList.empoutexamstatus,jdbcType=VARCHAR}, #{distributeInfoList.empouttraingrade,jdbcType=VARCHAR})	      
+	    </foreach>
+	</insert>
+	
+	<!-- 根据字典编号查询字典的描述 -->
+	<select id="getDictionaryInfoById" parameterType="String" resultType="String">
+		SELECT discription FROM dictionary WHERE dictionaryId = #{value}
+	</select>
+	
+	<!-- 根据身份证号设置外来单位员工的姓名 -->
+	<update id="updateEmployeeOutNameByIdCard">
+		UPDATE employeeoutdistribute empdis SET outempname = (SELECT `name` FROM employee_out where idCode = empdis.empOutIdCard)
+	</update>
+	
 	<!-- 查询外部员工的条件 -->
 	<sql id="query_employeeOut_where">
 		<!-- 员工姓名 -->

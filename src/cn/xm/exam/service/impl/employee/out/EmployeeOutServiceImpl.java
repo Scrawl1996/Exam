@@ -1,6 +1,7 @@
 package cn.xm.exam.service.impl.employee.out;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import cn.xm.exam.bean.employee.out.Breakrules;
 import cn.xm.exam.bean.employee.out.BreakrulesExample;
 import cn.xm.exam.bean.employee.out.EmployeeOut;
 import cn.xm.exam.bean.employee.out.EmployeeOutExample;
+import cn.xm.exam.bean.employee.out.Employeeoutdistribute;
 import cn.xm.exam.bean.grade.EmployeeexamExample;
 import cn.xm.exam.bean.haul.Haulemployeeout;
 import cn.xm.exam.mapper.employee.out.BlacklistMapper;
@@ -25,6 +27,7 @@ import cn.xm.exam.mapper.employee.out.custom.EmployeeOutCustomMapper;
 import cn.xm.exam.mapper.grade.EmployeeexamMapper;
 import cn.xm.exam.mapper.haul.HaulemployeeoutMapper;
 import cn.xm.exam.service.employee.out.EmployeeOutService;
+import cn.xm.exam.utils.DefaultValue;
 import cn.xm.exam.utils.PageBean;
 import cn.xm.exam.vo.employee.out.EmployeeOutBaseInfo;
 
@@ -200,6 +203,9 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 	 * @throws Exception
 	 */
 	public int addEmployeeOutBatch(List<EmployeeOut> employeeOutList,List<Haulemployeeout> haulemployeeoutList) throws Exception {
+		//创建一个员工分配表的集合
+		List<Employeeoutdistribute> distributeList = new ArrayList<Employeeoutdistribute>();
+		
 		if(employeeOutList !=null&&employeeOutList.size()>0){
 			//批量导入外来单位的员工的基本信息	
 			employeeOutCustomMapper.addEmployeeOutBatch(employeeOutList);
@@ -225,10 +231,22 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 		//设置参加大修员工表的员工ID
 		for(int i=0;i<haulemployeeoutList.size();i++){
 			haulemployeeoutList.get(i).setEmployeeid(employeeOutIds.get(i));
+			
+			//初始化员工分配
+			distributeList.get(i).setBigid(haulemployeeoutList.get(i).getBigid());//大修ID
+			distributeList.get(i).setHaulempid(haulemployeeoutList.get(i).getBigemployeeoutid());//大修员工ID
+			distributeList.get(i).setUnitid(haulemployeeoutList.get(i).getUnitid());//外来单位ID
+			distributeList.get(i).setEmpoutidcard(haulemployeeoutList.get(i).getEmpoutidcard());//身份证号
+			distributeList.get(i).setEmpoutexamstatus("0");//考试状态
+			distributeList.get(i).setEmpouttraingrade("1");//考试等级
 		}
 		
 		//批量导入参加大修外部员工的基本信息
-		return employeeOutCustomMapper.addHaulEmployeeOutBatch(haulemployeeoutList);
+		int empOutCount = employeeOutCustomMapper.addHaulEmployeeOutBatch(haulemployeeoutList);
+		
+		//调用初始化分配表的方法对其进行初始化
+		addEmpOutDistributeInfoList(distributeList);		
+		return empOutCount;
 	}
 
 	/**
@@ -252,11 +270,12 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 					}
 					return 5;
 				}
-				for (EmployeeOutBaseInfo employeeOutBaseInfo : employeeOutBaseInfoList) {
+				
+				/*for (EmployeeOutBaseInfo employeeOutBaseInfo : employeeOutBaseInfoList) {
 					if(employeeOutBaseInfo.getBigid().equals(bigId)){
 						return 4;
 					}
-				}
+				}*/
 			}
 			return 2;
 			
@@ -337,10 +356,32 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 		int update = employeeOutCustomMapper.updateHaulEmployeeOutInfoByCondition(condition);
 		return update>0?true:false;
 	}
-
+	/**
+	 * 初始化外来单位员工分配表
+	 * @param distributeInfoList
+	 * @return
+	 * @throws SQLException 
+	 * @throws Exception
+	 */
+	@Override
+	public int addEmpOutDistributeInfoList(List<Employeeoutdistribute> distributeInfoList) throws SQLException{
+		//查询安排一级考试的部门ID
+		String departmentId = employeeOutCustomMapper.getDictionaryInfoById(DefaultValue.DICTIONARY_ID);
+		//设置外来单位员工分配部门ID
+		for (Employeeoutdistribute employeeoutdistribute : distributeInfoList) {
+			employeeoutdistribute.setDepartmentid(departmentId);
+		}
+		int count = employeeOutCustomMapper.addEmpOutDistributeInfoList(distributeInfoList);
+		//设置员工分配表的员工姓名
+		employeeOutCustomMapper.updateEmployeeOutNameByIdCard();
+		return count;
+	}
+	
 	@Override
 	public List<Map<String,Object>> getExamEmployeeOuts(Map condition) throws SQLException {
 		return employeeOutCustomMapper.getExamEmployeeOuts(condition);
 	}
+
+	
 
 }

@@ -49,8 +49,24 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 	 */
 	public int addEmployeeOutGradeBatch(List<Employeeexam> employeeOutGrades) throws Exception {
 		// 批量导入员工的成绩
-		int count = employeeexamCustomMapper.insertEmployeeGradeBantch(employeeOutGrades);
-		// 根据考试ID查询通过这次考试的员工身份证号集合和大修ID
+		//int count = employeeexamCustomMapper.insertEmployeeGradeBantch(employeeOutGrades);
+		//采用循环遍历的方法
+		Map<String,Object> updateCondition = new HashMap<String,Object>();
+		for (Employeeexam employeeexam : employeeOutGrades) {
+			updateCondition.put("exam_grade", employeeexam.getGrade());
+			updateCondition.put("exam_examId", employeeexam.getExamid());
+			updateCondition.put("exam_IdCard", employeeexam.getEmployeeid());
+			employeeexamCustomMapper.updateEmployeeOutGradeInfo(updateCondition);
+		}
+		
+		//根据考试ID查询通过这次考试的员工分配表主键
+		String examId = employeeOutGrades.get(0).getExamid();
+		List<String> distributeIds = employeeexamCustomMapper.selectPassOutExamDistributeIds(examId);
+		if(distributeIds.size()>0){
+			employeeexamCustomMapper.updateEmpDistributeExamStatusByIds(distributeIds);
+		}
+		
+		/*// 根据考试ID查询通过这次考试的员工身份证号集合和大修ID
 		String examId = employeeOutGrades.get(0).getExamid();
 		List<EmployeeExamGrade> employeeOutExamInfoList = employeeexamCustomMapper
 				.getEmployeeIdCardsAndBigIdByExamId(examId);
@@ -63,8 +79,8 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 			condition.put("bigId", bigId);
 			condition.put("employeeOutExamInfoList", employeeOutExamInfoList);
 			employeeexamCustomMapper.updateEmployeeOutTrainStatus(condition);
-		}
-		return count;
+		}*/
+		return employeeOutGrades.size();
 	}
 
 	@Override

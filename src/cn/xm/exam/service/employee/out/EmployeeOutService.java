@@ -6,6 +6,7 @@ import java.util.Map;
 
 import cn.xm.exam.bean.employee.out.Breakrules;
 import cn.xm.exam.bean.employee.out.EmployeeOut;
+import cn.xm.exam.bean.employee.out.Employeeoutdistribute;
 import cn.xm.exam.bean.haul.Haulemployeeout;
 import cn.xm.exam.utils.PageBean;
 import cn.xm.exam.vo.employee.out.EmployeeOutBaseInfo;
@@ -202,6 +203,15 @@ public interface EmployeeOutService {
 	 * @throws Exception
 	 */
 	public boolean updateHaulEmployeeOutInfoByCondition(Map<String,Object> condition) throws Exception;
+	
+	/**
+	 * 初始化外来单位员工分配表
+	 * @param distributeInfoList
+	 * @return
+	 * @throws Exception
+	 */
+	public int addEmpOutDistributeInfoList(List<Employeeoutdistribute> distributeInfoList) throws Exception;
+	
 	/********** S Qlq *****************/
 	/**
 	 * 条件根据查询外部参考员工

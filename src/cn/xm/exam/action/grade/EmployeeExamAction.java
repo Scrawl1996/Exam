@@ -175,12 +175,12 @@ public class EmployeeExamAction extends ActionSupport{
 	
 	//批量导入线下考试员工的成绩信息
 	public  String importEmployeeGrade() {
-		//根据考试ID批量删除外部员工在成绩表中的信息
-		boolean isDelete = false;
+		//根据考试ID批量删除外部员工在成绩表中的信息,修改为采用update语句进行修改
+		boolean isDelete = true;
 		try {
 			List<Employeeexam> employeeOutGradeInfo = (List<Employeeexam>)JSON2BeanList.json2list(employeeOutGradeInfoStr);
 			result = new HashMap<String,Object>();
-			isDelete = employeeExamService.deleteEmployeeOutGradeBatch(examId);
+			//isDelete = employeeExamService.deleteEmployeeOutGradeBatch(examId);
 			if(isDelete){
 				//调用service方法批量插入外部员工成绩
 				int isAdd = employeeExamService.addEmployeeOutGradeBatch(employeeOutGradeInfo);	
