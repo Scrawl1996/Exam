@@ -19,6 +19,8 @@ public class Employeeexam {
 
     private Integer distributeid;
 
+    private String bigemployeeoutid;
+
     public Integer getGradeid() {
         return gradeid;
     }
@@ -89,5 +91,13 @@ public class Employeeexam {
 
     public void setDistributeid(Integer distributeid) {
         this.distributeid = distributeid;
+    }
+
+    public String getBigemployeeoutid() {
+        return bigemployeeoutid;
+    }
+
+    public void setBigemployeeoutid(String bigemployeeoutid) {
+        this.bigemployeeoutid = bigemployeeoutid == null ? null : bigemployeeoutid.trim();
     }
 }

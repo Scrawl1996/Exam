@@ -20,6 +20,7 @@ import cn.xm.exam.bean.employee.out.EmployeeOutExample;
 import cn.xm.exam.bean.employee.out.Employeeoutdistribute;
 import cn.xm.exam.bean.grade.EmployeeexamExample;
 import cn.xm.exam.bean.haul.Haulemployeeout;
+import cn.xm.exam.bean.haul.HaulemployeeoutExample;
 import cn.xm.exam.mapper.employee.out.BlacklistMapper;
 import cn.xm.exam.mapper.employee.out.BreakrulesMapper;
 import cn.xm.exam.mapper.employee.out.EmployeeOutMapper;
@@ -297,7 +298,7 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 	}
 
 	/**
-	 * 根据员工身份证号和大修ID删除一次大修中的员工信息
+	 * 根据员工身份证号和大修ID，大修员工ID删除一次大修中的员工信息
 	 * @param condition
 	 * @return
 	 * @throws Exception
@@ -306,9 +307,17 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 		//获取到员工的基本信息
 		EmployeeOutBaseInfo employeeOutBaseInfo = employeeOutCustomMapper.getEmployeeOutInfoByCondition(condition);
 		
-		//判断该员工是否已经进入黑名单
-		if(employeeOutBaseInfo.getIsinblacklist().equals("是")){
-			/*Integer minusnum = Integer.valueOf(employeeOutBaseInfo.getMinusnum());
+		//根据大修ID和身份证号查询这次大修下的员工信息
+		HaulemployeeoutExample haulEmployeeOutExample = new HaulemployeeoutExample();
+		HaulemployeeoutExample.Criteria criteriaHaulEmpOut = haulEmployeeOutExample.createCriteria();
+		criteriaHaulEmpOut.andBigidEqualTo(condition.get("bigId").toString());
+		criteriaHaulEmpOut.andEmpoutidcardEqualTo(condition.get("employeeOutIdCard").toString());
+		List<Haulemployeeout> listInfo = haulEmployeeOutMapper.selectByExample(haulEmployeeOutExample);
+		//判断若集合中的个数为1表示该员工在这次大修下只参加了一个单位将违章信息和黑名单记录删除，否则不删除这些信息
+		if(listInfo.size()==1){			
+			//判断该员工是否已经进入黑名单
+			if(employeeOutBaseInfo.getIsinblacklist().equals("是")){
+				/*Integer minusnum = Integer.valueOf(employeeOutBaseInfo.getMinusnum());
 			Integer minusnumSum = Integer.valueOf(employeeOutBaseInfo.getMinusnumsum());
 			//判断删除员工后该员工的违章积分是否够12，如果不够将其从黑名单中移除
 			if((minusnumSum-minusnum)<12){
@@ -317,19 +326,20 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 				criteriaBlackList.andBlackidcardEqualTo(employeeOutBaseInfo.getIdcard());
 				blacklistMapper.deleteByExample(blackListExample);
 			}*/
-			BlacklistExample blackListExample = new BlacklistExample();
-			BlacklistExample.Criteria criteriaBlackList = blackListExample.createCriteria();
-			criteriaBlackList.andBlackidcardEqualTo(employeeOutBaseInfo.getIdcard());
-			blacklistMapper.deleteByExample(blackListExample);
+				BlacklistExample blackListExample = new BlacklistExample();
+				BlacklistExample.Criteria criteriaBlackList = blackListExample.createCriteria();
+				criteriaBlackList.andBlackidcardEqualTo(employeeOutBaseInfo.getIdcard());
+				blacklistMapper.deleteByExample(blackListExample);
+			}
+			
+			//删除违章表中的信息		
+			BreakrulesExample breakRulesExample = new BreakrulesExample();
+			BreakrulesExample.Criteria criteriaBreakRules = breakRulesExample.createCriteria();
+			criteriaBreakRules.andBigemployeeoutidEqualTo(employeeOutBaseInfo.getBigemployeeoutid());
+			breakRulesMapper.deleteByExample(breakRulesExample);
 		}
 		
-		//删除违章表中的信息		
-		BreakrulesExample breakRulesExample = new BreakrulesExample();
-		BreakrulesExample.Criteria criteriaBreakRules = breakRulesExample.createCriteria();
-		criteriaBreakRules.andBigemployeeoutidEqualTo(employeeOutBaseInfo.getBigemployeeoutid());
-		breakRulesMapper.deleteByExample(breakRulesExample);
-		
-		//查询该员工这次大修参加的考试的id集合
+		/*//查询该员工这次大修参加的考试的id集合
 		List<String> examIds = employeeOutCustomMapper.getExamIdsByCondition(condition);
 		if (examIds != null && examIds.size() > 0) {		
 			//删除成绩表中的信息,根据考试ID集合和员工身份证号删除成绩信息
@@ -338,7 +348,13 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 			criteriaEmployeeExamInfo.andExamidIn(examIds);
 			criteriaEmployeeExamInfo.andEmployeeidEqualTo(employeeOutBaseInfo.getIdcard());
 			employeeExamMapper.deleteByExample(employeeExamExample);
-		}
+		}*/
+		
+		//根据大修员工ID删除成绩表中的信息
+		EmployeeexamExample employeeExamExample = new EmployeeexamExample();
+		EmployeeexamExample.Criteria criteriaEmployeeExamInfo = employeeExamExample.createCriteria();
+		criteriaEmployeeExamInfo.andBigemployeeoutidEqualTo(employeeOutBaseInfo.getBigemployeeoutid());
+		employeeExamMapper.deleteByExample(employeeExamExample);
 		
 		//删除参加大修员工表中的信息
 		int deleteHaulEmployeeOutInfo = haulEmployeeOutMapper.deleteByPrimaryKey(employeeOutBaseInfo.getBigemployeeoutid());
@@ -347,7 +363,7 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 	}
 
 	/**
-	 * 根据大修ID和身份证号修改外来单位员工的信息
+	 * 根据大修员工ID修改外来单位员工的信息
 	 * @param condition
 	 * @return
 	 * @throws Exception

@@ -480,6 +480,9 @@ function el_modifyEmp(obj) {
 	// 向修改表单的隐藏域中设置值
 	$("#updateAndDelete_employeeOutIdCard").val($tds.eq(4).text());
 	$("#updateAndDelete_bigId").val(bigId);
+	//大修员工ID
+	var bigEmployeeOutId = $(obj).parents("tr").find(".find_bigEmployeeOutId").val();
+	$("#updateAndDelete_bigemployeeOutId").val(bigEmployeeOutId);
 	$("#el_modifyEmp").modal();
 }
 
@@ -699,6 +702,9 @@ function delcfm(obj) {
 	$("#updateAndDelete_employeeOutIdCard").val($tds.eq(4).text());
 	var bigId = $(obj).parents("tr").find(".find_bigId").val();
 	$("#updateAndDelete_bigId").val(bigId);
+	//大修员工ID
+	var bigEmployeeOutId = $(obj).parents("tr").find(".find_bigEmployeeOutId").val();
+	$("#updateAndDelete_bigemployeeOutId").val(bigEmployeeOutId);
 	$('#delcfmModel').modal();
 }
 // 点击删除模态框的确定按钮执行的操作

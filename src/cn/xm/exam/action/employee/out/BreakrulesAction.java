@@ -1,6 +1,5 @@
 package cn.xm.exam.action.employee.out;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -19,10 +18,9 @@ import com.opensymphony.xwork2.ActionSupport;
 import cn.xm.exam.bean.employee.out.Blacklist;
 import cn.xm.exam.bean.employee.out.Breakrules;
 import cn.xm.exam.bean.employee.out.EmployeeOut;
-import cn.xm.exam.bean.haul.Haulemployeeout;
-import cn.xm.exam.bean.haul.Haulunit;
 import cn.xm.exam.service.employee.out.BreakrulesService;
-import cn.xm.exam.service.employee.out.ProjectService;
+import cn.xm.exam.utils.DateHandler;
+import cn.xm.exam.utils.DefaultValue;
 import cn.xm.exam.utils.ValidateCheck;
 /**
  * 外部员工违章管理
@@ -78,6 +76,18 @@ public class BreakrulesAction extends ActionSupport {
 	private String addempBreakId;
 	// 单位编号
 	private String addUnitidM;
+	
+	//违章信息类型
+	private String empBreakInfoType;
+	
+	
+	public String getEmpBreakInfoType() {
+		return empBreakInfoType;
+	}
+
+	public void setEmpBreakInfoType(String empBreakInfoType) {
+		this.empBreakInfoType = empBreakInfoType;
+	}
 
 	public String getAddUnitidM() {
 		return addUnitidM;
@@ -334,7 +344,10 @@ public class BreakrulesAction extends ActionSupport {
 		map1.put("unitid", unitid);// 单位编号(项目编号)
 		map1.put("curPage", curPage);// 当前页页号
 		map1.put("curTotal", curTotal);// 每页显示的记录数
-
+		
+		//增加违章记录类型条件
+		map1 = generateConditionForbreakInfoType(map1);
+		
 		List<Map<String, Object>> selectLeftToTable = breakrulesService.selectLeftToTable(map1);
 		
 
@@ -378,8 +391,8 @@ public class BreakrulesAction extends ActionSupport {
 		// 1.计算出该大修下的该职工的违章总积分 (修改前)
 		Map<String, Object> mapSum = new LinkedHashMap<String, Object>();
 		mapSum.put("employeeid", breakrules.getEmployeeid());// 职工id
-		mapSum.put("bigid", upBigid);// 大修id
-		Integer sumBreakScoreBefore = breakrulesService.selSumBreakScoreByEmpId(mapSum);
+		mapSum.put("bigemployeeoutid", breakrules.getBigemployeeoutid());// 大修员工id
+		Integer sumBreakScoreBefore = breakrulesService.selSumBreakScoreByEmpId(breakrules.getEmployeeid());
 		if (sumBreakScoreBefore == null) {
 			sumBreakScoreBefore = 0;
 		}
@@ -392,8 +405,8 @@ public class BreakrulesAction extends ActionSupport {
 		// 3.计算出该大修下的该职工的违章总积分 (修改后)
 		Map<String, Object> mapSum2 = new LinkedHashMap<String, Object>();
 		mapSum2.put("employeeid", breakrules.getEmployeeid());// 职工id
-		mapSum2.put("bigid", upBigid);// 大修id
-		Integer sumBreakScoreNow = breakrulesService.selSumBreakScoreByEmpId(mapSum2);
+		mapSum2.put("bigemployeeoutid", breakrules.getBigemployeeoutid());// 大修员工id
+		Integer sumBreakScoreNow = breakrulesService.selSumBreakScoreByEmpId(breakrules.getEmployeeid());
 		if (sumBreakScoreNow == null) {
 			sumBreakScoreNow = 0;
 		}
@@ -421,7 +434,7 @@ public class BreakrulesAction extends ActionSupport {
 					blacklist.setEmployeeid(breakrules.getEmployeeid());// 员工id
 					blacklist.setTime(new Date());// 加入黑名单的时间
 					blacklist.setTemporaryinstatus("0");// 设置为临时
-					blacklist.setDescription("该职工被永久列入黑名单");// 描述
+					blacklist.setDescription("该职工临时列入黑名单");// 描述
 					blacklist.setEmployeestatus("1");// 表示外部员工
 					// 将黑名单保存在黑名单表中
 					int addBlackListRes = breakrulesService.addBlackList(blacklist);
@@ -483,14 +496,15 @@ public class BreakrulesAction extends ActionSupport {
 		String employeeoutBreakId = ServletActionContext.getRequest().getParameter("delEmployeeBreakId");
 		// 接收大修单位编号
 		String delbigid = ServletActionContext.getRequest().getParameter("delbigid");
-
+		// 接收大修员工ID
+		String delBigEmployeeOutId = ServletActionContext.getRequest().getParameter("delBigEmployeeOutId");
 		
 
 		// 2.计算出该大修下的该职工的违章总积分 (删除前)
 		Map<String, Object> mapSum = new LinkedHashMap<String, Object>();
 		mapSum.put("employeeid", delEmployeeId);// 职工id
-		mapSum.put("bigid", delbigid);// 大修id
-		Integer sumBreakScoreBefore = breakrulesService.selSumBreakScoreByEmpId(mapSum);
+		mapSum.put("bigemployeeoutid", delBigEmployeeOutId);// 大修员工id
+		Integer sumBreakScoreBefore = breakrulesService.selSumBreakScoreByEmpId(delEmployeeId);
 		if (sumBreakScoreBefore == null) {
 			sumBreakScoreBefore = 0;
 		}
@@ -503,8 +517,8 @@ public class BreakrulesAction extends ActionSupport {
 			// 计算出删除后的违章记分
 			Map<String, Object> mapSum2 = new LinkedHashMap<String, Object>();
 			mapSum2.put("employeeid", delEmployeeId);// 职工id
-			mapSum2.put("bigid", delbigid);// 大修id
-			Integer sumBreakScoreNow = breakrulesService.selSumBreakScoreByEmpId(mapSum2);//删除后的违章总记分
+			mapSum2.put("bigemployeeoutid", delBigEmployeeOutId);// 大修员工id
+			Integer sumBreakScoreNow = breakrulesService.selSumBreakScoreByEmpId(delEmployeeId);//删除后的违章总记分
 			if (sumBreakScoreNow < 12) {
 				// 则将黑名单信息删除
 				// 0.1将该员工的信息从黑名单表中删除(根据职工id进行删除),只删除外部员工的
@@ -573,7 +587,7 @@ public class BreakrulesAction extends ActionSupport {
 		// 2.根据大修id和职工id计算出总积分
 		Map<String, Object> mapSum = new LinkedHashMap<String, Object>();
 		mapSum.put("employeeid", employeeId);// 职工id
-		mapSum.put("bigid", bigid);// 大修id
+		mapSum.put("bigemployeeoutid", BigEmployeeoutId);// 大修员工id
 		/**S  QLQ**/
 		if (ValidateCheck.isNotNull(fstarttime)) {
 			mapSum.put("fstarttime", fstarttime);
@@ -581,6 +595,8 @@ public class BreakrulesAction extends ActionSupport {
 		if (ValidateCheck.isNotNull(fendtime)) {
 			mapSum.put("fendtime", fendtime);
 		}
+		//增加违章记录类型条件
+		mapSum = generateConditionForbreakInfoType(mapSum);
 		/***S QLQ封装查询条件*****/
 		Integer sumBreakScore = breakrulesService.selSumBreakScoreByEmpId(mapSum);
 		if (sumBreakScore == null) {
@@ -612,6 +628,8 @@ public class BreakrulesAction extends ActionSupport {
 			mapbr.put("fendtime", fendtime);
 		}
 		/***S QLQ封装查询条件*****/
+		//增加违章记录类型条件
+		mapbr = generateConditionForbreakInfoType(mapbr);
 		List<Breakrules> breakruleList = breakrulesService.selBreakRulesByEmployeeId(mapbr);
 
 		// 根据外来职工id获取黑名单状态
@@ -655,8 +673,8 @@ public class BreakrulesAction extends ActionSupport {
 		// 0.计算出该外部员工原来的违章记分
 		Map<String, Object> mapSumBefore = new LinkedHashMap<String, Object>();
 		mapSumBefore.put("employeeid", breakrules.getEmployeeid());// 职工id
-		mapSumBefore.put("bigid", addHaulBigId);// 大修id
-		Integer sumBreakScoreBefore = breakrulesService.selSumBreakScoreByEmpId(mapSumBefore);// 违章记分
+		mapSumBefore.put("bigemployeeoutid", breakrules.getBigemployeeoutid());// 大修员工id
+		Integer sumBreakScoreBefore = breakrulesService.selSumBreakScoreByEmpId(breakrules.getEmployeeid());// 违章记分
 		if (sumBreakScoreBefore == null) {
 			sumBreakScoreBefore = 0;
 		}
@@ -670,8 +688,8 @@ public class BreakrulesAction extends ActionSupport {
 			// 2.计算出违章信息添加到违章表之后该大修下的该职工的违章总积分（添加后的违章记分）当前
 			Map<String, Object> mapSum = new LinkedHashMap<String, Object>();
 			mapSum.put("employeeid", breakrules.getEmployeeid());// 职工id
-			mapSum.put("bigid", addHaulBigId);// 大修id
-			Integer sumBreakScore = breakrulesService.selSumBreakScoreByEmpId(mapSum);
+			mapSum.put("bigemployeeoutid", breakrules.getBigemployeeoutid());// 大修员工id
+			Integer sumBreakScore = breakrulesService.selSumBreakScoreByEmpId(breakrules.getEmployeeid());
 			//本次违章记分>=12,
 			if((sumBreakScore-sumBreakScoreBefore)>=12){//加入黑名单，永久状态
 				// 添加到黑名单
@@ -726,8 +744,8 @@ public class BreakrulesAction extends ActionSupport {
 			// 2.计算出违章信息添加到违章表之后该大修下的该职工的违章总积分（添加后的违章记分）当前
 			Map<String, Object> mapSum = new LinkedHashMap<String, Object>();
 			mapSum.put("employeeid", breakrules.getEmployeeid());// 职工id
-			mapSum.put("bigid", addHaulBigId);// 大修id
-			Integer sumBreakScore = breakrulesService.selSumBreakScoreByEmpId(mapSum);
+			mapSum.put("bigemployeeoutid", breakrules.getBigemployeeoutid());// 大修员工id
+			Integer sumBreakScore = breakrulesService.selSumBreakScoreByEmpId(breakrules.getEmployeeid());
 			
 			//本次违章记分>=12
 			if((sumBreakScore-sumBreakScoreBefore)>=12){//将黑名单状态设置为永久状态，只更新黑名单状态
@@ -832,6 +850,10 @@ public class BreakrulesAction extends ActionSupport {
 					mapF1.put("sex", sex);// 性别
 					mapF1.put("curPage", curpage);// （当前页页号-1）*每页显示的记录数 每页显示的记录数
 					mapF1.put("curTotal", cuttotal);// 每页显示的记录数
+					
+					//增加违章记录类型条件
+					mapF1 = generateConditionForbreakInfoType(mapF1);
+					
 					List<Map<String, Object>> selectMsgByFyCondition = breakrulesService.blackStatusFalse(mapF1);
 
 					// 总条数数
@@ -875,8 +897,10 @@ public class BreakrulesAction extends ActionSupport {
 					mapblack.put("unitid", unitid);// 单位编号(部门编号)
 					mapblack.put("curPage", curpage);// 当前页页号
 					mapblack.put("curTotal", Integer.parseInt(curTotal));// 每页显示的记录数
-
-				
+					
+					//增加违章记录类型条件
+					mapblack = generateConditionForbreakInfoType(mapblack);				
+					
 					List<Map<String, Object>> selLeftTreeAndConditionBlack = breakrulesService
 							.selLeftTreeAndConditionBlack(mapblack);
 					
@@ -932,6 +956,10 @@ public class BreakrulesAction extends ActionSupport {
 				map6.put("sex", sex);// 性别
 				map6.put("curPage", curpage);// （当前页页号-1）*每页显示的记录数 每页显示的记录数
 				map6.put("curTotal", cuttotal);// 每页显示的记录数
+				
+				//增加违章记录类型条件
+				map6 = generateConditionForbreakInfoType(map6);
+							
 				List<Map<String, Object>> selectMsgByFyCondition = breakrulesService.selectMsgByFyCondition(map6);
 
 				// 查询总条数
@@ -1005,7 +1033,8 @@ public class BreakrulesAction extends ActionSupport {
 		Map<String, Object> mapInit = new LinkedHashMap<String, Object>();
 		mapInit.put("curPage", (Integer.parseInt(curPage) - 1) * (Integer.parseInt(curTotal)));// (当前页页号-1)*每页显示的记录数
 		mapInit.put("curTotal", Integer.parseInt(curTotal));// 每页显示的记录数
-
+		//增加违章记录类型条件
+		mapInit = generateConditionForbreakInfoType(mapInit);
 		List<Map<String, Object>> selectLeftToTable = breakrulesService.initPage(mapInit);
 		// 查询记录总条数
 		int count = breakrulesService.initPageCount();
@@ -1041,6 +1070,32 @@ public class BreakrulesAction extends ActionSupport {
 		map.put("haulInfoName", haulInfoName);
 		
 		return "ok";
+	}
+	
+	/*****leilong******/
+	//组装查询条件,封装违章信息显示类型的条件
+	private Map<String,Object> generateConditionForbreakInfoType(Map<String,Object> condition){
+		/*判断若为0表示显示的是当前违章信息，封装条件获取当前年
+		 * 若为1表示的是历史违章信息，封装条件为历史年份
+		 * 默认为当前年的违章信息
+		 */
+		if(empBreakInfoType!=null &&empBreakInfoType.equals("1")){
+			//获取系统当前时间为积分周期为一年封装条件
+			String currentYear = DateHandler.dateToString(new Date(), "yyyy");			
+			Integer currentYear_Int = Integer.valueOf(currentYear);			
+			//根据当前年计算历史记录年份
+			String historyYear = String.valueOf(currentYear_Int-DefaultValue.YEAR_RANGE);
+			if(ValidateCheck.isNotNull(historyYear)){
+				condition.put("history_Year", historyYear+"0101");
+			}
+		}else{
+			//获取系统当前时间为积分周期为一年封装条件
+			String currentYear = DateHandler.dateToString(new Date(), "yyyy");			
+			if(ValidateCheck.isNotNull(currentYear)){
+				condition.put("current_Year", currentYear);
+			}
+		}
+		return condition;
 	}
 	
 }

@@ -67,6 +67,7 @@ public interface BreakrulesCustomMapper {
      * <!-- 根据职工id去违章表中找到所有职工id等于当前职工id的违章记录，并算出其总违章记分 -->
      */
     Integer selSumBreakScoreByEmpId(Map<String,Object> map);
+    Integer selSumBreakScoreByEmpId1(String bigEmployeeOutId);
     
     /**
      * <!-- 根据职工id去黑名单表中删除对应的记录-->

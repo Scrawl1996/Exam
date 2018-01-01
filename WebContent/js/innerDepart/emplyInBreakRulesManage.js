@@ -472,6 +472,9 @@ function clearPagenum() {
 	findSaveBtn();
 }
 function findSaveBtn() {
+	//设置违章积分类型
+	var type = $("#el_breakType").val();
+	$("#breakInfo_Type").val(type);
 		$.ajax({
 			url : contextPath+"/empInbreakrules_leftTreeAndConditionShowMsg.action",
 			data : $("#findForm").serialize(),

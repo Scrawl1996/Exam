@@ -101,6 +101,8 @@
 		<input id="detailEmployeeId" name="detailEmployeeId" type="hidden"	value="" />
 		<input id="detailBigEmployeeoutId"	name="detailBigEmployeeoutId" type="hidden" value="" /> 
 		<input id="detailUnitBigHual" name="detailUnitBigHual" type="hidden" value="" />
+		<!-- 隐藏培训信息类型 -->
+		<input id="detail_breakInfoType" name="empBreakInfoType" type="hidden" value="0" />	
 	</form>
 
 	<!-- 用于提交数据的form表单结束 -->
@@ -225,6 +227,9 @@
 										value="" />
 									<!-- 隐藏单位(部门)编号 -->
 									<input id="ffunitId" name="funitId" type="hidden" value="" />
+									<!-- 隐藏违章信息查询类型，默认查询当前年 -->
+									<input id="breakInfo_Type" type="hidden" value="0"
+										name="empBreakInfoType">
 									<!--提交查询按钮-->
 									<button type="button" onclick="clearPagenum()" class="btn btn-primary el_queryButton btn-sm">查询</button>
 									<button type="button" onclick="clearBtn()" class="btn btn-default el_queryButton btn-sm" style="right: 12px">清空</button>
@@ -280,7 +285,13 @@
 													<button id="el_addBreakRules" class="btn btn-primary"
 														onclick="el_addBreakInfo()">添加违章信息</button>
 														</shiro:hasPermission>
+													
 												</div>
+												<select class="btn btn-primary" id="el_breakType"
+														title="请选择" onclick="historyBreakInfoFind()">														
+														<option value="0">当前违章</option>
+														<option value="1">历史违章</option>
+													</select>
 											</div>
 
 										</div>
@@ -472,12 +483,12 @@
 															<td>性别</td>
 														</tr>
 														<tr>
-															<td id="upName">asdf</td>
-															<!-- <td id="upPhone">asdf</td> -->
-															<td id="upbreakScore">asdf</td>
-															<td id="upunitName">asdf</td>
-															<td id="upIsBreak">asdf</td>
-															<td id="upSex">asdf</td>
+															<td id="upName"></td>
+															<!-- <td id="upPhone"></td> -->
+															<td id="upbreakScore"></td>
+															<td id="upunitName"></td>
+															<td id="upIsBreak"></td>
+															<td id="upSex"></td>
 														</tr>
 													</table>
 												</div>
