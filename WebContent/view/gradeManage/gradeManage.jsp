@@ -202,7 +202,7 @@
                                         <input type="hidden" id="input_examId" name="examId">
                                     </div>
                                     <div id="el_importUploadButton">
-                                    	<button type="button" class="btn-default btn btn-sm" onclick="importExcelFile()">上传</button>
+                                    	<button type="button" id="importButton"  class="btn-default btn btn-sm" onclick="importExcelFile()">上传</button>
                                     </div>
                                  
                                     <div id="el_importInfo">

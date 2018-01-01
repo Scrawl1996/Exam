@@ -146,12 +146,12 @@ public interface EmployeeexamCustomMapper {
 	public int updateEmployeeOutGradeInfo(Map<String,Object> condition) throws SQLException;
 	
 	/**
-	 * 根据考试ID查询通过线下考试的员工的分配员工表的主键
+	 * 根据考试ID查询通过线下考试的员工的分配员工表的主键，和大修员工ID
 	 * @param examId
-	 * @return
+	 * @return map中的键 distributeid，bigEmployeeOutId
 	 * @throws SQLException
 	 */
-	public List<String> selectPassOutExamDistributeIds(String examId) throws SQLException;
+	public List<Map<String,Object>> selectPassOutExamDistributeIds(String examId) throws SQLException;
 	
 	/**
 	 * 根据员工分配表的主键批量修改考试状态
@@ -160,6 +160,14 @@ public interface EmployeeexamCustomMapper {
 	 * @throws SQLException
 	 */
 	public int updateEmpDistributeExamStatusByIds(List<String> list) throws SQLException;
+	
+	/**
+	 * 根据大修员工ID集合批量修改培训状态
+	 * @param list
+	 * @return
+	 * @throws SQLException
+	 */
+	public int updateHaulEmployeeOutTrainStatusByIds(List<String> list) throws SQLException;
 	
 	/****** S QLQ ***********/
 	/**

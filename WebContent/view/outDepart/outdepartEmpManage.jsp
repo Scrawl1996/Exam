@@ -129,7 +129,7 @@ hasOperatingEmpout = true;
 											</div>
 										</div>
 
-										<div class="col-md-3 el_qlmQuery">
+										<!-- <div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
 												<span class="el_spans">考试情况：</span> <select
 													class="selectpicker form-control" title="请选择"
@@ -141,9 +141,7 @@ hasOperatingEmpout = true;
 													<option value="0">未参加培训</option>
 												</select>
 											</div>
-										</div>
-									</div>
-									<div class="row el_queryBoxrow">
+										</div> -->
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
 												<span class="el_spans">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：</span>
@@ -154,6 +152,17 @@ hasOperatingEmpout = true;
 											</div>
 										</div>
 									</div>
+									<!-- <div class="row el_queryBoxrow">
+										<div class="col-md-3 el_qlmQuery">
+											<div class="input-group" role="toolbar">
+												<span class="el_spans">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：</span>
+												<select class="selectpicker form-control" title="请选择"
+													name="employeeType" id="query_empType">
+
+												</select>
+											</div>
+										</div>
+									</div> -->
 									<!-- 隐藏部门ID和大修ID -->
 									<input type="hidden" name="unitId" id="query_unitId" /> <input
 										type="hidden" name="bigId" id="query_bigId" />
@@ -214,7 +223,7 @@ hasOperatingEmpout = true;
 												<th>工种</th>
 												<th>违章积分</th>
 												<th>黑名单状态</th>
-												<th>考试情况</th>
+												<!-- <th>考试情况</th> -->
 												<th width="200">操作</th>
 											</tr>
 										</thead>
@@ -638,10 +647,10 @@ hasOperatingEmpout = true;
 															<td>黑名单状态:</td>
 															<td id="details_employeeOutIsBlack"></td>
 														</tr>
-														<tr>
+														<!-- <tr>
 															<td>安全培训情况:</td>
 															<td id="details_employeeOutTrainStatus"></td>
-														</tr>
+														</tr> -->
 														<tr>
 															<td>所属单位:</td>
 															<td id="details_departmentName"></td>
