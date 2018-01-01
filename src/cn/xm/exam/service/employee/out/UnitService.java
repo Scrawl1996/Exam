@@ -192,6 +192,6 @@ public interface UnitService {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getUnitidsAndNamesByHaulId(String haulId) throws SQLException;
+	public List<Map<String, Object>> getUnitidsAndNamesByHaulId(String haulId,String departmentId) throws SQLException;
 	/**************** E qlq **********************/
 }

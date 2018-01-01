@@ -199,7 +199,7 @@ label.success {
 
 							<div class="input-group el_modellist" role="toolbar">
 								<span class="el_spans">创建时间：</span> <input type="text"
-									name="exam.createtime" class="wicon form-control"
+									name="exam.createtime" class="wicon el_noVlaue form-control"
 									value="<fmt:formatDate pattern='yyyy-MM-dd HH:mm:ss' value="${response.examBaseInfo.createtime}"/>"
 									readonly />
 							</div>
@@ -377,7 +377,7 @@ label.success {
 												<!-- 隐藏一个培训情况 -->
 												<input type="hidden"
 													name="queryOuterEmployeesCondition.trainStatus"
-													value="${response.examBaseInfo.examlevel - 1 }" />
+													value="${response.examBaseInfo.examlevel }" />
 												<div class="row">
 
 													<div class="el_qlmQuery">
@@ -489,7 +489,6 @@ label.success {
 													<th>所属部门</th>
 													<th>工种</th>
 													<th>违章积分</th>
-													<th>考试情况</th>
 												</tr>
 											</thead>
 											<tbody id="outEmployeeTable">

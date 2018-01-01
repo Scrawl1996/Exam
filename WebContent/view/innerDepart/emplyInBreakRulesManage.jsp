@@ -386,7 +386,7 @@
 													value="" />
 												<div class="input-group el_modellist" role="toolbar">
 													<span class="el_spans">违章时间：</span> <input type="text"
-														id="test41" class="workinput wicon form-control"
+														id="test41" class="workinput wicon form-control el_noVlaue"
 														name="emplyinBreakrules.empinbreaktime" readonly />
 												</div>
 

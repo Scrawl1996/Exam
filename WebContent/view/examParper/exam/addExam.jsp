@@ -395,7 +395,6 @@
 													<th>所属部门</th>
 													<th>工种</th>
 													<th>违章积分</th>
-													<th>考试情况</th>
 												</tr>
 											</thead>
 											<tbody id="outEmployeeTable">

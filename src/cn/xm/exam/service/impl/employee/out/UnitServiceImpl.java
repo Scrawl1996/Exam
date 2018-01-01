@@ -249,9 +249,9 @@ public class UnitServiceImpl implements UnitService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getUnitidsAndNamesByHaulId(String haulId) throws SQLException {
+	public List<Map<String, Object>> getUnitidsAndNamesByHaulId(String haulId,String departmentId) throws SQLException {
 		// 1.根据大修ID查出大秀部门Id
-		List<String> haulUnitIds = haulunitCustomMapper.selectUnitidsByHaulId(haulId);
+		List<String> haulUnitIds = haulunitCustomMapper.selectUnitidsByHaulId(haulId,departmentId);
 		List<Map<String, Object>> unitidsAndNames = null;
 		// 2.根据部门ID查出部门名称
 		if (haulUnitIds != null && haulUnitIds.size() > 0) {

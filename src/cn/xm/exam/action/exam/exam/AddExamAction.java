@@ -164,6 +164,10 @@ public class AddExamAction extends ActionSupport {
 	}
 
 	private Map generateOutCondition(Map condition) {
+//		將本部门的ID放入查询条件
+		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
+		String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
+		condition.put("departmentId", departmentIdSession);
 		if (ValidateCheck.isNotNull(queryOuterEmployeesCondition.getUnits())) {
 			String[] units = queryOuterEmployeesCondition.getUnits().split(",");
 			List<String> units_list = Arrays.asList(units);

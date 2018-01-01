@@ -19,5 +19,10 @@
 		<action name="updateUnit" class="updateUnitAction"></action>
 		<!-- 修改单位基本信息 -->
 		<action name="deleteUnit" class="deleteUnitAction"></action>
+		
+		
+		<!--分配员工  -->
+		
+		
 	</package>
 </struts>
