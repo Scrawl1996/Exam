@@ -270,7 +270,8 @@ function initData() {
 		url : contextPath+"/breakrules_initPage.action",
 		data : {
 			"curPage" : $("#yeHao").val(),// 当前页页号
-			"curTotal" : $("#jiLuShu").val()
+			"curTotal" : $("#jiLuShu").val(),
+			"empBreakInfoType":$("#el_breakType").val()
 		// 每页显示的记录数
 		},
 		dataType : "json",
@@ -443,6 +444,8 @@ function detailBtn(obj) {
 
 	$("#q_starttime").val($(".query_dep_starttime").val());
 	$("#q_endtime").val($(".query_dep_endtime").val());
+	
+	$("#detail_breakInfoType").val($("#el_breakType").val());
 	$("#detailForm").submit();// 提交form表单
 
 }
@@ -452,13 +455,16 @@ function detailBtn(obj) {
  *  点击左侧的树中的部门的时候，查询该部门下的所有外来职工的信息
  */
 function leftBtn() {
+	//获取当前选中的违章信息类型
+	var type = $("#el_breakType").val();
 	$.ajax({
 		url : contextPath+"/breakrules_selEmployeeOutByUnitid.action",
 		data : {
 			"unitBigHual" : $("#unitBigHual").val(),//单位大修编号
 			"unitBH" : $("#unitBH").val(),//单位编号(部门编号)
 			"curPage" : $("#yeHao").val(),//当前页页号
-			"curTotal" : $("#jiLuShu").val()
+			"curTotal" : $("#jiLuShu").val(),
+			"empBreakInfoType":type
 		//每页显示的记录数
 		},
 		dataType : "json",
@@ -570,7 +576,7 @@ function leftBtn() {
 				opStr += "<input type='hidden' value="+BigEmployeeoutId+">";//隐藏域，隐藏  BigEmployeeoutId
 				opStr += "<input type='hidden' value="+ $("#unitBigHual").val() + ">";//隐藏域，隐藏 unitBigHaul
 				//下一行代码是原来的
-				opStr += "<a href='#' onclick='detailBtn(this)'>查看详情</a>";
+				opStr += "<a href='javascript:void(0)' onclick='detailBtn(this)'>查看详情</a>";
 				
 				opStr += "</td>";
 
@@ -831,7 +837,7 @@ function findSaveBtn() {
 							opStr += "<input type='hidden' value="+ $("#unitBigHual").val()+ ">";//隐藏域，隐藏 unitBigHaul
 
 							//查看详情
-							opStr += "<a href='#' onclick='detailBtn(this)'>查看详情</a>";
+							opStr += "<a href='javascript:void(0)' onclick='detailBtn(this)'>查看详情</a>";
 							
 							opStr += "</td>";
 
@@ -951,7 +957,7 @@ function findSaveBtn() {
 							opStr += "<input type='hidden' value="+ $("#unitBigHual").val()	+ ">";//隐藏域，隐藏 unitBigHaul
 
 							//查看详情
-							opStr += "<a href='#' onclick='detailBtn(this)'>查看详情</a>";
+							opStr += "<a href='javascript:void(0)' onclick='detailBtn(this)'>查看详情</a>";
 							
 							opStr += "</td>";
 
@@ -1252,3 +1258,10 @@ function urlSubmit(){
 
 
 /** *****************lixianyuan end ********* */
+//查看历史违章信息
+function historyBreakInfoFind(){
+	var type = $("#el_breakType").val();
+	$("#breakInfo_Type").val(type);
+	$("#yeHao").val("1");
+	findSaveBtn();
+}

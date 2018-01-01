@@ -162,10 +162,10 @@
 	<!-- 根据大修ID和工种修改参加大修员工的信息 -->
 	<update id="updateHaulEmployeeOutInfoByCondition" parameterType="map">
 		UPDATE haulemployeeout SET empType =#{employeeType} WHERE empoutIdcard
-		= #{employeeOutIdCard} AND bigId = #{bigId}
+		= #{employeeOutIdCard} AND bigId = #{bigId} AND BigEmployeeoutId=#{bigEmployeeOutId}
 	</update>
 
-	<!-- 根据大修ID和员工ID查询员工的基本信息 -->
+	<!-- 根据大修ID和员工ID，大修员工ID查询员工的基本信息 -->
 	<select id="getEmployeeOutInfoByCondition" parameterType="map"
 		resultType="cn.xm.exam.vo.employee.out.EmployeeOutBaseInfo">
 		SELECT * FROM employee_out_base_info
@@ -177,6 +177,10 @@
 			<!-- 大修ID -->
 			<if test="bigId != null">
 				and bigid = #{bigId}
+			</if>
+			<!-- 大修员工ID -->
+			<if test="bigEmployeeOutId != null">
+				and BigEmployeeoutId = #{bigEmployeeOutId}
 			</if>
 		</where>
 	</select>

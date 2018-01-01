@@ -11,6 +11,7 @@
     <result column="employeeType" property="employeetype" jdbcType="VARCHAR" />
     <result column="unitid" property="unitid" jdbcType="VARCHAR" />
     <result column="distributeid" property="distributeid" jdbcType="INTEGER" />
+    <result column="bigEmployeeOutId" property="bigemployeeoutid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List" >
     gradeId, examId, employeeId, employeeName, grade, examMethod, employeeType, unitid, 
-    distributeid
+    distributeid, bigEmployeeOutId
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.xm.exam.bean.grade.EmployeeexamExample" >
     select
@@ -107,12 +108,12 @@
   <insert id="insert" parameterType="cn.xm.exam.bean.grade.Employeeexam" >
     insert into employeeexam (gradeId, examId, employeeId, 
       employeeName, grade, examMethod, 
-      employeeType, unitid, distributeid
-      )
+      employeeType, unitid, distributeid, 
+      bigEmployeeOutId)
     values (#{gradeid,jdbcType=INTEGER}, #{examid,jdbcType=VARCHAR}, #{employeeid,jdbcType=VARCHAR}, 
       #{employeename,jdbcType=VARCHAR}, #{grade,jdbcType=REAL}, #{exammethod,jdbcType=VARCHAR}, 
-      #{employeetype,jdbcType=VARCHAR}, #{unitid,jdbcType=VARCHAR}, #{distributeid,jdbcType=INTEGER}
-      )
+      #{employeetype,jdbcType=VARCHAR}, #{unitid,jdbcType=VARCHAR}, #{distributeid,jdbcType=INTEGER}, 
+      #{bigemployeeoutid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.xm.exam.bean.grade.Employeeexam" >
     insert into employeeexam
@@ -144,6 +145,9 @@
       <if test="distributeid != null" >
         distributeid,
       </if>
+      <if test="bigemployeeoutid != null" >
+        bigEmployeeOutId,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="gradeid != null" >
@@ -172,6 +176,9 @@
       </if>
       <if test="distributeid != null" >
         #{distributeid,jdbcType=INTEGER},
+      </if>
+      <if test="bigemployeeoutid != null" >
+        #{bigemployeeoutid,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -211,6 +218,9 @@
       <if test="record.distributeid != null" >
         distributeid = #{record.distributeid,jdbcType=INTEGER},
       </if>
+      <if test="record.bigemployeeoutid != null" >
+        bigEmployeeOutId = #{record.bigemployeeoutid,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -226,7 +236,8 @@
       examMethod = #{record.exammethod,jdbcType=VARCHAR},
       employeeType = #{record.employeetype,jdbcType=VARCHAR},
       unitid = #{record.unitid,jdbcType=VARCHAR},
-      distributeid = #{record.distributeid,jdbcType=INTEGER}
+      distributeid = #{record.distributeid,jdbcType=INTEGER},
+      bigEmployeeOutId = #{record.bigemployeeoutid,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -258,6 +269,9 @@
       <if test="distributeid != null" >
         distributeid = #{distributeid,jdbcType=INTEGER},
       </if>
+      <if test="bigemployeeoutid != null" >
+        bigEmployeeOutId = #{bigemployeeoutid,jdbcType=VARCHAR},
+      </if>
     </set>
     where gradeId = #{gradeid,jdbcType=INTEGER}
   </update>
@@ -270,7 +284,8 @@
       examMethod = #{exammethod,jdbcType=VARCHAR},
       employeeType = #{employeetype,jdbcType=VARCHAR},
       unitid = #{unitid,jdbcType=VARCHAR},
-      distributeid = #{distributeid,jdbcType=INTEGER}
+      distributeid = #{distributeid,jdbcType=INTEGER},
+      bigEmployeeOutId = #{bigemployeeoutid,jdbcType=VARCHAR}
     where gradeId = #{gradeid,jdbcType=INTEGER}
   </update>
 </mapper>

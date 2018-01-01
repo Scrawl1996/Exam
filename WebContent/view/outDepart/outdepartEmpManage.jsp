@@ -420,6 +420,8 @@ hasOperatingEmpout = true;
 												type="hidden" name="bigId" id="updateAndDelete_bigId" /> <input
 												type="hidden" name="employeeType"
 												id="updateAndDelete_employeeType" />
+											<!-- 隐藏大修员工ID -->
+											<input type="hidden" name="bigEmployeeOutId" id="updateAndDelete_bigemployeeOutId" />
 										</form>
 
 									</div>

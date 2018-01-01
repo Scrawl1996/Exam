@@ -234,6 +234,15 @@ public class BreakrulesServiceImpl implements BreakrulesService {
 			return 0;
 		}
 	}
+	@Override
+	public Integer selSumBreakScoreByEmpId(String employeeOutId) {
+		Integer sumBreakScore = breakrulesCustomMapper.selSumBreakScoreByEmpId1(employeeOutId);
+		if(sumBreakScore!=null && sumBreakScore>0){
+			return sumBreakScore;
+		}else{
+			return 0;
+		}
+	}
 
 	/**
 	 * <!-- 根据职工id去黑名单表中删除对应的记录-->

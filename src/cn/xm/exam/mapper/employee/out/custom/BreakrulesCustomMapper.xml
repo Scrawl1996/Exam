@@ -12,8 +12,16 @@
 		haulemployeeout.BigEmployeeoutId,
 		IFNULL((SELECT SUM(breakrules.minusNum) FROM breakrules
 		WHERE
-		breakrules.employeeId = employee_out.employeeId and
-		haulemployeeout.BigEmployeeoutId = breakrules.BigEmployeeoutId),0) AS
+		breakrules.employeeId = employee_out.employeeId
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and breakrules.breakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND breakrules.breakTime between #{history_Year} AND NOW()
+		</if>
+		),0) AS
 		'sumBreakScore',
 		IFNULL((select blacklist.temporaryInStatus from
 		blacklist where
@@ -71,15 +79,23 @@
 		resultType="cn.xm.exam.bean.employee.out.Breakrules">
 		select * from breakrules where breakrules.employeeId =
 		#{employeeid}
-		and
-		breakrules.BigEmployeeoutId = #{bigemployeeoutid}
+		<!-- and
+		breakrules.BigEmployeeoutId = #{bigemployeeoutid} -->
 		<if test="fstarttime != null">
 			and breakTime &gt;= #{fstarttime}
 		</if>
 		<if test="fendtime != null">
 			and breakTime &lt;= #{fendtime}
 		</if>
-
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and breakrules.breakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND breakrules.breakTime between #{history_Year} AND NOW()
+		</if>
+		
 	</select>
 
 
@@ -111,13 +127,20 @@
 		haulemployeeout.BigEmployeeoutId,haulemployeeout.bigId,unit.unitId,
 		IFNULL((SELECT SUM(breakrules.minusNum) FROM breakrules
 		WHERE
-		breakrules.employeeId = employee_out.employeeId and
-		haulemployeeout.BigEmployeeoutId = breakrules.BigEmployeeoutId
+		breakrules.employeeId = employee_out.employeeId 
 		<if test="fstarttime != null">
 			and breakTime &gt;= #{fstarttime}
 		</if>
 		<if test="fendtime != null">
 			and breakTime &lt;= #{fendtime}
+		</if>
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and breakrules.breakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND breakrules.breakTime between #{history_Year} AND NOW()
 		</if>
 		) ,0)AS 'sumBreakScore',
 		IFNULL((select blacklist.temporaryInStatus
@@ -210,13 +233,20 @@
 		haulemployeeout.BigEmployeeoutId,haulemployeeout.bigId,unit.unitId,
 		IFNULL((SELECT SUM(breakrules.minusNum) FROM breakrules
 		WHERE
-		breakrules.employeeId = employee_out.employeeId and
-		haulemployeeout.BigEmployeeoutId = breakrules.BigEmployeeoutId
+		breakrules.employeeId = employee_out.employeeId
 		<if test="fstarttime != null">
 			and breakTime &gt;= #{fstarttime}
 		</if>
 		<if test="fendtime != null">
 			and breakTime &lt;= #{fendtime}
+		</if>
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and breakrules.breakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND breakrules.breakTime between #{history_Year} AND NOW()
 		</if>
 		),0) AS
 		'sumBreakScore',
@@ -311,13 +341,20 @@
 		haulemployeeout.BigEmployeeoutId,haulemployeeout.bigId,unit.unitId,
 		IFNULL((SELECT SUM(breakrules.minusNum) FROM breakrules
 		WHERE
-		breakrules.employeeId = employee_out.employeeId and
-		haulemployeeout.BigEmployeeoutId = breakrules.BigEmployeeoutId
+		breakrules.employeeId = employee_out.employeeId
 		<if test="fstarttime != null">
 			and breakTime &gt;= #{fstarttime}
 		</if>
 		<if test="fendtime != null">
 			and breakTime &lt;= #{fendtime}
+		</if>
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and breakrules.breakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND breakrules.breakTime between #{history_Year} AND NOW()
 		</if>
 		),0) AS
 		'sumBreakScore',
@@ -408,11 +445,22 @@
 		<if test="fendtime != null">
 			and breakTime &lt;= #{fendtime}
 		</if>
-		and breakrules.BigEmployeeoutId = (select
-		haulemployeeout.BigEmployeeoutId from haulemployeeout
-		where
-		haulemployeeout.employeeId = breakrules.employeeId and
-		haulemployeeout.bigId = #{bigid})
+		<!-- and breakrules.BigEmployeeoutId = #{bigemployeeoutid} -->
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and breakrules.breakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND breakrules.breakTime between #{history_Year} AND NOW()
+		</if>
+		
+	</select>
+	<select id="selSumBreakScoreByEmpId1" parameterType="String"
+		resultType="Integer">
+		SELECT SUM(minusNum) FROM breakrules
+		WHERE breakrules.employeeId = #{value}
+		and breakTime like CONCAT(Year(CurDate()),'%')
 	</select>
 
 
@@ -458,8 +506,15 @@
 		haulemployeeout.BigEmployeeoutId,haulemployeeout.bigId,unit.unitId,
 		IFNULL((SELECT SUM(breakrules.minusNum) FROM breakrules
 		WHERE
-		breakrules.employeeId = employee_out.employeeId and
-		haulemployeeout.BigEmployeeoutId = breakrules.BigEmployeeoutId),0) AS
+		breakrules.employeeId = employee_out.employeeId 
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and breakrules.breakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND breakrules.breakTime between #{history_Year} AND NOW()
+		</if>),0) AS
 		'sumBreakScore',
 		IFNULL((select blacklist.temporaryInStatus from
 		blacklist where

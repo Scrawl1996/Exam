@@ -703,6 +703,76 @@ public class EmployeeexamExample {
             addCriterion("distributeid not between", value1, value2, "distributeid");
             return (Criteria) this;
         }
+
+        public Criteria andBigemployeeoutidIsNull() {
+            addCriterion("bigEmployeeOutId is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBigemployeeoutidIsNotNull() {
+            addCriterion("bigEmployeeOutId is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBigemployeeoutidEqualTo(String value) {
+            addCriterion("bigEmployeeOutId =", value, "bigemployeeoutid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBigemployeeoutidNotEqualTo(String value) {
+            addCriterion("bigEmployeeOutId <>", value, "bigemployeeoutid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBigemployeeoutidGreaterThan(String value) {
+            addCriterion("bigEmployeeOutId >", value, "bigemployeeoutid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBigemployeeoutidGreaterThanOrEqualTo(String value) {
+            addCriterion("bigEmployeeOutId >=", value, "bigemployeeoutid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBigemployeeoutidLessThan(String value) {
+            addCriterion("bigEmployeeOutId <", value, "bigemployeeoutid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBigemployeeoutidLessThanOrEqualTo(String value) {
+            addCriterion("bigEmployeeOutId <=", value, "bigemployeeoutid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBigemployeeoutidLike(String value) {
+            addCriterion("bigEmployeeOutId like", value, "bigemployeeoutid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBigemployeeoutidNotLike(String value) {
+            addCriterion("bigEmployeeOutId not like", value, "bigemployeeoutid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBigemployeeoutidIn(List<String> values) {
+            addCriterion("bigEmployeeOutId in", values, "bigemployeeoutid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBigemployeeoutidNotIn(List<String> values) {
+            addCriterion("bigEmployeeOutId not in", values, "bigemployeeoutid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBigemployeeoutidBetween(String value1, String value2) {
+            addCriterion("bigEmployeeOutId between", value1, value2, "bigemployeeoutid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBigemployeeoutidNotBetween(String value1, String value2) {
+            addCriterion("bigEmployeeOutId not between", value1, value2, "bigemployeeoutid");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -561,6 +561,8 @@ function queryFy(resultCount,currentPage,currentTotal){
 							<input id="delEmployeeId" type="hidden" value="" />
 							<!-- 隐藏大修id 用于删除操作的 -->
 							<input id="delbigid" type="hidden" value="" />
+							<!-- 隐藏域，隐藏一个当前和删除按钮同一行的职工的大修员工ID，用于删除操作 -->
+							<input id="delBigEmployeeOutId" type="hidden" value="" />
 							<!-- 和删除数据有关的操作 -->
 							<script type="text/javascript">
 								function delcfm(obj) {
@@ -574,6 +576,7 @@ function queryFy(resultCount,currentPage,currentTotal){
 									$("#delEmployeeBreakId").val(breakId);//为隐藏域赋值 违章id
 									$("#delbigid").val(bigid);//大修id bigid
 									$("#delEmployeeId").val(employeeid);//职工id
+									$("#delBigEmployeeOutId").val(BigEmployeeoutId);//大修员工ID
 									if($("#topBlackStatus").text()=="是"){
 										alert("该员工已经列入黑名单,不允许删除!")
 									}else{
@@ -584,7 +587,7 @@ function queryFy(resultCount,currentPage,currentTotal){
 
 								//点击确定按钮之后的操作，将该违章信息删除
 								function urlSubmit() {
-
+									
 									 //alert("进入删除的确定按钮的事件:")
 									//alert("单位编号:"+$("#delunitId").val())
 									$.ajax({
@@ -592,7 +595,8 @@ function queryFy(resultCount,currentPage,currentTotal){
 											data:{
 												"delEmployeeId" : $("#delEmployeeId").val(),//职工id
 												"delEmployeeBreakId" : $("#delEmployeeBreakId").val(),//违章id
-												"delbigid":$("#delbigid").val()//大修id
+												"delbigid":$("#delbigid").val(), //大修id
+												"delBigEmployeeOutId":$("#delBigEmployeeOutId").val()
 											},
 											dataType : "json",
 											type : "POST",

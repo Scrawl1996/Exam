@@ -130,6 +130,7 @@
 		emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
 		#{employeeid}
+		and empInBreakTime LIKE CONCAT(Year(CurDate()),'%')
 	</select>
 	<!-- S QLQ -->
 	<!-- #根据职工id去违章记录表中查询该内部员工的违章总积分 employeeid -->
