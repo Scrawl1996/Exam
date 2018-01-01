@@ -195,7 +195,7 @@
 
 											<div class="input-group el_modellist" role="toolbar">
 												<span class="el_spans">创建时间：</span> <input type="text"
-													id="test4" class="wicon form-control" readonly
+													id="test4" class="wicon form-control el_noVlaue" readonly
 													name="exampaper.maketime" />
 											</div>
 

@@ -275,10 +275,10 @@
 	<!-- S 保存员工成绩信息(初始化成绩表) -->
 	<insert id="addEmployeeExam" parameterType="list">
 		INSERT INTO
-		employeeexam(`gradeId`,`examId`,`employeeId`,`employeeName`,`grade`,`examMethod`,`employeeType`)
+		employeeexam(`gradeId`,`examId`,`employeeId`,`employeeName`,`grade`,`examMethod`,`employeeType`,`unitid`,`distributeid`)
 		VALUES
 		<foreach collection="list" item="employeeExam" separator=",">
-			(#{employeeExam.gradeid},#{employeeExam.examid},#{employeeExam.employeeid},#{employeeExam.employeename},#{employeeExam.grade},#{employeeExam.exammethod},#{employeeExam.employeetype})
+			(#{employeeExam.gradeid},#{employeeExam.examid},#{employeeExam.employeeid},#{employeeExam.employeename},#{employeeExam.grade},#{employeeExam.exammethod},#{employeeExam.employeetype},#{employeeExam.unitid},#{employeeExam.distributeid})
 		</foreach>
 	</insert>
 	<!-- E 保存员工成绩信息(初始化成绩表) -->

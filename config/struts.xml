@@ -24,6 +24,7 @@
 	<include file="struts/Exam.xml"></include>
 	<include file="struts/Haul.xml"></include>
 	<include file="struts/Unit.xml"></include>
+	<include file="struts/Distribute.xml"></include> 
 
 
 

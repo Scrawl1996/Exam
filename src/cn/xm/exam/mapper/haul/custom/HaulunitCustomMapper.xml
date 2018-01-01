@@ -4,8 +4,8 @@
 
 	<!--根据大修ID查出参加大修的部门ID -->
 	<select id="selectUnitidsByHaulId" resultType="string"
-		parameterType="string">
-		select unitId from haulunit where bigId=#{value}
+		>
+		select unitId from employeeoutdistribute where bigId=#{haulId} and departmentId=#{departmentId}
 	</select>
 
 </mapper>

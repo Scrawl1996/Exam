@@ -3,6 +3,8 @@ package cn.xm.exam.mapper.haul.custom;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 /**
  * 单位大修Mapper
  * 
@@ -18,5 +20,5 @@ public interface HaulunitCustomMapper {
 	 * @return 参加本次大修的外来单位的ID集合
 	 * @throws SQLException
 	 */
-	public List<String> selectUnitidsByHaulId(String haulId) throws SQLException;
+	public List<String> selectUnitidsByHaulId(@Param("haulId")String haulId,@Param("departmentId")String departmentId) throws SQLException;
 }

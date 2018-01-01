@@ -42,7 +42,7 @@ public class DepartmentAction extends ActionSupport {
 		// 获取Session中的用户信息
 		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 		String departmentIdSession = user.getDepartmentid();// 获取部门ID
-		boolean permitted = currentUser.isPermitted("departmentmanage:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
+		boolean permitted = currentUser.isPermitted("departmentmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 		String departmentId = permitted ? null : departmentIdSession;
 		List<Map<String, Object>> treeList = departmentService.getDepartmentTree(departmentId);
 

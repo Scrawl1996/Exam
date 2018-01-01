@@ -99,6 +99,10 @@ public class ExamServiceImpl implements ExamService {
 				employeeIn.setExamid(examId);
 				employeeIn.setExammethod("线上");
 				employeeIn.setGrade(0f);
+				//将外部员工独有的置为空
+				employeeIn.setDistributeid(0);
+				employeeIn.setBigemployeeoutid("0");
+				employeeIn.setUnitid("无");
 				employeeIn.setEmployeetype("0");// 0代表内部员工
 			}
 			// 插入内部员工

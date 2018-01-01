@@ -292,10 +292,12 @@
 	<select id="getExamEmployeeOuts" resultType="map" parameterType="hashmap">
 		SELECT
 		haem.bigid,
+		haem.bigemployeeoutid,
 		emp.employeeId,
 		emp.name,
 		emp.idCode,
 		emp.sex,
+		dist.distributeid,
 		haem.trainStatus,
 		haem.empType,
 		<include refid="selectMinus"></include>
@@ -305,7 +307,8 @@
 		unitname
 		FROM employee_out emp,
 		unit un,
-		haulemployeeout haem
+		haulemployeeout haem,
+		employeeoutdistribute dist
 		<where>
 			<include refid="getExamEmployeeOuts_where"></include>
 		</where>
@@ -329,7 +332,9 @@
 		<if test="1==1">
 			and emp.employeeId = haem.employeeId
 			AND un.unitId =
-			haem.unitId
+			haem.unitId and dist.unitId=un.unitId 
+			and dist.departmentId=#{departmentId} and dist.empOutIdCard=emp.idCode
+			and dist.empOutexamStatus='0'
 		</if>
 		<if test="bigId != null ">
 			AND haem.bigId = #{bigId}
@@ -355,7 +360,7 @@
 			and emp.idCode=#{idCode}
 		</if>
 		<if test="trainStatus!=null">
-			and haem.trainStatus=#{trainStatus}
+			and dist.empOutTrainGrade=#{trainStatus}
 		</if>
 		<if test="name!=null">
 			and emp.name like '%${name}%'

@@ -4,7 +4,6 @@
  * 自定义EL函数，方便在JSP中处理一些复杂的字符串替换函数
  * 
  * @author QiaoLiQiang
- * @time 2017年10月29日下午9:09:47
  */
 public class MyElFunction {
 	/**
@@ -16,7 +15,6 @@ public class MyElFunction {
 	 *            替换前:1 2 3 4 5
 	 * @param s2
 	 *            替换后:A B C D E
-	 * @return
 	 */
 	public static String replace(String source, String s1, String s2) {
 		for (int i = 0, length_1 = s1.length(); i < length_1; i++) {

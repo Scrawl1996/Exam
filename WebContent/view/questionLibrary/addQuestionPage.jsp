@@ -101,7 +101,7 @@
                 </div>
                 <div class="input-group el_modellist" role="toolbar">
                     <span class="el_spans">上传时间：</span>
-                    <input type="text" id="test4" class="wicon form-control"  readonly name="question.uploadtime"/>
+                    <input type="text" id="test4" class="wicon form-control el_noVlaue"  readonly name="question.uploadtime"/>
                 </div>
             </div>
 

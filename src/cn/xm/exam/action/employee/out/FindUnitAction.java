@@ -8,11 +8,13 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import cn.xm.exam.bean.system.User;
 import cn.xm.exam.service.employee.out.UnitService;
 import cn.xm.exam.utils.DefaultValue;
 import cn.xm.exam.utils.PageBean;
@@ -142,7 +144,9 @@ public class FindUnitAction extends ActionSupport {
 		List<Map<String, Object>> unitidsAndNames = null;
 		if (ValidateCheck.isNotNull(bigId)) {
 			try {
-				unitidsAndNames = unitService.getUnitidsAndNamesByHaulId(bigId);
+				User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
+				String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
+				unitidsAndNames = unitService.getUnitidsAndNamesByHaulId(bigId,departmentIdSession);
 			} catch (SQLException e) {
 				logger.error("查询单位姓名和ID错误", e);
 			}
