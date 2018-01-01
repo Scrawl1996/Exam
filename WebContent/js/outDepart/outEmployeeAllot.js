@@ -224,8 +224,7 @@ function showFenpeiTable(response) {
 				+ '</td><td>'
 				+ distributeinfos[i].fenpeibanzu
 				+ '</td><td>'
-				+ '<a href=javascript:void(0) onclick="updateFenpei(this)">'
-				+ updateOperating() + '</a>';
+				+ updateOperating();
 		// 隐藏一些必须的信息
 		str += '<input type="hidden" class="bigid" value="'
 				+ distributeinfos[i].bigid + '"/>'
@@ -268,6 +267,7 @@ function saveFenpei() {
 	}
 	var checkedEmp = $("#employeeOutBaseInfoList").find(":checkBox:checked");
 	// 遍历选中的人添加到表单中
+	$("#submitFenpeiForm").html("");
 	checkedEmp.each(function(i) {
 
 		var outempname = $(this).parent().parent().children("td:eq(2)").html();// 姓名
@@ -277,7 +277,7 @@ function saveFenpei() {
 		var bigid = hidden_input.find(".bigid").val();
 		var unitid = hidden_input.find(".unitid").val();
 		var haulempid = hidden_input.find(".haulempid").val();
-		$("#submitFenpeiForm").html("");
+		
 		$("#submitFenpeiForm").append(
 				'<input type="hidden" value="' + bigid
 						+ '" name="employeeoutdistributes[' + i + '].bigid"/>'
@@ -471,7 +471,7 @@ function clearQueryInfo() {
 function updateOperating() {
 	var distributeStatus = $("#el_showManager option:selected").val()
 	if (distributeStatus == '2') {
-		return "修改";
+		return '<a href=javascript:void(0) onclick="updateFenpei(this)">修改</a>';
 	} else {
 		return "--";
 	}

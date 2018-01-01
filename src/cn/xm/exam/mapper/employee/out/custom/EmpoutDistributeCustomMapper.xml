@@ -215,7 +215,7 @@
 				and haulempid=#{haulempid}
 			</if>
 			<if test="deplevel != null and deplevel==2">
-				AND empOutTrainGrade = '3' OR empOutTrainGrade = '2'
+				AND (empOutTrainGrade = '3' OR empOutTrainGrade = '2')
 			</if>
 			<if test="deplevel != null and deplevel==3">
 				AND empOutTrainGrade = '3' and departmentId like

@@ -169,42 +169,49 @@
 			</if>
 		</where>
 	</update>
-	
+
 	<!-- 根据考试编号和身份证号设置外来单位员工的考试成绩 -->
 	<update id="updateEmployeeOutGradeInfo" parameterType="map">
-		UPDATE employeeexam SET grade = #{exam_grade} WHERE examId=#{exam_examId} AND employeeId=#{exam_IdCard}
+		UPDATE
+		employeeexam SET grade = #{exam_grade} WHERE examId=#{exam_examId} AND
+		employeeId=#{exam_IdCard}
 	</update>
-	
+
 	<!-- 根据考试编号查询通过线下考试的员工的分配员工表主键和外来单位大修员工ID -->
-	<select id="selectPassOutExamDistributeIds" parameterType="String" resultType="map">
-		SELECT  employeeexam.distributeid,employeeexam.bigEmployeeOutId  FROM employeeexam,exam,exampaper WHERE employeeexam.examId = exam.examId 
-			AND exam.paperId = exampaper.paperId AND employeeexam.grade >= exampaper.paperScore*0.9 AND exam.examId = #{value}
+	<select id="selectPassOutExamDistributeIds" parameterType="String"
+		resultType="map">
+		SELECT
+		employeeexam.distributeid,employeeexam.bigEmployeeOutId FROM
+		employeeexam,exam,exampaper WHERE employeeexam.examId = exam.examId
+		AND exam.paperId = exampaper.paperId AND employeeexam.grade >=
+		exampaper.paperScore*0.9 AND exam.examId = #{value}
 	</select>
-	
+
 	<!-- 根据员工分配表的主键批量修改考试状态 -->
 	<update id="updateEmpDistributeExamStatusByIds" parameterType="list">
-		UPDATE employeeoutdistribute SET empOutexamStatus = "1" 
+		UPDATE employeeoutdistribute SET empOutexamStatus = "1"
 		<where>
-			<foreach collection="list" item="distributeId"
-				open="and distributeid in (" close=")" separator=",">
+			<foreach collection="list" item="distributeId" open="and distributeid in ("
+				close=")" separator=",">
 				<!--每个遍历需要拼接的串 -->
 				#{distributeId}
 			</foreach>
 		</where>
 	</update>
-	
+
 	<!-- 根据大修员工ID批量修改大修员工表中的培训状态 -->
-	<update id="updateHaulEmployeeOutTrainStatusByIds" parameterType="list">
-		UPDATE haulemployeeout SET trainStatus = "1" 
+	<update id="updateHaulEmployeeOutTrainStatusByIds"
+		parameterType="list">
+		UPDATE haulemployeeout SET trainStatus = "1"
 		<where>
-			<foreach collection="list" item="haulEmpOutId"
-				open="and BigEmployeeoutId in (" close=")" separator=",">
+			<foreach collection="list" item="haulEmpOutId" open="and BigEmployeeoutId in ("
+				close=")" separator=",">
 				<!--每个遍历需要拼接的串 -->
 				#{haulEmpOutId}
 			</foreach>
 		</where>
 	</update>
-	
+
 	<!-- 查询考试成绩信息的条件 -->
 	<sql id="query_ExamGradesInfo_where">
 
@@ -275,10 +282,13 @@
 	<!-- S 保存员工成绩信息(初始化成绩表) -->
 	<insert id="addEmployeeExam" parameterType="list">
 		INSERT INTO
-		employeeexam(`gradeId`,`examId`,`employeeId`,`employeeName`,`grade`,`examMethod`,`employeeType`,`unitid`,`distributeid`)
+		employeeexam(`gradeId`,`examId`,`employeeId`,`employeeName`,`grade`,`examMethod`,`employeeType`,`unitid`,`distributeid`,`bigemployeeoutid`)
 		VALUES
 		<foreach collection="list" item="employeeExam" separator=",">
-			(#{employeeExam.gradeid},#{employeeExam.examid},#{employeeExam.employeeid},#{employeeExam.employeename},#{employeeExam.grade},#{employeeExam.exammethod},#{employeeExam.employeetype},#{employeeExam.unitid},#{employeeExam.distributeid})
+			(#{employeeExam.gradeid},#{employeeExam.examid},#{employeeExam.employeeid},
+			#{employeeExam.employeename},#{employeeExam.grade},#{employeeExam.exammethod},
+			#{employeeExam.employeetype},#{employeeExam.unitid},#{employeeExam.distributeid}
+			,#{employeeExam.bigemployeeoutid})
 		</foreach>
 	</insert>
 	<!-- E 保存员工成绩信息(初始化成绩表) -->
@@ -304,7 +314,8 @@
 		AND g.examId = exam.examId
 		AND exam.examId =
 		#{value}
-		order by CONVERT(unitName USING gbk),CONVERT(emp.name USING gbk)
+		order by CONVERT(unitName USING gbk),CONVERT(emp.name USING
+		gbk)
 	</select>
 	<!-- E 根据考试ID查询内部考试人员 -->
 	<!-- S 根据考试ID查询外部考试人员 -->
@@ -337,7 +348,8 @@
 		employee_out.idCode
 		AND haulemployeeout.unitId = u.unitId
 		AND
-		exam.examId = #{value} order by CONVERT(unitName USING gbk),CONVERT(employee_out.name USING gbk)
+		exam.examId = #{value} order by CONVERT(unitName USING
+		gbk),CONVERT(employee_out.name USING gbk)
 	</select>
 
 	<!-- E 根据考试ID查询外部考试人员 -->
