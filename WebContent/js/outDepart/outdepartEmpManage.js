@@ -91,11 +91,13 @@ function showEmployeeBaseInfo(data) {
 			showEmployeeOutBaseInfoList += "<td>"
 					+ employeeOutBaseInfoList[i].isblacklist + "</td><td>";
 		}
-		showEmployeeOutBaseInfoList += employeeOutBaseInfoList[i].trainstatus
+		/*showEmployeeOutBaseInfoList += employeeOutBaseInfoList[i].trainstatus
 				.toString().replace("0", "未参加培训").replace("1", "通过一级考试")
 				.replace("2", "通过二级考试").replace("3", "通过三级考试")
 				+ "</td><td>"
-				+ "<a href='javascript:void(0)' onclick='allInfo(this)'>详细信息</a>&nbsp;";
+				+ "<a href='javascript:void(0)' onclick='allInfo(this)'>详细信息</a>&nbsp;";*/
+		//将培训情况字段内容注释掉
+		showEmployeeOutBaseInfoList +="<a href='javascript:void(0)' onclick='allInfo(this)'>详细信息</a>&nbsp;";
 		if (employeeOutBaseInfoList[i].bigstatus != "已结束" && hasOperatingEmpout) {
 			showEmployeeOutBaseInfoList += "<a href='javascript:void(0)' onclick='el_modifyEmp(this)'>修改</a>&nbsp;"
 					+ "<a class='el_delButton' onClick='delcfm(this)'>删除</a><br />"
@@ -725,7 +727,7 @@ function allInfo(obj) {
 	$("#details_employeeOutSex").text($tds.eq(3).text());
 	$("#details_employeeOutIdCard").text($tds.eq(4).text());
 	$("#details_employeeOutIsBlack").text($tds.eq(8).text());
-	$("#details_employeeOutTrainStatus").text($tds.eq(9).text());
+	//$("#details_employeeOutTrainStatus").text($tds.eq(9).text());
 	$("#details_departmentName").text($tds.eq(5).text());
 	$("#details_employeeType").text($tds.eq(6).text());
 	// 获取隐藏域中的值

@@ -235,6 +235,7 @@ function Charts(countFailedPerson,countExcellentPerson,countGoodPerson,score) {
 /*********************************成绩导入****************************************/
 //判断是否显示成绩导入按钮
 function showGradeImportButton(obj){
+	
 	//先将成绩导入按钮隐藏
 	$("#gradeImportButton").hide();
 	var examId = $(obj).val();
@@ -299,6 +300,8 @@ function gradeInput() {
     				$("#excelGradeInfoList").empty();
     				//将导入按钮删除
     				$("#confirmImportButton").remove();
+    				//将上传按钮设置为可以操作
+    				$("#importButton").prop("disabled",false);
     				$('#myModal').modal();
     			}else{
     				alert("该考试为在线考试，不能进行成绩导入,请您重新选择考试！");
@@ -337,6 +340,8 @@ function inputEmployeeGrades(excelFileInfo){
 //点击成绩导入模态框的上传文件执行的操作
 function importExcelFile(){
 	if($("#exampleInputEmail12").val().length>0){
+		//将上传按钮设置为disable
+		$("#importButton").prop("disabled",true);
 		var formData = new FormData($("#form_inputEmployeeGrade")[0]); 
 		$.ajax({
 			url:"examGrade_getExcelEmployeeGradeInfo.action",
