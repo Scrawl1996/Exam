@@ -799,7 +799,7 @@ $(function() {
 	searchDepartmentAndOverHualTree();
 })
 
-/*    **********************请求树信息**********************/
+/***********************请求树信息**********************/
 
 function searchDepartmentAndOverHualTree() {
 	$.ajax({
