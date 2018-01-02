@@ -44,9 +44,8 @@
 		(IFNULL((SELECT SUM(minusNum) FROM breakrules,
 		haulemployeeout WHERE
 		breakrules.BigEmployeeoutId =
-		haulemployeeout.BigEmployeeoutId AND
-		haulemployeeout.bigId =
-		haulinfo.bigId AND haulemployeeout.unitid =
+		haulemployeeout.BigEmployeeoutId <!-- AND haulemployeeout.bigId = haulinfo.bigId -->
+		AND haulemployeeout.unitid =
 		haulunit.unitId
 		<if test="fstarttime != null">
 			and breakTime &gt;= #{fstarttime}
