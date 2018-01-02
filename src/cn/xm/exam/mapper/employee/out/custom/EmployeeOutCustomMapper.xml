@@ -58,7 +58,8 @@
 		SELECT COUNT(*) FROM exam,exampaper,employeeexam
 		where
 		exam.examId = employeeexam.examId and exam.paperId = exampaper.paperId
-		AND employeeexam.employeeId = #{value} AND employeeexam.employeeType="1"
+		AND employeeexam.employeeId = #{value} AND
+		employeeexam.employeeType="1"
 		AND exam.`status`="已结束"
 	</select>
 
@@ -178,7 +179,8 @@
 	<!-- 根据大修ID和工种修改参加大修员工的信息 -->
 	<update id="updateHaulEmployeeOutInfoByCondition" parameterType="map">
 		UPDATE haulemployeeout SET empType =#{employeeType} WHERE empoutIdcard
-		= #{employeeOutIdCard} AND bigId = #{bigId} AND BigEmployeeoutId=#{bigEmployeeOutId}
+		= #{employeeOutIdCard} AND bigId = #{bigId} AND
+		BigEmployeeoutId=#{bigEmployeeOutId}
 	</update>
 
 	<!-- 根据大修ID和员工ID，大修员工ID查询员工的基本信息 -->
@@ -216,32 +218,39 @@
 			</if>
 		</where>
 	</select>
-	
+
 	<!-- 批量添加外来单位员工分配信息用于初始化表 -->
 	<insert id="addEmpOutDistributeInfoList" parameterType="list">
-		 insert into employeeoutdistribute ( bigid, haulempid, 
-	      unitid, departmentId, outempname, 
-	      empOutIdCard, empOutexamStatus, empOutTrainGrade
-	      )
-	    values 
-	    <foreach collection="list" item="distributeInfoList"
+		insert into employeeoutdistribute ( bigid, haulempid,
+		unitid, departmentId, outempname,
+		empOutIdCard, empOutexamStatus, empOutTrainGrade
+		)
+		values
+		<foreach collection="list" item="distributeInfoList"
 			separator=",">
-	      (#{distributeInfoList.bigid,jdbcType=VARCHAR}, #{distributeInfoList.haulempid,jdbcType=VARCHAR}, 
-	      #{distributeInfoList.unitid,jdbcType=VARCHAR}, #{distributeInfoList.departmentid,jdbcType=VARCHAR}, #{distributeInfoList.outempname,jdbcType=VARCHAR}, 
-	      #{distributeInfoList.empoutidcard,jdbcType=VARCHAR}, #{distributeInfoList.empoutexamstatus,jdbcType=VARCHAR}, #{distributeInfoList.empouttraingrade,jdbcType=VARCHAR})	      
-	    </foreach>
+			(#{distributeInfoList.bigid,jdbcType=VARCHAR}, #{distributeInfoList.haulempid,jdbcType=VARCHAR},
+			#{distributeInfoList.unitid,jdbcType=VARCHAR},
+			#{distributeInfoList.departmentid,jdbcType=VARCHAR},
+			#{distributeInfoList.outempname,jdbcType=VARCHAR},
+			#{distributeInfoList.empoutidcard,jdbcType=VARCHAR},
+			#{distributeInfoList.empoutexamstatus,jdbcType=VARCHAR},
+			#{distributeInfoList.empouttraingrade,jdbcType=VARCHAR})
+		</foreach>
 	</insert>
-	
+
 	<!-- 根据字典编号查询字典的描述 -->
-	<select id="getDictionaryInfoById" parameterType="String" resultType="String">
-		SELECT discription FROM dictionary WHERE dictionaryId = #{value}
+	<select id="getDictionaryInfoById" parameterType="String"
+		resultType="String">
+		SELECT discription FROM dictionary WHERE dictionaryId =
+		#{value}
 	</select>
-	
+
 	<!-- 根据身份证号设置外来单位员工的姓名 -->
 	<update id="updateEmployeeOutNameByIdCard">
-		UPDATE employeeoutdistribute empdis SET outempname = (SELECT `name` FROM employee_out where idCode = empdis.empOutIdCard)
+		UPDATE employeeoutdistribute empdis SET outempname =
+		(SELECT `name` FROM employee_out where idCode = empdis.empOutIdCard)
 	</update>
-	
+
 	<!-- 查询外部员工的条件 -->
 	<sql id="query_employeeOut_where">
 		<!-- 员工姓名 -->
@@ -328,7 +337,7 @@
 		<where>
 			<include refid="getExamEmployeeOuts_where"></include>
 		</where>
-		 order by CONVERT(unitname USING gbk),CONVERT(emp.name USING gbk)
+		order by CONVERT(unitname USING gbk),CONVERT(emp.name USING gbk)
 	</select>
 	<!-- 查询积分的sql语句 -->
 	<sql id="selectMinus">
@@ -336,21 +345,22 @@
 		SUM(minusNum)
 		FROM breakrules
 		WHERE
-		BigEmployeeoutId = (SELECT
-		BigEmployeeoutId
-		FROM haulemployeeout
-		WHERE
 		employeeId =
-		emp.employeeId and bigId=#{bigId} and unitId=un.unitId)),0)
+		(SELECT
+		employeeId
+		FROM employee_out
+		WHERE
+		idCode =emp.idCode)),0)
 	</sql>
 	<sql id="getExamEmployeeOuts_where">
 		<!-- 根据部门名称查询部门ID -->
 		<if test="1==1">
 			and emp.employeeId = haem.employeeId
 			AND un.unitId =
-			haem.unitId and dist.unitId=un.unitId 
+			haem.unitId and dist.unitId=un.unitId
 			and dist.departmentId=#{departmentId} and dist.empOutIdCard=emp.idCode
-			and dist.empOutexamStatus='0' and dist.haulempid=haem.BigEmployeeoutId
+			and dist.empOutexamStatus='0' and
+			dist.haulempid=haem.BigEmployeeoutId
 		</if>
 		<if test="bigId != null ">
 			AND haem.bigId = #{bigId}

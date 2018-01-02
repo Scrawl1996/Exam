@@ -161,8 +161,13 @@ hasOperatingEmpout = true;
 											<option value="3">已合格</option>
 										</select>
 										<button class="btn btn-primary" id="el_lookTrainDocument"
-											style="display: none" onclick="el_empTrainDoc()">分配员工</button>																			
-										
+											style="display: none" onclick="el_empTrainDoc()">分配员工</button>
+										<shiro:hasPermission name="grademanager:printcard">
+												<button style="display: none" id="generateWork" class="btn btn-primary" onclick="el_empCardModel()">
+												生成工作证</button>
+										</shiro:hasPermission>
+
+
 									</div>
 									<table class="table table-hover table-bordered">
 										<thead>
@@ -288,6 +293,58 @@ hasOperatingEmpout = true;
 								</div>
 								<!-- /.modal -->
 							</div>
+
+				
+							<!-- 模态框 生成工作证-->
+							<div class="modal fade" id="el_empCardModel" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabel23">生成工作证</h4>
+										</div>
+										<form>
+											<div class="modal-body">
+												<span>符合生成工作证的员工</span>
+
+												<div class="el_threeScoreList">
+													<table class="table table-bordered"
+														style="font-size: 13px;">
+														<thead>
+															<tr>
+																<th>姓名</th>
+																<th>性别</th>
+																<th>身份证号</th>
+																<th>工种</th>
+																<th>部门</th>
+															</tr>
+														</thead>
+														<tbody id="empInfoListForCertificate">
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+												<button type="button" class="btn btn-primary"
+													onclick="exportEmployeeOutInfo()">导出工作证信息</button>
+											</div>
+										</form>
+
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+
+
+			
 
 
 						</div>

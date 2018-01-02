@@ -15,16 +15,29 @@
 	<select id="getUintInfoByHaulIdAndUnitId" resultType="map">
 		SELECT
 		DISTINCT
-		unit.*,
+		unit.unitBigId,
+		unit.unitId,
+		unit.bigId,
+		unit.projectNames,
+		unit.manager,
+		unit.managerPhone,
+		unit.secure,
+		unit.securePhone,
+		(IFNULL((SELECT SUM(minusNum) FROM breakrules,
+		haulemployeeout WHERE
+		breakrules.BigEmployeeoutId =
+		haulemployeeout.BigEmployeeoutId 
+		AND haulemployeeout.unitid =unit.unitId
+		),0)) AS unitMinisMum,
 		(SELECT
 		count(BigEmployeeoutId)
 		FROM haulemployeeout
-		WHERE
-		unitid
+		WHERE unitid
 		=
 		unit.unitId
 		AND bigid = unit.bigId) AS perNum
-		FROM haulunit unit,
+		FROM haulunit
+		unit,
 		haulemployeeout
 		WHERE unit.unitId = #{1}
 		AND unit.bigid = #{0}
@@ -38,12 +51,15 @@
 		<if test="1==1">
 			and
 			distr.bigid =haul.bigId
-			and distr.haulempid = haulemp.BigEmployeeoutId
+			and distr.haulempid =
+			haulemp.BigEmployeeoutId
 			AND distr.unitid = unit.unitId
-			and distr.departmentId=#{departmentId}
-			 AND distr.empOutIdCard =emp.idCode
-			AND haulempid IN (SELECT haulempid from employeeoutdistribute
-				WHERE departmentId=#{departmentId})
+			and
+			distr.departmentId=#{departmentId}
+			AND distr.empOutIdCard =emp.idCode
+			AND haulempid IN (SELECT haulempid
+			from employeeoutdistribute
+			WHERE departmentId=#{departmentId})
 		</if>
 		<!-- 未参加本机培训 -->
 		<if test="distributeStatus != null and distributeStatus==0">
@@ -107,7 +123,8 @@
 		parameterType="map">
 		SELECT
 		COUNT(DISTINCT haulemp.BigEmployeeoutId)
-		FROM employeeoutdistribute distr,
+		FROM
+		employeeoutdistribute distr,
 		employee_out emp,
 		haulinfo haul,
 		unit,
