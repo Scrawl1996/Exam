@@ -342,6 +342,7 @@
 		haulemployeeout.empoutIdcard
 		AND
 		haulemployeeout.empoutIdcard=employee_out.idCode
+		and employeeexam.unitId=haulemployeeout.unitId
 		AND
 		haulemployeeout.bigId=exam.bigId
 		AND haulemployeeout.empoutIdcard =

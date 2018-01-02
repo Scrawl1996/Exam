@@ -155,6 +155,7 @@ function onClick(event, treeId, treeNode) {
 	// 如果点的是大修将单位信息隐藏
 	if (treeNode.level == 0) {
 		$("#unitInfoDiv").css("display", "none");
+		$("#query_unitId").val("");
 		$("#query_bigId").val(treeNode.id);
 		clearPageQuery();
 	}
@@ -277,7 +278,7 @@ function saveFenpei() {
 		var bigid = hidden_input.find(".bigid").val();
 		var unitid = hidden_input.find(".unitid").val();
 		var haulempid = hidden_input.find(".haulempid").val();
-		
+
 		$("#submitFenpeiForm").append(
 				'<input type="hidden" value="' + bigid
 						+ '" name="employeeoutdistributes[' + i + '].bigid"/>'
@@ -391,16 +392,16 @@ function updateFenpei(obj) {
 	$("#updateFenpeiForm").html("");
 	var outempname = $(obj).parent().parent().children("td:eq(2)").html();// 姓名
 	var empoutidcard = $(obj).parent().parent().children("td:eq(4)").html();// 身份证号
-	var bigName = $(obj).parent().parent().children("td:eq(4)").html();// 大修名字
-	var unitName = $(obj).parent().parent().children("td:eq(5)").html();// 單位名字
-	var sex = $(obj).parent().parent().children("td:eq(6)").html();// 身份证号
+	var bigName = $(obj).parent().parent().children("td:eq(5)").html();// 大修名字
+	var unitName = $(obj).parent().parent().children("td:eq(6)").html();// 單位名字
+	var sex = $(obj).parent().parent().children("td:eq(3)").html();// 身份证号
 	var hidden_input = $(obj).parent().parent().children("td:eq(11)");
 	var bigid = hidden_input.find(".bigid").val();
 	var unitid = hidden_input.find(".unitid").val();
 	var haulempid = hidden_input.find(".haulempid").val();
 	$("#employeeOutUpdateInfo").append(
 			'<tr><td>' + outempname + '</td><td>' + sex + '</td><td>'
-					+ empoutidcard + '</td><td>' + unitName + '</td><td>'
+					+ empoutidcard + '</td><td>' + bigName + '</td><td>'
 					+ unitName + '</td><tr>');
 	$("#updateFenpeiForm").append(
 			'<input type="hidden" value="' + bigid
@@ -458,6 +459,13 @@ function selectFenpeiInfo() {
 	} else {
 		$("#el_lookTrainDocument").css("display", "none");
 	}
+	// 动态显示与隐藏生成工作证
+	if (distributeStatus == '3') {
+		$("#generateWork").css("display", "");
+	} else {
+		$("#generateWork").css("display", "none");
+	}
+
 	$("[name='distributeStatus']").val(distributeStatus);
 	queryDistributeInfo();
 }
@@ -476,3 +484,70 @@ function updateOperating() {
 		return "--";
 	}
 }
+/** ***********************************生成工作证的相关操作*********************************** */
+
+// 选中一次大修或部门，点击生成工作证按钮执行的操作
+function el_empCardModel() {
+	var chooseEmpNum = 0;// 判断是否有员工被选中
+	$(".el_checks").each(function() { // 获取选择的员工
+		if ($(this).prop("checked")) {// 如果选中。。。
+			chooseEmpNum++;
+		}
+	})
+	if (chooseEmpNum != 0) {
+		$("#empInfoListForCertificate").html("");
+		$(".el_checks")
+				.each(
+						function() { // 获取选择的员工
+							if ($(this).prop("checked")) {// 如果选中。。。
+								var tds = $(this).parent().parent().children();
+								var haulempid = tds.eq(11).children(
+										".haulempid").val();
+								$("#empInfoListForCertificate")
+										.append(
+												'<tr><td>'
+														+ tds.eq(2).html()
+														+ '</td><td>'
+														+ tds.eq(3).html()
+														+ '</td><td>'
+														+ tds.eq(4).html()
+														+ '</td><td>'
+														+ tds.eq(7).html()
+														+ '</td><td>'
+														+ tds.eq(6).html()
+														+ '<input type="hidden" class="haulempid_export" value="'
+														+ haulempid
+														+ '"/></td></tr>')
+							}
+						})
+
+		$("#el_empCardModel").modal();
+	} else {
+		alert("请先选择员工！")
+	}
+}
+
+// 生成工作证模态框中全选按钮的操作
+$(function() {
+	$("#el_checkQuanxuan3").change(function() {
+		if ($(this).prop("checked") == true) {
+			$(".el_checks3").prop("checked", "true");
+		} else {
+			$(".el_checks3").removeAttr("checked");
+		}
+	})
+})
+
+// 点击导出工作证信息执行的操作
+function exportEmployeeOutInfo() {
+	var haulempids = [];
+	$(".haulempid_export").each(function(i) {
+		haulempids[i]=$(this).val();	
+	});
+	window.location.href='XXXX?haulempids='+haulempids;
+}
+
+
+
+
+

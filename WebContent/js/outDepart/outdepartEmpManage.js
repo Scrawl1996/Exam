@@ -507,7 +507,7 @@ function updateEmployeeOutInfo() {
 
 /** ***********************************生成工作证的相关操作*********************************** */
 
-// 选中一次大修或部门，点击生成工作证按钮执行的操作
+/*// 选中一次大修或部门，点击生成工作证按钮执行的操作
 function el_empCardModel() {
 	if (clickBigAndDepTree == 0) {
 		alert("请选择一次大修！");
@@ -581,7 +581,7 @@ function exportEmployeeOutInfo() {
 		alert("请选择要需要生成工作证的员工！");
 	}
 }
-
+*/
 /** *********************外来单位的员工的培训档案********************* */
 function el_empTrainDoc() {
 	if ($(".el_checks:checked").length == "0") {
