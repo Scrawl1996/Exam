@@ -545,7 +545,7 @@ function exportEmployeeOutInfo() {
 	$(".haulempid_export").each(function(i) {
 		haulempids[i]=$(this).val();	
 	});
-	window.location.href='XXXX?haulempids='+haulempids;
+	window.location.href=baseurl+'/exportEmpInfo_findEmployeeOutInfosToExport.action?bigEmployeeOutIds='+haulempids;
 }
 
 
