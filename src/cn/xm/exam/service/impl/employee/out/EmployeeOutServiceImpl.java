@@ -232,14 +232,18 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 		//设置参加大修员工表的员工ID
 		for(int i=0;i<haulemployeeoutList.size();i++){
 			haulemployeeoutList.get(i).setEmployeeid(employeeOutIds.get(i));
+			Employeeoutdistribute employeeOutDistribute = new Employeeoutdistribute();
 			
 			//初始化员工分配
-			distributeList.get(i).setBigid(haulemployeeoutList.get(i).getBigid());//大修ID
-			distributeList.get(i).setHaulempid(haulemployeeoutList.get(i).getBigemployeeoutid());//大修员工ID
-			distributeList.get(i).setUnitid(haulemployeeoutList.get(i).getUnitid());//外来单位ID
-			distributeList.get(i).setEmpoutidcard(haulemployeeoutList.get(i).getEmpoutidcard());//身份证号
-			distributeList.get(i).setEmpoutexamstatus("0");//考试状态
-			distributeList.get(i).setEmpouttraingrade("1");//考试等级
+			employeeOutDistribute.setBigid(haulemployeeoutList.get(i).getBigid());//大修ID
+			employeeOutDistribute.setHaulempid(haulemployeeoutList.get(i).getBigemployeeoutid());//大修员工ID
+			employeeOutDistribute.setUnitid(haulemployeeoutList.get(i).getUnitid());//外来单位ID
+			employeeOutDistribute.setEmpoutidcard(haulemployeeoutList.get(i).getEmpoutidcard());//身份证号
+			employeeOutDistribute.setEmpoutexamstatus("0");//考试状态
+			employeeOutDistribute.setEmpouttraingrade("1");//考试等级
+			//添加对象到集合中
+			distributeList.add(employeeOutDistribute);
+			
 		}
 		
 		//批量导入参加大修外部员工的基本信息
@@ -257,7 +261,7 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int findEmployeeOutStatus(String idCard,String bigId) throws Exception {
+	public int findEmployeeOutStatus(String idCard,String bigId,String unitId) throws Exception {
 		EmployeeOutExample employeeOutExample = new EmployeeOutExample();
 		EmployeeOutExample.Criteria criteria = employeeOutExample.createCriteria();
 		criteria.andIdcodeEqualTo(idCard);
@@ -272,11 +276,11 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 					return 5;
 				}
 				
-				/*for (EmployeeOutBaseInfo employeeOutBaseInfo : employeeOutBaseInfoList) {
-					if(employeeOutBaseInfo.getBigid().equals(bigId)){
+				for (EmployeeOutBaseInfo employeeOutBaseInfo : employeeOutBaseInfoList) {
+					if(employeeOutBaseInfo.getBigid().equals(bigId)&&employeeOutBaseInfo.getUnitid().equals(unitId)){
 						return 4;
 					}
-				}*/
+				}
 			}
 			return 2;
 			

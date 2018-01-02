@@ -3,10 +3,10 @@
 <mapper namespace="cn.xm.exam.mapper.haul.custom.HaulemployeeoutCustomMapper">
 
 	<!--根据单位ID与大修ID查出满足条件的大修员工身份证集合 -->
-	<select id="getBigEmployeeoutIdcardsByBigidAndUnitid" resultType="string"
+	<select id="getBigEmployeeoutIdcardsByBigidAndUnitid" resultType="map"
 		parameterType="hashmap">
 		SELECT
-		empoutIdcard
+		empoutIdcard,bigEmployeeoutId
 		FROM haulemployeeout
 		WHERE unitId =
 		#{unitId}

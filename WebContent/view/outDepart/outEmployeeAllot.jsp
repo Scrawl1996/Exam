@@ -189,6 +189,12 @@ hasOperatingEmpout = true;
 									<div id="paginationIDU" class="paginationID"></div>
 								</div>
 							</div>
+							<br/>
+							<br/>
+							<br/>
+							<br/>
+							<br/>
+							<br/>
 							<div class="modal fade" id="el_empTrainDoc" tabindex="-1"
 								role="dialog" aria-labelledby="myModalLabel23"
 								data-backdrop="static" data-keyboard="false" aria-hidden="true">

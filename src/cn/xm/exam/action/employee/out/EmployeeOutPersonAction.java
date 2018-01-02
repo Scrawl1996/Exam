@@ -161,7 +161,7 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	
 		result = new HashMap<String,Object>();
 		try {
-			int status = employeeOutService.findEmployeeOutStatus(employeeOutIdCard,bigId);
+			int status = employeeOutService.findEmployeeOutStatus(employeeOutIdCard,bigId,unitId);
 			result.put("status", status);			
 		} catch (Exception e) {			
 			e.printStackTrace();
