@@ -87,7 +87,7 @@ public class UnitServiceImpl implements UnitService {
 	@Override
 	public boolean deleteUnitByBigIdAndHaulId(Map bididAndUnitid) throws Exception {
 		// 1.查出所有的身份证号ID
-		List<String> bigemployeeids = haulemployeeoutCustomMapper
+		List<Map<String,Object>> bigemployeeids = haulemployeeoutCustomMapper
 				.getBigEmployeeoutIdcardsByBigidAndUnitid(bididAndUnitid);
 		// 2.循环遍历ID进行删除员工
 		if (bigemployeeids != null && bigemployeeids.size() > 0) {
@@ -95,7 +95,8 @@ public class UnitServiceImpl implements UnitService {
 			for (int i = 0; i < bigemployeeids.size(); i++) {
 				condition = new HashMap();
 				condition.put("bigId", bididAndUnitid.get("bigId"));
-				condition.put("employeeOutIdCard", bigemployeeids.get(i));
+				condition.put("employeeOutIdCard", bigemployeeids.get(i).get("empoutIdcard"));
+				condition.put("bigEmployeeOutId", bigemployeeids.get(i).get("bigEmployeeoutId"));
 				employeeOutService.deleteHaulEmployeeOutInfoByCondition(condition);
 			}
 		}

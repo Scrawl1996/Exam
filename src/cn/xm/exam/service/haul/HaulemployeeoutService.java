@@ -19,5 +19,5 @@ public interface HaulemployeeoutService {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<String> getBigEmployeeoutIdsByBigidAndUnitid(Map<String, Object> bididAndUnitid) throws SQLException;
+	public List<Map<String,Object>> getBigEmployeeoutIdsByBigidAndUnitid(Map<String, Object> bididAndUnitid) throws SQLException;
 }

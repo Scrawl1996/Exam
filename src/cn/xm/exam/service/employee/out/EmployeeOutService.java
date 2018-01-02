@@ -178,7 +178,7 @@ public interface EmployeeOutService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int findEmployeeOutStatus(String idCard,String bigId) throws Exception;
+	public int findEmployeeOutStatus(String idCard,String bigId,String unitId) throws Exception;
 	
 	/**
 	 * 根据参加大修员工身份证集合查询员工的id集合

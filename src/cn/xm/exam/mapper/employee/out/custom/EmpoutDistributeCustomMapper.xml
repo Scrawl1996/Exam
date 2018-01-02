@@ -17,7 +17,7 @@
 		DISTINCT
 		unit.*,
 		(SELECT
-		sum(BigEmployeeoutId)
+		count(BigEmployeeoutId)
 		FROM haulemployeeout
 		WHERE
 		unitid
@@ -36,17 +36,14 @@
 	<!--S 查询分配信息 -->
 	<sql id="query_fenpei_where">
 		<if test="1==1">
-			and haulemp.empoutIdcard = distr.empOutIdCard
 			and
-			distr.bigid =
-			haul.bigId
+			distr.bigid =haul.bigId
+			and distr.haulempid = haulemp.BigEmployeeoutId
 			AND distr.unitid = unit.unitId
-			AND
-			distr.empOutIdCard =
-			emp.idCode
-			AND haulempid IN (SELECT haulempid
-			WHERE
-			departmentId=#{departmentId})
+			and distr.departmentId=#{departmentId}
+			 AND distr.empOutIdCard =emp.idCode
+			AND haulempid IN (SELECT haulempid from employeeoutdistribute
+				WHERE departmentId=#{departmentId})
 		</if>
 		<!-- 未参加本机培训 -->
 		<if test="distributeStatus != null and distributeStatus==0">
@@ -109,7 +106,7 @@
 	<select id="getEmpoutDistributeInfoCountByCondition" resultType="_int"
 		parameterType="map">
 		SELECT
-		COUNT(distr.distributeid)
+		COUNT(DISTINCT haulemp.BigEmployeeoutId)
 		FROM employeeoutdistribute distr,
 		employee_out emp,
 		haulinfo haul,

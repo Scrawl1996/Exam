@@ -18,5 +18,5 @@ public interface HaulemployeeoutCustomMapper {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<String> getBigEmployeeoutIdcardsByBigidAndUnitid(Map<String, Object> bididAndUnitid) throws SQLException;
+	public List<Map<String,Object>> getBigEmployeeoutIdcardsByBigidAndUnitid(Map<String, Object> bididAndUnitid) throws SQLException;
 }

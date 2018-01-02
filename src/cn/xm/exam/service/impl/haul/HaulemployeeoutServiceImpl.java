@@ -16,7 +16,7 @@ public class HaulemployeeoutServiceImpl implements HaulemployeeoutService {
 	private HaulemployeeoutCustomMapper haulemployeeoutCustomMapper;
 
 	@Override
-	public List<String> getBigEmployeeoutIdsByBigidAndUnitid(Map<String, Object> bididAndUnitid) throws SQLException {
+	public List<Map<String,Object>> getBigEmployeeoutIdsByBigidAndUnitid(Map<String, Object> bididAndUnitid) throws SQLException {
 		return haulemployeeoutCustomMapper.getBigEmployeeoutIdcardsByBigidAndUnitid(bididAndUnitid);
 	}
 

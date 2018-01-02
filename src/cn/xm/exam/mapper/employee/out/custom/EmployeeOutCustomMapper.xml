@@ -334,7 +334,7 @@
 			AND un.unitId =
 			haem.unitId and dist.unitId=un.unitId 
 			and dist.departmentId=#{departmentId} and dist.empOutIdCard=emp.idCode
-			and dist.empOutexamStatus='0'
+			and dist.empOutexamStatus='0' and dist.haulempid=haem.BigEmployeeoutId
 		</if>
 		<if test="bigId != null ">
 			AND haem.bigId = #{bigId}
