@@ -94,6 +94,9 @@ public interface EmployeeOutCustomMapper {
 	public List<EmployeeOutBaseInfo> getEmpInfoForCertificateWithCondition(Map<String, Object> condition)
 			throws SQLException;
 
+	public List<EmployeeOutBaseInfo> getEmpInfoForCertificateWithCondition1(Map<String,Object> condition)
+			throws SQLException;
+	
 	/**
 	 * 批量加入外部员工的基本信息
 	 * 

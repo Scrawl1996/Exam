@@ -43,6 +43,8 @@ public class ExportExcelEmployeeOutInfoAction extends ActionSupport {
 	private String bigId;
 	//符合条件的身份证
 	private String employeeOutIds;
+	//符合条件的大修员工ID集合
+	private String bigEmployeeOutIds;
 	
 	//获得文件输入流
 	public InputStream getInputStream() throws Exception {
@@ -116,6 +118,11 @@ public class ExportExcelEmployeeOutInfoAction extends ActionSupport {
 			condition.put("employeeOutIds",Arrays.asList(empInfoarr));
 		}
 		
+		if(ValidateCheck.isNotNull(bigEmployeeOutIds)){
+			String[] empInfoarr = bigEmployeeOutIds.split(",");			
+			condition.put("bigEmployeeOutIds",Arrays.asList(empInfoarr));
+		}
+		
 		
 		return condition;
 	}
@@ -161,6 +168,15 @@ public class ExportExcelEmployeeOutInfoAction extends ActionSupport {
 	public void setList(List<EmployeeOutBaseInfo> list) {
 		this.list = list;
 	}
+
+	public String getBigEmployeeOutIds() {
+		return bigEmployeeOutIds;
+	}
+
+	public void setBigEmployeeOutIds(String bigEmployeeOutIds) {
+		this.bigEmployeeOutIds = bigEmployeeOutIds;
+	}
+	
 	
 	
 }

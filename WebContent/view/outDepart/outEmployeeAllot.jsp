@@ -161,8 +161,8 @@ hasOperatingEmpout = true;
 											<option value="3">已合格</option>
 										</select>
 										<button class="btn btn-primary" id="el_lookTrainDocument"
-											style="display: none" onclick="el_empTrainDoc()">分配员工</button>
-
+											style="display: none" onclick="el_empTrainDoc()">分配员工</button>																			
+										
 									</div>
 									<table class="table table-hover table-bordered">
 										<thead>

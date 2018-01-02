@@ -458,6 +458,9 @@ function selectFenpeiInfo() {
 	} else {
 		$("#el_lookTrainDocument").css("display", "none");
 	}
+	
+	//只有已合格才出现生成工作证按钮
+	
 	$("[name='distributeStatus']").val(distributeStatus);
 	queryDistributeInfo();
 }
