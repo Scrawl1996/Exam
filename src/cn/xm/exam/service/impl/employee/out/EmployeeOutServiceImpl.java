@@ -196,7 +196,9 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 	public List<EmployeeOutBaseInfo> getEmpInfoForCertificateWithCondition(Map<String, Object> condition)
 			throws Exception {
 		
-		return employeeOutCustomMapper.getEmpInfoForCertificateWithCondition(condition);
+		//return employeeOutCustomMapper.getEmpInfoForCertificateWithCondition(condition);
+		//修改为根据大修员工ID集合查询符合条件的员工信息
+		return employeeOutCustomMapper.getEmpInfoForCertificateWithCondition1(condition);
 	}
 
 	/**

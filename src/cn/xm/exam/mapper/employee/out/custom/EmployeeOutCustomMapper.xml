@@ -98,7 +98,23 @@
 			</if>
 			and trainStatus >= 3
 		</where>
-		ORDER BY `name`
+		ORDER BY CONVERT(`name` USING gbk)
+	</select>
+	
+	<!-- 根据条件生成符合条件的员工信息 -->
+	<select id="getEmpInfoForCertificateWithCondition1"
+		parameterType="map" resultType="cn.xm.exam.vo.employee.out.EmployeeOutBaseInfo">
+		SELECT * FROM employee_out_base_info
+		<where>			
+			<if test="bigEmployeeOutIds != null and bigEmployeeOutIds.size()>0">
+				<foreach collection="bigEmployeeOutIds" item="employeeOutId"
+					open="and BigEmployeeoutId in (" close=")" separator=",">
+					<!--每个遍历需要拼接的串 -->
+					#{employeeOutId}
+				</foreach>
+			</if>			
+		</where>
+		ORDER BY CONVERT(`name` USING gbk)
 	</select>
 
 	<!-- 批量加入外部员工的基本信息 -->

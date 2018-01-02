@@ -459,6 +459,7 @@ function selectFenpeiInfo() {
 	} else {
 		$("#el_lookTrainDocument").css("display", "none");
 	}
+
 	// 动态显示与隐藏生成工作证
 	if (distributeStatus == '3') {
 		$("#generateWork").css("display", "");

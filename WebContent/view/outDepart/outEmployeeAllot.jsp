@@ -167,6 +167,7 @@ hasOperatingEmpout = true;
 												生成工作证</button>
 										</shiro:hasPermission>
 
+
 									</div>
 									<table class="table table-hover table-bordered">
 										<thead>
