@@ -133,6 +133,7 @@
 		emp.idCode =
 		emplhaul.empoutIdcard
 		AND bigId = #{bigId}
+		and emplhaul.unitId=#{unitId}
 		<if test="index != null">
 			limit #{index},#{currentCount}
 		</if>
@@ -177,9 +178,9 @@
 		AND BigEmployeeoutId IN(SELECT
 		BigEmployeeoutId
 		FROM haulemployeeout
-		WHERE unitId = #{unitId}
-		AND bigId=
-		#{bigId})
+		WHERE unitId = #{unitId})
+	<!-- 	AND bigId=
+		#{bigId} -->
 		<if test="fstarttime != null">
 			and breakTime &gt;= #{fstarttime}
 		</if>

@@ -199,10 +199,10 @@ hasOperatingEmpout = true;
 												</shiro:hasPermission>
 												<button class="btn btn-primary" id="el_lookTrainDocument"
 													onclick="el_empTrainDoc()">查看员工培训档案</button>
-												<shiro:hasPermission name="grademanager:printcard">
+<%-- 												<shiro:hasPermission name="grademanager:printcard">
 													<button class="btn btn-primary" onclick="el_empCardModel()">
 														生成工作证</button>
-												</shiro:hasPermission>
+												</shiro:hasPermission> --%>
 
 											</div>
 										</div>
