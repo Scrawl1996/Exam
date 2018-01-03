@@ -375,7 +375,7 @@ function showUnitTale(response) {
 								+ units[i].unitMinisMum
 								+ '</a></td><td><a href="javascript:void(0)" onclick="initVariable(this)">'
 								+ units[i].personNum
-								+ '</a></td><td>'
+								+ '</a></td><td>'+units[i].jiaquan+'</td><td>'
 								+operation
 								+ '</td></tr>');
 	}

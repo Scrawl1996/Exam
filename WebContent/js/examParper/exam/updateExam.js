@@ -25,6 +25,17 @@ $(function() {
 		$("#currentPage").val("")
 		searchPaper();
 	});
+	//线上线下的点击方式
+	$("[name='examMethod']").click(function(){
+		if($(this).val()=="线上"){
+			$("#inpstart0").val("")
+			$("#inpend0").val("")
+		}
+		if($(this).val()=="线下"){
+			$("#inpstart0").val( Format(getServerDate(),"yyyy-MM-dd HH:mm:ss"))
+			$("#inpend0").val( Format(getServerDate(),"yyyy-MM-dd HH:mm:ss"))
+		}
+	});
 	// 参考部门后面的点击事件
 	$("#el_chooseDepart1").click(function() {
 		$("#treeDemo10").toggle();
@@ -771,7 +782,7 @@ var updateExam = function() {
 			var startDate = $("#inpstart0").val(); // 开始日期
 			var d1 = new Date(startDate);
 			var d2 = new Date(value);
-			return d1 < d2;
+			return d1 <= d2;
 		};
 
 		// 进行数据验证
@@ -988,3 +999,18 @@ function showEmployeeTypeDic(response) {
 	}
 }
 /** ****E 初始化查询员工工种字典********* */
+
+/************获取服务器时间**********/
+function getServerDate(){
+	var nowTimeStr;
+	$.ajax({
+		url:"onlineExam_getNowServerTime.action?date="+Format(new Date(),"HH:mm:ss"),
+		async:false,
+		datatype:"json",
+		success:function(data){			
+			nowTimeStr = data.nowTime.replace(/T/g," ").replace(/-/g,"/");
+		}
+	})	
+	return new Date(nowTimeStr);
+	//return new Date();
+}

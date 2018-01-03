@@ -66,11 +66,12 @@ public class UpdateExamAction extends ActionSupport implements ModelDriven<Exam>
 	 * 
 	 * @return
 	 */
+	private String examMethod;
 	public String update() {
 		response = new HashMap();
 		String updateResult = "";
 		try {
-			updateResult = examService.updateExamById(exam) ? "修改成功!" : "修改失败";
+			updateResult = examService.updateExamById(exam,examMethod) ? "修改成功!" : "修改失败";
 		} catch (Exception e) {
 			updateResult = "修改失败";
 			logger.error("修改考试失败!", e);
@@ -108,6 +109,14 @@ public class UpdateExamAction extends ActionSupport implements ModelDriven<Exam>
 
 	public void setExam(Exam exam) {
 		this.exam = exam;
+	}
+
+	public String getExamMethod() {
+		return examMethod;
+	}
+
+	public void setExamMethod(String examMethod) {
+		this.examMethod = examMethod;
 	}
 
 }

@@ -46,7 +46,7 @@ public class UpdateUnitAction extends ActionSupport implements ModelDriven<Unit>
 				updateResult = unitService.updateUnit(unit,haulUnit) ? "修改成功!" : "修改失败!";
 			}
 		} catch (Exception e) {
-			logger.error("修改单位信息失败!");
+			logger.error("修改单位信息失败!",e);
 			updateResult = "修改失败!";
 		}
 		// 传到Service进行保存

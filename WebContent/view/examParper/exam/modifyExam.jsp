@@ -28,6 +28,9 @@
 <%-- <script src="<%=path%>/js/examParper/exam/addExam.js"></script> --%>
 <script src="<%=path%>/js/examParper/exam/updateExam.js"></script>
 <link rel="stylesheet" href="<%=path%>/css/examParper/modifyExam.css">
+<!-- 日期格式转换 -->
+<script
+	src="${pageContext.request.contextPath }/js/questionLibrary/dateformat.js "></script>
 <style type="text/css">
 #el_chooseUnit li {
 	list-style-type: none;
@@ -59,26 +62,26 @@ label.success {
 	type="text/javascript" charset="utf-8"></script>
 <script src="${baseurl }/controls/validate/messages_zh.js"
 	type="text/javascript" charset="utf-8"></script>
-	<script>
-	$(function(){
+<script>
+	$(function() {
 		$("#inpstart0").jeDate({
-		    isinitVal:false,
-		    minDate: '2000-06-16',
-		    maxDate: '2225-06-16',
-		    format : 'YYYY-MM-DD hh:mm:ss',
-		    zIndex:3000
+			isinitVal : false,
+			minDate : '2000-06-16',
+			maxDate : '2225-06-16',
+			format : 'YYYY-MM-DD hh:mm:ss',
+			zIndex : 3000
 		})
-		
+
 		$("#inpend0").jeDate({
-		    isinitVal:false,
-		    minDate: '2000-06-16',
-		    maxDate: '2225-06-16',
-		    format : 'YYYY-MM-DD hh:mm:ss',
-		    zIndex:3000
+			isinitVal : false,
+			minDate : '2000-06-16',
+			maxDate : '2225-06-16',
+			format : 'YYYY-MM-DD hh:mm:ss',
+			zIndex : 3000
 		})
 
 	})
-	</script>
+</script>
 </head>
 <body>
 
@@ -167,6 +170,32 @@ label.success {
 							</div>
 
 
+							<!--根据选择的部门类型，
+                动态的加载相应部门类型的部门
+                再调用相应部门类型的添加部门一人的模态-->
+							<div class="input-group el_modellist" role="toolbar">
+								<span class="el_spans">部门类型：</span>
+								<c:if test="${response.examBaseInfo.examtype eq '内部考试' }">
+									<label class="el_radioBox el_radioBox2"> <input checked
+										type="radio" name="el_departType" checked value="0">厂内部门
+									</label>
+								</c:if>
+								<c:if test="${response.examBaseInfo.examtype eq '外部考试'}">
+									<label class="el_radioBox el_radioBox2"> <input checked
+										type="radio" name="el_departType" value="1">外来单位
+									</label>
+								</c:if>
+							</div>
+
+							<div class="input-group el_modellist" role="toolbar">
+								<span class="el_spans">考试方式：</span> <label
+									class="el_radioBox el_radioBox2"> <input type="radio"
+									name="examMethod" <c:if test="${'线上' eq response.employees[0].examMethod }">checked</c:if> value="线上" id="">线上
+								</label> <label class="el_radioBox el_radioBox2"> <input
+									type="radio" <c:if test="${'线下' eq response.employees[0].examMethod }">checked</c:if> name="examMethod" value="线下" id="">线下
+								</label>
+							</div>
+
 							<%-- <div class="input-group el_modellist" role="toolbar">
 								<span class="el_spans">考试地点：</span> <input type="text"
 									class="form-control el_modelinput" name="exam.address"
@@ -175,10 +204,12 @@ label.success {
 
 							<div class="input-prepend input-group el_modellist el_modellist5">
 								<span class="add-on el_spans">考试时间：</span><input type="text"
-									class="wicon el_noVlaue form-control" id="inpstart0" name="exam.starttime"
+									class="wicon el_noVlaue form-control" id="inpstart0"
+									name="exam.starttime"
 									value='<fmt:formatDate pattern='yyyy-MM-dd HH:mm:ss' value="${response.examBaseInfo.starttime}" />'
-									readonly> <input type="text" class="wicon el_noVlaue form-control"
-									id="inpend0" name="exam.endtime"
+									readonly> <input type="text"
+									class="wicon el_noVlaue form-control" id="inpend0"
+									name="exam.endtime"
 									value='<fmt:formatDate pattern='yyyy-MM-dd HH:mm:ss' value="${response.examBaseInfo.endtime}" />'
 									readonly>
 							</div>
@@ -206,29 +237,6 @@ label.success {
 
 
 
-
-
-
-
-							<!--根据选择的部门类型，
-                动态的加载相应部门类型的部门
-                再调用相应部门类型的添加部门一人的模态-->
-							<div class="input-group el_modellist" role="toolbar">
-								<span class="el_spans">部门类型：</span>
-								<c:if test="${response.examBaseInfo.examtype eq '内部考试' }">
-									<label class="el_radioBox el_radioBox2"> <input checked
-										type="radio" name="el_departType" checked value="0">厂内部门
-									</label>
-								</c:if>
-								<c:if test="${response.examBaseInfo.examtype eq '外部考试'}">
-									<label class="el_radioBox el_radioBox2"> <input checked
-										type="radio" name="el_departType" value="1">外来单位
-									</label>
-								</c:if>
-							</div>
-
-
-
 							<c:if test="${response.examBaseInfo.examtype eq '内部考试' }">
 								<!-- 内部显示的东西 -->
 								<div class="input-group el_modellist inShow" role="toolbar">
@@ -237,7 +245,8 @@ label.success {
 									<img
 										src="${baseurl }/controls/selectDropTree/smallTriangle.png"
 										class="el_smallTriangle" width="7" />
-									<ul id="treeDemo10" class="ztree" style="width:300px !important;display: none"></ul>
+									<ul id="treeDemo10" class="ztree"
+										style="width: 300px !important; display: none"></ul>
 								</div>
 							</c:if>
 
@@ -742,7 +751,7 @@ label.success {
 								<input type="hidden" name="currentPage" id="currentPage">
 								<input type="hidden" name="currentCount" id="currentCount">
 
-								<div  id="el_bt_bu">
+								<div id="el_bt_bu">
 									<button type="button" class="btn btn-info" id="updateExamBtn">保存</button>
 									<input type="button" class="btn btn-danger" name="back"
 										value="取消" onclick="javascript:history.back(-1);" />

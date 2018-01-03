@@ -35,13 +35,14 @@
 		resultType="map">
 		SELECT
 		haulunit.unitId,
+		haulunit.unitBigId,
 		haulunit.bigId,
 		haulunit.projectNames,
 		haulunit.manager,
 		haulunit.managerPhone,
 		haulunit.secure,
 		haulunit.securePhone,
-		(IFNULL((SELECT SUM(minusNum) FROM breakrules,
+		@b:= (IFNULL((SELECT SUM(minusNum) FROM breakrules,
 		haulemployeeout WHERE
 		breakrules.BigEmployeeoutId =
 		haulemployeeout.BigEmployeeoutId <!-- AND haulemployeeout.bigId = haulinfo.bigId -->
@@ -53,6 +54,7 @@
 		<if test="fendtime != null">
 			and breakTime &lt;= #{fendtime}
 		</if>
+		and breakTime LIKE CONCAT(Year(CurDate()),'%')
 		),0)) AS unitMinisMum,
 		haulinfo.bigName,
 		haulinfo.bigStatus,
@@ -61,13 +63,14 @@
 		unit.address,
 		unit.contact,
 		unit.phone,
-		(SELECT
+		@a:= (SELECT
 		COUNT(BigEmployeeoutId)
 		FROM haulemployeeout
 		WHERE
 		haulemployeeout.bigId = haulunit.bigId
 		AND haulemployeeout.unitId =
-		haulunit.unitId) AS personNum
+		haulunit.unitId) AS personNum,
+		TRUNCATE(IFNULL(@b/@a,0),3) AS jiaquan
 		FROM haulunit,
 		haulinfo,
 		unit
@@ -75,13 +78,13 @@
 			<include refid="query_haulunit_where"></include>
 		</where>
 
-		ORDER BY
-		<if test="fstarttime != null or fendtime != null">
+		ORDER BY jiaquan desc
+<!-- 		<if test="fstarttime != null or fendtime != null">
 			unitMinisMum desc
 		</if>
 		<if test="fstarttime == null and fendtime == null">
 			haulinfo.bigCreateDate DESC,CONVERT(unit.name USING gbk)
-		</if>
+		</if> -->
 		<include refid="query_haulunit_limit"></include>
 	</select>
 	<!--组合查询条件 -->
