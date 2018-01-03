@@ -133,7 +133,7 @@ function el_scoreAllContent(obj) {
 										+onlineExamEmployeeInAllInfo.grade+"</td><td>"
 										+onlineExamEmployeeInAllInfo.ispass+"</td><td>"
 										+onlineExamEmployeeInAllInfo.exammethod+"</td><td>"
-			if(onlineExamEmployeeInAllInfo.endanswertime!=null){				
+			if(onlineExamEmployeeInAllInfo.startanswertime!=null&&onlineExamEmployeeInAllInfo.endanswertime!=null){				
 				showOnlineEmployeeGradeInfo += 
 					Format(new Date(onlineExamEmployeeInAllInfo.startanswertime.replace(/T/g," ").replace(/-/g,"/")),"yyyy-MM-dd HH:mm")+"</td><td>"
 					+Format(new Date(onlineExamEmployeeInAllInfo.endanswertime.replace(/T/g," ").replace(/-/g,"/")),"yyyy-MM-dd HH:mm")+"</td><td>";

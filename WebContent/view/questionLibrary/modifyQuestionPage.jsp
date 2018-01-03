@@ -61,7 +61,7 @@
     		//上传时间的格式处理以及信息的回显
     		//var uploadTime =  Format(new Date(sd.replace(/T/g," ").replace(/-/g,"/")),'yyyy-MM-dd HH:mm:ss');
     		var uploadTime =  Format(new Date(sd),'yyyy-MM-dd HH:mm:ss');
-    		$("#test4").val(uploadTime); 		
+    		//$("#test4").val(uploadTime); 		
     	
 
     		//试题框的高
@@ -125,7 +125,7 @@
                 </div>
                 <div class="input-group el_modellist" role="toolbar">
                     <span class="el_spans">上传时间：</span>    
-                    <input type="text" id="test4" class="wicon form-control" readonly name="question.uploadtime" disabled/>
+                    <input type="text" id="test4" class="wicon form-control" readonly name="question.uploadtime" value="<fmt:formatDate value="${questionOptionsInfo.uploadtime}" pattern="yyyy-MM-dd HH:mm:ss"/>" disabled/>
                 </div>
             </div>
 

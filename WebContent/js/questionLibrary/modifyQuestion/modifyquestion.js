@@ -239,7 +239,7 @@ function modify_question(){
 			}
 		}
 		var optionListObj = $(".input_wenbk");
-		//判断当长度为0时证明是多选题，不做处理
+		//判断当长度为0时证明是判断题，不做处理
 		if(optionListObj.length==0){
 			optionsIsNotNull = true;
 		}
