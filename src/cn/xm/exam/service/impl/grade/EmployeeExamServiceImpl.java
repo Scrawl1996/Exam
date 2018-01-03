@@ -33,8 +33,6 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 	@Resource
 	private ExamMapper examMapper;
 	@Resource
-	private EmployeeexamMapper employeeexamMapper;
-	@Resource
 	private EmployeeexamMapper employeeExamMapper;
 	@Resource
 	private EmployeeoutdistributeMapper employeeDistributeMapper;
@@ -65,47 +63,54 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 			employeeexamCustomMapper.updateEmployeeOutGradeInfo(updateCondition);
 		}
 		
-		//根据考试ID查询通过这次考试的员工分配表主键
+		//考试ID
 		String examId = employeeOutGrades.get(0).getExamid();
-		//分配表主键集合
-		List<String> distributeIds = new ArrayList<String>();
-		List<Map<String, Object>> mapInfoList = employeeexamCustomMapper.selectPassOutExamDistributeIds(examId);
-		for (Map<String, Object> mapInfo : mapInfoList) {
-			distributeIds.add(mapInfo.get("distributeid").toString());
-		}
-		if(distributeIds.size()>0){
-			//根据分配表主键批量分配表中员工的考试状态
-			employeeexamCustomMapper.updateEmpDistributeExamStatusByIds(distributeIds);
-		}
-		
-		//根据考试ID查询考试的等级
-		Exam examInfo = examMapper.selectByPrimaryKey(examId);
-		String examBigId = examInfo.getBigid();//大修ID
-		//通过所有三级考试的大修员工ID集合
-		List<String> haulEmpOutIds = new ArrayList<String>();
-		//若为三级考试判断该员工是否完成三级培训
-		if(examInfo.getExamlevel().equals("3")){
-			EmployeeoutdistributeExample distributeExample = new EmployeeoutdistributeExample();
-			EmployeeoutdistributeExample.Criteria criteria_distribute = distributeExample.createCriteria();
-			//大修ID
-			criteria_distribute.andBigidEqualTo(examBigId);
-			//培训等级
-			criteria_distribute.andEmpouttraingradeEqualTo("3");
-			//考试状态
-			criteria_distribute.andEmpoutexamstatusEqualTo("0");
+		EmployeeexamExample employeeExamExample = new EmployeeexamExample();
+		EmployeeexamExample.Criteria criteriaEmployeeExam = employeeExamExample.createCriteria();
+		criteriaEmployeeExam.andExamidEqualTo(examId);
+		List<Employeeexam> employeeExamInfoList = employeeExamMapper.selectByExample(employeeExamExample);
+		//判断若员工的类型为外部员工类型才更新员工分配表和大修员工表
+		if(employeeExamInfoList.get(0).getEmployeetype().equals("1")){
+			//分配表主键集合根据考试ID查询通过这次考试的员工分配表主键
+			List<String> distributeIds = new ArrayList<String>();
+			List<Map<String, Object>> mapInfoList = employeeexamCustomMapper.selectPassOutExamDistributeIds(examId);
 			for (Map<String, Object> mapInfo : mapInfoList) {
-				criteria_distribute.andHaulempidEqualTo(mapInfo.get("bigEmployeeOutId").toString());				
-				List<Employeeoutdistribute> distributeInfoList = employeeDistributeMapper.selectByExample(distributeExample);
-				//判断集合中是否有值，即是否有尚未通过的三级考试
-				if(distributeInfoList.size()==0){
-					haulEmpOutIds.add((String)mapInfo.get("bigEmployeeOutId"));
+				distributeIds.add(mapInfo.get("distributeid").toString());
+			}
+			if(distributeIds.size()>0){
+				//根据分配表主键批量分配表中员工的考试状态
+				employeeexamCustomMapper.updateEmpDistributeExamStatusByIds(distributeIds);
+			}
+			
+			//根据考试ID查询考试的等级
+			Exam examInfo = examMapper.selectByPrimaryKey(examId);
+			String examBigId = examInfo.getBigid();//大修ID
+			//通过所有三级考试的大修员工ID集合
+			List<String> haulEmpOutIds = new ArrayList<String>();
+			//若为三级考试判断该员工是否完成三级培训
+			if(examInfo.getExamlevel().equals("3")){
+				EmployeeoutdistributeExample distributeExample = new EmployeeoutdistributeExample();
+				EmployeeoutdistributeExample.Criteria criteria_distribute = distributeExample.createCriteria();
+				//大修ID
+				criteria_distribute.andBigidEqualTo(examBigId);
+				//培训等级
+				criteria_distribute.andEmpouttraingradeEqualTo("3");
+				//考试状态
+				criteria_distribute.andEmpoutexamstatusEqualTo("0");
+				for (Map<String, Object> mapInfo : mapInfoList) {
+					criteria_distribute.andHaulempidEqualTo(mapInfo.get("bigEmployeeOutId").toString());				
+					List<Employeeoutdistribute> distributeInfoList = employeeDistributeMapper.selectByExample(distributeExample);
+					//判断集合中是否有值，即是否有尚未通过的三级考试
+					if(distributeInfoList.size()==0){
+						haulEmpOutIds.add((String)mapInfo.get("bigEmployeeOutId"));
+					}
+				}
+				if(haulEmpOutIds.size()>0){	
+					//若通过全部三级考试批量修改大修员工表的培训状态
+					employeeexamCustomMapper.updateHaulEmployeeOutTrainStatusByIds(haulEmpOutIds);
 				}
 			}
-			if(haulEmpOutIds.size()>0){	
-				//若通过全部三级考试批量修改大修员工表的培训状态
-				employeeexamCustomMapper.updateHaulEmployeeOutTrainStatusByIds(haulEmpOutIds);
-			}
-		}
+		}				
 		
 		/*// 根据考试ID查询通过这次考试的员工身份证号集合和大修ID
 		String examId = employeeOutGrades.get(0).getExamid();

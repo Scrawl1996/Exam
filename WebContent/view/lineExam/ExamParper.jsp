@@ -33,11 +33,15 @@
     <script type="text/javascript" src="<%=path %>/bs/js/bootstrap.js"></script>
 
     <link rel="stylesheet" href="<%=path %>/css/lineExam/ExamParper.css">
+    <script>
+		//定义一个全局变量
+		var basePathUrl = "${pageContext.request.contextPath}";
+	</script>
      <!-- 日期格式转换 -->
     <script src="${pageContext.request.contextPath }/js/questionLibrary/dateformat.js "></script>
     <script src="<%=path %>/js/lineExam/ExamParper.js"></script>
     
-    <script>
+    <script>    	
     	//考试的基本信息
     	var examInfo = ${result.examInfo};
     	//从域对象中获取身份证号，员工登录时间

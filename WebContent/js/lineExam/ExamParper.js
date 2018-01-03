@@ -270,7 +270,7 @@ function doPost(to, p) {
 function getServerDate(){
 	var nowTimeStr;
 	$.ajax({
-		url:"onlineExam_getNowServerTime.action?date="+Format(new Date(),"HH:mm:ss"),
+		url:basePathUrl+"/onlineExam_getNowServerTime.action?date="+Format(new Date(),"HH:mm:ss"),
 		async:false,
 		datatype:"json",
 		success:function(data){			
