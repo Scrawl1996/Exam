@@ -85,8 +85,24 @@ $(function() {
 		$(".outShow").css('display', 'none');// 隐藏大修名称框
 		$("#addOutDiv").css('display', 'none');// 隐藏下面的选择员工框
 	});
+	
+	//线上线下的点击方式
+	$("[name='examMethod']").click(function(){
+		
+		if($(this).val()=="线上"){
+			$("#inpstart0").val("")
+			$("#inpend0").val("")
+		}
+		if($(this).val()=="线下"){
+			$("#inpstart0").val( Format(getServerDate(),"yyyy-MM-dd HH:mm:ss"))
+			$("#inpend0").val( Format(getServerDate(),"yyyy-MM-dd HH:mm:ss"))
+		}
+	});
+	
+	
 	// 点击外来部门的单选圈的事件
 	$("#openOutRadio").click(function() {
+//		alert(getServerDate())
 		$("#addInDiv").css('display', 'none');// 隐藏内部信息
 		$(".inShow").css('display', 'none');// 隐藏内部参考部门信息
 		$(".outShow").css('display', '');// 显示大修名称框
@@ -745,7 +761,7 @@ var saveExam = function() {
 		var startDate = $("#inpstart0").val(); //开始日期
 		var d1 = new Date(startDate);
 		var d2 = new Date(value);
-		return d1 < d2;
+		return d1 <= d2;
 	};
 
 	var isNotNull = $("#examForm").validate({
@@ -765,7 +781,7 @@ var saveExam = function() {
 			"exam.starttime" : "required",
 			"exam.endtime" : {
 				required : true,
-//				compareDate : "#inpend0"
+				compareDate : "#inpend0"
 			},
 			"exam.employeename" : {
 				required : true
@@ -791,7 +807,7 @@ var saveExam = function() {
 			"exam.starttime" : "开始时间不能为空",
 			"exam.endtime" : {
 				required : "结束时间不能为空",
-//				compareDate : "结束日期不能小于开始日期"
+				compareDate : "结束日期不能小于开始日期"
 			},
 			"exam.employeename" : {
 				required : "创建人不能为空"
@@ -939,4 +955,21 @@ function replaceLevel(level) {
 	if (level == '3') {
 		return "班组级";
 	}
+}
+
+
+
+/************获取服务器时间**********/
+function getServerDate(){
+	var nowTimeStr;
+	$.ajax({
+		url:"onlineExam_getNowServerTime.action?date="+Format(new Date(),"HH:mm:ss"),
+		async:false,
+		datatype:"json",
+		success:function(data){			
+			nowTimeStr = data.nowTime.replace(/T/g," ").replace(/-/g,"/");
+		}
+	})	
+	return new Date(nowTimeStr);
+	//return new Date();
 }

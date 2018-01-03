@@ -26,8 +26,9 @@
 		(IFNULL((SELECT SUM(minusNum) FROM breakrules,
 		haulemployeeout WHERE
 		breakrules.BigEmployeeoutId =
-		haulemployeeout.BigEmployeeoutId 
-		AND haulemployeeout.unitid =unit.unitId
+		haulemployeeout.BigEmployeeoutId
+		AND haulemployeeout.unitid =unit.unitId and breakTime LIKE
+		CONCAT(Year(CurDate()),'%')
 		),0)) AS unitMinisMum,
 		(SELECT
 		count(BigEmployeeoutId)
@@ -59,7 +60,8 @@
 			AND distr.empOutIdCard =emp.idCode
 			AND haulempid IN (SELECT haulempid
 			from employeeoutdistribute
-			WHERE departmentId=#{departmentId})
+			WHERE
+			departmentId=#{departmentId})
 		</if>
 		<!-- 未参加本机培训 -->
 		<if test="distributeStatus != null and distributeStatus==0">

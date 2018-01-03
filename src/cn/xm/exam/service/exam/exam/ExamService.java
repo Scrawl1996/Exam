@@ -34,7 +34,7 @@ public interface ExamService {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean addExam(Exam exam) throws Exception;
+	public boolean addExam(Exam exam,String examMethod) throws Exception;
 
 	/**
 	 * 根据考试的id删除考试信息
@@ -52,7 +52,7 @@ public interface ExamService {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean updateExamById(Exam exam) throws Exception;
+	public boolean updateExamById(Exam exam,String examMethod) throws Exception;
 
 	// 修改考试员工(主要是增加与删除考试的员工 )
 	/**

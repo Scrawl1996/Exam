@@ -49,7 +49,7 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public boolean addExam(Exam exam) throws Exception {
+	public boolean addExam(Exam exam,String examMethod) throws Exception {
 		if (exam == null) {
 			return false;
 		}
@@ -97,7 +97,7 @@ public class ExamServiceImpl implements ExamService {
 		if (employeeInExams != null && employeeInExams.size() > 0) {
 			for (Employeeexam employeeIn : employeeInExams) {
 				employeeIn.setExamid(examId);
-				employeeIn.setExammethod("线上");
+				employeeIn.setExammethod(examMethod);
 				employeeIn.setGrade(0f);
 				//将外部员工独有的置为空
 				employeeIn.setDistributeid(0);
@@ -112,7 +112,7 @@ public class ExamServiceImpl implements ExamService {
 		if (employeeOutExams != null && employeeOutExams.size() > 0) {
 			for (Employeeexam employeeOut : employeeOutExams) {
 				employeeOut.setExamid(examId);
-				employeeOut.setExammethod("线下");
+				employeeOut.setExammethod(examMethod);
 				employeeOut.setGrade(0f);
 				employeeOut.setEmployeetype("1");// 1代表外部员工
 			}
@@ -141,7 +141,7 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public boolean updateExamById(Exam exam) throws Exception {
+	public boolean updateExamById(Exam exam,String examMethod) throws Exception {
 		// 修改试卷的使用次数
 		int minusPaperUsetimes = exampaperCustomMapper
 				.minusExampaperUsetimes(examMapper.selectByPrimaryKey(exam.getExamid()).getPaperid());
@@ -149,7 +149,7 @@ public class ExamServiceImpl implements ExamService {
 		boolean updateExamResult = false;
 		if (this.deleteExamById(exam.getExamid())) {
 			// 根据考试的id重新添加考试
-			updateExamResult = this.addExam(exam);
+			updateExamResult = this.addExam(exam,examMethod);
 		}
 		return updateExamResult;
 	}

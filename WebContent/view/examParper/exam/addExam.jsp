@@ -18,6 +18,9 @@
 <%@ include file="/public/cssJs.jsp"%>
 
 <script src="<%=path%>/js/examParper/exam/addExam.js"></script>
+<!-- 日期格式转换 -->
+<script
+	src="${pageContext.request.contextPath }/js/questionLibrary/dateformat.js "></script>
 <link rel="stylesheet" href="<%=path%>/css/examParper/addExam.css">
 <style type="text/css">
 #el_chooseUnit li {
@@ -27,21 +30,21 @@
 </style>
 <%@include file="/public/validate.jsp"%>
 <script>
-	$(function(){
+	$(function() {
 		$("#inpstart0").jeDate({
-		    isinitVal:false,
-		    minDate: '2000-06-16',
-		    maxDate: '2225-06-16',
-		    format : 'YYYY-MM-DD hh:mm:ss',
-		    zIndex:3000
+			isinitVal : false,
+			minDate : '2000-06-16',
+			maxDate : '2225-06-16',
+			format : 'YYYY-MM-DD hh:mm:ss',
+			zIndex : 3000
 		})
-		
+
 		$("#inpend0").jeDate({
-		    isinitVal:false,
-		    minDate: '2000-06-16',
-		    maxDate: '2225-06-16',
-		    format : 'YYYY-MM-DD hh:mm:ss',
-		    zIndex:3000
+			isinitVal : false,
+			minDate : '2000-06-16',
+			maxDate : '2225-06-16',
+			format : 'YYYY-MM-DD hh:mm:ss',
+			zIndex : 3000
 		})
 
 	})
@@ -100,17 +103,40 @@
 							</div>
 
 
+							<!--根据选择的部门类型，
+                动态的加载相应部门类型的部门
+                再调用相应部门类型的添加部门一人的模态-->
+							<div class="input-group el_modellist" role="toolbar">
+								<span class="el_spans">部门类型：</span> <label
+									class="el_radioBox el_radioBox2"> <input type="radio"
+									name="el_departType" checked value="0" id="openInRadio">厂内部门
+								</label> <label class="el_radioBox el_radioBox2"> <input
+									type="radio" name="el_departType" value="1" id="openOutRadio">外来单位
+								</label>
+							</div>
+
+
+							<div class="input-group el_modellist" role="toolbar">
+								<span class="el_spans">考试方式：</span> <label
+									class="el_radioBox el_radioBox2"> <input type="radio"
+									name="examMethod" checked value="线上">线上
+								</label> <label class="el_radioBox el_radioBox2"> <input
+									type="radio" name="examMethod" value="线下" id="">线下
+								</label>
+							</div>
+
 							<!-- 							<div class="input-group el_modellist" role="toolbar">
 								<span class="el_spans">考试地点：</span> <input type="text"
 									class="form-control el_modelinput" name="exam.address" />
 							</div> -->
 
+							
 							<div class="input-prepend input-group el_modellist el_modellist5">
-								<span class="add-on el_spans">考试时间：</span> 
-								 <input type="text"  placeholder="开始时间"
-									class="workinput form-control el_noVlaue wicon" id="inpstart0"  placeholder="开始时间"
-									name="exam.starttime" readonly> 
-								<input type="text" name="exam.endtime" placeholder="结束时间"
+								<span class="add-on el_spans">考试时间：</span> <input type="text"
+									placeholder="开始时间"
+									class="workinput form-control el_noVlaue wicon" id="inpstart0"
+									placeholder="开始时间" name="exam.starttime" readonly> <input
+									type="text" name="exam.endtime" placeholder="结束时间"
 									class="workinput el_noVlaue form-control wicon" id="inpend0"
 									readonly>
 							</div>
@@ -130,18 +156,6 @@
 									name="exam.employeename" value="${session.userinfo.username }" />
 							</div>
 
-							<!--根据选择的部门类型，
-                动态的加载相应部门类型的部门
-                再调用相应部门类型的添加部门一人的模态-->
-							<div class="input-group el_modellist" role="toolbar">
-								<span class="el_spans">部门类型：</span> <label
-									class="el_radioBox el_radioBox2"> <input type="radio"
-									name="el_departType" checked value="0" id="openInRadio">厂内部门
-								</label> <label class="el_radioBox el_radioBox2"> <input
-									type="radio" name="el_departType" value="1" id="openOutRadio">外来单位
-								</label>
-							</div>
-
 
 							<!-- 内部显示的东西 -->
 							<div class="input-group el_modellist inShow" role="toolbar">
@@ -149,7 +163,8 @@
 								<ul id="el_chooseDepart1" class="form-control"></ul>
 								<img src="${baseurl }/controls/selectDropTree/smallTriangle.png"
 									class="el_smallTriangle" width="7" />
-								<ul id="treeDemo10" class="ztree" style="width:300px !important;display: none"></ul>
+								<ul id="treeDemo10" class="ztree"
+									style="width: 300px !important; display: none"></ul>
 							</div>
 
 
@@ -657,7 +672,7 @@
 								</table>
 
 								<!--分页-->
-								<div id="paginationID"  class="paginationID"></div>
+								<div id="paginationID" class="paginationID"></div>
 								<!--隐藏分页用的信息  -->
 								<input type="hidden" name="currentPage" id="currentPage">
 								<input type="hidden" name="currentCount" id="currentCount">

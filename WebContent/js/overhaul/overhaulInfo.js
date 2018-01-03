@@ -90,7 +90,10 @@ function showUnitTale(response) {
 								+ '</a></td><td><a href="javascript:void(0)" onclick="queryEmployeeOut(this)">'
 								+ units[i].personNum
 								+ '</a></td><td>'
-								+ operation + '</td></tr>');
+								+ units[i].jiaquan
+								+ '</td><td>'
+								+ operation
+								+ '</td></tr>');
 	}
 	// 动态开启分页组件
 	page(currentPage, totalCount, currentCount);

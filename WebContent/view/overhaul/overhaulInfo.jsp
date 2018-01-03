@@ -194,6 +194,7 @@ label.success {
 													<th>参与项目</th>
 													<th>违章积分</th>
 													<th>单位人数</th>
+													<th>加权积分</th>
 													<th width="150">操作</th>
 												</tr>
 											</thead>

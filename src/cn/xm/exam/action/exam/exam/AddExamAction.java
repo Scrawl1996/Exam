@@ -211,12 +211,13 @@ public class AddExamAction extends ActionSupport {
 	 */
 	private String innerEmployeeIdcodes;// 参考的内部员工身份证号
 	private String outEmployeeIdcodes;// 参考的外部员工身份证号
+	private String examMethod;// 参考的外部员工身份证号
 
 	public String addExam() {
 		response = new HashMap();
 		String result = null;
 		try {
-			result = examService.addExam(exam) ? "添加成功！" : "添加失败!";
+			result = examService.addExam(exam,examMethod) ? "添加成功！" : "添加失败!";
 		} catch (Exception e) {
 			logger.error("添加考试信息失败", e);
 			result = "添加失败!";
@@ -312,6 +313,14 @@ public class AddExamAction extends ActionSupport {
 
 	public void setExam(Exam exam) {
 		this.exam = exam;
+	}
+
+	public String getExamMethod() {
+		return examMethod;
+	}
+
+	public void setExamMethod(String examMethod) {
+		this.examMethod = examMethod;
 	}
 
 }

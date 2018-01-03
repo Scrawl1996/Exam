@@ -24,8 +24,11 @@
 	<!--头-->
 	<div id="el_header">
 		<div id="el_headerLeftLogo">
-			<img src="<%=path%>/image/logo.png" width="36" /> <a
-				href="<%=path%>/index.jsp"> 阳城国际发电有限公司 安全培训管理系统</a>
+			<img src="<%=path%>/image/logo.png" width="36" /> 
+			<a href="<%=path%>/index.jsp">阳城国际发电有限责任公司 大唐阳城发电有限责任公司 </a>
+		</div>
+		<div id="el_headerLeftLogo1">
+			<a href="<%=path%>/index.jsp">安全培训管理系统 </a>
 		</div>
 		<div id="el_headerRightinfo">
 			<div id="el_systemTime">
