@@ -59,8 +59,9 @@ $(document).ready(function() {
 // 查询检修部门树
 function queryHaulUnitTree() {
 	$.ajax({
-		url : contextPath + '/haul_getHaulUnitTree.action',
+		url : contextPath + '/employeeOutPerson_getDepartmentAndOverHaulTree.action',
 		dataType : 'JSON',
+		data:{"markTrainType":"1"},
 		async : true,
 		type : 'POST',
 		success : showHaulUnitTree,
