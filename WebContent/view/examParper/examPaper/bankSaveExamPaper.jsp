@@ -147,11 +147,10 @@
 										</tr>
 										<tr>
 											<td>创建时间</td>
-											<td><input type="text" id="test4" name=""
-												class="wicon form-control"
+											<td><input type="text" id="test4" name="" style="background-color:white;"
 												value='<fmt:formatDate value="${exampaper.maketime }" pattern="yyyy-MM-dd HH:mm:ss"/>'
 												disabled="disabled" /> <input type="hidden" id="test4"
-												name="exampaper.maketime" class="wicon form-control"
+												name="exampaper.maketime" class="wicon el_noVlaue form-control"
 												value='<fmt:formatDate value="${exampaper.maketime }" pattern="yyyy-MM-dd HH:mm:ss"/>' /></td>
 										</tr>
 									</tbody>

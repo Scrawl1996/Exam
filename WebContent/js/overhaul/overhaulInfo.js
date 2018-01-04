@@ -1,6 +1,7 @@
 /**
  * 
  */
+var break_open = false, user_open = false;// 用于记录两个模态框是否打开
 // 添加员工
 function el_addEmp() {
 	$("#el_addEmp").modal();
@@ -16,6 +17,15 @@ $(function() {
 	queryHaulInfo();// 初始化的时候查询大修基本信息
 
 	queryHaulUnit();
+	
+    // 违章模态框关闭设置全局变量为关闭
+    $('#el_bRInfor').on('hidden.bs.modal', function() {
+    	break_open = false;
+    });
+    // 违章模态框关闭设置全局变量为关闭
+    $('#employeeModal').on('hidden.bs.modal', function() {
+    	user_open = false;
+    });
 });
 
 /** **S 初始化大修基本信息******* */
@@ -37,12 +47,12 @@ var showHaulInfo = function(response) {
 /** **E 初始化大修基本信息******* */
 /** ******E 模态框中操作以及保存单位******************** */
 /** S 查询单位信息**************** */
-// 查询部门信息
+//查询部门信息
 function queryHaulUnit() {
 	$.post(contextPath + '/unit_getHaulUnitPage.action',
 			$("#queryHaulunitForm").serialize(), showUnitTale, 'json');
 }
-// 添加信息到表格中
+//添加信息到表格中
 function showUnitTale(response) {
 	// 如果为空结束方法
 	if (response.pageBean == null) {
@@ -55,23 +65,22 @@ function showUnitTale(response) {
 	var units = response.pageBean.productList;// 获取所有的单位
 	for (var i = 0, length_1 = units.length; i < length_1; i++) {
 		// 先列出所有的操作
-		var delUpdate = "--";
-		if (hasOutunitOperating) {
-			delUpdate = '<a href="javascript:void(0)" onclick="openUpdateModal(this)">修改</a>&nbsp;'
+		var delUpdate="--";
+			if(hasOutunitOperating){
+				delUpdate='<a href="javascript:void(0)" onclick="openUpdateModal(this)">修改</a>&nbsp;'
 					+ ' <a href="javascript:void(0)" onclick="deleteUnit(this)">删除</a><br />';
-		}
+			}
+			
 		// 如果大修已经结束就把操作隐藏掉
-		var operation = units[i].bigStatus == "已结束" ? "--" : delUpdate;
+		var operation=units[i].bigStatus =="已结束"?"--":delUpdate;
 		$("#haunUnitTbody")
 				.append(
 						'<tr><td><input type="radio" name="el_chooseDepart"	class="el_checks"/><input type="hidden" name="unitId" value="'
 								+ units[i].unitId
 								+ '"/><input type="hidden" name="bigId" value="'
 								+ units[i].bigId
-								+ '"/><input type="hidden" name="haulUnitId" value="'
-								+ units[i].unitBigId
-								+ '"/>'
-								+ '</td><td>'
+								+ '"/><input type="hidden" name="haulUnitId" value="'+units[i].unitBigId
+								+'"/>'+ '</td><td>'
 								+ units[i].name
 								+ '</td><td>'
 								+ units[i].bigName
@@ -87,18 +96,16 @@ function showUnitTale(response) {
 								+ units[i].projectNames
 								+ '</td><td><a href="javascript:void(0)" onclick="queryEmployeeBreakrule(this)">'
 								+ units[i].unitMinisMum
-								+ '</a></td><td><a href="javascript:void(0)" onclick="queryEmployeeOut(this)">'
+								+ '</a></td><td><a href="javascript:void(0)" onclick="initVariable(this)">'
 								+ units[i].personNum
-								+ '</a></td><td>'
-								+ units[i].jiaquan
-								+ '</td><td>'
-								+ operation
+								+ '</a></td><td>'+units[i].jiaquan+'</td><td>'
+								+operation
 								+ '</td></tr>');
 	}
 	// 动态开启分页组件
 	page(currentPage, totalCount, currentCount);
 }
-// 显示分页
+//显示分页
 function page(currentPage, totalCount, currentCount) {
 	// 修改分页的基本属性
 	$('#paginationIDU').pagination(
@@ -107,18 +114,19 @@ function page(currentPage, totalCount, currentCount) {
 				"total" : totalCount,// 数字 当分页建立时设置记录的总数量 1
 				"pageSize" : currentCount,// 数字 每一页显示的数量 10
 				"pageNumber" : currentPage,// 数字 当分页建立时，显示的页数 1
-				"pageList" : [ 8 ],// 数组 用户可以修改每一页的大小，
+				"pageList" : [ 8,15,20 ],// 数组 用户可以修改每一页的大小，
 				// 功能
 				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
 						'last', 'links' ],
 				"onSelectPage" : function(pageNumber, pageSize) {
 					$("#currentPage").val(pageNumber);
 					$("#currentCount").val(pageSize);
-					// 查询大修
+					// 查询检修
 					queryHaulUnit();
 				}
 			});
 }
+
 
 /** E 查询单位信息**************** */
 /** *S 修改单位信息** */
@@ -222,19 +230,32 @@ function updateUnit() {
 }
 /** *E 修改单位信息** */
 /** *S 根据单位与大修编号查询人数*** */
-function queryEmployeeOut(obj) {
+//初始化数据
+function initVariable(obj){
 	var $tds = $(obj).parent().parent().children();
 	var unitid = $($tds[0]).children("input:hidden:eq(0)").val();// 获取到部门ID
 	var bigid = $($tds[0]).children("input:hidden:eq(1)").val();// 获取到部门ID
+	$("#q_bigId").val(bigid);
+	$("#q_unitId").val(unitid);
+	queryEmployeeOut();
+}
+//查询内部员工
+function queryEmployeeOut() {
 	$.post(contextPath + '/unit_getEmployeesByHaulidAndUnitId.action', {
-		"bigId" : bigid,
-		"unitId" : unitid
+		"currentPage":$("#currentPage2").val(),
+		"currentCount":$("#currentCount2").val(),
+		"bigId" : 	$("#q_bigId").val(),
+		"unitId" : $("#q_unitId").val()
 	}, showEmployeeModal, 'json')
 }
+
 function showEmployeeModal(response) {
 	$("#employeeTbody").html("");
-	if (response != null && response.employees != null) {
-		var employees = response.employees;
+	if (response != null && response.pageBean != null) {
+		var currentPage = response.pageBean.currentPage;
+		var currentCount = response.pageBean.currentCount;
+		var totalCount = response.pageBean.totalCount;
+		var employees = response.pageBean.productList;
 		for (var i = 0; employees != null && i < employees.length; i++) {
 			var sex = (employees[i].sex == '1') ? "男" : "女";
 			// 对员工的扣分进行非空处理
@@ -248,28 +269,63 @@ function showEmployeeModal(response) {
 			/* + '</td><td>' + minusNum */
 		}
 	}
-	$("#employeeModal").modal({
-		keyboard : false,
-		backdrop : 'static'
-	});
+	page3(currentPage, totalCount, currentCount);
+	if(!user_open){
+		$("#employeeModal").modal({
+			keyboard : false,
+			backdrop : 'static'
+		});
+	}
+}
+
+//显示分页
+function page3(currentPage, totalCount, currentCount) {
+	// 修改分页的基本属性
+	$('#paginationIDU2').pagination(
+			{
+				// 组件属性
+				"total" : totalCount,// 数字 当分页建立时设置记录的总数量 1
+				"pageSize" : currentCount,// 数字 每一页显示的数量 10
+				"pageNumber" : currentPage,// 数字 当分页建立时，显示的页数 1
+				"pageList" : [ 8,15,20 ],// 数组 用户可以修改每一页的大小，
+				// 功能
+				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
+						'last', 'links' ],
+				"onSelectPage" : function(pageNumber, pageSize) {
+					$("#currentPage2").val(pageNumber);
+					$("#currentCount2").val(pageSize);
+					// 查询检修员工
+					queryEmployeeOut();
+				}
+			});
 }
 
 /** *E 根据单位与大修编号查询人数*** */
 /** *S 根据单位与大修编号查询违章员工信息*** */
+/** *S 根据单位与检修编号查询违章员工信息*** */
 function queryEmployeeBreakrule(obj) {
 	var $tds = $(obj).parent().parent().children();
 	var unitid = $($tds[0]).children("input:hidden:eq(0)").val();// 获取到部门ID
 	var bigid = $($tds[0]).children("input:hidden:eq(1)").val();// 获取到部门ID
+	var fstarttime=$("[name='fstarttime']").val();
+	var fendtime=$("[name='fendtime']").val();
+	$("#query_unitid").val(unitid);
+	$("#query_bigid").val(bigid);
+	$("#query_fstarttime").val(fstarttime);
+	$("#query_fendtime").val(fendtime);
+	query_break();
+}
+function query_break(){
 	$.post(contextPath
-			+ '/unit_getEmployeeOutsBreakrulesByUaulIdAndUnitId.action', {
-		"bigId" : bigid,
-		"unitId" : unitid
-	}, showEmployeeBreakrulesModal, 'json')
+			+ '/unit_getEmployeeOutsBreakrulesByUaulIdAndUnitId.action',$("#query_break_form").serialize(), showEmployeeBreakrulesModal, 'json')
 }
 function showEmployeeBreakrulesModal(response) {
+	var currentPage=response.pageBean.currentPage;
+	var currentCount=response.pageBean.currentCount;
+	var totalCount=response.pageBean.totalCount;
 	$("#breakrulesTbody").html("");
-	if (response != null && response.employeeBreakrules != null) {
-		var employeeBreakrules = response.employeeBreakrules;
+	if (response != null && response.pageBean != null) {
+		var employeeBreakrules = response.pageBean.productList;
 		for (var i = 0; employeeBreakrules != null
 				&& i < employeeBreakrules.length; i++) {
 			var sex = (employeeBreakrules[i].sex == '1') ? "男" : "女";
@@ -283,17 +339,42 @@ function showEmployeeBreakrulesModal(response) {
 							+ '</td><td>'
 							+ employeeBreakrules[i].breakContent
 							+ '</td><td>'
-							+ Format(new Date(employeeBreakrules[i].breakTime
-									.replace(/T/g, " ").replace(/-/g, "/")),
+							+ Format(new Date(employeeBreakrules[i].breakTime.replace(/T/g," ").replace(/-/g,"/")),
 									"yyyy-MM-dd") + '</td><td>'
 							+ employeeBreakrules[i].minusNum + '</td></tr>');
 
 		}
 	}
-	$("#el_bRInfor").modal({
-		keyboard : false,
-		backdrop : 'static'
-	});
+	
+	
+	page1(currentPage, totalCount, currentCount);
+	if(!break_open){
+		$("#el_bRInfor").modal({
+			keyboard : false,
+			backdrop : 'static'
+		});
+	}
+}
+// 显示分页
+function page1(currentPage, totalCount, currentCount) {
+	// 修改分页的基本属性
+	$('#paginationIDU1').pagination(
+			{
+				// 组件属性
+				"total" : totalCount,// 数字 当分页建立时设置记录的总数量 1
+				"pageSize" : currentCount,// 数字 每一页显示的数量 10
+				"pageNumber" : currentPage,// 数字 当分页建立时，显示的页数 1
+				"pageList" : [ 8,15,20 ],// 数组 用户可以修改每一页的大小，
+				// 功能
+				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
+						'last', 'links' ],
+				"onSelectPage" : function(pageNumber, pageSize) {
+					$("#currentPage1").val(pageNumber);
+					$("#currentCount1").val(pageSize);
+					// 查询检修
+					query_break();
+				}
+			});
 }
 
 /** *E 根据单位与大修编号查询违章员工信息*** */

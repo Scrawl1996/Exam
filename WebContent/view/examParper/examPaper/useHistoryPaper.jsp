@@ -153,7 +153,7 @@
 										<tr>
 											<td>创建时间</td>
 											<td><input type="text" id="test4"
-												name="exampaper.maketime" class="wicon form-control"
+												name="exampaper.maketime" class="wicon  form-control el_noVlaue"
 												value='<fmt:formatDate value="${exampaper.maketime }" pattern="yyyy-MM-dd HH:mm:ss"/>'
 												readonly /></td>
 										</tr>

@@ -529,7 +529,7 @@ public class EmployeeInAction extends ActionSupport {
 		String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
 		// 获取用户信息
 		Subject currentUser = SecurityUtils.getSubject();
-		boolean permitted = currentUser.isPermitted("departmentmanage:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
+		boolean permitted = currentUser.isPermitted("departmentmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 		String departmentId = permitted ? null : departmentIdSession;
 		if (ValidateCheck.isNotNull(departmentId)) {
 			condition.put("departmentId", departmentId);

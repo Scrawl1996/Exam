@@ -434,95 +434,112 @@ label.success {
 								</div>
 
 
-								<!-- 模态框 点击违章积分，显示违章员工-->
-								<div class="modal fade" id="el_bRInfor" tabindex="-1"
-									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal"
-													aria-hidden="true">&times;</button>
-												<!--关闭符号-->
-												<!--标题-->
-												<h4 class="modal-title" id="myModalLabel27">部门员工违章信息</h4>
-											</div>
-											<form>
-												<div class="modal-body">
-													<table class="table table-hover table-bordered">
-														<thead>
-															<tr>
-																<th>违章员工</th>
-																<th>性别</th>
-																<th>身份证</th>
-																<th>违章内容</th>
-																<th>违章时间</th>
-																<th>扣分</th>
-															</tr>
-														</thead>
-														<tbody id="breakrulesTbody">
-
-														</tbody>
-													</table>
-
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-default"
-														data-dismiss="modal">关闭</button>
-												</div>
-											</form>
-
+							<!-- 模态框 点击违章积分，显示违章员工-->
+							<div class="modal fade" id="el_bRInfor" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabel27">部门员工违章信息</h4>
 										</div>
-										<!-- /.modal-content -->
-									</div>
-									<!-- /.modal -->
-								</div>
+										<form>
+											<div class="modal-body">
+												<table class="table table-hover table-bordered">
+													<thead>
+														<tr>
+															<th>违章员工</th>
+															<th>性别</th>
+															<th>身份证</th>
+															<th>违章内容</th>
+															<th>违章时间</th>
+															<th>扣分</th>
+														</tr>
+													</thead>
+													<tbody id="breakrulesTbody">
+													</tbody>
+												</table>
 
+												<div id="paginationIDU1" class="paginationID"></div>
 
-
-
-								<!-- 大修单位下的员工信息模态框-->
-								<div class="modal fade" id="employeeModal" tabindex="-1"
-									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal"
-													aria-hidden="true">&times;</button>
-												<!--关闭符号-->
-												<!--标题-->
-												<h4 class="modal-title" id="myModalLabel27">部门员工信息</h4>
 											</div>
-											<form>
-												<div class="modal-body">
-
-
-													<table class="table table-hover table-bordered">
-														<thead>
-															<tr>
-																<th>员工姓名</th>
-																<th>身份证</th>
-																<th>性别</th>
-																<th>地址</th>
-																<th>工种</th>
-															</tr>
-														</thead>
-														<tbody id="employeeTbody">
-
-														</tbody>
-													</table>
-
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-primary"
-														data-dismiss="modal">关闭</button>
-												</div>
-											</form>
-
-										</div>
-										<!-- /.modal-content -->
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+											</div>
+										</form>
+										<!--查询违章信息的条件  -->
+										<form id="query_break_form">
+											<input type="hidden" id="query_unitid" name="unitId">
+											<input type="hidden" id="query_bigid" name="bigId"> <input
+												type="hidden" id="query_fstarttime" name="fstarttime">
+											<input type="hidden" id="query_fendtime" name="fendtime">
+											<input type="hidden" id="currentPage1" name="currentPage"
+												value="1"> <input type="hidden" id="currentCount1"
+												name="currentCount" value="8">
+										</form>
 									</div>
-									<!-- /.modal -->
+									<!-- /.modal-content -->
 								</div>
+								<!-- /.modal -->
+							</div>
+
+
+
+
+							<!-- 检修单位下的员工信息模态框-->
+							<div class="modal fade" id="employeeModal" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog" style="width: 700px">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabel27">部门员工信息</h4>
+										</div>
+										<form>
+											<div class="modal-body">
+
+
+												<table class="table table-hover table-bordered">
+													<thead>
+														<tr>
+															<th>员工姓名</th>
+															<th>身份证</th>
+															<th>性别</th>
+															<th>地址</th>
+															<th>工种</th>
+															<!-- <th>电话</th> -->
+															<!-- <th>扣分情况</th> -->
+														</tr>
+													</thead>
+													<tbody id="employeeTbody">
+
+													</tbody>
+												</table>
+												<!-- 隐藏查询条件 -->
+												<input type="hidden" id="currentPage2" name="currentPage"
+													value="1"> <input type="hidden" id="currentCount2"
+													name="currentCount" value="8"> <input type="hidden"
+													id="q_bigId"> <input type="hidden" id="q_unitId">
+												<div id="paginationIDU2" class="paginationID"></div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-primary"
+													data-dismiss="modal">关闭</button>
+											</div>
+										</form>
+
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
 
 
 							</div>
