@@ -36,7 +36,7 @@ public interface EmployeeOutCustomMapper {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getDepartAndOverHaulInfoTree() throws SQLException;
+	public List<Map<String, Object>> getDepartAndOverHaulInfoTree(Map<String,Object> condition) throws SQLException;
 
 	/**
 	 * 根据组合条件查询外部员工的总数，用于分页显示

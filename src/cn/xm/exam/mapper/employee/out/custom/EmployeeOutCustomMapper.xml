@@ -3,9 +3,22 @@
 <mapper namespace="cn.xm.exam.mapper.employee.out.custom.EmployeeOutCustomMapper">
 
 	<!-- 为大修部门树准备数据 -->
-	<select id="getDepartAndOverHaulInfoTree" resultType="map">
+	<select id="getDepartAndOverHaulInfoTree" parameterType="map" resultType="map">
 		select *
 		from overhaul_unit
+		<where>
+			<!-- 增加标记条件判断应该显示的检修及员工信息 -->
+			<!-- 内部培训 -->
+			<if test="markTrainType_In !=null">
+				and id IN (#{regular_train},#{longterm_train})
+				or upid IN (#{regular_train},#{longterm_train})
+			</if>
+			<!-- 外部培训 -->
+			<if test="markTrainType_Out !=null">
+				and id NOT IN (#{regular_train},#{longterm_train})
+				and upid NOT IN (#{regular_train},#{longterm_train})
+			</if>
+		</where>
 	</select>
 
 	<!-- 组合条件查询员工总数 -->
@@ -38,8 +51,7 @@
 		CASE
 		employeeexam.grade>=exampaper.paperScore*0.9 when true then "是" ELSE
 		"否" END isPass,
-		(SELECT emptype FROM haulemployeeout WHERE bigId =
-		exam.bigId AND employeeexam.employeeId = empoutIdcard)
+		(SELECT emptype FROM haulemployeeout WHERE bigemployeeoutid=employeeexam.bigemployeeoutid)
 		employeeOutType,
 		(SELECT haulinfo.bigName FROM haulinfo WHERE bigid =
 		exam.bigId ) bigName
@@ -295,6 +307,15 @@
 		<!-- 大修ID -->
 		<if test="bigId != null">
 			and bigid = #{bigId}
+		</if>
+		<!-- 增加标记条件判断应该显示的检修及员工信息 -->
+		<!-- 内部培训 -->
+		<if test="markTrainType_In !=null">
+			and bigId IN (#{regular_train},#{longterm_train})
+		</if>
+		<!-- 外部培训 -->
+		<if test="markTrainType_Out !=null">
+			and bigId NOT IN (#{regular_train},#{longterm_train})
 		</if>
 	</sql>
 

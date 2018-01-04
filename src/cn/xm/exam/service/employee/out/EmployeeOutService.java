@@ -122,10 +122,11 @@ public interface EmployeeOutService {
 	
 	/**
 	 * 查询大修和部门的树结构
+	 * 参数：培训标记类型，正式员工和外来单位长期员工的大修ID
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String, Object>> getDepartmentAndOverHaulTree() throws Exception ;
+	public List<Map<String, Object>> getDepartmentAndOverHaulTree(Map<String,Object> condition) throws Exception ;
 	
 	/**
 	 * 根据外来单位员工的身份证号查询该员工所有的考试信息

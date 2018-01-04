@@ -807,8 +807,8 @@ function searchDepartmentAndOverHualTree() {
 	$.ajax({
 		type : "post",
 		target : "#departmentAndOverHaulTree",
-		data:{"markTrainType":"1"},
 		dataType : "json",
+		data:{"markTrainType":"0"},
 		url : "employeeOutPerson_getDepartmentAndOverHaulTree.action",
 		success : getTree_1,
 		error : function() {

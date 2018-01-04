@@ -129,8 +129,8 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String, Object>> getDepartmentAndOverHaulTree() throws Exception {
-		List<Map<String, Object>> departAndOverHaulInfoTree = employeeOutCustomMapper.getDepartAndOverHaulInfoTree();
+	public List<Map<String, Object>> getDepartmentAndOverHaulTree(Map<String,Object> condition) throws Exception {
+		List<Map<String, Object>> departAndOverHaulInfoTree = employeeOutCustomMapper.getDepartAndOverHaulInfoTree(condition);
 		return departAndOverHaulInfoTree;
 	}
 

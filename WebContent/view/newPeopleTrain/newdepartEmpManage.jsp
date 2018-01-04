@@ -16,7 +16,7 @@
 
 <link rel="stylesheet" href="<%=path%>/css/outDepart/outdepartTree.css">
 
-<script src="<%=path%>/js/outDepart/outdepartEmpManage.js"></script>
+<script src="<%=path%>/js/newPeopleTrain/newdepartEmpManage.js"></script>
 <link rel="stylesheet"
 	href="<%=path%>/css/outDepart/outdepartEmpManage.css">
 <!-- 日期格式转换 -->
@@ -170,7 +170,7 @@ hasOperatingEmpout = true;
 									<input type="hidden" name="currentPage" id="currentPage" /> <input
 										type="hidden" name="currentCount" id="currentCount" />
 									<!-- 增加标记外来单位员工管理 -->
-									<input type="hidden" name="markTrainType" value="1"/>
+									<input type="hidden" name="markTrainType" value="0"/>
 									<!--提交查询按钮-->
 									<button type="button"
 										class="btn btn-primary el_queryButton btn-sm"

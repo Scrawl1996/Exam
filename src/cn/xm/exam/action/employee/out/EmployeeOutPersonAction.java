@@ -76,13 +76,17 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	private List<Haulemployeeout> haulEmployeeOutList;
 	//图片
 	private String photoStr;
+	//标记培训类型
+	private String markTrainType;
 	 
 	//初始化大修部门树
 	public String getDepartmentAndOverHaulTree(){
+		Map<String,Object> condition = new HashMap<String,Object>();
+		condition = generationCondition(condition);
 		result = new HashMap<String,Object>();
 		List<Map<String, Object>> departmentAndOverHaulTree = null ;
 		try {
-			departmentAndOverHaulTree = employeeOutService.getDepartmentAndOverHaulTree();
+			departmentAndOverHaulTree = employeeOutService.getDepartmentAndOverHaulTree(condition);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -315,6 +319,20 @@ public class EmployeeOutPersonAction extends ActionSupport{
 			condition.put("bigId", bigId);
 		}
 		
+		//培训类型标记
+		if(ValidateCheck.isNotNull(markTrainType)){
+			//判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
+			if(markTrainType.equals("0")){
+				condition.put("markTrainType_In", markTrainType);				
+			}else{
+				condition.put("markTrainType_Out", markTrainType);
+			}
+			//正式新员工培训大修ID
+			condition.put("regular_train", DefaultValue.REGULAR_EMPLOYEE_TRAIN);
+			//长委新员工培训大修ID
+			condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
+		}
+		
 		return condition;
 		
 	}
@@ -453,6 +471,15 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	public void setPhotoStr(String photoStr) {
 		this.photoStr = photoStr;
 	}
+
+	public String getMarkTrainType() {
+		return markTrainType;
+	}
+
+	public void setMarkTrainType(String markTrainType) {
+		this.markTrainType = markTrainType;
+	}
+	
 	
 	
 }
