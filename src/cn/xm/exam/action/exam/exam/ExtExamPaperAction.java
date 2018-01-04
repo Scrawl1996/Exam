@@ -24,6 +24,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import cn.xm.exam.bean.exam.Exampaper;
 import cn.xm.exam.service.exam.examPaper.ExamPaperService;
 import cn.xm.exam.utils.RemoveHtmlTag;
+import cn.xm.exam.utils.Word2PdfUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import jxl.common.Logger;
@@ -97,7 +98,9 @@ public class ExtExamPaperAction extends ActionSupport {
 		this.writeExamPaper2Word(paper);// 写入数据
 		String path = ServletActionContext.getServletContext().getRealPath("/files/papers");
 		String filepath = path + "\\" + fileName + ".doc";
-		File file = new File(filepath);
+		String destPath = path + "\\" + fileName + ".pdf";
+		Word2PdfUtil.word2pdf(filepath, destPath);
+		File file = new File(destPath);
 		// 只用返回一个输入流
 		return FileUtils.openInputStream(file);// 打开文件
 	}
@@ -105,7 +108,7 @@ public class ExtExamPaperAction extends ActionSupport {
 	// 文件下载名
 	public String getDownloadFileName() {
 		String downloadFileName = "";
-		String filename = fileName + ".doc";
+		String filename = fileName + ".pdf";
 		try {
 			downloadFileName = new String(filename.getBytes(), "ISO8859-1");
 		} catch (UnsupportedEncodingException e) {
