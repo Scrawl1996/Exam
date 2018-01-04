@@ -252,6 +252,7 @@
 		<where>
 			<include refid="bankGenePaper_where"></include>
 		</where>
+		ORDER BY o.optionSequence
 	</select>
 	<sql id="bankGenePaper_where">
 		<if test="type!=null">
