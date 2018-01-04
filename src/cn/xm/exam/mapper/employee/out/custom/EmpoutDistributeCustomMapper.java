@@ -21,7 +21,7 @@ public interface EmpoutDistributeCustomMapper {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Map<String,Object>> getHaulunitTreeByDepartmentId(String departmentId) throws SQLException ;
+	public List<Map<String,Object>> getHaulunitTreeByDepartmentId(Map condition) throws SQLException ;
 	/**
 	 * 根據大修ID和单位ID查询大修单位信息
 	 * @param bigId

@@ -24,8 +24,8 @@ public class EmpoutDistributeServiceImpl implements EmpoutDistributeService {
 	private EmpoutDistributeCustomMapper empoutDistributeCustomMapper;
 
 	@Override
-	public List<Map<String, Object>> getHaulunitTreeByDepartmentId(String departmentId) throws SQLException {
-		return empoutDistributeCustomMapper.getHaulunitTreeByDepartmentId(departmentId);
+	public List<Map<String, Object>> getHaulunitTreeByDepartmentId(Map condition) throws SQLException {
+		return empoutDistributeCustomMapper.getHaulunitTreeByDepartmentId(condition);
 	}
 
 	@Override

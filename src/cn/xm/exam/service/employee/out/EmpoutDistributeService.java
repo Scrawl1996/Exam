@@ -18,7 +18,7 @@ public interface EmpoutDistributeService {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Map<String,Object>> getHaulunitTreeByDepartmentId(String departmentId) throws SQLException ;
+	public List<Map<String,Object>> getHaulunitTreeByDepartmentId(Map condition) throws SQLException ;
 	/**
 	 * 分页查询员工分配信息
 	 * @param currentPage	当前页
