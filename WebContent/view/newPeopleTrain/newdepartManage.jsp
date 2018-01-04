@@ -133,7 +133,11 @@ label.success {
 									<input type="hidden" name="currentCount" id="currentCount">
 									<!-- 隐藏一个检修的ID -->
 									<input type="hidden" name="bigId">
-
+									<!-- 增加标记外来单位员工管理 -->
+									<input type="hidden" name="markTrainType" value="0"/>
+									
+									
+									
 									<div class="row">
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">

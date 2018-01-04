@@ -106,6 +106,15 @@
 		<if test="bigId != null">
 			and haulunit.bigId = #{bigId}
 		</if>
+		<!-- 增加标记条件判断应该显示的检修及员工信息 -->
+		<!-- 内部培训 -->
+		<if test="markTrainType_In !=null">
+			and haulunit.bigId IN (#{regular_train},#{longterm_train})
+		</if>
+		<!-- 外部培训 -->
+		<if test="markTrainType_Out !=null">
+			and haulunit.bigId NOT IN (#{regular_train},#{longterm_train})
+		</if>
 	</sql>
 	<sql id="query_haulunit_limit">
 		<if test="index != null">
