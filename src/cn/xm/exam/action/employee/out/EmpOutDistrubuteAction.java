@@ -36,6 +36,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 	private Map<String, Object> response;
 	@Resource
 	private EmpoutDistributeService empoutDistributeService;
+	private String markTrainType;//标记外来还是内部常委
 
 	/**
 	 * 跟句当前用户的ID查询大修单位数
@@ -48,7 +49,22 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		try {
 			User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 			String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
-			haulunitTree = empoutDistributeService.getHaulunitTreeByDepartmentId(departmentIdSession);
+			Map condition = new HashMap();
+			condition.put("departmentId", departmentIdSession);
+			//培训类型标记
+			if(ValidateCheck.isNotNull(markTrainType)){
+				//判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
+				if(markTrainType.equals("0")){
+					condition.put("markTrainType_In", markTrainType);				
+				}else{
+					condition.put("markTrainType_Out", markTrainType);
+				}
+				//正式新员工培训大修ID
+				condition.put("regular_train", DefaultValue.REGULAR_EMPLOYEE_TRAIN);
+				//长委新员工培训大修ID
+				condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
+			}
+			haulunitTree = empoutDistributeService.getHaulunitTreeByDepartmentId(condition);
 		} catch (SQLException e) {
 			logger.error("查询分配单位大修树出错", e);
 		}
@@ -119,6 +135,19 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		}
 		if (ValidateCheck.isNotNull(employeeOutIdCard)) {
 			condition.put("employeeOutIdCard", employeeOutIdCard);
+		}
+		//培训类型标记
+		if(ValidateCheck.isNotNull(markTrainType)){
+			//判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
+			if(markTrainType.equals("0")){
+				condition.put("markTrainType_In", markTrainType);				
+			}else{
+				condition.put("markTrainType_Out", markTrainType);
+			}
+			//正式新员工培训大修ID
+			condition.put("regular_train", DefaultValue.REGULAR_EMPLOYEE_TRAIN);
+			//长委新员工培训大修ID
+			condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
 		}
 		if (ValidateCheck.isNotNull(unitId)) {
 			condition.put("unitId", unitId);
@@ -310,5 +339,14 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 	public void setEmployeeOutSex(String employeeOutSex) {
 		this.employeeOutSex = employeeOutSex;
 	}
+
+	public String getMarkTrainType() {
+		return markTrainType;
+	}
+
+	public void setMarkTrainType(String markTrainType) {
+		this.markTrainType = markTrainType;
+	}
+
 
 }

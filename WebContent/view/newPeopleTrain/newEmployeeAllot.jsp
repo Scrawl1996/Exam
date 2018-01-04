@@ -71,7 +71,8 @@ hasOperatingEmpout = true;
 								<form id="queryDistributeInfoForm">
 									<!-- 隐藏一些查询条件，隐患ID，部门ID -->
 									 <input type="hidden" name="distributeStatus" />
-
+									<!-- 增加标记外来单位员工管理 -->
+									<input type="hidden" name="markTrainType" value="0"/>
 
 									<div class="row el_queryBoxrow">
 										<div class="col-md-3 el_qlmQuery">

@@ -108,7 +108,7 @@ function searchDepartmentAndOverHualTree() {
 		type : "post",
 		target : "#departmentAndOverHaulTree",
 		dataType : "json",
-		url : "distribute_getHaulunitTreeByDepartmentId.action",
+		url : "distribute_getHaulunitTreeByDepartmentId.action?markTrainType=0",
 		success : getTree_1,
 		error : function() {
 			alert("请求树失败！");

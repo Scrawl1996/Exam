@@ -4,11 +4,35 @@
 	namespace="cn.xm.exam.mapper.employee.out.custom.EmpoutDistributeCustomMapper">
 	<!-- S查询分给给本单位的大修单位树 -->
 	<select id="getHaulunitTreeByDepartmentId" resultType="map"
-		parameterType="string">
-		SELECT * FROM overhaul_unit WHERE id IN(SELECT
-		unitid
-		FROM employeeoutdistribute WHERE departmentId = #{value}) OR upid = 
-		"1"
+		parameterType="map">
+		SELECT * FROM overhaul_unit
+		<where>
+			<if test="markTrainType_In !=null">
+				and (id IN(SELECT
+				unitid
+				FROM
+				employeeoutdistribute WHERE
+				departmentId =
+				#{departmentId}) or upid='1')
+				and id IN
+				(#{regular_train},#{longterm_train})
+				or upid IN
+				(#{regular_train},#{longterm_train})
+			</if>
+			<!-- 外部培训 -->
+			<if test="markTrainType_Out !=null">
+				and (id IN(SELECT
+				unitid
+				FROM
+				employeeoutdistribute WHERE
+				departmentId =
+				#{departmentId}) or upid='1')
+				and id NOT IN
+				(#{regular_train},#{longterm_train})
+				and upid NOT IN
+				(#{regular_train},#{longterm_train})
+			</if>
+		</where>
 	</select>
 	<!-- E查询分给给本单位的大修单位树 -->
 	<!--S根据单位ID跟大修ID查询单位信息 -->
@@ -27,7 +51,9 @@
 		haulemployeeout WHERE
 		breakrules.BigEmployeeoutId =
 		haulemployeeout.BigEmployeeoutId
-		AND haulemployeeout.unitid =unit.unitId and breakTime LIKE
+		AND
+		haulemployeeout.unitid =unit.unitId
+		and breakTime LIKE
 		CONCAT(Year(CurDate()),'%')
 		),0)) AS unitMinisMum,
 		(SELECT
@@ -62,6 +88,16 @@
 			from employeeoutdistribute
 			WHERE
 			departmentId=#{departmentId})
+		</if>
+		<!-- 增加标记条件判断应该显示的检修及员工信息 -->
+		<!-- 内部培训 -->
+		<if test="markTrainType_In !=null">
+			and distr.bigid IN (#{regular_train},#{longterm_train})
+		</if>
+		<!-- 外部培训 -->
+		<if test="markTrainType_Out !=null">
+			and distr.bigid NOT IN
+			(#{regular_train},#{longterm_train})
 		</if>
 		<!-- 未参加本机培训 -->
 		<if test="distributeStatus != null and distributeStatus==0">
