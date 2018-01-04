@@ -42,6 +42,7 @@ public class FindUnitAction extends ActionSupport {
 	private String fendtime;// 结束时间
 	private String bigId;// 大修ID
 	private String unitId;// 单位ID
+	private String markTrainType;//培训类型标记
 
 	public String getHaulUnitPage() {
 		response = new HashMap();
@@ -182,6 +183,21 @@ public class FindUnitAction extends ActionSupport {
 			condition.put("minMinus", Float.valueOf(minus[0]));
 			condition.put("maxMinus", Float.valueOf(minus[1]));
 		}
+		
+		//培训类型标记
+		if(ValidateCheck.isNotNull(markTrainType)){
+			//判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
+			if(markTrainType.equals("0")){
+				condition.put("markTrainType_In", markTrainType);				
+			}else{
+				condition.put("markTrainType_Out", markTrainType);
+			}
+			//正式新员工培训大修ID
+			condition.put("regular_train", DefaultValue.REGULAR_EMPLOYEE_TRAIN);
+			//长委新员工培训大修ID
+			condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
+		}
+		
 		return condition;
 	}
 
@@ -258,4 +274,13 @@ public class FindUnitAction extends ActionSupport {
 		this.fendtime = fendtime;
 	}
 
+	public String getMarkTrainType() {
+		return markTrainType;
+	}
+
+	public void setMarkTrainType(String markTrainType) {
+		this.markTrainType = markTrainType;
+	}
+	
+	
 }

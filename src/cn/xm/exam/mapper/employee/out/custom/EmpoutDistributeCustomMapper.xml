@@ -7,8 +7,8 @@
 		parameterType="string">
 		SELECT * FROM overhaul_unit WHERE id IN(SELECT
 		unitid
-		FROM employeeoutdistribute WHERE departmentId = #{value}) OR upid IS
-		NULL
+		FROM employeeoutdistribute WHERE departmentId = #{value}) OR upid = 
+		"1"
 	</select>
 	<!-- E查询分给给本单位的大修单位树 -->
 	<!--S根据单位ID跟大修ID查询单位信息 -->
