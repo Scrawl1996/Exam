@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.xm.exam.mapper.exam.custom.ExampaperCustomMapper">
-
+	<!-- 开启二级缓存 -->
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache" />
 	<!-- S 分页查询试卷基本信息 -->
 	<!-- SELECT COUNT(paperId) FROM exampaper WHERE title LIKE '%阳城%' AND LEVEL=1 -->
 	<select id="getPaperTotalByCondition" parameterType="hashmap"
