@@ -40,23 +40,25 @@ a:hover {
 		*/
 		$(".in").removeClass("in");
 		if (filename == "examParper") {
-			$("#collapse1").addClass("in");
+			$("#collapse001").addClass("in");
 		} else if (filename == "gradeManage") {
-			$("#collapse3").addClass("in");
+			$("#collapse003").addClass("in");
 		} else if (filename == "innerDepart") {
-			$("#collapse6").addClass("in");
+			$("#collapse004").addClass("in");
 		} else if (filename == "outDepart") {
-			$("#collapse4").addClass("in");
+			$("#collapse007").addClass("in");
 		} else if (filename == "questionLibrary") {
-			$("#collapse2").addClass("in");
+			$("#collapse002").addClass("in");
 		} else if (filename == "systemManage") {
-			$("#collapse8").addClass("in");
+			$("#collapse010").addClass("in");
 		} else if (filename == "train") {
-			$("#collapse7").addClass("in");
+			$("#collapse009").addClass("in");
 		} else if (filename == "overhaul") {
-			$("#collapse5").addClass("in");
+			$("#collapse006").addClass("in");
 		} else if (filename == "news") {
-			$("#collapse9").addClass("in");
+			$("#collapse008").addClass("in");
+		}else if (filename == "newPeopleTrain") {
+			$("#collapse005").addClass("in");
 		}
 		
 		
@@ -282,12 +284,12 @@ a:hover {
 					<div class="panel-heading" role="tab" id="heading${a+1}">
 						<h4 class="panel-title">
 							<a role="button" data-toggle="collapse" data-parent="#accordion"
-								href="#collapse${a+1}" aria-expanded="true"
-								aria-controls="collapse${a+1}"> ${per.name} </a>
+								href="#collapse${per.sortno}" aria-expanded="true"
+								aria-controls="collapse${per.sortno}"> ${per.name} </a>
 						</h4>
 					</div>
 
-					<div id="collapse${a+1}" class="panel-collapse collapse"
+					<div id="collapse${per.sortno}" class="panel-collapse collapse"
 						role="tabpanel" aria-labelledby="heading${a+1}">
 						<ul class="list-group">
 							<c:forEach var="per1" items="${permissioninfo}">
