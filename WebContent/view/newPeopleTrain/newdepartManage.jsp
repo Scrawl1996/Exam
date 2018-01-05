@@ -17,7 +17,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>外来单位管理</title>
+<title>新员工单位管理</title>
 
 <%@ include file="/public/cssJs.jsp"%>
 
@@ -111,7 +111,7 @@ label.success {
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>外来单位管理</span><span>>外来单位信息管理</span>
+						<span>新员工入厂培训</span><span>>新员工单位管理</span>
 					</div>
 
 					<div class="el_main">
