@@ -317,7 +317,7 @@ function saveUnit() {
 				}
 				// 添加成功之后重新加载页面
 				if (response.addResult != null && response.addResult == "添加成功!") {
-					window.location.href=contextPath+'/view/outDepart/outdepartManage.jsp';
+					window.location.reload();
 				}
 			}, 'json')
 		}
