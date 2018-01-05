@@ -129,6 +129,11 @@ public class FindHaulAction extends ActionSupport {
 		if (ValidateCheck.isNull(currentPage)) {
 			currentPage = "1";
 		}
+		// 培训类型标记
+		// 正式新员工培训大修ID
+		condition.put("regular_train", DefaultValue.REGULAR_EMPLOYEE_TRAIN);
+		// 长委新员工培训大修ID
+		condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
 		if (ValidateCheck.isNotNull(bigName)) {
 			condition.put("bigName", bigName);
 		}

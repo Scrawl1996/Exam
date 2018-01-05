@@ -31,7 +31,6 @@ a:hover {
 		u = u.substring(11,u.length);
 		var fir = u.indexOf("/");
 		var filename = u.substring(0,fir)
-		
 		//获取到当前页面的二根文件夹名称（view下一层的文件夹）
 		/* 
 		* 根据文件夹名称，展开相应的菜单

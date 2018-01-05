@@ -15,7 +15,7 @@ public class DefaultValue {
 	//厂级试卷负责部门字典ID
 	public static final String DICTIONARY_ID = "400001";
 	//正式员工入场安全培训ID
-	public static final String REGULAR_EMPLOYEE_TRAIN = "3671a447c95840a89c421e6354edb7e9";
+	public static final String REGULAR_EMPLOYEE_TRAIN = "b10d26e434b146d5af902d586f809dd9";
 	//长委新员工培训ID
-	public static final String LONGTERM_EMPLOYEE_TRAIN = "63de874cef6f42cab170648bc84ae8a4";
+	public static final String LONGTERM_EMPLOYEE_TRAIN = "595925c6a55349acb6cc77b3cd47f7a3";
 }
