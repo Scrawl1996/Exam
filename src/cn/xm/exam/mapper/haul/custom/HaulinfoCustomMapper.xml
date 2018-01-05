@@ -28,7 +28,8 @@
 	<!-- 为大修部门树准备数据 -->
 	<select id="getOverHaulInfoTree" resultType="map">
 		SELECT bigid id,CASE
-		WHEN TRUE THEN NULL ELSE 1 END upid,bigName `name` from haulinfo ORDER BY bigCreateDate DESC
+		WHEN TRUE THEN NULL ELSE 1 END upid,bigName `name` from haulinfo ORDER
+		BY bigCreateDate DESC
 	</select>
 
 	<select id="getDepartInfoTree" resultType="map">
@@ -42,6 +43,9 @@
 
 	<!--S 组装查询条件 -->
 	<sql id="queryHaulWhere">
+		<if test="1==1">
+			and bigId not in(#{regular_train},#{longterm_train})
+		</if>
 		<if test="bigName!=null">
 			and bigName LIKE '%${bigName}%'
 		</if>
