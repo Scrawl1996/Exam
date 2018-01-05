@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>分配员工</title>
+<title>新员工分配管理</title>
 
 <%@ include file="/public/cssJs.jsp"%>
 <link rel="stylesheet" href="<%=path%>/css/outDepart/outdepartTree.css">
@@ -52,7 +52,7 @@ hasOperatingEmpout = true;
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>外来单位管理</span><span>>分配员工</span>
+						<span>新员工入厂培训</span><span>>新员工分配管理</span>
 					</div>
 					<div class="el_main">
 
