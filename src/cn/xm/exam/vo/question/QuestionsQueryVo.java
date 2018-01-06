@@ -15,7 +15,8 @@ import cn.xm.exam.bean.question.Options;
 * @version    
 *    
 */
-public class QuestionsQueryVo {
+public class QuestionsQueryVo{
+	
 	private String questionid;
 
     private String questionbankid;
