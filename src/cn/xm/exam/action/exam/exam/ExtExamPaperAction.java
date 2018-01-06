@@ -24,6 +24,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import cn.xm.exam.bean.exam.Exampaper;
 import cn.xm.exam.service.exam.examPaper.ExamPaperService;
+import cn.xm.exam.utils.ExportPaperPdfUtil;
 import cn.xm.exam.utils.RemoveHtmlTag;
 import cn.xm.exam.utils.Word2PdfUtil;
 import freemarker.template.Configuration;
@@ -61,14 +62,8 @@ public class ExtExamPaperAction extends ActionSupport {
 		// 获取路径
 		String path = ServletActionContext.getServletContext().getRealPath("/files/papers");
 		// 用于携带数据的map
-		Map<String, Object> dataMap = new HashMap<String, Object>();
-		dataMap.put("paper", paper);
-		String filePath = path + "\\" + fileName + ".doc";
+		String filePath = path + "\\" + fileName + ".pdf";
 		// Configuration用于读取ftl文件
-		Configuration configuration = new Configuration();
-		configuration.setDefaultEncoding("utf-8");
-		// 指定路径的第一种方式(根据某个类的相对路径指定)
-		configuration.setClassForTemplateLoading(this.getClass(), "");
 		// 输出文档路径及名称
 		File outFile = new File(filePath);
 		// 获取文件的父文件夹并删除文件夹下面的文件
@@ -81,14 +76,11 @@ public class ExtExamPaperAction extends ActionSupport {
 				fi.delete();
 			}
 		}
-		// 以utf-8的编码读取ftl文件
 		try {
-			Template t = configuration.getTemplate("paperModel.ftl", "utf-8");
-			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "utf-8"), 10240);
-			t.process(dataMap, out);
-			out.close();
+			// 调用工具类写到pdf
+			ExportPaperPdfUtil.writeExampaperPdf(paper, filePath);
 		} catch (Exception e) {
-			logger.error("写入word出错!", e);
+			logger.error("试卷写入pdf出错", e);
 		}
 	}
 
@@ -97,9 +89,7 @@ public class ExtExamPaperAction extends ActionSupport {
 		Exampaper paper = this.findPaperAllInfoById();// 查数据
 		this.writeExamPaper2Word(paper);// 写入数据
 		String path = ServletActionContext.getServletContext().getRealPath("/files/papers");
-		String filepath = path + "\\" + fileName + ".doc";
 		String destPath = path + "\\" + fileName + ".pdf";
-		Word2PdfUtil.word2pdf(filepath, destPath);
 		File file = new File(destPath);
 		// 只用返回一个输入流
 		return FileUtils.openInputStream(file);// 打开文件
