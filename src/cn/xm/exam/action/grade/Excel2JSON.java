@@ -30,8 +30,9 @@ public class Excel2JSON {
         Cell cell1, cell2, cell3;
         JSONArray array = new JSONArray();
         try {
+        	File importFile = new File(name);
             //为要读取的excel文件名
-            book = Workbook.getWorkbook(new File(name));
+            book = Workbook.getWorkbook(importFile);
 
             //获得第一个工作表对象(ecxel中sheet的编号从0开始,0,1,2,3,....)
             sheet = book.getSheet(0);
