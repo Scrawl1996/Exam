@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import cn.xm.exam.bean.common.Dictionary;
 import cn.xm.exam.bean.common.DictionaryExample;
-import cn.xm.exam.bean.common.DictionaryExample.Criteria;
 import cn.xm.exam.bean.question.Checkrecord;
 import cn.xm.exam.bean.question.Options;
 import cn.xm.exam.bean.question.OptionsExample;

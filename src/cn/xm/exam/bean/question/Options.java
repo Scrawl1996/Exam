@@ -1,7 +1,8 @@
 package cn.xm.exam.bean.question;
 
-public class Options {
-    private String optionid;
+public class Options{
+   
+	private String optionid;
 
     private String questionid;
 
