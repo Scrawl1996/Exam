@@ -180,7 +180,7 @@
 			<if test="unitid !=null &amp;&amp; unitid !='' ">
 				and unit.unitId = #{unitid}
 			</if>
-			and haulinfo.bigId NOT IN ("3671a447c95840a89c421e6354edb7e9","63de874cef6f42cab170648bc84ae8a4")
+			and haulinfo.bigId NOT IN ("b10d26e434b146d5af902d586f809dd9","595925c6a55349acb6cc77b3cd47f7a3")
 		</where>
 		ORDER BY sumBreakScore DESC ,unit.name ASC
 		LIMIT #{curPage},
@@ -219,7 +219,7 @@
 			<if test="unitid !=null &amp;&amp; unitid !='' ">
 				and unit.unitId = #{unitid}
 			</if>
-			and haulinfo.bigId NOT IN ("3671a447c95840a89c421e6354edb7e9","63de874cef6f42cab170648bc84ae8a4")
+			and haulinfo.bigId NOT IN ("b10d26e434b146d5af902d586f809dd9","595925c6a55349acb6cc77b3cd47f7a3")
 		</where>
 	</select>
 
@@ -289,7 +289,7 @@
 			<if test="unitid !=null &amp;&amp; unitid !='' ">
 				and unit.unitId = #{unitid}
 			</if>
-			and haulinfo.bigId NOT IN ("3671a447c95840a89c421e6354edb7e9","63de874cef6f42cab170648bc84ae8a4")
+			and haulinfo.bigId NOT IN ("b10d26e434b146d5af902d586f809dd9","595925c6a55349acb6cc77b3cd47f7a3")
 		</where>
 		ORDER BY sumBreakScore DESC ,unit.name ASC
 		LIMIT #{curPage},#{curTotal}
@@ -331,7 +331,7 @@
 			<if test="unitid !=null &amp;&amp; unitid !='' ">
 				and unit.unitId = #{unitid}
 			</if>
-			and haulinfo.bigId NOT IN ("3671a447c95840a89c421e6354edb7e9","63de874cef6f42cab170648bc84ae8a4")
+			and haulinfo.bigId NOT IN ("b10d26e434b146d5af902d586f809dd9","595925c6a55349acb6cc77b3cd47f7a3")
 		</where>
 	</select>
 
@@ -391,7 +391,7 @@
 			<if test="unitid !=null &amp;&amp; unitid !='' ">
 				and unit.unitId = #{unitid}
 			</if>
-			and haulinfo.bigId NOT IN ("3671a447c95840a89c421e6354edb7e9","63de874cef6f42cab170648bc84ae8a4")
+			and haulinfo.bigId NOT IN ("b10d26e434b146d5af902d586f809dd9","595925c6a55349acb6cc77b3cd47f7a3")
 		</where>
 		ORDER BY sumBreakScore DESC ,unit.name ASC
 		LIMIT #{curPage},#{curTotal}
@@ -433,7 +433,7 @@
 			<if test="unitid !=null &amp;&amp; unitid !='' ">
 				and unit.unitId = #{unitid}
 			</if>
-			and haulinfo.bigId NOT IN ("3671a447c95840a89c421e6354edb7e9","63de874cef6f42cab170648bc84ae8a4")
+			and haulinfo.bigId NOT IN ("b10d26e434b146d5af902d586f809dd9","595925c6a55349acb6cc77b3cd47f7a3")
 		</where>
 	</select>
 
@@ -534,7 +534,7 @@
 		and haulemployeeout.employeeId =
 		employee_out.employeeid
 		and haulemployeeout.bigId = haulinfo.bigId
-		and haulinfo.bigId NOT IN ("3671a447c95840a89c421e6354edb7e9","63de874cef6f42cab170648bc84ae8a4")
+		and haulinfo.bigId NOT IN ("b10d26e434b146d5af902d586f809dd9","595925c6a55349acb6cc77b3cd47f7a3")
 
 		ORDER BY sumBreakScore DESC ,unit.name ASC
 
@@ -572,8 +572,8 @@
 	<select id="findLeftTree" resultType="map">
 		select * FROM overhaul_unit
 		where
-		id NOT IN ("3671a447c95840a89c421e6354edb7e9","63de874cef6f42cab170648bc84ae8a4") 
-		and upid NOT IN("3671a447c95840a89c421e6354edb7e9","63de874cef6f42cab170648bc84ae8a4")
+		id NOT IN ("b10d26e434b146d5af902d586f809dd9","595925c6a55349acb6cc77b3cd47f7a3") 
+		and upid NOT IN("b10d26e434b146d5af902d586f809dd9","595925c6a55349acb6cc77b3cd47f7a3")
 	</select>
 
 	<!-- 根据外部员工id 获取黑名单状态 -->
