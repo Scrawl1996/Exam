@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,6 @@ import cn.xm.exam.service.news.NewsService;
 import cn.xm.exam.utils.DefaultValue;
 import cn.xm.exam.utils.PageBean;
 import cn.xm.exam.utils.ValidateCheck;
-import jxl.common.Logger;
 
 @Controller
 @Scope("prototype")

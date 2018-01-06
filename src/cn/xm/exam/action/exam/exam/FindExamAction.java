@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
@@ -21,7 +22,6 @@ import cn.xm.exam.service.grade.EmployeeExamService;
 import cn.xm.exam.utils.DefaultValue;
 import cn.xm.exam.utils.PageBean;
 import cn.xm.exam.utils.ValidateCheck;
-import jxl.common.Logger;
 
 /**
  * 分页查询考试信息(ajax+json)

@@ -5,13 +5,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import cn.xm.exam.service.exam.exam.ExamService;
-import jxl.common.Logger;
 
 /**
  * 删除考试信息

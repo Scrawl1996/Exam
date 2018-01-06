@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -28,7 +29,6 @@ import com.opensymphony.xwork2.ActionSupport;
 import cn.xm.exam.MyElFunction.MyElFunction;
 import cn.xm.exam.service.exam.exam.ExamService;
 import cn.xm.exam.service.grade.EmployeeExamService;
-import jxl.common.Logger;
 
 /**
  * 导出参考人信息 1.查出数据 2.写入Excel 3.打开流，提供下载

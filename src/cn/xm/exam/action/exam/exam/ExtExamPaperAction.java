@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,6 @@ import cn.xm.exam.utils.RemoveHtmlTag;
 import cn.xm.exam.utils.Word2PdfUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import jxl.common.Logger;
 
 /**
  * 导出试卷 1.查出数据 2.Word 3.打开流，提供下载

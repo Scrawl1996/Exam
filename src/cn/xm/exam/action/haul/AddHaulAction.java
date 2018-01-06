@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,6 @@ import com.opensymphony.xwork2.ModelDriven;
 
 import cn.xm.exam.bean.haul.Haulinfo;
 import cn.xm.exam.service.haul.HaulinfoService;
-import jxl.common.Logger;
 
 /**
  * 增加大修Action(ajax方式增加)

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -16,7 +17,6 @@ import cn.xm.exam.bean.exam.Exam;
 import cn.xm.exam.service.exam.exam.ExamService;
 import cn.xm.exam.service.grade.EmployeeExamService;
 import cn.xm.exam.utils.ValidateCheck;
-import jxl.common.Logger;
 
 /**
  * 修改考试信息(修改考试基本信息与参考员工) 1.通过ID将考试信息显示到界面 2.接收前台改过的数据(根据考试ID修改考试基本信息)

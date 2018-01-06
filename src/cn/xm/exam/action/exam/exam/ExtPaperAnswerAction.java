@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -27,7 +28,6 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import cn.xm.exam.MyElFunction.MyElFunction;
 import cn.xm.exam.service.exam.examPaper.ExamPaperQuestionService;
-import jxl.common.Logger;
 
 /**
  * 导出试卷的参考答案 1.获取到试卷List集合 2.写到Excel中 3.打开输入流提供下载

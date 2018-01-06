@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,6 @@ import cn.xm.exam.bean.employee.out.Unit;
 import cn.xm.exam.bean.haul.Haulunit;
 import cn.xm.exam.service.employee.out.UnitService;
 import cn.xm.exam.utils.ValidateCheck;
-import jxl.common.Logger;
 
 /**
  * 修改外来单位Action
