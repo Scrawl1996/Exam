@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.xm.exam.mapper.exam.custom.OnlineexaminfoCustomMapper" >
-	<cache/>
+
   <!-- 根据身份证号查询该员工所有未参加的考试信息 -->
   <select id="getNotStartExamInfoByIdCard" parameterType="String" resultType="cn.xm.exam.vo.grade.OnlineExamEmployeeInfo">
  		SELECT * FROM online_exam_employee_info WHERE CASE `status`= "已结束" WHEN TRUE THEN 0 ELSE 1 END = 1
