@@ -103,7 +103,7 @@ hasOperatingEmpout = true;
 										</div>
 									</div>
 
-									<div class="row el_queryBoxrow">
+<!-- 									<div class="row el_queryBoxrow">
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
 												<span class="el_spans">违章积分：</span> <select
@@ -117,9 +117,9 @@ hasOperatingEmpout = true;
 													<option value="12">12分及以上</option>
 												</select>
 											</div>
-										</div>
+										</div> -->
 
-										<div class="col-md-3 el_qlmQuery">
+		<!-- 								<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
 												<span class="el_spans">黑名单：</span> <label
 													class="el_radioBox"><input type="radio"
@@ -127,7 +127,7 @@ hasOperatingEmpout = true;
 													class="el_radioBox"><input type="radio"
 													name="blackListInfo" value="否"> 否</label>
 											</div>
-										</div>
+										</div> -->
 
 										<!-- <div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
@@ -142,7 +142,7 @@ hasOperatingEmpout = true;
 												</select>
 											</div>
 										</div> -->
-										<div class="col-md-3 el_qlmQuery">
+<!-- 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
 												<span class="el_spans">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：</span>
 												<select class="selectpicker form-control" title="请选择"
@@ -150,7 +150,7 @@ hasOperatingEmpout = true;
 
 												</select>
 											</div>
-										</div>
+										</div> -->
 									</div>
 									<!-- <div class="row el_queryBoxrow">
 										<div class="col-md-3 el_qlmQuery">
@@ -184,7 +184,7 @@ hasOperatingEmpout = true;
 							<!--结束 查询表单提交-->
 
 							<!--显示内容-->
-							<h3 class="el_mainHead">外来单位员工信息</h3>
+							<h3 class="el_mainHead">新员工信息</h3>
 							<div class="panel panel-default el_Mainmain">
 
 								<!--按钮面板-->

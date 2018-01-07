@@ -118,7 +118,7 @@ label.success {
 						<!--树-->
 						<div class="el_leftTree">
 							<!--标题类，添加了一个颜色-->
-							<span class="el_treeTitle">检修单位</span>
+							<span class="el_treeTitle">单位</span>
 							<ul id="treeDemo" class="ztree"></ul>
 						</div>
 
@@ -138,7 +138,7 @@ label.success {
 									
 									
 									
-									<div class="row">
+									<!-- <div class="row">
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
 												<span class="el_spans">单位名称：</span> <input type="text"
@@ -150,7 +150,7 @@ label.success {
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
 												<span class="el_spans">违章积分：</span>
-												<!--<span class="input-group-addon">违章积分范围</span>-->
+												<span class="input-group-addon">违章积分范围</span>
 												<select class="selectpicker form-control" title="请选择"
 													name="unitMinus">
 													<option value="">--请选择--</option>
@@ -172,21 +172,21 @@ label.success {
 												type="text" class=" form-control query_dep_endtime"
 												id="inpend2" placeholder="结束时间" name="fendtime" readonly>
 										</div>
-									</div>
+									</div> -->
 
 									<!--清空按钮-->
-									<button type="button" onclick="clearForm(this)"
+<!-- 									<button type="button" onclick="clearForm(this)"
 										class="btn btn-default el_queryButton0 btn-sm">清空</button>
-									<!--提交查询按钮-->
+									提交查询按钮
 									<button type="button" id="queryHualunitBtn"
-										class="btn btn-primary el_queryButton btn-sm">查询</button>
+										class="btn btn-primary el_queryButton btn-sm">查询</button> -->
 								</form>
 
 							</div>
 							<!--结束 查询表单提交-->
 
 							<!--显示内容-->
-							<h4 class="el_mainHead">外来单位信息</h4>
+							<h4 class="el_mainHead">新员工单位信息</h4>
 							<div class="panel panel-default el_Mainmain">
 
 								<!--按钮面板-->
@@ -213,7 +213,7 @@ label.success {
 											<tr>
 												<th>选择</th>
 												<th>单位名称</th>
-												<th>所属检修</th>
+												<th>培训类别</th>
 												<th>项目经理</th>
 												<th>经理电话</th>
 												<th>安全员</th>
@@ -302,7 +302,7 @@ label.success {
 												</div> -->
 												<div class="input-group el_modellist" role="toolbar">
 													<!--<span class="input-group-addon">上级单位</span>-->
-													<span class="el_spans">所属检修：</span> <input type="text"
+													<span class="el_spans">培训类别：</span> <input type="text"
 														class="form-control el_modelinput el_chooseInput"
 														id="bigname" name="bigname" disabled /> <input
 														type="hidden"
@@ -393,7 +393,7 @@ label.success {
 
 												<div class="input-group el_modellist" role="toolbar">
 													<!--<span class="input-group-addon">上级单位</span>-->
-													<span class="el_spans">所属检修：</span> <input type="text"
+													<span class="el_spans">培训类别：</span> <input type="text"
 														class="form-control" name="" value="" id="update_big"
 														disabled />
 												</div>
