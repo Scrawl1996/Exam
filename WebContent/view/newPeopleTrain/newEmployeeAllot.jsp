@@ -178,7 +178,7 @@ hasOperatingEmpout = true;
 												<th>姓名</th>
 												<th>性别</th>
 												<th>身份证</th>
-												<th>所属检修</th>
+												<th>培训类别</th>
 												<th>所属单位</th>
 												<th>工种</th>
 												<th>违章积分</th>
@@ -262,7 +262,7 @@ hasOperatingEmpout = true;
 													<th>姓名</th>
 													<th>性别</th>
 													<th>身份证</th>
-													<th>所属检修</th>
+													<th>培训类别</th>
 													<th>所属单位</th>
 												</tr>
 											</thead>
