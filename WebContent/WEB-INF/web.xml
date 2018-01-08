@@ -5,7 +5,8 @@
 	id="WebApp_ID" version="3.0">
 	<display-name>xm</display-name>
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<!-- <welcome-file>index.jsp</welcome-file> -->
+		<welcome-file>view/index/studyMainpage2.jsp</welcome-file>
 	</welcome-file-list>
 
 	<listener>
