@@ -147,7 +147,7 @@
 
 							<div class="input-group el_modellist" role="toolbar">
 								<span class="el_spans">考试时长：</span> <input type="text"
-									class="form-control el_modelinput" value="120"
+									class="form-control el_modelinput" value="45"
 									name="exam.answertime" style="width: 76px;" />分钟
 
 							</div>

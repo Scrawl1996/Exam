@@ -131,8 +131,17 @@
 			'01_%' and
 			departmentId!='01002' and haulempid=distr.haulempid)>0
 		</if>
+		<!-- 已合格 -->
 		<if test="distributeStatus != null and distributeStatus==3">
 			and haulemp.trainStatus ='1'
+		</if>
+		<!-- 已生成工作证 -->
+		<if test="distributeStatus != null and distributeStatus==4">
+			and haulemp.trainStatus ='2'
+		</if>
+		<!-- 已回收工作证 -->
+		<if test="distributeStatus != null and distributeStatus==5">
+			and haulemp.trainStatus ='3'
 		</if>
 		<if test="unitId!=null">
 			and distr.unitid=#{unitId}

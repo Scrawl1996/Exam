@@ -104,16 +104,17 @@ function onCheck(event, treeId, treeNode) {
 /** *********************请求树信息********************* */
 
 function searchDepartmentAndOverHualTree() {
-	$.ajax({
-		type : "post",
-		target : "#departmentAndOverHaulTree",
-		dataType : "json",
-		url : "distribute_getHaulunitTreeByDepartmentId.action?markTrainType=1",
-		success : getTree_1,
-		error : function() {
-			alert("请求树失败！");
-		}
-	});
+	$
+			.ajax({
+				type : "post",
+				target : "#departmentAndOverHaulTree",
+				dataType : "json",
+				url : "distribute_getHaulunitTreeByDepartmentId.action?markTrainType=1",
+				success : getTree_1,
+				error : function() {
+					alert("请求树失败！");
+				}
+			});
 }
 
 /** *********************生成树信息********************* */
@@ -466,7 +467,12 @@ function selectFenpeiInfo() {
 	} else {
 		$("#generateWork").css("display", "none");
 	}
-
+	// 动态显示与隐藏回收作证
+	if (distributeStatus == '4') {
+		$("#revokeWork").css("display", "");
+	} else {
+		$("#revokeWork").css("display", "none");
+	}
 	$("[name='distributeStatus']").val(distributeStatus);
 	queryDistributeInfo();
 }
@@ -543,12 +549,14 @@ $(function() {
 function exportEmployeeOutInfo() {
 	var haulempids = [];
 	$(".haulempid_export").each(function(i) {
-		haulempids[i]=$(this).val();	
+		haulempids[i] = $(this).val();
 	});
-	window.location.href=baseurl+'/exportEmpInfo_findEmployeeOutInfosToExport.action?bigEmployeeOutIds='+haulempids;
+	window.location.href = baseurl
+			+ '/exportEmpInfo_findEmployeeOutInfosToExport.action?bigEmployeeOutIds='
+			+ haulempids;
 }
 
-
-
-
-
+/** *************回收工作证相关操作************************* */
+function revokeWork() {
+	alert("开始回收工作证")
+}

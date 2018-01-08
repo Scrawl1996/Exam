@@ -98,8 +98,14 @@ $(function() {
 			$("#inpend0").val("")
 		}
 		if ($(this).val() == "线下") {
-			$("#inpstart0").val(Format(getServerDate(), "yyyy-MM-dd HH:mm:ss"))
-			$("#inpend0").val(Format(getServerDate(), "yyyy-MM-dd HH:mm:ss"))
+			// 获取现在的毫秒数
+			var nowSeconds = getServerDate().getTime();//getTime返回日期的毫秒数
+			// 45分钟后的时间
+			var endSeconds = nowSeconds + 45 * 60 * 1000;
+			// 将时间置为默认现在时间
+			$("#inpstart0").val(Format(new Date(nowSeconds), "yyyy-MM-dd HH:mm:ss"));//以服务器时间创建Date对象并格式化
+			$("#inpend0").val(
+					Format(new Date(endSeconds), "yyyy-MM-dd HH:mm:ss"))
 		}
 	});
 
@@ -113,9 +119,15 @@ $(function() {
 		// 点击外来部门的点击事件
 		$(":radio[value='线上']").prop("disabled", true);
 		$(":radio[value='线下']").prop("checked", true);
-		//初始化日期框
-		$("#inpstart0").val(Format(getServerDate(), "yyyy-MM-dd HH:mm:ss"))
-		$("#inpend0").val(Format(getServerDate(), "yyyy-MM-dd HH:mm:ss"))
+		// 初始化日期框
+		// 获取现在的毫秒数
+		var nowSeconds = getServerDate().getTime();//getTime返回日期的毫秒数
+		// 45分钟后的时间
+		var endSeconds = nowSeconds + 45 * 60 * 1000;
+		// 将时间置为默认现在时间
+		$("#inpstart0").val(Format(new Date(nowSeconds), "yyyy-MM-dd HH:mm:ss"));//以服务器时间创建Date对象并格式化
+		$("#inpend0").val(
+				Format(new Date(endSeconds), "yyyy-MM-dd HH:mm:ss"))
 
 	});
 	// 查询大修名字与大修ID
@@ -124,7 +136,7 @@ $(function() {
 	$("#selectUnitBtn").click(function() {
 		addUnit2Input();
 	});
-	//点击外部的时候关闭那个模糊查询的框
+	// 点击外部的时候关闭那个模糊查询的框
 	$(document).click(function(event) {
 		if ($(event.target).attr("class") != "unitName") {
 			if ($("#showDiv").css("display") == "block") {
@@ -132,14 +144,19 @@ $(function() {
 			}
 		}
 	});
-	
+
 })
 function initSomdeThing() {
 	initEmployeeTypeDic();
 
+	// 获取现在的毫秒数
+	var nowSeconds = getServerDate().getTime();//getTime返回日期的毫秒数
+	// 45分钟后的时间
+	var endSeconds = nowSeconds + 45 * 60 * 1000;
 	// 将时间置为默认现在时间
-	$("#inpstart0").val(Format(getServerDate(), "yyyy-MM-dd HH:mm:ss"))
-	$("#inpend0").val(Format(getServerDate(), "yyyy-MM-dd HH:mm:ss"))
+	$("#inpstart0").val(Format(new Date(nowSeconds), "yyyy-MM-dd HH:mm:ss"));//以服务器时间创建Date对象并格式化
+	$("#inpend0").val(
+			Format(new Date(endSeconds), "yyyy-MM-dd HH:mm:ss"))
 	// 显示外来的单位div
 	$("#addInDiv").css('display', 'none');// 隐藏内部信息
 	$(".inShow").css('display', 'none');// 隐藏内部参考部门信息
@@ -1010,20 +1027,17 @@ function getServerDate() {
 	// return new Date();
 }
 
-
-
-
-
-
-/**S      模糊查询考试姓名和级别*********/
-//模糊查询姓名
+/** S 模糊查询考试姓名和级别******** */
+// 模糊查询姓名
 function findNames(obj) {
 	$("#showDiv").html("");
 	// 1.获取表单的值
 	var word = $(obj).val();
 	var content = "";
 	// 2.异步ajax去数据库模糊查询
-	$.post(	contextPath + "/exam_getExamNameAndLevelByWord.action", // 请求地址
+	$
+			.post(
+					contextPath + "/exam_getExamNameAndLevelByWord.action", // 请求地址
 					{
 						"nameWord" : word
 					}, // 请求传递的参数，也可以是JSON
@@ -1032,7 +1046,10 @@ function findNames(obj) {
 								&& response.nameAndLevel.length > 0) {
 							for (var i = 0; i < response.nameAndLevel.length; i++) {
 								content += "<div style='padding:5px;cursor:pointer;' class='unitName' onclick='clickFn(this)' onmouseover='overFun(this);' onmouseout='outFn(this);'>"
-										+ response.nameAndLevel[i].examName +"<input class='examlevel' type='hidden' value='"+response.nameAndLevel[i].examlevel+"'/>"+ "</div>";
+										+ response.nameAndLevel[i].examName
+										+ "<input class='examlevel' type='hidden' value='"
+										+ response.nameAndLevel[i].examlevel
+										+ "'/>" + "</div>";
 							}
 							$("#showDiv").css("display", "block");
 							$("#showDiv").html(content);
@@ -1050,12 +1067,13 @@ function outFn(obj) {
 	$(obj).css("background", "#fff");
 }
 
-//点击的时候将值加到上面的文本框事件同时根据名字去数据库 查询信息
+// 点击的时候将值加到上面的文本框事件同时根据名字去数据库 查询信息
 function clickFn(obj) {
 	var selectName = $(obj).text();
 	$("[name='exam.examname']").val(selectName);// 设置到上面
 	$("#showDiv").css("display", "none");
-	//获取考试级别
-	var examlevel=$(obj).find(".examlevel").val();
-	$("[name='exam.examlevel'] option[value='"+examlevel+"']").prop("selected",true);
+	// 获取考试级别
+	var examlevel = $(obj).find(".examlevel").val();
+	$("[name='exam.examlevel'] option[value='" + examlevel + "']").prop(
+			"selected", true);
 }
