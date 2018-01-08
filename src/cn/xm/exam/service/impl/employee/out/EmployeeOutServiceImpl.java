@@ -11,10 +11,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-
-import cn.xm.exam.bean.employee.out.BlacklistExample;
 import cn.xm.exam.bean.employee.out.Breakrules;
-import cn.xm.exam.bean.employee.out.BreakrulesExample;
 import cn.xm.exam.bean.employee.out.EmployeeOut;
 import cn.xm.exam.bean.employee.out.EmployeeOutExample;
 import cn.xm.exam.bean.employee.out.Employeeoutdistribute;
@@ -195,6 +192,11 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 	 */
 	public List<EmployeeOutBaseInfo> getEmpInfoForCertificateWithCondition(Map<String, Object> condition)
 			throws Exception {
+		
+		//设置条件为2表示已经生成工作证
+		condition.put("trainStatus", "2");
+		//生成工作证后修改大修员工表的状态标记为已生成工作证
+		updateHaulEmployeeOutTrainStatusByCondition(condition);
 		
 		//return employeeOutCustomMapper.getEmpInfoForCertificateWithCondition(condition);
 		//修改为根据大修员工ID集合查询符合条件的员工信息
@@ -412,6 +414,17 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 	@Override
 	public List<Map<String,Object>> getExamEmployeeOuts(Map condition) throws SQLException {
 		return employeeOutCustomMapper.getExamEmployeeOuts(condition);
+	}
+	
+	/**
+	 * 根据大修员工ID集合和状态码修改大修员工表中的培训状态字段
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public int updateHaulEmployeeOutTrainStatusByCondition(Map<String, Object> condition) throws SQLException {
+		return employeeOutCustomMapper.updateHaulEmployeeOutTrainStatusByCondition(condition);
 	}
 
 	

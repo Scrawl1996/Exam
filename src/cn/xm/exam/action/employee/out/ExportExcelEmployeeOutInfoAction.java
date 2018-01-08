@@ -85,7 +85,7 @@ public class ExportExcelEmployeeOutInfoAction extends ActionSupport {
 		return downloadFileName;
 	}
 
-	//用于员工成绩页面组合条件查询的员工成绩的导出
+	//用于员工工作证的导出
 	public String findEmployeeOutInfosToExport() throws Exception{
 		
 		try {

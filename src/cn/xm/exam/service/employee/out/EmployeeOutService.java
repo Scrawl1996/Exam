@@ -3,14 +3,13 @@ package cn.xm.exam.service.employee.out;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
 import cn.xm.exam.bean.employee.out.Breakrules;
 import cn.xm.exam.bean.employee.out.EmployeeOut;
 import cn.xm.exam.bean.employee.out.Employeeoutdistribute;
 import cn.xm.exam.bean.haul.Haulemployeeout;
 import cn.xm.exam.utils.PageBean;
 import cn.xm.exam.vo.employee.out.EmployeeOutBaseInfo;
-import cn.xm.exam.vo.exam.ExamEmployeeOutQueryVo;
+
 
 //完
 
@@ -212,6 +211,15 @@ public interface EmployeeOutService {
 	 * @throws Exception
 	 */
 	public int addEmpOutDistributeInfoList(List<Employeeoutdistribute> distributeInfoList) throws Exception;
+	
+	/**
+	 * 根据大修员工ID集合和状态码修改大修员工表中的培训状态字段
+	 * trainStatus bigEmployeeOutIds
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateHaulEmployeeOutTrainStatusByCondition(Map<String,Object> condition) throws Exception;
 	
 	/********** S Qlq *****************/
 	/**

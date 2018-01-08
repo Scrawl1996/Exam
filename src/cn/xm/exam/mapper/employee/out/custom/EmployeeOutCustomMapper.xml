@@ -262,7 +262,19 @@
 		UPDATE employeeoutdistribute empdis SET outempname =
 		(SELECT `name` FROM employee_out where idCode = empdis.empOutIdCard)
 	</update>
-
+	
+	<!-- 根据大修员工ID和状态码修改大修员工表的培训状态 -->
+	<update id="updateHaulEmployeeOutTrainStatusByCondition" parameterType="map">
+		UPDATE haulemployeeout SET trainStatus = #{trainStatus}
+		<where>
+			<foreach collection="bigEmployeeOutIds" item="haulEmpOutId" open="and BigEmployeeoutId in ("
+				close=")" separator=",">
+				<!--每个遍历需要拼接的串 -->
+				#{haulEmpOutId}
+			</foreach>
+		</where>
+	</update>
+	
 	<!-- 查询外部员工的条件 -->
 	<sql id="query_employeeOut_where">
 		<!-- 员工姓名 -->
