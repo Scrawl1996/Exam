@@ -203,6 +203,11 @@ public class ExamServiceImpl implements ExamService {
 		return examCustomMapper.getPaperUseTimesByPaperId(paperId);
 	}
 
+	@Override
+	public List<Map<String, Object>> getExamNameAndLevelByName(String nameWord) throws SQLException {
+		// TODO Auto-generated method stub
+		return examCustomMapper.getExamNameAndLevelByName(nameWord);
+	}
 	/******** S zwy ******/
 	@Override
 	public List<Map<String, Object>> getExamInfoByEmployeeId(String employeeId) throws Exception {
@@ -293,5 +298,4 @@ public class ExamServiceImpl implements ExamService {
 		// TODO Auto-generated method stub
 		return examCustomMapper.getExamCountByPaperIdAndStatus(paperId);
 	}
-
 }

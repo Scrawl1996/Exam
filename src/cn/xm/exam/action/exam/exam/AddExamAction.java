@@ -164,7 +164,7 @@ public class AddExamAction extends ActionSupport {
 	}
 
 	private Map generateOutCondition(Map condition) {
-//		將本部门的ID放入查询条件
+		// 將本部门的ID放入查询条件
 		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 		String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
 		condition.put("departmentId", departmentIdSession);
@@ -204,6 +204,24 @@ public class AddExamAction extends ActionSupport {
 		return condition;
 	}
 
+	private String nameWord;
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getExamNameAndLevelByWord() {
+		response = new HashMap();
+		List<Map<String, Object>> nameAndLevel = null;
+		try {
+			nameAndLevel = examService.getExamNameAndLevelByName(nameWord);
+		} catch (Exception e) {
+			logger.error("查询考试名称和级别信息失败", e);
+		}
+		response.put("nameAndLevel", nameAndLevel);
+		return SUCCESS;
+	}
+
 	/**
 	 * 增加考试(ajax异步增加)
 	 * 
@@ -217,7 +235,7 @@ public class AddExamAction extends ActionSupport {
 		response = new HashMap();
 		String result = null;
 		try {
-			result = examService.addExam(exam,examMethod) ? "添加成功！" : "添加失败!";
+			result = examService.addExam(exam, examMethod) ? "添加成功！" : "添加失败!";
 		} catch (Exception e) {
 			logger.error("添加考试信息失败", e);
 			result = "添加失败!";
@@ -321,6 +339,14 @@ public class AddExamAction extends ActionSupport {
 
 	public void setExamMethod(String examMethod) {
 		this.examMethod = examMethod;
+	}
+
+	public String getNameWord() {
+		return nameWord;
+	}
+
+	public void setNameWord(String nameWord) {
+		this.nameWord = nameWord;
 	}
 
 }

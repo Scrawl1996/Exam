@@ -70,7 +70,7 @@
 				<div class="panel panel-default el_queryBoxMainPage">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>试题管理</span><span>>添加试卷</span>
+						<span>考试管理</span><span>>添加考试</span>
 					</div>
 
 					<!--添加考试基本内容-->
@@ -86,7 +86,10 @@
 							<div id="outEmployeeDiv"></div>
 							<div class="input-group el_modellist" role="toolbar">
 								<span class="el_spans">考试名称：</span> <input type="text"
-									class="form-control el_modelinput" name="exam.examname" />
+									class="form-control el_modelinput" name="exam.examname"
+									onkeyup="findNames(this)" />
+								<div id="showDiv"
+									style="margin: 25px 0px 0px 0px; position: absolute; width: 88%; z-index: 3000; background-color: white; border: 1px solid; display: none;"></div>
 							</div>
 
 							<!-- 考试级别 -->
@@ -109,9 +112,10 @@
 							<div class="input-group el_modellist" role="toolbar">
 								<span class="el_spans">部门类型：</span> <label
 									class="el_radioBox el_radioBox2"> <input type="radio"
-									name="el_departType" checked value="0" id="openInRadio">厂内部门
+									name="el_departType" value="0" id="openInRadio">厂内部门
 								</label> <label class="el_radioBox el_radioBox2"> <input
-									type="radio" name="el_departType" value="1" id="openOutRadio">外来单位
+									type="radio" name="el_departType" checked value="1"
+									id="openOutRadio">外来单位
 								</label>
 							</div>
 
@@ -121,7 +125,7 @@
 									class="el_radioBox el_radioBox2"> <input type="radio"
 									name="examMethod" checked value="线上">线上
 								</label> <label class="el_radioBox el_radioBox2"> <input
-									type="radio" name="examMethod" value="线下" id="">线下
+									type="radio" name="examMethod" checked value="线下" id="">线下
 								</label>
 							</div>
 
@@ -130,7 +134,7 @@
 									class="form-control el_modelinput" name="exam.address" />
 							</div> -->
 
-							
+
 							<div class="input-prepend input-group el_modellist el_modellist5">
 								<span class="add-on el_spans">考试时间：</span> <input type="text"
 									placeholder="开始时间"

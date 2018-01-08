@@ -7,7 +7,7 @@
  * qlq写的 添加考试
  */
 var departIndex = 0;
-var departmentIds = "";//全部部门ID串
+var departmentIds = "";// 全部部门ID串
 var inner_open = false, out_open = false;// 用于记录两个模态框是否打开
 var departmentr4Query = [];// 等价于var departmentr4Query=new Array();
 $(function() {
@@ -84,29 +84,39 @@ $(function() {
 		$(".inShow").css('display', '');// 显示内部参考部门信息
 		$(".outShow").css('display', 'none');// 隐藏大修名称框
 		$("#addOutDiv").css('display', 'none');// 隐藏下面的选择员工框
+		$(":radio[value='线上']").prop("disabled", false);
+		$(":radio[value='线上']").prop("checked", true);
+		$("#inpstart0").val("");
+		$("#inpend0").val("");
 	});
-	
-	//线上线下的点击方式
-	$("[name='examMethod']").click(function(){
-		
-		if($(this).val()=="线上"){
+
+	// 线上线下的点击方式
+	$("[name='examMethod']").click(function() {
+
+		if ($(this).val() == "线上") {
 			$("#inpstart0").val("")
 			$("#inpend0").val("")
 		}
-		if($(this).val()=="线下"){
-			$("#inpstart0").val( Format(getServerDate(),"yyyy-MM-dd HH:mm:ss"))
-			$("#inpend0").val( Format(getServerDate(),"yyyy-MM-dd HH:mm:ss"))
+		if ($(this).val() == "线下") {
+			$("#inpstart0").val(Format(getServerDate(), "yyyy-MM-dd HH:mm:ss"))
+			$("#inpend0").val(Format(getServerDate(), "yyyy-MM-dd HH:mm:ss"))
 		}
 	});
-	
-	
+
 	// 点击外来部门的单选圈的事件
 	$("#openOutRadio").click(function() {
-//		alert(getServerDate())
+		// alert(getServerDate())
 		$("#addInDiv").css('display', 'none');// 隐藏内部信息
 		$(".inShow").css('display', 'none');// 隐藏内部参考部门信息
 		$(".outShow").css('display', '');// 显示大修名称框
 		$("#addOutDiv").css('display', '');// 显示下面的选择员工框
+		// 点击外来部门的点击事件
+		$(":radio[value='线上']").prop("disabled", true);
+		$(":radio[value='线下']").prop("checked", true);
+		//初始化日期框
+		$("#inpstart0").val(Format(getServerDate(), "yyyy-MM-dd HH:mm:ss"))
+		$("#inpend0").val(Format(getServerDate(), "yyyy-MM-dd HH:mm:ss"))
+
 	});
 	// 查询大修名字与大修ID
 	queryBigNameAndId();
@@ -114,13 +124,34 @@ $(function() {
 	$("#selectUnitBtn").click(function() {
 		addUnit2Input();
 	});
+	//点击外部的时候关闭那个模糊查询的框
+	$(document).click(function(event) {
+		if ($(event.target).attr("class") != "unitName") {
+			if ($("#showDiv").css("display") == "block") {
+				$("#showDiv").css("display", "none");// 点击外部的时候隐藏名字提示框
+			}
+		}
+	});
+	
 })
 function initSomdeThing() {
 	initEmployeeTypeDic();
+
+	// 将时间置为默认现在时间
+	$("#inpstart0").val(Format(getServerDate(), "yyyy-MM-dd HH:mm:ss"))
+	$("#inpend0").val(Format(getServerDate(), "yyyy-MM-dd HH:mm:ss"))
+	// 显示外来的单位div
+	$("#addInDiv").css('display', 'none');// 隐藏内部信息
+	$(".inShow").css('display', 'none');// 隐藏内部参考部门信息
+	$(".outShow").css('display', '');// 显示大修名称框
+	$("#addOutDiv").css('display', '');// 显示下面的选择员工框
+	// 线上方式置为空
+	$(":radio[value='线上']").prop("disabled", true);
+
 }
 /** *S 查询内部部门员工 */
 var queryInnerEmployee = function() {
-	//	var departments = $("#el_chooseDepart1").text();// 获取部门名字
+	// var departments = $("#el_chooseDepart1").text();// 获取部门名字
 	var departments = departmentIds;// 获取部门名字
 	// 如果没有选择部门提醒选择部门，否则查询
 	if (departments.length > 0) {
@@ -308,28 +339,34 @@ function showEmployeeOutModal(response) {
 		var sex = examEmployeeOuts[i].sex == '1' ? "男" : "女";
 		var trainInt = examEmployeeOuts[i].trainStatus;
 		var tarinStr;
-		/*		if (trainInt == 0) {
-		 tarinStr = "未参加考试";
-		 }
-		 if (trainInt == 1) {
-		 tarinStr = "通过一级考试";
-		 }
-		 if (trainInt == 2) {
-		 tarinStr = "通过二级考试";
-		 }
-		 if (trainInt == 3) {
-		 tarinStr = "通过三级考试";
-		 }*/
+		/*
+		 * if (trainInt == 0) { tarinStr = "未参加考试"; } if (trainInt == 1) {
+		 * tarinStr = "通过一级考试"; } if (trainInt == 2) { tarinStr = "通过二级考试"; } if
+		 * (trainInt == 3) { tarinStr = "通过三级考试"; }
+		 */
 		var tr_out = '<tr><td>'
 				+ '<input type="checkbox" name="employeeOut" value="'
 				+ examEmployeeOuts[i].idCode
-				+ '" class="el_checks" /></td><td>' + examEmployeeOuts[i].name
-				+ '</td><td>' + sex + '</td><td>' + examEmployeeOuts[i].idCode
-				+ '</td><td>' + examEmployeeOuts[i].unitname + '</td><td>'
-				+ examEmployeeOuts[i].empType + '</td><td>'
-				+ examEmployeeOuts[i].minusNum  +'<input type="hidden" class="unitId" value="'+examEmployeeOuts[i].unitId+'"/>'
-				+'<input type="hidden" class="bigemployeeoutid" value="'+examEmployeeOuts[i].bigemployeeoutid+'"/>'
-				+'<input type="hidden" class="distributeid" value="'+examEmployeeOuts[i].distributeid+'"/> '+'</td></tr>';
+				+ '" class="el_checks" /></td><td>'
+				+ examEmployeeOuts[i].name
+				+ '</td><td>'
+				+ sex
+				+ '</td><td>'
+				+ examEmployeeOuts[i].idCode
+				+ '</td><td>'
+				+ examEmployeeOuts[i].unitname
+				+ '</td><td>'
+				+ examEmployeeOuts[i].empType
+				+ '</td><td>'
+				+ examEmployeeOuts[i].minusNum
+				+ '<input type="hidden" class="unitId" value="'
+				+ examEmployeeOuts[i].unitId
+				+ '"/>'
+				+ '<input type="hidden" class="bigemployeeoutid" value="'
+				+ examEmployeeOuts[i].bigemployeeoutid
+				+ '"/>'
+				+ '<input type="hidden" class="distributeid" value="'
+				+ examEmployeeOuts[i].distributeid + '"/> ' + '</td></tr>';
 		$("#outEmployeeTable").append(tr_out);
 	}
 	checkOutHasChecked();// 判断选中的打上对勾
@@ -389,11 +426,11 @@ var selectOutEmployee = function() {
 		var employeeIdCode = $(employeeOutIdcode[i]).parents('tr').children(
 				'td').eq('3').html();// 获取员工身份证号(用于标记)
 		var distributeid = $(employeeOutIdcode[i]).parents('tr').children(
-		'td:last').find(".distributeid").val();// 获取员工分配编号
+				'td:last').find(".distributeid").val();// 获取员工分配编号
 		var bigemployeeoutid = $(employeeOutIdcode[i]).parents('tr').children(
-		'td:last').find(".bigemployeeoutid").val();// 获取员工分配编号
-		var unitId = $(employeeOutIdcode[i]).parents('tr').children(
-		'td:last').find(".unitId").val();// 获取员工分配编号
+				'td:last').find(".bigemployeeoutid").val();// 获取员工分配编号
+		var unitId = $(employeeOutIdcode[i]).parents('tr').children('td:last')
+				.find(".unitId").val();// 获取员工分配编号
 		var employeeOutName = $(employeeOutIdcode[i]).parents('tr').children(
 				'td').eq('1').html();// 获取员工姓名
 		$("#" + unitName + " .panel-body").append(
@@ -413,21 +450,21 @@ var selectOutEmployee = function() {
 		$("#outEmployeeDiv").append(
 				'<input type="hidden" name="exam.employeeOutExams[' + i
 						+ '].employeename" value="' + employeeOutName + '"/>');
-		
-		//将员工的单位ID和分配编号加到成绩表
+
+		// 将员工的单位ID和分配编号加到成绩表
 		$("#outEmployeeDiv").append(
 				'<input type="hidden" name="exam.employeeOutExams[' + i
-				+ '].unitid" value="' + unitId + '"/>');
-		//将员工的分配编号加到成绩表
+						+ '].unitid" value="' + unitId + '"/>');
+		// 将员工的分配编号加到成绩表
 		$("#outEmployeeDiv").append(
 				'<input type="hidden" name="exam.employeeOutExams[' + i
-				+ '].distributeid" value="' + distributeid + '"/>');
-		//将员工的分配编号加到成绩表
+						+ '].distributeid" value="' + distributeid + '"/>');
+		// 将员工的分配编号加到成绩表
 		$("#outEmployeeDiv").append(
 				'<input type="hidden" name="exam.employeeOutExams[' + i
-				+ '].bigemployeeoutid" value="' + bigemployeeoutid + '"/>');
-		
-		
+						+ '].bigemployeeoutid" value="' + bigemployeeoutid
+						+ '"/>');
+
 	}
 	$("#innerEmployeeDiv").html("");// 清空内部员工文本框
 	$("#outEmployeeModal").modal('hide');
@@ -659,7 +696,7 @@ function zTreeOnCheck(event, treeId, treeNode) {
 var el_chooseDepart1, className10 = "dark", el_id;
 // 点击前面的复选框之前的事件
 function beforeCheck(treeId, treeNode) {
-	//	alert(departmentIds);
+	// alert(departmentIds);
 	className10 = (className10 === "dark" ? "" : "dark");
 	el_id = treeNode.departmentId;
 	// 判断点击的节点是否被选中，返回false 和 true
@@ -758,7 +795,7 @@ function setAutoTrigger10(e) {
 var saveExam = function() {
 	// 进行数据验证
 	$.validator.methods.compareDate = function(value, element, param) {
-		var startDate = $("#inpstart0").val(); //开始日期
+		var startDate = $("#inpstart0").val(); // 开始日期
 		var d1 = new Date(startDate);
 		var d2 = new Date(value);
 		return d1 <= d2;
@@ -957,19 +994,68 @@ function replaceLevel(level) {
 	}
 }
 
-
-
-/************获取服务器时间**********/
-function getServerDate(){
+/** **********获取服务器时间********* */
+function getServerDate() {
 	var nowTimeStr;
 	$.ajax({
-		url:"onlineExam_getNowServerTime.action?date="+Format(new Date(),"HH:mm:ss"),
-		async:false,
-		datatype:"json",
-		success:function(data){			
-			nowTimeStr = data.nowTime.replace(/T/g," ").replace(/-/g,"/");
+		url : "onlineExam_getNowServerTime.action?date="
+				+ Format(new Date(), "HH:mm:ss"),
+		async : false,
+		datatype : "json",
+		success : function(data) {
+			nowTimeStr = data.nowTime.replace(/T/g, " ").replace(/-/g, "/");
 		}
-	})	
+	})
 	return new Date(nowTimeStr);
-	//return new Date();
+	// return new Date();
+}
+
+
+
+
+
+
+/**S      模糊查询考试姓名和级别*********/
+//模糊查询姓名
+function findNames(obj) {
+	$("#showDiv").html("");
+	// 1.获取表单的值
+	var word = $(obj).val();
+	var content = "";
+	// 2.异步ajax去数据库模糊查询
+	$.post(	contextPath + "/exam_getExamNameAndLevelByWord.action", // 请求地址
+					{
+						"nameWord" : word
+					}, // 请求传递的参数，也可以是JSON
+					function(response) { // data表示传递回来的数据，只有在成功的时候才有
+						if (response.nameAndLevel != null
+								&& response.nameAndLevel.length > 0) {
+							for (var i = 0; i < response.nameAndLevel.length; i++) {
+								content += "<div style='padding:5px;cursor:pointer;' class='unitName' onclick='clickFn(this)' onmouseover='overFun(this);' onmouseout='outFn(this);'>"
+										+ response.nameAndLevel[i].examName +"<input class='examlevel' type='hidden' value='"+response.nameAndLevel[i].examlevel+"'/>"+ "</div>";
+							}
+							$("#showDiv").css("display", "block");
+							$("#showDiv").html(content);
+						}
+					}, "json" // 表示返回内容的格式,json会将传回来的自动解析成json对象
+			);
+
+}
+// 鼠标悬浮上去
+function overFun(obj) {
+	$(obj).css("background", "#C0C1C5");
+}
+// 鼠标移走
+function outFn(obj) {
+	$(obj).css("background", "#fff");
+}
+
+//点击的时候将值加到上面的文本框事件同时根据名字去数据库 查询信息
+function clickFn(obj) {
+	var selectName = $(obj).text();
+	$("[name='exam.examname']").val(selectName);// 设置到上面
+	$("#showDiv").css("display", "none");
+	//获取考试级别
+	var examlevel=$(obj).find(".examlevel").val();
+	$("[name='exam.examlevel'] option[value='"+examlevel+"']").prop("selected",true);
 }

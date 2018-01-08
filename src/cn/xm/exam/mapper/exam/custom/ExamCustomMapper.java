@@ -53,6 +53,15 @@ public interface ExamCustomMapper {
 	 */
 	public int getExamCountByPaperIdAndStatus(String paperId) throws SQLException;
 
+	/**
+	 * 根据考试名称模糊查询考试级别和名称
+	 * 
+	 * @param nameWord
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String, Object>> getExamNameAndLevelByName(String nameWord) throws SQLException;
+
 	/** S zwy ***/
 	List<Map<String, Object>> getExamInfoByEmployeeId(String employeeId);
 
