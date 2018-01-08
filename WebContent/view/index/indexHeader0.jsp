@@ -92,12 +92,12 @@
     </div>
     <div class="el_navUL">
         <ul>
-        	<a href="<%=path %>/index.jsp">
+        	<%-- <a href="<%=path %>/index.jsp">
                 <li>首页</li>
             </a>
             <a href="<%=path %>/view/index/newPage.jsp">
                 <li>新闻中心</li>
-            </a>
+            </a> --%>
             <a href="<%=path %>/view/index/studyMainpage2.jsp">
                 <li>培训学习</li>
             </a>
