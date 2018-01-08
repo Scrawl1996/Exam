@@ -183,4 +183,13 @@ public interface EmployeeOutCustomMapper {
 	 * @throws SQLException
 	 */
 	public int updateEmployeeOutNameByIdCard() throws SQLException;
+	
+	/**
+	 * 根据大修员工ID和状态码修改大修员工表培训状态
+	 * @param condition
+	 * @return
+	 * @throws SQLException
+	 */
+	public int updateHaulEmployeeOutTrainStatusByCondition(Map<String,Object> condition) throws SQLException;
+	
 }

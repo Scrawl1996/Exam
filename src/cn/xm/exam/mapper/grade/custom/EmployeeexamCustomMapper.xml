@@ -211,7 +211,7 @@
 			</foreach>
 		</where>
 	</update>
-
+	
 	<!-- 查询考试成绩信息的条件 -->
 	<sql id="query_ExamGradesInfo_where">
 

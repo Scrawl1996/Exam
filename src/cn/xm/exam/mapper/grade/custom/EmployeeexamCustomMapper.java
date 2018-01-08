@@ -3,7 +3,6 @@ package cn.xm.exam.mapper.grade.custom;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
 import cn.xm.exam.bean.grade.Employeeexam;
 import cn.xm.exam.vo.grade.EmployeeExamGrade;
 import cn.xm.exam.vo.grade.ExamEmployeeexamExampaper;
@@ -169,6 +168,7 @@ public interface EmployeeexamCustomMapper {
 	 */
 	public int updateHaulEmployeeOutTrainStatusByIds(List<String> list) throws SQLException;
 	
+		
 	/****** S QLQ ***********/
 	/**
 	 * 添加员工成绩(用于初始化成绩表)
