@@ -242,18 +242,18 @@ function addEmployeeOutInfo() {
 	var age = Math.ceil(newDate / 1000 / 60 / 60 / 24 / 365);// 获得年龄
 	var aged = true;
 	if (age < 18) {
-		alert("年龄不到，不能入场！");
+		alert("该员工年龄小于18岁！");
 		aged = false;
 	}
 	if (age > 55) {
-		alert("年龄超龄，不能入场！");
+		alert("该员工年龄大于55岁！");
 		aged = false;
 	}
 	
 	/**
 	 *	如果年龄符合，即aged为true ，则执行下边内容。
 	 */
-	if(aged){
+	//if(aged){
 		// 判断该身份证是否已经添加
 		for (var i = 0; i < idCardArrays.length; i++) {
 			if (idCardArrays[i] == idCard) {
@@ -362,7 +362,7 @@ function addEmployeeOutInfo() {
 						}
 					});
 		}
-	}
+	//}
 }
 
 // 点击添加员工的模态框的删除按钮执行的操作
