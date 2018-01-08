@@ -24,11 +24,19 @@
 
 #el_headerLeftLogo {
 	float: left;
-	width: 205px;
+	width: 240px;
 	height: 60px;
 	margin-left: 50px;
 	font-size: 22px;
 	padding-top: 7px;
+}
+#el_headerLeftLogo2 {
+	float: left;
+	width: 240px;
+	height: 60px;
+	margin-left: -43px;
+	font-size: 22px;
+	padding-top: 17px;
 }
 
 #el_headerLeftLogo img {
@@ -40,12 +48,24 @@
 	display: block;
 	height: 100%;
 	float: right;
-	width: 160px;
+	width: 198px;
 	text-decoration: none;
 	font-size: 16px;
 	color: white;
 	text-align: center;
 }
+#el_headerLeftLogo2 a {
+	display: block;
+	height: 100%;
+	float: right;
+	width: 198px;
+	text-decoration: none;
+	font-size: 21px;
+	color: white;
+	text-align: center;
+}
+
+
 
 #el_headerRightinfo {
 	float: right;
@@ -118,9 +138,13 @@
 	<!--头-->
 	<div id="el_header">
 		<div id="el_headerLeftLogo">
-			<img src="<%=path%>/image/logo.png" width="37" /> <a
-				href="<%=path%>/index.jsp"> 阳城国际发电有限公司 安全培训管理系统 </a>
+			<img src="<%=path%>/image/logo.png" width="37" /> 
+			<a href="<%=path%>/index.jsp"> 阳城国际发电有限责任公司 大唐阳城发电有限责任公司  </a>
 		</div>
+		<div id="el_headerLeftLogo2">
+			<a href="<%=path%>/index.jsp">安全培训管理系统</a>
+		</div>
+		
 		<div id="el_headerRightinfo">
 			<div id="el_systemTime">
 				<P id="time"></P>

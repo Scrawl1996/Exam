@@ -70,9 +70,9 @@ hasOperatingEmpout = true;
 							<div class="row el_queryBox">
 								<form id="queryDistributeInfoForm">
 									<!-- 隐藏一些查询条件，隐患ID，部门ID -->
-									 <input type="hidden" name="distributeStatus" />
+									<input type="hidden" name="distributeStatus" />
 									<!-- 增加标记外来单位员工管理 -->
-									<input type="hidden" name="markTrainType" value="1"/>
+									<input type="hidden" name="markTrainType" value="1" />
 
 									<div class="row el_queryBoxrow">
 										<div class="col-md-3 el_qlmQuery">
@@ -88,23 +88,26 @@ hasOperatingEmpout = true;
 												<span class="el_spans">性&nbsp;&nbsp;&nbsp;别：</span> <label
 													class="el_radioBox"><input type="radio"
 													name="employeeOutSex" value="1"> 男</label> <label
-													class="el_radioBox clearInput"><input type="radio" class="clearInput"
-													name="employeeOutSex" value="2"> 女</label>
+													class="el_radioBox clearInput"><input type="radio"
+													class="clearInput" name="employeeOutSex" value="2">
+													女</label>
 											</div>
 										</div>
 
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
 												<span class="el_spans">身&nbsp;份&nbsp;&nbsp;证：</span> <input
-													type="text" class="form-control clearInput" name="employeeOutIdCard" />
+													type="text" class="form-control clearInput"
+													name="employeeOutIdCard" />
 											</div>
 										</div>
 									</div>
 
 
 									<!-- 隐藏部门ID和大修ID -->
-									<input type="hidden" name="unitId" id="query_unitId" class="clearInput" /> <input
-										type="hidden" name="bigId" id="query_bigId" class="clearInput"/>
+									<input type="hidden" name="unitId" id="query_unitId"
+										class="clearInput" /> <input type="hidden" name="bigId"
+										id="query_bigId" class="clearInput" />
 									<!-- 隐藏当前页和显示条数 -->
 									<input type="hidden" name="currentPage" id="currentPage" /> <input
 										type="hidden" name="currentCount" id="currentCount" />
@@ -166,12 +169,19 @@ hasOperatingEmpout = true;
 										<button class="btn btn-primary" id="el_lookTrainDocument"
 											style="display: none" onclick="el_empTrainDoc()">分配员工</button>
 										<shiro:hasPermission name="grademanager:printcard">
-												<button style="display: none" id="generateWork" class="btn btn-primary" onclick="el_empCardModel()">
+											<button style="display: none" id="generateWork"
+												class="btn btn-primary" onclick="el_empCardModel()">
 												生成工作证</button>
 										</shiro:hasPermission>
-										<shiro:hasPermission name="grademanager:printcard">
-												<button style="display: none" id="revokeWork" class="btn btn-primary" onclick="revokeWork()">
+										<shiro:hasPermission name="grademanager:revokecard">
+											<button style="display: none" id="revokeWork"
+												class="btn btn-primary" onclick="revokeWork()">
 												回收工作证</button>
+										</shiro:hasPermission>
+										<shiro:hasPermission name="grademanager:revokegene">
+											<button style="display: none" id="reGeberateWord"
+												class="btn btn-primary" onclick="el_empCardModel()">
+												重新发放工作证</button>
 										</shiro:hasPermission>
 
 
@@ -201,12 +211,7 @@ hasOperatingEmpout = true;
 									<div id="paginationIDU" class="paginationID"></div>
 								</div>
 							</div>
-							<br/>
-							<br/>
-							<br/>
-							<br/>
-							<br/>
-							<br/>
+							<br /> <br /> <br /> <br /> <br /> <br />
 							<div class="modal fade" id="el_empTrainDoc" tabindex="-1"
 								role="dialog" aria-labelledby="myModalLabel23"
 								data-backdrop="static" data-keyboard="false" aria-hidden="true">
@@ -301,7 +306,7 @@ hasOperatingEmpout = true;
 								<!-- /.modal -->
 							</div>
 
-				
+
 							<!-- 模态框 生成工作证-->
 							<div class="modal fade" id="el_empCardModel" tabindex="-1"
 								role="dialog" aria-labelledby="myModalLabel23"
@@ -340,7 +345,7 @@ hasOperatingEmpout = true;
 												<button type="button" class="btn btn-default"
 													data-dismiss="modal">关闭</button>
 												<button type="button" class="btn btn-primary"
-													onclick="exportEmployeeOutInfo()">导出工作证信息</button>
+													onclick="exportEmployeeOutInfo()">生成工作证</button>
 											</div>
 										</form>
 
@@ -351,7 +356,58 @@ hasOperatingEmpout = true;
 							</div>
 
 
-			
+
+
+
+							<!-- 模态框 回收工作证-->
+							<div class="modal fade" id="el_empCardModel1" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabel23">回收工作证</h4>
+										</div>
+										<form>
+											<div class="modal-body">
+												<span>符合回收工作证的员工</span>
+
+												<div class="el_threeScoreList">
+													<table class="table table-bordered"
+														style="font-size: 13px;">
+														<thead>
+															<tr>
+																<th>姓名</th>
+																<th>性别</th>
+																<th>身份证号</th>
+																<th>工种</th>
+																<th>部门</th>
+															</tr>
+														</thead>
+														<tbody id="empInfoListForRevoke">
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+												<button type="button" class="btn btn-primary"
+													onclick="revokeEmployeeOutInfo()">回收工作证</button>
+											</div>
+										</form>
+
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+
+
 
 
 						</div>
