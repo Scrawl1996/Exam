@@ -160,12 +160,18 @@ hasOperatingEmpout = true;
 											<option value="1">待分配</option>
 											<option value="2">正在培训</option>
 											<option value="3">已合格</option>
+											<option value="4">已生成工作证</option>
+											<option value="5">已回收工作证</option>
 										</select>
 										<button class="btn btn-primary" id="el_lookTrainDocument"
 											style="display: none" onclick="el_empTrainDoc()">分配员工</button>
 										<shiro:hasPermission name="grademanager:printcard">
 												<button style="display: none" id="generateWork" class="btn btn-primary" onclick="el_empCardModel()">
 												生成工作证</button>
+										</shiro:hasPermission>
+										<shiro:hasPermission name="grademanager:printcard">
+												<button style="display: none" id="revokeWork" class="btn btn-primary" onclick="revokeWork()">
+												回收工作证</button>
 										</shiro:hasPermission>
 
 
