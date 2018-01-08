@@ -191,12 +191,7 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 	 * @throws Exception
 	 */
 	public List<EmployeeOutBaseInfo> getEmpInfoForCertificateWithCondition(Map<String, Object> condition)
-			throws Exception {
-		
-		//设置条件为2表示已经生成工作证
-		condition.put("trainStatus", "2");
-		//生成工作证后修改大修员工表的状态标记为已生成工作证
-		updateHaulEmployeeOutTrainStatusByCondition(condition);
+			throws Exception {				
 		
 		//return employeeOutCustomMapper.getEmpInfoForCertificateWithCondition(condition);
 		//修改为根据大修员工ID集合查询符合条件的员工信息
