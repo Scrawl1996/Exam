@@ -1,6 +1,7 @@
 package cn.xm.exam.action.employee.out;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +14,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 import cn.xm.exam.bean.employee.out.Employeeoutdistribute;
 import cn.xm.exam.bean.system.User;
+import cn.xm.exam.service.employee.out.EmployeeOutService;
 import cn.xm.exam.service.employee.out.EmpoutDistributeService;
 import cn.xm.exam.utils.DefaultValue;
 import cn.xm.exam.utils.PageBean;
@@ -36,7 +39,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 	private Map<String, Object> response;
 	@Resource
 	private EmpoutDistributeService empoutDistributeService;
-	private String markTrainType;//标记外来还是内部常委
+	private String markTrainType;// 标记外来还是内部常委
 
 	/**
 	 * 跟句当前用户的ID查询大修单位数
@@ -51,17 +54,17 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
 			Map condition = new HashMap();
 			condition.put("departmentId", departmentIdSession);
-			//培训类型标记
-			if(ValidateCheck.isNotNull(markTrainType)){
-				//判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
-				if(markTrainType.equals("0")){
-					condition.put("markTrainType_In", markTrainType);				
-				}else{
+			// 培训类型标记
+			if (ValidateCheck.isNotNull(markTrainType)) {
+				// 判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
+				if (markTrainType.equals("0")) {
+					condition.put("markTrainType_In", markTrainType);
+				} else {
 					condition.put("markTrainType_Out", markTrainType);
 				}
-				//正式新员工培训大修ID
+				// 正式新员工培训大修ID
 				condition.put("regular_train", DefaultValue.REGULAR_EMPLOYEE_TRAIN);
-				//长委新员工培训大修ID
+				// 长委新员工培训大修ID
 				condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
 			}
 			haulunitTree = empoutDistributeService.getHaulunitTreeByDepartmentId(condition);
@@ -136,17 +139,17 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		if (ValidateCheck.isNotNull(employeeOutIdCard)) {
 			condition.put("employeeOutIdCard", employeeOutIdCard);
 		}
-		//培训类型标记
-		if(ValidateCheck.isNotNull(markTrainType)){
-			//判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
-			if(markTrainType.equals("0")){
-				condition.put("markTrainType_In", markTrainType);				
-			}else{
+		// 培训类型标记
+		if (ValidateCheck.isNotNull(markTrainType)) {
+			// 判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
+			if (markTrainType.equals("0")) {
+				condition.put("markTrainType_In", markTrainType);
+			} else {
 				condition.put("markTrainType_Out", markTrainType);
 			}
-			//正式新员工培训大修ID
+			// 正式新员工培训大修ID
 			condition.put("regular_train", DefaultValue.REGULAR_EMPLOYEE_TRAIN);
-			//长委新员工培训大修ID
+			// 长委新员工培训大修ID
 			condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
 		}
 		if (ValidateCheck.isNotNull(unitId)) {
@@ -238,6 +241,69 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		} catch (SQLException e) {
 			result = "修改失败";
 			logger.error("修改分配信息失败", e);
+		}
+		response.put("result", result);
+		return SUCCESS;
+	}
+
+	/**
+	 * 生成工作证的操作
+	 * 
+	 * @return
+	 */
+	@Resource
+	private EmployeeOutService employeeOutService;
+	/**
+	 * 大修员工ID(转为list传到Mapper)
+	 */
+	private String bigEmployeeOutIds;
+
+	public String generateWordCard() {
+		Map condition = new HashMap();
+		response = new HashMap<String, Object>();
+		if (ValidateCheck.isNotNull(bigEmployeeOutIds)) {
+			// 分割为数组
+			String[] bigEmployeeOutIds_array = bigEmployeeOutIds.split(",");
+			// 转为list
+			List<String> bigEmployeeOutIds = Arrays.asList(bigEmployeeOutIds_array);
+			condition.put("bigEmployeeOutIds", bigEmployeeOutIds);
+		}
+		condition.put("trainStatus", "2");
+		String result = null;
+		try {
+			result = employeeOutService.updateHaulEmployeeOutTrainStatusByCondition(condition) > 0 ? "生成工作证成功!"
+					: "生成工作证失败!";
+		} catch (Exception e) {
+			logger.error("生成工作证出错！！！", e);
+			result = "生成工作证出错！！！";
+		}
+		response.put("result", result);
+		return SUCCESS;
+	}
+
+	/**
+	 * 回收工作证
+	 * 
+	 * @return
+	 */
+	public String revokeWordCard() {
+		Map condition = new HashMap();
+		response = new HashMap<String, Object>();
+		if (ValidateCheck.isNotNull(bigEmployeeOutIds)) {
+			// 分割为数组
+			String[] bigEmployeeOutIds_array = bigEmployeeOutIds.split(",");
+			// 转为list
+			List<String> bigEmployeeOutIds = Arrays.asList(bigEmployeeOutIds_array);
+			condition.put("bigEmployeeOutIds", bigEmployeeOutIds);
+		}
+		condition.put("trainStatus", "3");
+		String result = null;
+		try {
+			result = employeeOutService.updateHaulEmployeeOutTrainStatusByCondition(condition) > 0 ? "回收工作证成功!"
+					: "回收工作证失败!";
+		} catch (Exception e) {
+			logger.error("回收工作证出错！！！", e);
+			result = "回收工作证出错！！！";
 		}
 		response.put("result", result);
 		return SUCCESS;
@@ -348,5 +414,12 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		this.markTrainType = markTrainType;
 	}
 
+	public String getBigEmployeeOutIds() {
+		return bigEmployeeOutIds;
+	}
+
+	public void setBigEmployeeOutIds(String bigEmployeeOutIds) {
+		this.bigEmployeeOutIds = bigEmployeeOutIds;
+	}
 
 }

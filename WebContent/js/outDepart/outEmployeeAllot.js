@@ -473,6 +473,12 @@ function selectFenpeiInfo() {
 	} else {
 		$("#revokeWork").css("display", "none");
 	}
+	// 动态显示与隐藏重新发放
+	if (distributeStatus == '5') {
+		$("#reGeberateWord").css("display", "");
+	} else {
+		$("#reGeberateWord").css("display", "none");
+	}
 	$("[name='distributeStatus']").val(distributeStatus);
 	queryDistributeInfo();
 }
@@ -534,29 +540,90 @@ function el_empCardModel() {
 	}
 }
 
-// 生成工作证模态框中全选按钮的操作
-$(function() {
-	$("#el_checkQuanxuan3").change(function() {
-		if ($(this).prop("checked") == true) {
-			$(".el_checks3").prop("checked", "true");
-		} else {
-			$(".el_checks3").removeAttr("checked");
-		}
-	})
-})
-
-// 点击导出工作证信息执行的操作
+// 点击生成工作证信息执行的操作
 function exportEmployeeOutInfo() {
 	var haulempids = [];
 	$(".haulempid_export").each(function(i) {
 		haulempids[i] = $(this).val();
 	});
-	window.location.href = baseurl
-			+ '/exportEmpInfo_findEmployeeOutInfosToExport.action?bigEmployeeOutIds='
-			+ haulempids;
+
+	$.post(baseurl + '/distribute_generateWordCard.action', 
+			{
+			"bigEmployeeOutIds" : haulempids.toString()
+			}, 
+			function(response) {
+				alert(response.result);
+				if(response.result=="生成工作证成功!"){
+					//关闭模态框并查询
+					$("#el_empCardModel").modal("hide");
+					queryDistributeInfo();
+				}
+				}, 
+				'json');
+
 }
 
 /** *************回收工作证相关操作************************* */
+// 选中一次大修或部门，点击生成工作证按钮执行的操作
 function revokeWork() {
-	alert("开始回收工作证")
+	var chooseEmpNum = 0;// 判断是否有员工被选中
+	$(".el_checks").each(function() { // 获取选择的员工
+		if ($(this).prop("checked")) {// 如果选中。。。
+			chooseEmpNum++;
+		}
+	})
+	if (chooseEmpNum != 0) {
+		$("#empInfoListForRevoke").html("");
+		$(".el_checks")
+				.each(
+						function() { // 获取选择的员工
+							if ($(this).prop("checked")) {// 如果选中。。。
+								var tds = $(this).parent().parent().children();
+								var haulempid = tds.eq(11).children(
+										".haulempid").val();
+								$("#empInfoListForRevoke")
+										.append(
+												'<tr><td>'
+														+ tds.eq(2).html()
+														+ '</td><td>'
+														+ tds.eq(3).html()
+														+ '</td><td>'
+														+ tds.eq(4).html()
+														+ '</td><td>'
+														+ tds.eq(7).html()
+														+ '</td><td>'
+														+ tds.eq(6).html()
+														+ '<input type="hidden" class="haulempid_revoke" value="'
+														+ haulempid
+														+ '"/></td></tr>')
+							}
+						})
+
+		$("#el_empCardModel1").modal();
+	} else {
+		alert("请先选择员工！")
+	}
+}
+
+// 点击导出工作证信息执行的操作
+function revokeEmployeeOutInfo() {
+	var haulempids_1 = [];
+	$(".haulempid_revoke").each(function(i) {
+		haulempids_1[i] = $(this).val();
+	});
+	$.post(baseurl + '/distribute_revokeWordCard.action', 
+			{
+			"bigEmployeeOutIds" : haulempids_1.toString()
+			}, 
+			function(response) {
+				alert(response.result);
+				if(response.result=="回收工作证成功!"){
+					//关闭模态框并查询
+					$("#el_empCardModel1").modal("hide");
+					queryDistributeInfo();
+				}
+				}, 
+				'json');
+	
+	
 }
