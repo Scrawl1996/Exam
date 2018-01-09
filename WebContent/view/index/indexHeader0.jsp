@@ -87,7 +87,7 @@
 		            安全培训管理系统
         </a>
         --%>
-        <img src="<%=path %>/image/logoHeader.png" height="70%" width="70%"/>
+        <img src="<%=path %>/image/logoHeader1.png" height="100%" width="100%" style="margin-top:-3px"/>
         
     </div>
     <div class="el_navUL">
