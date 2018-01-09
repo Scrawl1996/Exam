@@ -533,6 +533,8 @@ hasOperatingEmpout = true;
 																<th>试卷总分</th>
 																<th>获得成绩</th>
 																<th>是否通过</th>
+																<th>培训学识</th>
+																<th>培训内容</th>
 															</tr>
 														</thead>
 														<tbody id="employeeOutExamInfos">
