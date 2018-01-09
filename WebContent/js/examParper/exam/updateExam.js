@@ -793,6 +793,13 @@ var updateExam = function() {
 				"exam.examname" : {
 					required : true
 				},
+				"exam.traincontent" : {
+					required : true
+				},
+				"exam.xueshi" : {
+					required : true,
+					digits : true
+				},
 				"exam.answertime" : {
 					required : true,
 					digits : true,
@@ -815,6 +822,13 @@ var updateExam = function() {
 				},// 下边与上边对应
 				"exam.examname" : {
 					required : "考试名称不能为空"
+				},
+				"exam.traincontent" : {
+					required : "培训内容不能为空"
+				},
+				"exam.xueshi" : {
+					required : "培训时长不能为空",
+					digits : "必须输入整数"
 				},
 				"exam.answertime" : {
 					required : "考试时长不能为空",

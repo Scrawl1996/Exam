@@ -818,6 +818,8 @@ function EmpTrainDoc() {
 					examLevel = "无";
 				}
 				str += "<td>" + examLevel + "</td>";
+				str += "<td>" + myexams[j].traincontent + "</td>";
+				str += "<td>" + myexams[j].xueshi + "</td>";
 				var startTime;
 				if (myexams[j].startTime != null) {
 					startTime = myexams[j].startTime;
