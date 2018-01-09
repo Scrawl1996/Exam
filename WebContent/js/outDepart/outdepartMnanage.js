@@ -121,7 +121,7 @@ function addUnit() {
 	// 判断是否已经选择了树,跟据上边的NodeNums
 	// alert($("#bigid").val()=="")
 	if ($("#bigid").val() == "") {
-		alert("请选选择一个检修!")
+		alert("请先选择一个检修!")
 	} else {
 		// 要根据检修ID查询之后判断的检修状态
 		var bigId = $(".queryIsFinish").val();
