@@ -7,9 +7,9 @@
     <result column="paperId" property="paperid" jdbcType="VARCHAR" />
     <result column="startTime" property="starttime" jdbcType="TIMESTAMP" />
     <result column="endTime" property="endtime" jdbcType="TIMESTAMP" />
-    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="traincontent" property="traincontent" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="xueshi" property="xueshi" jdbcType="VARCHAR" />
     <result column="bigId" property="bigid" jdbcType="VARCHAR" />
     <result column="bigStatus" property="bigstatus" jdbcType="VARCHAR" />
     <result column="examLevel" property="examlevel" jdbcType="VARCHAR" />
@@ -79,7 +79,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    examId, examName, paperId, startTime, endTime, address, status, employeeId, bigId, 
+    examId, examName, paperId, startTime, endTime, traincontent, status, xueshi, bigId, 
     bigStatus, examLevel, employeeName, employeeNum, createTime, examType, AnswerTime, 
     departmentId
   </sql>
@@ -115,14 +115,14 @@
   </delete>
   <insert id="insert" parameterType="cn.xm.exam.bean.exam.Exam" >
     insert into exam (examId, examName, paperId, 
-      startTime, endTime, address, 
-      status, employeeId, bigId, 
+      startTime, endTime, traincontent, 
+      status, xueshi, bigId, 
       bigStatus, examLevel, employeeName, 
       employeeNum, createTime, examType, 
       AnswerTime, departmentId)
     values (#{examid,jdbcType=VARCHAR}, #{examname,jdbcType=VARCHAR}, #{paperid,jdbcType=VARCHAR}, 
-      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{employeeid,jdbcType=VARCHAR}, #{bigid,jdbcType=VARCHAR}, 
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{traincontent,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{xueshi,jdbcType=VARCHAR}, #{bigid,jdbcType=VARCHAR}, 
       #{bigstatus,jdbcType=VARCHAR}, #{examlevel,jdbcType=VARCHAR}, #{employeename,jdbcType=VARCHAR}, 
       #{employeenum,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{examtype,jdbcType=VARCHAR}, 
       #{answertime,jdbcType=INTEGER}, #{departmentid,jdbcType=VARCHAR})
@@ -145,14 +145,14 @@
       <if test="endtime != null" >
         endTime,
       </if>
-      <if test="address != null" >
-        address,
+      <if test="traincontent != null" >
+        traincontent,
       </if>
       <if test="status != null" >
         status,
       </if>
-      <if test="employeeid != null" >
-        employeeId,
+      <if test="xueshi != null" >
+        xueshi,
       </if>
       <if test="bigid != null" >
         bigId,
@@ -198,14 +198,14 @@
       <if test="endtime != null" >
         #{endtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="address != null" >
-        #{address,jdbcType=VARCHAR},
+      <if test="traincontent != null" >
+        #{traincontent,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="employeeid != null" >
-        #{employeeid,jdbcType=VARCHAR},
+      <if test="xueshi != null" >
+        #{xueshi,jdbcType=VARCHAR},
       </if>
       <if test="bigid != null" >
         #{bigid,jdbcType=VARCHAR},
@@ -260,14 +260,14 @@
       <if test="record.endtime != null" >
         endTime = #{record.endtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.address != null" >
-        address = #{record.address,jdbcType=VARCHAR},
+      <if test="record.traincontent != null" >
+        traincontent = #{record.traincontent,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null" >
         status = #{record.status,jdbcType=VARCHAR},
       </if>
-      <if test="record.employeeid != null" >
-        employeeId = #{record.employeeid,jdbcType=VARCHAR},
+      <if test="record.xueshi != null" >
+        xueshi = #{record.xueshi,jdbcType=VARCHAR},
       </if>
       <if test="record.bigid != null" >
         bigId = #{record.bigid,jdbcType=VARCHAR},
@@ -308,9 +308,9 @@
       paperId = #{record.paperid,jdbcType=VARCHAR},
       startTime = #{record.starttime,jdbcType=TIMESTAMP},
       endTime = #{record.endtime,jdbcType=TIMESTAMP},
-      address = #{record.address,jdbcType=VARCHAR},
+      traincontent = #{record.traincontent,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=VARCHAR},
-      employeeId = #{record.employeeid,jdbcType=VARCHAR},
+      xueshi = #{record.xueshi,jdbcType=VARCHAR},
       bigId = #{record.bigid,jdbcType=VARCHAR},
       bigStatus = #{record.bigstatus,jdbcType=VARCHAR},
       examLevel = #{record.examlevel,jdbcType=VARCHAR},
@@ -339,14 +339,14 @@
       <if test="endtime != null" >
         endTime = #{endtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="address != null" >
-        address = #{address,jdbcType=VARCHAR},
+      <if test="traincontent != null" >
+        traincontent = #{traincontent,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="employeeid != null" >
-        employeeId = #{employeeid,jdbcType=VARCHAR},
+      <if test="xueshi != null" >
+        xueshi = #{xueshi,jdbcType=VARCHAR},
       </if>
       <if test="bigid != null" >
         bigId = #{bigid,jdbcType=VARCHAR},
@@ -384,9 +384,9 @@
       paperId = #{paperid,jdbcType=VARCHAR},
       startTime = #{starttime,jdbcType=TIMESTAMP},
       endTime = #{endtime,jdbcType=TIMESTAMP},
-      address = #{address,jdbcType=VARCHAR},
+      traincontent = #{traincontent,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
-      employeeId = #{employeeid,jdbcType=VARCHAR},
+      xueshi = #{xueshi,jdbcType=VARCHAR},
       bigId = #{bigid,jdbcType=VARCHAR},
       bigStatus = #{bigstatus,jdbcType=VARCHAR},
       examLevel = #{examlevel,jdbcType=VARCHAR},

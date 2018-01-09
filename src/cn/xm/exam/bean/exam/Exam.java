@@ -16,11 +16,11 @@ public class Exam {
 
 	private Date endtime;
 
-	private String address;
+	private String traincontent;
 
 	private String status;
 
-	private String employeeid;
+	private String xueshi;
 
 	private String bigid;
 
@@ -83,12 +83,12 @@ public class Exam {
 		this.endtime = endtime;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getTraincontent() {
+		return traincontent;
 	}
 
-	public void setAddress(String address) {
-		this.address = address == null ? null : address.trim();
+	public void setTraincontent(String traincontent) {
+		this.traincontent = traincontent == null ? null : traincontent.trim();
 	}
 
 	public String getStatus() {
@@ -99,12 +99,12 @@ public class Exam {
 		this.status = status == null ? null : status.trim();
 	}
 
-	public String getEmployeeid() {
-		return employeeid;
+	public String getXueshi() {
+		return xueshi;
 	}
 
-	public void setEmployeeid(String employeeid) {
-		this.employeeid = employeeid == null ? null : employeeid.trim();
+	public void setXueshi(String xueshi) {
+		this.xueshi = xueshi == null ? null : xueshi.trim();
 	}
 
 	public String getBigid() {

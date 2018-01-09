@@ -435,73 +435,73 @@ public class ExamExample {
             return (Criteria) this;
         }
 
-        public Criteria andAddressIsNull() {
-            addCriterion("address is null");
+        public Criteria andTraincontentIsNull() {
+            addCriterion("traincontent is null");
             return (Criteria) this;
         }
 
-        public Criteria andAddressIsNotNull() {
-            addCriterion("address is not null");
+        public Criteria andTraincontentIsNotNull() {
+            addCriterion("traincontent is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAddressEqualTo(String value) {
-            addCriterion("address =", value, "address");
+        public Criteria andTraincontentEqualTo(String value) {
+            addCriterion("traincontent =", value, "traincontent");
             return (Criteria) this;
         }
 
-        public Criteria andAddressNotEqualTo(String value) {
-            addCriterion("address <>", value, "address");
+        public Criteria andTraincontentNotEqualTo(String value) {
+            addCriterion("traincontent <>", value, "traincontent");
             return (Criteria) this;
         }
 
-        public Criteria andAddressGreaterThan(String value) {
-            addCriterion("address >", value, "address");
+        public Criteria andTraincontentGreaterThan(String value) {
+            addCriterion("traincontent >", value, "traincontent");
             return (Criteria) this;
         }
 
-        public Criteria andAddressGreaterThanOrEqualTo(String value) {
-            addCriterion("address >=", value, "address");
+        public Criteria andTraincontentGreaterThanOrEqualTo(String value) {
+            addCriterion("traincontent >=", value, "traincontent");
             return (Criteria) this;
         }
 
-        public Criteria andAddressLessThan(String value) {
-            addCriterion("address <", value, "address");
+        public Criteria andTraincontentLessThan(String value) {
+            addCriterion("traincontent <", value, "traincontent");
             return (Criteria) this;
         }
 
-        public Criteria andAddressLessThanOrEqualTo(String value) {
-            addCriterion("address <=", value, "address");
+        public Criteria andTraincontentLessThanOrEqualTo(String value) {
+            addCriterion("traincontent <=", value, "traincontent");
             return (Criteria) this;
         }
 
-        public Criteria andAddressLike(String value) {
-            addCriterion("address like", value, "address");
+        public Criteria andTraincontentLike(String value) {
+            addCriterion("traincontent like", value, "traincontent");
             return (Criteria) this;
         }
 
-        public Criteria andAddressNotLike(String value) {
-            addCriterion("address not like", value, "address");
+        public Criteria andTraincontentNotLike(String value) {
+            addCriterion("traincontent not like", value, "traincontent");
             return (Criteria) this;
         }
 
-        public Criteria andAddressIn(List<String> values) {
-            addCriterion("address in", values, "address");
+        public Criteria andTraincontentIn(List<String> values) {
+            addCriterion("traincontent in", values, "traincontent");
             return (Criteria) this;
         }
 
-        public Criteria andAddressNotIn(List<String> values) {
-            addCriterion("address not in", values, "address");
+        public Criteria andTraincontentNotIn(List<String> values) {
+            addCriterion("traincontent not in", values, "traincontent");
             return (Criteria) this;
         }
 
-        public Criteria andAddressBetween(String value1, String value2) {
-            addCriterion("address between", value1, value2, "address");
+        public Criteria andTraincontentBetween(String value1, String value2) {
+            addCriterion("traincontent between", value1, value2, "traincontent");
             return (Criteria) this;
         }
 
-        public Criteria andAddressNotBetween(String value1, String value2) {
-            addCriterion("address not between", value1, value2, "address");
+        public Criteria andTraincontentNotBetween(String value1, String value2) {
+            addCriterion("traincontent not between", value1, value2, "traincontent");
             return (Criteria) this;
         }
 
@@ -575,73 +575,73 @@ public class ExamExample {
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidIsNull() {
-            addCriterion("employeeId is null");
+        public Criteria andXueshiIsNull() {
+            addCriterion("xueshi is null");
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidIsNotNull() {
-            addCriterion("employeeId is not null");
+        public Criteria andXueshiIsNotNull() {
+            addCriterion("xueshi is not null");
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidEqualTo(String value) {
-            addCriterion("employeeId =", value, "employeeid");
+        public Criteria andXueshiEqualTo(String value) {
+            addCriterion("xueshi =", value, "xueshi");
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidNotEqualTo(String value) {
-            addCriterion("employeeId <>", value, "employeeid");
+        public Criteria andXueshiNotEqualTo(String value) {
+            addCriterion("xueshi <>", value, "xueshi");
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidGreaterThan(String value) {
-            addCriterion("employeeId >", value, "employeeid");
+        public Criteria andXueshiGreaterThan(String value) {
+            addCriterion("xueshi >", value, "xueshi");
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidGreaterThanOrEqualTo(String value) {
-            addCriterion("employeeId >=", value, "employeeid");
+        public Criteria andXueshiGreaterThanOrEqualTo(String value) {
+            addCriterion("xueshi >=", value, "xueshi");
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidLessThan(String value) {
-            addCriterion("employeeId <", value, "employeeid");
+        public Criteria andXueshiLessThan(String value) {
+            addCriterion("xueshi <", value, "xueshi");
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidLessThanOrEqualTo(String value) {
-            addCriterion("employeeId <=", value, "employeeid");
+        public Criteria andXueshiLessThanOrEqualTo(String value) {
+            addCriterion("xueshi <=", value, "xueshi");
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidLike(String value) {
-            addCriterion("employeeId like", value, "employeeid");
+        public Criteria andXueshiLike(String value) {
+            addCriterion("xueshi like", value, "xueshi");
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidNotLike(String value) {
-            addCriterion("employeeId not like", value, "employeeid");
+        public Criteria andXueshiNotLike(String value) {
+            addCriterion("xueshi not like", value, "xueshi");
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidIn(List<String> values) {
-            addCriterion("employeeId in", values, "employeeid");
+        public Criteria andXueshiIn(List<String> values) {
+            addCriterion("xueshi in", values, "xueshi");
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidNotIn(List<String> values) {
-            addCriterion("employeeId not in", values, "employeeid");
+        public Criteria andXueshiNotIn(List<String> values) {
+            addCriterion("xueshi not in", values, "xueshi");
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidBetween(String value1, String value2) {
-            addCriterion("employeeId between", value1, value2, "employeeid");
+        public Criteria andXueshiBetween(String value1, String value2) {
+            addCriterion("xueshi between", value1, value2, "xueshi");
             return (Criteria) this;
         }
 
-        public Criteria andEmployeeidNotBetween(String value1, String value2) {
-            addCriterion("employeeId not between", value1, value2, "employeeid");
+        public Criteria andXueshiNotBetween(String value1, String value2) {
+            addCriterion("xueshi not between", value1, value2, "xueshi");
             return (Criteria) this;
         }
 
