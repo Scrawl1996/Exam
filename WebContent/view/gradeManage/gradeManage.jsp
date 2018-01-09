@@ -186,7 +186,7 @@
                                 <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button><!--关闭符号-->
                                 <!--标题-->
-                                <h4 class="modal-title" id="myModalLabel">填写考试的基本信息</h4>
+                                <h4 class="modal-title" id="myModalLabel">成绩导入</h4>
                             </div>
                            
 								<form  enctype="multipart/form-data" id="form_inputEmployeeGrade">

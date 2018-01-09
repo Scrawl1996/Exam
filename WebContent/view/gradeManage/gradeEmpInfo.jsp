@@ -303,7 +303,7 @@
                                 <h4 class="modal-title" id="myModalLabel13">成绩详情</h4>
                             </div>
                             <form>
-                                <div class="modal-body">
+                                <div class="modal-body" style="padding:3px;margin-left: 15px;">
 
                                     <!--员工考试信息-->
                                     <div class="el_modelTitle">

@@ -143,7 +143,7 @@
 			<a href="<%=path%>/view/index/studyMainpage2.jsp"> 阳城国际发电有限责任公司 大唐阳城发电有限责任公司  </a>
 		</div>
 		<div id="el_headerLeftLogo2">
-			<a href="<%=path%>/index.jsp">安全培训管理系统</a>
+			<a href="<%=path%>/view/index/studyMainpage2.jsp">安全培训管理系统</a>
 
 		</div>
 		
