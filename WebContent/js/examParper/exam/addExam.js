@@ -91,45 +91,53 @@ $(function() {
 	});
 
 	// 线上线下的点击方式
-	$("[name='examMethod']").click(function() {
+	$("[name='examMethod']").click(
+			function() {
 
-		if ($(this).val() == "线上") {
-			$("#inpstart0").val("")
-			$("#inpend0").val("")
-		}
-		if ($(this).val() == "线下") {
-			// 获取现在的毫秒数
-			var nowSeconds = getServerDate().getTime();//getTime返回日期的毫秒数
-			// 45分钟后的时间
-			var endSeconds = nowSeconds + 45 * 60 * 1000;
-			// 将时间置为默认现在时间
-			$("#inpstart0").val(Format(new Date(nowSeconds), "yyyy-MM-dd HH:mm:ss"));//以服务器时间创建Date对象并格式化
-			$("#inpend0").val(
-					Format(new Date(endSeconds), "yyyy-MM-dd HH:mm:ss"))
-		}
-	});
+				if ($(this).val() == "线上") {
+					$("#inpstart0").val("")
+					$("#inpend0").val("")
+				}
+				if ($(this).val() == "线下") {
+					// 获取现在的毫秒数
+					var nowSeconds = getServerDate().getTime();// getTime返回日期的毫秒数
+					// 45分钟后的时间
+					var endSeconds = nowSeconds + 45 * 60 * 1000;
+					// 将时间置为默认现在时间
+					$("#inpstart0")
+							.val(
+									Format(new Date(nowSeconds),
+											"yyyy-MM-dd HH:mm:ss"));// 以服务器时间创建Date对象并格式化
+					$("#inpend0")
+							.val(
+									Format(new Date(endSeconds),
+											"yyyy-MM-dd HH:mm:ss"))
+				}
+			});
 
 	// 点击外来部门的单选圈的事件
-	$("#openOutRadio").click(function() {
-		// alert(getServerDate())
-		$("#addInDiv").css('display', 'none');// 隐藏内部信息
-		$(".inShow").css('display', 'none');// 隐藏内部参考部门信息
-		$(".outShow").css('display', '');// 显示大修名称框
-		$("#addOutDiv").css('display', '');// 显示下面的选择员工框
-		// 点击外来部门的点击事件
-		$(":radio[value='线上']").prop("disabled", true);
-		$(":radio[value='线下']").prop("checked", true);
-		// 初始化日期框
-		// 获取现在的毫秒数
-		var nowSeconds = getServerDate().getTime();//getTime返回日期的毫秒数
-		// 45分钟后的时间
-		var endSeconds = nowSeconds + 45 * 60 * 1000;
-		// 将时间置为默认现在时间
-		$("#inpstart0").val(Format(new Date(nowSeconds), "yyyy-MM-dd HH:mm:ss"));//以服务器时间创建Date对象并格式化
-		$("#inpend0").val(
-				Format(new Date(endSeconds), "yyyy-MM-dd HH:mm:ss"))
+	$("#openOutRadio").click(
+			function() {
+				// alert(getServerDate())
+				$("#addInDiv").css('display', 'none');// 隐藏内部信息
+				$(".inShow").css('display', 'none');// 隐藏内部参考部门信息
+				$(".outShow").css('display', '');// 显示大修名称框
+				$("#addOutDiv").css('display', '');// 显示下面的选择员工框
+				// 点击外来部门的点击事件
+				$(":radio[value='线上']").prop("disabled", true);
+				$(":radio[value='线下']").prop("checked", true);
+				// 初始化日期框
+				// 获取现在的毫秒数
+				var nowSeconds = getServerDate().getTime();// getTime返回日期的毫秒数
+				// 45分钟后的时间
+				var endSeconds = nowSeconds + 45 * 60 * 1000;
+				// 将时间置为默认现在时间
+				$("#inpstart0").val(
+						Format(new Date(nowSeconds), "yyyy-MM-dd HH:mm:ss"));// 以服务器时间创建Date对象并格式化
+				$("#inpend0").val(
+						Format(new Date(endSeconds), "yyyy-MM-dd HH:mm:ss"))
 
-	});
+			});
 	// 查询大修名字与大修ID
 	queryBigNameAndId();
 	// 选中外来单位的点击事件
@@ -150,13 +158,12 @@ function initSomdeThing() {
 	initEmployeeTypeDic();
 
 	// 获取现在的毫秒数
-	var nowSeconds = getServerDate().getTime();//getTime返回日期的毫秒数
+	var nowSeconds = getServerDate().getTime();// getTime返回日期的毫秒数
 	// 45分钟后的时间
 	var endSeconds = nowSeconds + 45 * 60 * 1000;
 	// 将时间置为默认现在时间
-	$("#inpstart0").val(Format(new Date(nowSeconds), "yyyy-MM-dd HH:mm:ss"));//以服务器时间创建Date对象并格式化
-	$("#inpend0").val(
-			Format(new Date(endSeconds), "yyyy-MM-dd HH:mm:ss"))
+	$("#inpstart0").val(Format(new Date(nowSeconds), "yyyy-MM-dd HH:mm:ss"));// 以服务器时间创建Date对象并格式化
+	$("#inpend0").val(Format(new Date(endSeconds), "yyyy-MM-dd HH:mm:ss"))
 	// 显示外来的单位div
 	$("#addInDiv").css('display', 'none');// 隐藏内部信息
 	$(".inShow").css('display', 'none');// 隐藏内部参考部门信息
@@ -825,6 +832,13 @@ var saveExam = function() {
 			"exam.examname" : {
 				required : true
 			},
+			"exam.traincontent" : {
+				required : true
+			},
+			"exam.xueshi" : {
+				required : true,
+				digits : true
+			},
 			"exam.answertime" : {
 				required : true,
 				digits : true,
@@ -848,6 +862,13 @@ var saveExam = function() {
 			},// 下边与上边对应
 			"exam.examname" : {
 				required : "考试名称不能为空"
+			},
+			"exam.traincontent" : {
+				required : "培训内容不能为空"
+			},
+			"exam.xueshi" : {
+				required : "培训时长不能为空",
+				digits : "必须输入整数"
 			},
 			"exam.examlevel" : {
 				"required" : "考试等级不能为空"
@@ -1049,6 +1070,12 @@ function findNames(obj) {
 										+ response.nameAndLevel[i].examName
 										+ "<input class='examlevel' type='hidden' value='"
 										+ response.nameAndLevel[i].examlevel
+										+ "'/>"
+										+ "<input class='traincontent' type='hidden' value='"
+										+ response.nameAndLevel[i].traincontent
+										+ "'/>"
+										+ "<input class='xueshi' type='hidden' value='"
+										+ response.nameAndLevel[i].xueshi
 										+ "'/>" + "</div>";
 							}
 							$("#showDiv").css("display", "block");
@@ -1069,11 +1096,19 @@ function outFn(obj) {
 
 // 点击的时候将值加到上面的文本框事件同时根据名字去数据库 查询信息
 function clickFn(obj) {
+	// 考试名称
 	var selectName = $(obj).text();
 	$("[name='exam.examname']").val(selectName);// 设置到上面
-	$("#showDiv").css("display", "none");
-	// 获取考试级别
+	// 考试级别//
 	var examlevel = $(obj).find(".examlevel").val();
 	$("[name='exam.examlevel'] option[value='" + examlevel + "']").prop(
 			"selected", true);
+	// 培训内容
+	var traincontent = $(obj).find(".traincontent").val();
+	$("[name='exam.traincontent']").val(traincontent);
+	// 培训学时
+	var xueshi = $(obj).find(".xueshi").val();
+	$("[name='exam.xueshi']").val(xueshi);
+
+	$("#showDiv").css("display", "none");
 }

@@ -106,6 +106,20 @@
 							</div>
 
 
+							<!-- 培训内容 -->
+							<div class="input-group el_modellist" role="toolbar">
+								<span class="el_spans">培训内容：</span> <input type="text"
+									name="exam.traincontent" class="form-control el_modelinput" />
+							</div>
+
+
+							<!-- 培训时长 -->
+							<div class="input-group el_modellist" role="toolbar">
+								<span class="el_spans">培训时长：</span> <input style="width: 76px;"
+									type="text" name="exam.xueshi"
+									class="form-control el_modelinput" />学时
+							</div>
+
 							<!--根据选择的部门类型，
                 动态的加载相应部门类型的部门
                 再调用相应部门类型的添加部门一人的模态-->

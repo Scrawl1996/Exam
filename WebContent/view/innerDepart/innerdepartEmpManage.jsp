@@ -483,6 +483,8 @@ hasOperatingEmpin = true;
 														<tr>
 															<th>考试名称</th>
 															<th>考试级别</th>
+															<th>培训内容</th>
+															<th>培训学时</th>
 															<th>考试时间</th>
 															<th>考试总分数</th>
 															<th>获得成绩</th>

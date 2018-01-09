@@ -32,7 +32,8 @@
 		p.paperId,
 		e.answerTime
 		as totalTime,
-		e.address,
+		e.traincontent,
+		e.xueshi,
 		e.status,
 		e.startTime,
 		e.endTime
@@ -98,7 +99,7 @@
 
 	<!-- S 根据关键字模糊查询考试名称和级别 -->
 	<select id="getExamNameAndLevelByName" parameterType="string" resultType="map">
-		SELECT DISTINCT examName,examlevel FROM exam WHERE examName LIKE
+		SELECT DISTINCT examName,examlevel,traincontent,xueshi FROM exam WHERE examName LIKE
 		'%${value}%' limit 0,5
 	</select>
 	<!-- E 根据关键字模糊查询考试名称和级别 -->
@@ -124,7 +125,7 @@
 		parameterType="hashmap">
 
 		select
-		exam.examName,exam.examLevel,exam.startTime,exam.endTime,exampaper.paperScore,employeeexam.grade
+		exam.examName,exam.examLevel,exam.traincontent,exam.xueshi,exam.startTime,exam.endTime,exampaper.paperScore,employeeexam.grade
 		from exam ,employeeexam,exampaper where
 		employeeexam.examId=exam.examId and exampaper.paperId=exam.paperId and
 		employeeexam.employeeId=#{hiddenidcode} and exam.status="已结束" and
@@ -149,7 +150,7 @@
 	<select id="getExamInfoByEmployeeId" resultType="hashmap"
 		parameterType="string">
 		select
-		exam.examName,exam.examLevel,exam.startTime,exam.endTime,exampaper.paperScore,employeeexam.grade
+		exam.examName,exam.examLevel,exam.traincontent,exam.xueshi,exam.startTime,exam.endTime,exampaper.paperScore,employeeexam.grade
 		from exam ,employeeexam,exampaper where
 		employeeexam.examId=exam.examId and exampaper.paperId=exam.paperId and
 		employeeexam.employeeId=#{employeeid} and exam.status="已结束" and

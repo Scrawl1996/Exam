@@ -170,6 +170,25 @@ label.success {
 							</div>
 
 
+							<!-- 培训内容 -->
+							<div class="input-group el_modellist" role="toolbar">
+								<span class="el_spans">培训内容：</span> <input type="text"
+									name="exam.traincontent"
+									value="${response.examBaseInfo.traincontent}"
+									class="form-control el_modelinput" />
+							</div>
+
+
+							<!-- 培训时长 -->
+							<div class="input-group el_modellist" role="toolbar">
+								<span class="el_spans">培训时长：</span> <input type="text"
+									style="width: 76px;" name="exam.xueshi"
+									value="${response.examBaseInfo.xueshi}"
+									class="form-control el_modelinput" />学时
+							</div>
+
+
+
 							<!--根据选择的部门类型，
                 动态的加载相应部门类型的部门
                 再调用相应部门类型的添加部门一人的模态-->
@@ -190,9 +209,13 @@ label.success {
 							<div class="input-group el_modellist" role="toolbar">
 								<span class="el_spans">考试方式：</span> <label
 									class="el_radioBox el_radioBox2"> <input type="radio"
-									name="examMethod" <c:if test="${'线上' eq response.employees[0].examMethod }">checked</c:if> value="线上" id="">线上
+									name="examMethod"
+									<c:if test="${'线上' eq response.employees[0].examMethod }">checked</c:if>
+									value="线上" id="">线上
 								</label> <label class="el_radioBox el_radioBox2"> <input
-									type="radio" <c:if test="${'线下' eq response.employees[0].examMethod }">checked</c:if> name="examMethod" value="线下" id="">线下
+									type="radio"
+									<c:if test="${'线下' eq response.employees[0].examMethod }">checked</c:if>
+									name="examMethod" value="线下" id="">线下
 								</label>
 							</div>
 
