@@ -639,8 +639,11 @@ function showEmployeeOutExamsInfoList(employeeOutIdCard, currentPage,
 						+ Format(new Date(examInfoList[i].endTime.replace(/T/g,
 								" ").replace(/-/g, "/")), "yyyy-MM-dd HH:mm")
 						+ "</td><td>" + examInfoList[i].paperScore
-						+ "</td><td>" + examInfoList[i].grade + "</td><td>"
-						+ examInfoList[i].isPass + "</td></tr>";
+						+ "</td><td>" + examInfoList[i].grade 						
+						+ "</td><td>" + examInfoList[i].isPass 
+						+ "</td><td>" + examInfoList[i].xueshi
+						+ "</td><td>" + examInfoList[i].traincontent
+						+ "</td></tr>";
 				$("#employeeOutExamInfos").append(showExamInfoList);
 			}
 			// 当前页
@@ -686,8 +689,8 @@ function showEmployeeOutExamsInfoAllList(employeeOutIdCard) {
 						+ Format(new Date(examInfoList[i].endTime.replace(/T/g,
 								" ").replace(/-/g, "/")), "yyyy-MM-dd HH:mm")
 						+ "</td><td>" + examInfoList[i].paperScore
-						+ "</td><td>" + examInfoList[i].grade + "</td><td>"
-						+ examInfoList[i].isPass + "</td></tr>";
+						+ "</td><td>" + examInfoList[i].grade 						
+						+ "</td><td>" + examInfoList[i].isPass + "</td></tr>";
 				$("#employeeOutExamInfos").append(showExamInfoList);
 			}
 			$('#el_empTrainDoc').modal();

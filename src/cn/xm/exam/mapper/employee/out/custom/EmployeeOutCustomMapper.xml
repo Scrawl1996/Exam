@@ -44,7 +44,7 @@
 	<select id="getExamsInfoByEmployeeOutIdCard" parameterType="map"
 		resultType="map">
 		select
-		exam.examId,exam.examName,exam.startTime,exam.endTime,exam.`status`,exam.paperId,exam.bigStatus,exam.bigId,exampaper.`level`,exampaper.paperScore,
+		exam.examId,exam.examName,exam.startTime,exam.endTime,exam.`status`,exam.paperId,exam.bigStatus,exam.bigId,exam.xueshi,exam.traincontent,exampaper.`level`,exampaper.paperScore,
 		employeeexam.employeeId,
 		employeeexam.employeeName,employeeexam.employeeType,
 		employeeexam.examMethod,employeeexam.grade,
