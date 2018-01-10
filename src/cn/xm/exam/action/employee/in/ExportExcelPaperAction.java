@@ -119,8 +119,7 @@ public class ExportExcelPaperAction extends ActionSupport {
 		 */
 		// 标题
 
-		String[] title1 = { "姓名", "性别" };
-		String[] title2 = { "联系方式", "所属单位" };
+		String[] title1 = { "姓名", "性别","联系方式", "所属单位" };
 
 		// 创建一个工作簿
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -157,7 +156,7 @@ public class ExportExcelPaperAction extends ActionSupport {
 		// 创建一个单元格
 		HSSFCell cell1 = null;
 
-		for (int j = 0, i = 0; j < 4; j = j + 2, i++) {
+		for (int j = 0, i = 0; j < 4; j ++, i++) {
 			cell1 = row1.createCell(j);
 			// 设置样式
 			HSSFCellStyle cellStyle = workbook.createCellStyle();
@@ -177,54 +176,27 @@ public class ExportExcelPaperAction extends ActionSupport {
 
 		}
 
-		for (int j = 1; j < 4; j = j + 2) {
+		for (int j = 0; j < 4; j = j + 1) {
 			cell1 = row1.createCell(j);
 			// 设置数据
-			if (j == 1) {
+			if (j == 0) {
 				cell1.setCellValue(employeeIn.getName());
 
 			}
-			if (j == 3) {
-
-				cell1.setCellValue(sex);
-
-			}
-
-		}
-
-		// 创建第三行
-		HSSFRow row2 = sheet.createRow(2);
-		// 创建一个单元格
-		HSSFCell cell3 = null;
-		for (int j = 0, i = 0; j < 4; j = j + 2, i++) {
-			cell3 = row2.createCell(j);
-			// 设置样式
-			HSSFCellStyle cellStyle = workbook.createCellStyle();
-			cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 设置字体居中
-			// 设置字体
-			HSSFFont font = workbook.createFont();
-			font.setFontName("宋体");
-			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
-			// font.setFontHeight((short)12);
-			font.setFontHeightInPoints((short) 13);
-			cellStyle.setFont(font);
-			cell3.setCellStyle(cellStyle);
-			// 写入数据
-			cell3.setCellValue(title2[i]);
-
-		}
-		for (int j = 1; j < 4; j = j + 2) {
-			cell3 = row2.createCell(j);
-
 			if (j == 1) {
-				cell3.setCellValue(employeeIn.getPhone());
+				cell1.setCellValue(sex);
+				
+			}
+			if (j == 2) {
+				cell1.setCellValue(employeeIn.getPhone());
+				
 
 			}
 			if (j == 3) {
 				Department department = departmentService.getDepartmentById(employeeIn.getDepartmentid());
-				cell3.setCellValue(department.getDepartmentname());
-
+				cell1.setCellValue(department.getDepartmentname());
 			}
+
 		}
 
 		// 创建第五行

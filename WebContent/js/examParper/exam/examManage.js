@@ -106,7 +106,15 @@ var showExamTable = function(response) {
 					+ contextPath
 					+ '/findPaper_findPaperAllInfoById.action?paperId='
 					+ exams[i].paperId + '">预览试卷</a>' + '</td></tr>';
-		} else {
+		}else if(exams[i].status == '已结束'){
+			exam_tr += '</td><td>'+'<a class="el_delButton" onClick="deleteExamById(\''
+			+ exams[i].examId + '\')">删除</a>' + ' <a href="'
+			+ contextPath
+			+ '/findPaper_findPaperAllInfoById.action?paperId='
+			+ exams[i].paperId + '">预览试卷</a>' + '</td></tr>';
+			
+		}
+		else {
 			exam_tr += '</td><td>' + ' <a href="' + contextPath
 					+ '/findPaper_findPaperAllInfoById.action?paperId='
 					+ exams[i].paperId + '">预览试卷</a>' + '</td></tr>'

@@ -12,10 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.xm.exam.bean.exam.Exam;
+import cn.xm.exam.bean.exam.OnlineexamanswerinforExample;
+import cn.xm.exam.bean.exam.OnlineexaminforExample;
 import cn.xm.exam.bean.grade.Employeeexam;
 import cn.xm.exam.bean.grade.EmployeeexamExample;
 import cn.xm.exam.bean.system.User;
 import cn.xm.exam.mapper.exam.ExamMapper;
+import cn.xm.exam.mapper.exam.OnlineexamanswerinforMapper;
+import cn.xm.exam.mapper.exam.OnlineexaminforMapper;
 import cn.xm.exam.mapper.exam.custom.ExamCustomMapper;
 import cn.xm.exam.mapper.exam.custom.ExampaperCustomMapper;
 import cn.xm.exam.mapper.grade.EmployeeexamMapper;
@@ -123,9 +127,22 @@ public class ExamServiceImpl implements ExamService {
 		exampaperCustomMapper.addExampaperUsetimes(exam.getPaperid());// 试卷使用次数增加一次
 		return insertEmployeeResult;
 	}
-
+	@Resource
+	private OnlineexaminforMapper onlineexaminforMapper;
+	@Resource
+	private OnlineexamanswerinforMapper onlineexamanswerinforMapper;
 	@Override
 	public boolean deleteExamById(String id) throws Exception {
+		//0.刪除在線考試信息
+		OnlineexamanswerinforExample onlineexamanswerinforExample = new OnlineexamanswerinforExample();
+		OnlineexamanswerinforExample.Criteria criteria_1 = onlineexamanswerinforExample.createCriteria(); 
+		criteria_1.andOnlineanswerexamidEqualTo(id);
+		onlineexamanswerinforMapper.deleteByExample(onlineexamanswerinforExample);
+		//删除在线考试的详细信息
+		OnlineexaminforExample onlineexaminforExample = new OnlineexaminforExample();
+		OnlineexaminforExample.Criteria  criteria_2=onlineexaminforExample.createCriteria();
+		criteria_2.andExamidEqualTo(id);
+		onlineexaminforMapper.deleteByExample(onlineexaminforExample);
 		// 1.先删除成绩表
 		EmployeeexamExample employeeexamExample = new EmployeeexamExample();
 		EmployeeexamExample.Criteria criteria = employeeexamExample.createCriteria();
