@@ -182,7 +182,7 @@
 										<thead>
 											<tr>
 												<th>
-													<!-- <input type="checkbox" id="el_checkQuanxuan"/> -->
+													 <input type="checkbox" id="el_checkQuanxuan"/>
 												</th>
 												<th>资料名称</th>
 												<th>资料级别</th>

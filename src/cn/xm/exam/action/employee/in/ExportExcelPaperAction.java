@@ -176,8 +176,10 @@ public class ExportExcelPaperAction extends ActionSupport {
 
 		}
 
+		// 创建第二行
+		HSSFRow row2 = sheet.createRow(2);
 		for (int j = 0; j < 4; j = j + 1) {
-			cell1 = row1.createCell(j);
+			cell1 = row2.createCell(j);
 			// 设置数据
 			if (j == 0) {
 				cell1.setCellValue(employeeIn.getName());

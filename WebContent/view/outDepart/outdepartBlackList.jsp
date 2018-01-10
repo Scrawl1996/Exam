@@ -38,13 +38,12 @@
 	 });
 	 }); */
 	var contextPath = "${baseurl}";//记录项目名字
-	var hasOutunitOperating = false;//记录是否有删除外来单位权限
-	var haulId = "${haulId}";//记录传过来的检修ID
+	var hasBlackUnitOperating = false;//记录是否有删除外来单位权限
 </script>
 <!-- 有修改删除外来单位的权限就修改全局变量的值 -->
-<shiro:hasPermission name="outunit:operating">
+<shiro:hasPermission name="blackunit:operating">
 <script>
-hasOutunitOperating = true;
+hasBlackUnitOperating = true;
 </script>
 </shiro:hasPermission>
 <style type="text/css">
@@ -130,7 +129,7 @@ label.success {
 										<div class="panel-body el_MainxiaoMain">
 
 											<div class="el_topButton">
-												<shiro:hasPermission name="outunit:add">
+												<shiro:hasPermission name="blackunit:add">
 													<button class="btn btn-primary" data-toggle="modal" data-target="#myModal" >
 														拉黑违章单位</button>
 												</shiro:hasPermission>
@@ -149,17 +148,7 @@ label.success {
 												<th width="120">操作</th>
 											</tr>
 										</thead>
-										<tbody>
-										<tr>
-												<th>1</th>
-												<th>单位名称</th>
-												<th>1018-01-09</th>
-												<th>拉黑原因</th>
-												<th width="120">
-												<a href="javascript:void(0)" onclick="openUpdateModal(this)">修改</a>
-												<a href="javascript:void(0)" onclick="deleteUnit(this)">删除</a>
-												</th>
-											</tr>
+										<tbody id="blackUnitListInfo">
 										</tbody>
 										<!-- <tbody id="haunUnitTbody"> -->
 										</tbody>
@@ -173,7 +162,7 @@ label.success {
 
 							<!-- 模态框黑名单单位添加-->
 							<div class="modal fade" id="myModal" role="dialog"
-								aria-labelledby="myModalLabel" aria-hidden="true">
+							data-backdrop="static" data-keyboard="false"	aria-labelledby="myModalLabel" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
@@ -189,29 +178,27 @@ label.success {
 													<!--<span class="input-group-addon">单位名称</span>-->
 													<span class="el_spans">单位名称：</span> <input type="text"
 														id="addUnitname" class="form-control addUnitInput"
-														name="name" onkeyup="findNames(this)" /> <span
+														name="unitname"  /> <span
 														id="validateName" style="color: red"></span>
-													<div id="showDiv"
-														style="margin: 25px 0px 0px 0px; position: absolute; width: 78%; z-index: 3000; background-color: white; border: 1px solid; display: none;"></div>
 												</div>
 												<div class="input-group el_modellist" role="toolbar">
 													<!--<span class="input-group-addon">单位地址</span>-->
 													<span class="el_spans">拉黑时间：</span> <input type="text" id="test4"
-														class="form-control addUnitInput" name="haulUnit.manager"
+														class="form-control addUnitInput" name="addtime" readonly="readonly"
 														id="manager" />
 												</div>
 												<div class="input-group el_modellist" role="toolbar">
 													<!--<span class="input-group-addon">联系方式</span>-->
 													<span class="el_spans">拉黑原因：</span> <input type="text"
 														class="form-control addUnitInput"
-														name="haulUnit.projectnames" id="projectnames" />
+														name="description" id="projectnames" />
 												</div>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"
 													data-dismiss="modal">关闭</button>
 												<button type="button" class="btn btn-primary"
-													onclick="saveUnit()">保存</button>
+													onclick="saveBlackUnit()">保存</button>
 											</div>
 										</form>
 
@@ -234,24 +221,22 @@ label.success {
 										</div>
 										<form id="updateForm">
 											<div class="modal-body">
-												<!-- 隐藏一个部门ID -->
-												<input type="hidden" id="update_unitid" name="unitid">
-												<!-- 隐藏一个大修部门ID -->
-												<input type="hidden" id="update_haulUnitid"
-													name="haulUnit.unitbigid">
+												<!-- 隐藏一个黑名單单位部门ID -->
+												<input type="hidden" id="update_id"
+													name="blackunitid">
 
 												<div class="input-group el_modellist" role="toolbar">
 													<!--<span class="input-group-addon">单位名称</span>-->
 													<span class="el_spans">单位名称：</span> <input type="text"
 														class="form-control el_modelinput clearFormInput"
-														name="name" id="update_name" /> <span></span>
+														name="unitname" id="update_name" /> <span></span>
 												</div>
 
 												<div class="input-group el_modellist" role="toolbar">
 													<!--<span class="input-group-addon">单位地址</span>-->
 													<span class="el_spans">拉黑时间：</span> <input type="text" id="test41"
-														class="form-control addUnitInput" name="haulUnit.manager"
-														id="update_manager" />
+														class="form-control addUnitInput" name="addtime" readonly
+													 />
 												</div>
 
 
@@ -259,7 +244,7 @@ label.success {
 													<!--<span class="input-group-addon">联系方式</span>-->
 													<span class="el_spans">拉黑原因：</span> <input type="text"
 														class="form-control addUnitInput"
-														name="haulUnit.projectnames" id="update_projectnames" />
+														name="description" id="update_description" />
 												</div>
 
 											</div>
@@ -291,9 +276,8 @@ label.success {
 										<div class="modal-body">
 											<form id="deleteUnitForm">
 												<!-- 隐藏需要删除的id -->
-												<input type="hidden" id="deleteBigId" class="queryIsFinish"
-													name="bigId" /> <input type="hidden" id="deleteUnitId"
-													name="unitId" />
+												<input type="hidden" id="blackUnitId" class="queryIsFinish"
+													name="blackUnitId" /> 
 											</form>
 											<p style="font-size: 23px">您确认要删除该条信息吗?</p>
 											<br /> <br />

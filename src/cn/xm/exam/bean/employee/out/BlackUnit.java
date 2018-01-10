@@ -2,6 +2,8 @@ package cn.xm.exam.bean.employee.out;
 
 import java.util.Date;
 
+import org.apache.struts2.json.annotations.JSON;
+
 public class BlackUnit {
     private Integer blackunitid;
 
@@ -34,7 +36,7 @@ public class BlackUnit {
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
     }
-
+    @JSON(format="yyyy-MM-dd hh:mm:ss")
     public Date getAddtime() {
         return addtime;
     }

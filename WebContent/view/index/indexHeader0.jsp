@@ -80,14 +80,9 @@
 <body>
 <!--<导航>-->
 <div class="el_nav">
-    <div class="el_logoName">
-        <%-- <img src="<%=path %>/image/logo.png" width="53"/>
-        <a href="<%=path %>/index.jsp">
-		            阳城国际发电有限公司
-		            安全培训管理系统
-        </a>
-        --%>
-        <img src="<%=path %>/image/logoHeader1.png" height="100%" width="100%" style="margin-top:-3px"/>
+    <div class="el_logoName" style="height:70px">
+        
+        <img src="<%=path %>/image/logoHeader1.png" height="100%" width="100%" style="margin-top:-12px"/>
         
     </div>
     <div class="el_navUL">
