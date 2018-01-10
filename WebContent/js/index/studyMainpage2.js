@@ -94,13 +94,13 @@ function initKnowledgeType(){
 			var baseMenuDatas = "[";
 			baseMenuDatas +="{content:'<span onclick=\"el_query51(this)\">全部</span>',url:'javascript:void(0)'},";
 			baseMenuDatas +="{content:'sm_divider'},";
-			baseMenuDatas +="{content:'<span onclick=\"el_query(this)\">安全生产基础知识</span>',url:'javascript:void(0)'},";
+//			baseMenuDatas +="{content:'<span onclick=\"el_query(this)\">安全生产基础知识</span>',url:'javascript:void(0)'},";
 			
 			//二级
 			var baseMenuDatas1 = "[";
 			baseMenuDatas1 +="{content:'<span onclick=\"el_query52(this)\">全部</span>',url:'javascript:void(0)'},";
 			baseMenuDatas1 +="{content:'sm_divider'},";
-			baseMenuDatas1 +="{content:'<span onclick=\"el_query1(this)\">安全生产基础知识</span>',url:'javascript:void(0)'},";
+//			baseMenuDatas1 +="{content:'<span onclick=\"el_query1(this)\">安全生产基础知识</span>',url:'javascript:void(0)'},";
 			
 			
 			//三级
@@ -108,7 +108,7 @@ function initKnowledgeType(){
 			var baseMenuDatas2 = "[";
 			baseMenuDatas2 +="{content:'<span onclick=\"el_query53(this)\">全部</span>',url:'javascript:void(0)'},";
 			baseMenuDatas2 +="{content:'sm_divider'},";
-			baseMenuDatas2 +="{content:'<span onclick=\"el_query2(this)\">安全生产基础知识</span>',url:'javascript:void(0)'},";
+//			baseMenuDatas2 +="{content:'<span onclick=\"el_query2(this)\">安全生产基础知识</span>',url:'javascript:void(0)'},";
 			
 			for(var i=0;i<data.dictionaryList.length;i++){
 				//alert(data.dictionaryList[i].dictionaryname)
