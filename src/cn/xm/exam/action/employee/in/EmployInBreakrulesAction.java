@@ -214,7 +214,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		// 获取Session中的用户信息
 		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 		String departmentIdSession = user.getDepartmentid();// 获取部门ID
-		boolean permitted = currentUser.isPermitted("departmentmanage:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
+		boolean permitted = currentUser.isPermitted("departmentmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 		String departmentId = permitted ? null : departmentIdSession;
 		/***** S QLQ添加权限 *******/
 
@@ -294,7 +294,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		// 获取Session中的用户信息
 		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 		String departmentIdSession = user.getDepartmentid();// 获取部门ID
-		boolean permitted = currentUser.isPermitted("departmentmanage:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
+		boolean permitted = currentUser.isPermitted("departmentmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 		String departmentId = permitted ? null : departmentIdSession;
 		/* S QLQ权限管理 */
 		Map<String, Object> mapInit = new LinkedHashMap<String, Object>();
@@ -720,7 +720,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
 			// 获取用户信息
 			Subject currentUser = SecurityUtils.getSubject();
-			boolean permitted = currentUser.isPermitted("departmentmanage:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
+			boolean permitted = currentUser.isPermitted("departmentmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 			String departmentId = permitted ? null : departmentIdSession;
 			/***** S QLQ权限 **********/
 			// 1.1没有选中黑名单 状态的情况
@@ -790,7 +790,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
 			// 获取用户信息
 			Subject currentUser = SecurityUtils.getSubject();
-			boolean permitted = currentUser.isPermitted("departmentmanage:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
+			boolean permitted = currentUser.isPermitted("departmentmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 			String departmentId = permitted ? null : departmentIdSession;
 			/***** S QLQ权限 **********/
 			// 2 选中的黑名单状态为"是"的情况
@@ -863,7 +863,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
 			// 获取用户信息
 			Subject currentUser = SecurityUtils.getSubject();
-			boolean permitted = currentUser.isPermitted("departmentmanage:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
+			boolean permitted = currentUser.isPermitted("departmentmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 			String departmentId = permitted ? null : departmentIdSession;
 			/***** S QLQ权限 **********/
 			// 3 选中的黑名单状态为"否"的情况

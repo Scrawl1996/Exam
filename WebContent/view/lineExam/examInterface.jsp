@@ -315,7 +315,7 @@
 
                         <div class="input-group el_modellist" role="toolbar">
                             <span class="el_spans">出生日期：</span>
-                            <input type="text" class="wicon form-control el_modelinput" id="employeeIn_birthday" disabled/>
+                            <input type="text" class="wicon form-control el_noVlaue el_modelinput" id="employeeIn_birthday" disabled/>
                             <!-- <input type="text" id="test21" class="wicon form-control el_modelinput" readonly/> -->
                         </div>
 

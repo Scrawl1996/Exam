@@ -27,6 +27,7 @@
 	<include file="struts/Haul.xml"></include>
 	<include file="struts/Unit.xml"></include>
 	<include file="struts/Distribute.xml"></include> 
+	<include file="struts/blackUnit.xml"></include> 
 
 
 
