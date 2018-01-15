@@ -168,6 +168,21 @@ public interface EmployeeexamCustomMapper {
 	 */
 	public int updateHaulEmployeeOutTrainStatusByIds(List<String> list) throws SQLException;
 	
+	/**
+	 * 根据条件统计部门考试信息数量
+	 * @param condition
+	 * @return
+	 * @throws SQLException
+	 */
+	public int getUnitExamInfoCountByCondition(Map<String,Object> condition) throws SQLException;
+	
+	/**
+	 * 根据条件查询部门考试信息
+	 * @param condition
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String,Object>> getUnitExamInfosByCondition(Map<String,Object> condition) throws SQLException; 
 		
 	/****** S QLQ ***********/
 	/**

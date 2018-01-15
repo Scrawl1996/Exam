@@ -212,6 +212,88 @@
 		</where>
 	</update>
 	
+	<!-- 根据条件查询部门考试信息 -->
+	<select id="getUnitExamInfosByCondition" parameterType="map" resultType="map">
+		SELECT
+		exam.examname,
+		exam.starttime,
+		exam.endtime,
+		exam.examlevel,
+		exam.`status`,
+		(SELECT paperScore FROM exampaper WHERE paperId =
+		exam.paperId) AS paperscore,
+		employeeexam.examid,
+		employeeexam.unitid,
+		CASE employeeexam.employeeType
+		WHEN "0" THEN
+		(SELECT departmentName FROM department WHERE departmentId =
+		employeeexam.unitid)
+		ELSE
+		(SELECT `name` FROM unit WHERE unitid = employeeexam.unitid)
+		END AS unitname,
+		count(employeeId) AS joinexam,
+		(
+		SELECT
+		count(employeeId)
+		FROM
+		employeeexam emp
+		WHERE
+		grade >= 90
+		AND emp.examId = employeeexam.examId
+		AND emp.unitid =
+		employeeexam.unitid
+		) AS passexam
+		FROM
+		employeeexam,
+		exam
+		<where>
+			<include refid="query_UnitExamGradesInfo_where"></include>
+		</where>
+		GROUP BY
+		employeeexam.examId,
+		employeeexam.unitid
+		ORDER BY 
+		startTime DESC
+		<include refid="query_page_limit"></include>
+	</select>
+	
+	<!-- 根据条件统计部门成绩信息 -->
+	<select id="getUnitExamInfoCountByCondition" parameterType="map" resultType="int">
+		SELECT
+		COUNT(DISTINCT employeeexam.examId,
+			employeeexam.unitid)
+		FROM
+			employeeexam,
+			exam
+		<where>
+			<include refid="query_UnitExamGradesInfo_where"></include>
+		</where>
+	</select>
+	
+	<!-- 查询部门成绩信息条件 -->
+	<sql id="query_UnitExamGradesInfo_where">
+		<if test="1==1">
+			exam.examId = employeeexam.examId AND
+			exam.`status` = "已结束"
+		</if>
+		<!-- 考试名称 -->
+		<if test="exam_Name != null">
+			<!-- 创建一个新的变量 -->
+			<bind name="exam_Names" value="'%'+exam_Name+'%'" />
+			and exam.examName like #{exam_Names}
+		</if>
+		<!-- 考试级别 -->
+		<if test="exam_level != null">
+			and exam.examLevel = #{exam_level}
+		</if>
+		<!-- 考试时间 -->
+		<if test="exam_startTime != null">
+			and exam.endTime &gt; #{exam_startTime}
+			and exam.endTime &lt;
+			#{exam_endTime}
+		</if>
+	</sql>
+	
 	<!-- 查询考试成绩信息的条件 -->
 	<sql id="query_ExamGradesInfo_where">
 
