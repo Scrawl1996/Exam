@@ -293,7 +293,57 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 		int isUpdate = employeeexamCustomMapper.updateEmployeeInScoreByIdCard(condition);
 		return isUpdate > 0 ? true : false;
 	}
-
+	
+	/**
+	 * 根据条件查询考试部门信息分页显示
+	 * @param currentPage
+	 * @param currentTotal
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public PageBean<Map<String, Object>> getUnitExamInfosByCondition(int currentPage, int currentTotal,
+			Map<String, Object> condition) throws Exception {
+		PageBean<Map<String,Object>> pageBean = new PageBean<Map<String,Object>>();
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setCurrentCount(currentTotal);
+		int totalCount = 0;
+		totalCount = employeeexamCustomMapper.getUnitExamInfoCountByCondition(condition);
+		pageBean.setTotalCount(totalCount);
+		// 总页数
+		int totalPage = (int) Math.ceil(1.0 * totalCount / currentTotal);
+		pageBean.setTotalPage(totalPage);
+		// 每页显示的数据
+		// 设置索引，当前页-1乘上当前页显示的条数
+		int index = (currentPage - 1) * currentTotal;
+		condition.put("index", index);
+		condition.put("currentCount", currentTotal);
+		List<Map<String, Object>> list = employeeexamCustomMapper.getUnitExamInfosByCondition(condition);
+		pageBean.setProductList(list);
+		return pageBean;		
+	}
+	
+	/**
+	 * 根据考试ID和部门ID查询该部门参加这次考试的员工成绩信息
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public List<Employeeexam> getEmployeeGradeInfosByIds(Map<String, Object> condition) throws Exception {
+		EmployeeexamExample employeeExamGradeExample = new EmployeeexamExample();
+		EmployeeexamExample.Criteria criteria = employeeExamGradeExample.createCriteria();
+		criteria.andExamidEqualTo(condition.get("examId").toString());
+		criteria.andUnitidEqualTo(condition.get("unitId").toString());
+		employeeExamGradeExample.setOrderByClause("grade desc");
+		List<Employeeexam> employeeInfos = employeeExamMapper.selectByExample(employeeExamGradeExample);
+		
+		return employeeInfos;
+	}
+	
+	
+	
 	/********* S qlq *************/
 	@Override
 	public int addEmployeeExam(List<Employeeexam> employeeexam) throws SQLException {
@@ -318,5 +368,8 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 		return null;
 	}
 	/********* E qlq *************/
-
+	
+	
+	
+	
 }

@@ -158,9 +158,23 @@ public interface EmployeeExamService {
 		 */
 		public boolean updateEmployeeInScoreByIdCard(Map<String,Object> condition) throws Exception;
 		
-		
+		/**
+		 * 根据条件查询考试部门信息分页显示
+		 * @param currentPage
+		 * @param currentTotal
+		 * @param condition
+		 * @return
+		 * @throws Exception
+		 */
+		public PageBean<Map<String,Object>> getUnitExamInfosByCondition(int currentPage, int currentTotal,Map<String,Object> condition) throws Exception;
 	
-	
+		/**
+		 * 根据考试ID和部门ID查询该部门参加这次考试的员工成绩信息
+		 * @param condition
+		 * @return
+		 * @throws Exception
+		 */
+		public List<Employeeexam> getEmployeeGradeInfosByIds(Map<String,Object> condition) throws Exception;
 	
 	
 	

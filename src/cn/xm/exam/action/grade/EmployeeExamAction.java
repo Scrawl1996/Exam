@@ -73,7 +73,8 @@ public class EmployeeExamAction extends ActionSupport{
 	private String examId;
 	//考试方式
 	private String examMethod;
-	
+	//单位ID
+	private String unitId;
 	
 	//线下考试员工成绩集合
 	private String employeeOutGradeInfoStr;
@@ -214,6 +215,36 @@ public class EmployeeExamAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
+	//根据条件查询部门考试信息
+	public String getUnitExamGradesByCondition(){
+		Map<String,Object> condition = new HashMap<String,Object>();
+		result = new HashMap<String,Object>();
+		condition = generationCondition(condition);
+		PageBean<Map<String, Object>> pageBean = null;
+		try {
+			pageBean = employeeExamService.getUnitExamInfosByCondition(Integer.valueOf(currentPage), Integer.valueOf(currentCount), condition);
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}
+		result.put("pageBean", pageBean);
+		return SUCCESS;
+	}
+	
+	//根据考试ID和部门ID查询该部门参加考试的人员成绩详情
+	public String getEmployeeGradeInfosByIds(){
+		Map<String,Object> condition = new HashMap<String,Object>();
+		result = new HashMap<String,Object>();
+		condition = generationCondition(condition);
+		List<Employeeexam> employeeGradeInfos = null;
+		try {
+			employeeGradeInfos = employeeExamService.getEmployeeGradeInfosByIds(condition);
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}
+		result.put("employeeGradeInfos", employeeGradeInfos);
+		return SUCCESS;
+	}
+	
 	//组装查询条件
 	private Map<String,Object> generationCondition(Map<String,Object> condition){
 		
@@ -281,6 +312,10 @@ public class EmployeeExamAction extends ActionSupport{
 		
 		if(ValidateCheck.isNotNull(examMethod)){
 			condition.put("examMethod",examMethod);
+		}
+		
+		if(ValidateCheck.isNotNull(unitId)){
+			condition.put("unitId",unitId);
 		}
 		
 		return condition;
@@ -416,6 +451,14 @@ public class EmployeeExamAction extends ActionSupport{
 
 	public void setExamMethod(String examMethod) {
 		this.examMethod = examMethod;
+	}
+
+	public String getUnitId() {
+		return unitId;
+	}
+
+	public void setUnitId(String unitId) {
+		this.unitId = unitId;
 	}
 	
 	
