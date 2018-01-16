@@ -14,7 +14,10 @@
 <title>成绩管理</title>
 
 <%@ include file="/public/cssJs.jsp"%>
-
+	<script>
+		//获取项目名称
+		var basePathUrl = "${pageContext.request.contextPath}";
+	</script>
     <!--分页-->
     <script src="<%=path %>/js/public/page.js"></script>
 
@@ -124,6 +127,7 @@
 						<!-- 隐藏当前页和显示条数 -->
                         <input type="hidden" name="currentPage" id="currentPage" />
 						<input type="hidden" name="currentCount" id="currentCount" />
+						
                         <!--提交查询按钮-->
                         <button type="button" class="btn btn-primary el_queryButton btn-sm" onclick="searchExamGradeInfo()">查询</button>
                     	<button type="reset" class="btn btn-default el_queryButton0 btn-sm">清空</button>
@@ -148,25 +152,33 @@
                                     <button type="button" class="btn btn-primary el_btnStatic" onclick="gradeAnaly()">
                                         成绩分析
                                     </button>
+                                    <select class="btn btn-primary" id="el_findExamGradeType" style="font-size: 13px;"
+														title="请选择">														
+														<option value="0">按考试查看成绩</option>
+														<option value="1">按部门查看成绩</option>
+													</select>
                                 </div>
                             </div>
-                        </div>
+                    </div>
 
                         <!--表格
                             内容都提取到json里边
                         -->
                         <table class="table  table-hover table-bordered">
                             <thead>
-                            <th>选择</th>
-                            <th>序号</th>
-                            <th>考试名称</th>
-                            <th>考试时间</th>
-                            <th>考试级别</th>
-                            <th>考试状态</th>
-                            <th>试卷总分</th>
-                            <th>考试人数</th>
-                            <th>及格人数</th>
-                            <th width="160">操作</th>
+	                            <tr>
+		                            <th>选择</th>
+		                            <th>序号</th>
+		                            <th>考试名称</th>
+		                            <th>考试级别</th>
+		                            <th>部门名称</th>
+		                            <th>考试人数</th>
+		                            <th>及格人数</th>		                            
+		                            <th>考试状态</th>
+		                            <th>试卷总分</th>		                           
+		                            <th>考试时间</th>
+		                            <th width="160" id="operation">操作</th>
+	                            </tr>
                             </thead>
                             <tbody id="examGradesListInfo">                           
                             </tbody>
@@ -292,15 +304,17 @@
 								<form id="form_gradeAnalyse">
 	                                <div class="el_setGrade">
 	                                    <span>配置参数：</span><br/>
-	                                    <span>优： <input type="text" class="el_setGradeInput" name="excellentGrade" value="80"/>  ---
+	                                    <span>优： <input type="text" class="el_setGradeInput" name="excellentGrade" value="95"/>  ---
 	                                    <input class="el_setGradeInput" type="text" value="100" disabled/> 分</span>
 	                                   <!--  <span>良： <input type="text" class="el_setGradeInput" value="60" />  ---
 	                                    <input type="text" class="el_setGradeInput" value="80" /> 分</span> -->
 	                                    <span>差： <input type="text" class="el_setGradeInput" value="0" disabled/>  ---
-	                                    <input type="text" class="el_setGradeInput" name="passGrade" value="60"/> 分</span>
+	                                    <input type="text" class="el_setGradeInput" name="passGrade" value="90"/> 分</span>
 	                                    <button class="el_setGradeTrue btn-sm btn btn-info" type="button" onclick="examGradeAnalyse()">确定</button>
 	                                </div>
+	                                <!-- 隐藏考试和部门ID -->
 	                               <input type="hidden" id="gradeAnalyse_examId" name="examId"/>
+								   <input type="hidden" id="gradeAnalyse_unitId" name="unitId"/>
 								</form>
                                 <!--统计-->
                                 <div class="el_threePanelChart">
@@ -318,7 +332,47 @@
                     </div><!-- /.modal -->
                 </div>
 
-
+				<!-- 模态框 查看部门员工成绩详情-->
+					<div class="modal fade" id="unitEmployeeInfos" tabindex="-1"
+						role="dialog" aria-labelledby="myModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">&times;</button>
+									<!--关闭符号-->
+									<!--标题-->
+									<h4 class="modal-title" id="myModalLabel1">成绩详情</h4>
+								</div>
+								<form>
+									<div class="modal-body">
+										<table class="table table-bordered">
+											<thead>
+												<tr>
+													<th>序号</th>
+													<th>员工姓名</th>
+													<th>考试成绩</th>
+													<th>是否通过</th>													
+												</tr>
+											</thead>
+											<tbody id="unitEmployeeGradeListInfo">
+											</tbody>
+										</table>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">关闭</button>										
+									</div>
+								</form>
+							</div>
+							<!-- /.modal-content -->
+						</div>
+						<!-- /.modal -->
+					</div>
+       			<!-- 结束模态框 -->        
+				
+				
             </div>
         </div>
     </div>

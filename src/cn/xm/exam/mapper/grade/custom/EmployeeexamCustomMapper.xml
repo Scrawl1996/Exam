@@ -75,22 +75,20 @@
 	<select id="getExamAnalyseInfoByCondition" parameterType="hashmap"
 		resultType="map">
 		select count(employeeId) sumPerson,
-		(select
-		count(employeeId) from employeeexam where grade &lt; #{passGrade} and
-		examId= #{examId} ) countFailedPerson,
-		(select count(employeeId) from
-		employeeexam where grade >=#{excellentGrade}
-		and examId=#{examId})
-		countExcellentPerson,
-		(select count(employeeId)
-		from employeeexam where
-		grade &lt; #{excellentGrade} and
-		grade>=#{passGrade} and
-		examId=#{examId}) countGoodPerson
-		from
-		employeeexam where
-		examId=#{examId}
-
+		SUM(CASE grade &lt; #{passGrade} WHEN TRUE THEN 1 ELSE 0 END) countFailedPerson,
+		SUM(CASE grade >= #{excellentGrade} WHEN TRUE THEN 1 ELSE 0 END) countExcellentPerson,
+		SUM(CASE grade &lt; #{excellentGrade} &amp;&amp; grade >= #{passGrade} WHEN TRUE THEN 1 ELSE 0 END) countGoodPerson
+		from employeeexam 
+		<where>
+			<!-- 考试ID -->
+			<if test="examId != null">
+				examId=#{examId} 
+			</if>
+			<!-- 单位ID -->
+			<if test="unitId != null">
+				unitid = #{unitId}
+			</if>
+		</where>
 	</select>
 
 	<!-- 批量插入员工的成绩信息 -->
@@ -252,8 +250,7 @@
 		GROUP BY
 		employeeexam.examId,
 		employeeexam.unitid
-		ORDER BY 
-		startTime DESC
+		ORDER BY exam.createTime DESC,CONVERT(unitname USING gbk) ASC
 		<include refid="query_page_limit"></include>
 	</select>
 	
@@ -291,6 +288,10 @@
 			and exam.endTime &gt; #{exam_startTime}
 			and exam.endTime &lt;
 			#{exam_endTime}
+		</if>
+		<!-- 新增部门的判断 -->
+		<if test="department_Id !=null">
+			and exam.departmentId = #{department_Id}
 		</if>
 	</sql>
 	
