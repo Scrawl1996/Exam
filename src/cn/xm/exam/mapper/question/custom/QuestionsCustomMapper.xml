@@ -176,9 +176,9 @@
 		<if test="type!=null">
 			and type=#{type}
 		</if>
-		<if test="level=='1' and isManageChangji==null">
+<!-- 		<if test="level=='1' and isManageChangji==null">
 			and level=#{level}
-		</if>
+		</if> -->
 		<!-- 题库(根据字典的ID查出题库的ID) -->
 		<if test="departmentId != null">
 			AND questionBankId IN(SELECT
@@ -263,9 +263,9 @@
 			and q.questionId=o.questionId
 		</if>
 		<!-- 创建一级试卷需要一级权限，如果没有一级权限且抽一级题会抽不出来 -->
-		<if test="level=='1' and isManageChangji==null">
+<!-- 		<if test="level=='1' and isManageChangji==null">
 			and level=#{level}
-		</if>
+		</if> -->
 		<if test="departmentId != null">
 			AND questionbankid in (SELECT
 			questionBankId
