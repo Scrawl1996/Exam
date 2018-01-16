@@ -60,14 +60,14 @@
 
         <div class="el_main">
             <!--树-->
-            <div class="el_leftTree">
-                <!--标题类，添加了一个颜色-->
+           <!--  <div class="el_leftTree">
+               
                 <span class="el_treeTitle">部门</span>
                 <ul id="departmentTree_QLM1" class="ztree"></ul>
-            </div>
+            </div> -->
 
             <!--内容-->
-            <div class="el_qlmContent">
+            <div class="el_qlmContent" style="width: 100%;">
                 <!--索引-->
                 <div class="row el_queryBox">
                     <form id="form_findQuestionBankInfo">
@@ -81,7 +81,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3 el_qlmQuery">
+                            <!-- <div class="col-md-3 el_qlmQuery">
                                 <div class="input-group" role="toolbar">
                                     <span class="el_spans el_chooseSpan">所属部门：</span>
                                     <ul id="log" class="el_modelinput el_chooseInput log"></ul>
@@ -90,18 +90,15 @@
                                          width="7"/>
                                     <ul id="departmentTree_QLM2" class="ztree"></ul>
                                 </div>
-                            </div>
-                            
-                        </div>
-                        <div class="row el_queryBoxrow">
-                        	<div class="col-md-3 el_qlmQuery el_qlmQueryRadio">
+                            </div> -->
+                            <div class="col-md-3 el_qlmQuery el_qlmQueryRadio">
                                 <div class="input-group" role="toolbar">
                                     <span class="el_spans">题库类别：</span>
                                     <label class="el_radioBox"><input type="radio"  name="questionBackTypeId" value="100"/> 工种</label>
                                     <label class="el_radioBox"><input type="radio"  name="questionBackTypeId" value="200"/> 知识点</label>                               
                                 </div>
-                            </div>                          
-                        </div>
+                            </div>        
+                        </div>                        
                         <!-- 隐藏当前页和显示条数 -->
                         <input type="hidden" name="currentPage" id="currentPage" />
 						<input type="hidden" name="currentCount" id="currentCount" />
@@ -147,9 +144,7 @@
                             	<th>序号</th>
                                 <th>题库名称</th>
                                 <th>所属类别</th>
-                                <th>试题数量</th>
-                                <th>所属部门</th>
-                                <!--<th>题库状态</th>-->
+                                <th>试题数量</th>                                          
                                 <th>创建人</th>
                                 <th>创建时间</th>
                                 <th width="140">操作</th>
@@ -199,18 +194,12 @@
                                		 </select>                               		
                                 </div>
 
-                                <div class="input-group el_modellist" role="toolbar">
+                                <!-- <div class="input-group el_modellist" role="toolbar">
                                     <span class="el_spans el_chooseSpan">选择部门：</span>
                                     <input type="text" class="form-control el_modelinput el_chooseInput"
                                            id="addDefaultDepart"  disabled/>
                                     <input type="hidden" id="questionbank_Departmentid" name="departmentid"/>
-                                </div>
-
-                                <!--<div class="input-group el_modellist" role="toolbar">
-                                    <span class="el_spans">题库状态：</span>
-                                    <label class="el_radioBox"><input type="radio" name="el_statue" checked> 禁用</label>&nbsp;
-                                    <label class="el_radioBox"><input type="radio" name="el_statue"> 开放</label>
-                                </div>-->
+                                </div>  -->                             
 
                                 <div class="input-group el_modellist" role="toolbar">
                                     <span class="el_spans">题库说明：</span>
@@ -310,21 +299,11 @@
                                     <select class="combox form-control addAndUpdate_questionBankType" name="categorynameid">
                                		 </select>                               		
                                 </div>
-                                <div class="input-group el_modellist" role="toolbar">
-                                    <span class="el_spans el_chooseSpan">所属部门：</span>
-                                    <!-- <ul id="el_chooseDepart" class="form-control"></ul>
-                                    <img src="../../controls/selectDropTree/smallTriangle.png" class="el_smallTriangle"
-                                         width="7"/>
-                                    <ul id="treeDemo10" class="ztree"></ul> -->
+                               <!--  <div class="input-group el_modellist" role="toolbar">
+                                    <span class="el_spans el_chooseSpan">所属部门：</span>                                   
                                     <input type="text" class="form-control el_modelinput" id="update_departmentName"  disabled/>
                                     <input type="hidden" name="departmentid" id="update_departmentId"/>
-                                </div>
-
-                                <!--<div class="input-group el_modellist" role="toolbar">
-                                    <span class="el_spans">题库状态：</span>
-                                    <label class="el_radioBox"><input type="radio" name="el_statue" checked> 禁用</label>&nbsp;
-                                    <label class="el_radioBox"><input type="radio" name="el_statue"> 开放</label>
-                                </div>-->
+                                </div> -->                               
 
                                 <div class="input-group el_modellist" role="toolbar">
                                     <span class="el_spans">题库说明：</span>

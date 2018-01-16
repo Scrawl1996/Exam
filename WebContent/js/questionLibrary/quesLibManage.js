@@ -78,9 +78,7 @@ function showQuestionBankInfo(data) {
 					+ questionBankInfoList[i].questionbankid
 					+ "'>"
 					+ questionBankInfoList[i].sumquestions
-					+ "</a></td><td>"
-					+ questionBankInfoList[i].departmentname
-					+ "</td><td>"
+					+ "</a></td><td>"					
 					+ questionBankInfoList[i].employeename
 					+ "</td><td>"
 					+ Format(new Date(questionBankInfoList[i].createtime
@@ -135,10 +133,6 @@ function showDictionaryInfo(response) {
 
 // 点击添加题库执行的操作
 function el_addDictinary() {
-	// 判断是否已经选择了树,跟据上边的clickRes
-	if (clickRes == 0) {
-		alert("请选择您要添加题库的部门！")
-	} else {
 		// 调用初始化函数
 		addQuestionBank_initForm();
 		// 默认选择工种，初始化工种信息
@@ -147,10 +141,10 @@ function el_addDictinary() {
 		$(".isQustionBankNameInfo").html("");
 
 		/* 给模态框中，添加默认部门 */
-		$("#addDefaultDepart").prop("value", selectedDepartmentName);
-		$("#questionbank_Departmentid").prop("value", selectedDepartmentID);
+		//$("#addDefaultDepart").prop("value", selectedDepartmentName);
+		//$("#questionbank_Departmentid").prop("value", selectedDepartmentID);
 		$('#myModal').modal();
-	}
+	
 }
 
 // 初始化添加题库模态框的操作
@@ -409,9 +403,9 @@ function modifyQL(obj) {
 	var tds = $(obj).parents("tr").children("td");
 	$("#update_questionBankName").val(tds.eq(2).html());
 	$("#update_questionBankName_old").val(tds.eq(2).html());
-	$("#update_departmentName").val(tds.eq(5).html());
-	$("#update_employeeName").val(tds.eq(6).html());
-	$("#test41").val(tds.eq(7).html());
+	//$("#update_departmentName").val(tds.eq(5).html());
+	$("#update_employeeName").val(tds.eq(5).html());
+	$("#test41").val(tds.eq(6).html());
 
 	// alert(tds.eq(5).html())
 	var departmentId = $(obj).parents("tr").find(".find_departmentid").val();
@@ -427,7 +421,7 @@ function modifyQL(obj) {
 		$("#questionType_02").prop("checked", true);
 	}
 	initDictionaryInfoUpdate(typeId, categorynameid);
-	$("#update_departmentId").val(departmentId);
+	//$("#update_departmentId").val(departmentId);
 	$("#update_description").val(description);
 	$("#update_questionbankId").val(questionbankId);
 
@@ -660,202 +654,4 @@ function clear_department() {
 	$("#questionBankfind_DepartId").val('');
 }
 
-/** **************************************树的相关方法**************************************************************** */
 
-/** *********************题库管理中的题库信息管理的查询的所属部门的树********************* */
-
-/** *********************请求树信息********************* */
-
-function searchDepartmentTree_2() {
-	$.ajax({
-		type : "post",
-		target : "#departmentTree_QLM2",
-		dataType : "json",
-		url : basePathUrl + "/quesitonBank_onloadDepartmentTree.action",
-		success : getTree_2,
-		error : function() {
-			alert("请求树失败！");
-		}
-	});
-}
-
-/** *********************生成树信息********************* */
-function getTree_2(treeList2) {
-	var treeList3 = treeList2.departmentTree;
-	var setting = {
-		data : {
-			simpleData : {
-				enable : true,
-				idKey : "departmentId",
-				pIdKey : "upDepartmentId",
-				rootPId : null,
-			},
-			key : {
-				name : "departmentName",
-			}
-		},
-		callback : {
-			// onClick : onClick
-			// onCheck: onCheck
-			beforeClick : beforeClick2
-		}
-	};
-	var zNodes = treeList3;
-	$.fn.zTree.init($("#departmentTree_QLM2"), setting, zNodes);
-	var treeObj = $.fn.zTree.getZTreeObj("departmentTree_QLM2");
-	treeObj.expandAll(false);
-}
-
-var code, log, className = "dark";
-
-function beforeClick2(treeId, treeNode, clickFlag) {
-	showLog(treeNode.departmentName, treeNode.departmentId);
-}
-
-function showLog(str, departmentId) {
-	if (!log)
-		log = $("#log");
-	/* 清空内部的东西 */
-	if ($("#log > li").length > 0) {
-		$("#log").children("li").remove();
-	}
-	log.append("<li class='" + className + "'>" + str + "</li>");
-	// 设置查找的部门ID
-	$("#questionBankfind_DepartId").prop("value", departmentId);
-
-	/* 判断是否插入进入，若插入进入，关闭树框 */
-	if ($("#log > li").length > 0) {
-		$("#departmentTree_QLM2").hide();
-	}
-}
-
-function checkNode(e) {
-	var zTree = $.fn.zTree.getZTreeObj("departmentTree_QLM2"), type = e.data.type, nodes = zTree
-			.getSelectedNodes();
-	if (type.indexOf("All") < 0 && nodes.length == 0) {
-		alert("请先选择一个节点");
-	}
-
-	if (type == "checkAllTrue") {
-		zTree.checkAllNodes(true);
-	} else if (type == "checkAllFalse") {
-		zTree.checkAllNodes(false);
-	} else {
-		var callbackFlag = $("#callbackTrigger").attr("checked");
-		for (var i = 0, l = nodes.length; i < l; i++) {
-			if (type == "checkTrue") {
-				zTree.checkNode(nodes[i], true, null, callbackFlag);
-			} else if (type == "checkFalse") {
-				zTree.checkNode(nodes[i], false, null, callbackFlag);
-			} else if (type == "checkTruePS") {
-				zTree.checkNode(nodes[i], true, true, callbackFlag);
-			} else if (type == "checkFalsePS") {
-				zTree.checkNode(nodes[i], false, true, callbackFlag);
-			}
-		}
-	}
-}
-
-$(document).ready(function() {
-	// $.fn.zTree.init($("#departmentTree_QLM2"), setting2, zNodes2);
-	$("#checkTrue").bind("click", {
-		type : "checkTrue"
-	}, checkNode);
-	$("#checkFalse").bind("click", {
-		type : "checkFalse"
-	}, checkNode);
-
-	$("#departmentTree_QLM2").hide();
-	$("#log").click(function() {
-		$('#departmentTree_QLM2').toggle();
-	})
-});
-
-/** *********************题库管理的题库信息管理的左侧的部门树********************* */
-
-// 页面一加载时执行
-$(document).ready(function() {
-
-	searchDepartmentTree_1();
-
-	searchDepartmentTree_2();
-})
-
-/** *********************请求树信息********************* */
-
-function searchDepartmentTree_1() {
-	$.ajax({
-		type : "post",
-		target : "#departmentTree_QLM1",
-		dataType : "json",
-		url : basePathUrl + "/quesitonBank_onloadDepartmentTree.action",
-		success : getTree_1,
-		error : function() {
-			alert("请求树失败！");
-		}
-	});
-}
-
-/** *********************生成树信息********************* */
-function getTree_1(treeList2) {
-	console.log("asdkf", treeList2)
-	// var treeList3 = eval("(" + treeList2.departmentTree + ")");
-	var treeList3 = treeList2.departmentTree;
-	console.log("asdkf", treeList3)
-	var setting = {
-		data : {
-			simpleData : {
-				enable : true,
-				idKey : "departmentId",
-				pIdKey : "upDepartmentId",
-				rootPId : null,
-			},
-			key : {
-				name : "departmentName",
-			}
-		},
-		callback : {
-			// onClick : onClick
-			beforeClick : beforeClick
-		}
-	};
-	var zNodes = treeList3;
-	// 添加 树节点的 点击事件；
-	var log, className = "dark";
-	function onClick(event, treeId, treeNode, clickFlag) {
-		clickOnTree(event, treeId, treeNode, clickFlag);
-	}
-	$.fn.zTree.init($("#departmentTree_QLM1"), setting, zNodes);
-	var treeObj = $.fn.zTree.getZTreeObj("departmentTree_QLM1");
-	treeObj.expandAll(false);
-}
-
-var setting = {
-	view : {
-		showIcon : showIconForTree
-	},
-	data : {
-		simpleData : {
-			enable : true
-		}
-	},
-	callback : {
-		beforeClick : beforeClick
-	}
-};
-
-function showIconForTree(treeId, treeNode) {
-	return !treeNode.isParent;
-}
-
-var clickRes = 0;
-var selectedDepartmentName;
-var selectedDepartmentID;
-function beforeClick(treeId, treeNode, clickFlag) {
-	clickRes = 1;
-	className = (className === "dark" ? "" : "dark");
-	selectedDepartmentName = treeNode.departmentName;
-	selectedDepartmentID = treeNode.departmentId;
-	// alert(selectedDepartmentID)
-	return (treeNode.click != false);
-}

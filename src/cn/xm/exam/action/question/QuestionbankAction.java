@@ -194,7 +194,7 @@ public class QuestionbankAction extends ActionSupport implements ModelDriven<Que
 
 		if (ValidateCheck.isNotNull(departmentId)) {
 			condition.put("department_Id", departmentId);
-		}else{
+		}/*else{
 			User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 			String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
 			// 获取用户信息
@@ -202,7 +202,7 @@ public class QuestionbankAction extends ActionSupport implements ModelDriven<Que
 			boolean permitted = currentUser.isPermitted("bankmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 			String departmentId = permitted ? null : departmentIdSession;
 			condition.put("department_Id", departmentId);
-		}
+		}*/
 		
 		if (ValidateCheck.isNotNull(questionBackTypeId)) {
 			condition.put("questionBackType_Id", questionBackTypeId);

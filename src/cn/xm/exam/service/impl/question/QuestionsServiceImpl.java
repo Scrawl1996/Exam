@@ -240,9 +240,9 @@ public class QuestionsServiceImpl implements QuestionsService {
 	public boolean updateQuestionBatch(List<String> questionIds, String newQuestionBankId) throws Exception {
 
 		// 定义试题的等级
-		String newLevel = null;
+		//String newLevel = null;
 
-		// 根据新的题库ID查询出部门ID
+		/*// 根据新的题库ID查询出部门ID
 		Questionbank questionBankInfo = questionBankService.getQuestionbankById(newQuestionBankId);
 		String departmentId = questionBankInfo.getDepartmentid();
 		// 根据部门的命名规则，长度为2代表厂级，5代表部门级，8代表班组级
@@ -259,12 +259,12 @@ public class QuestionsServiceImpl implements QuestionsService {
 			break;
 		default:
 			newLevel = "3";
-		}
+		}*/
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		map.put("questionIds", questionIds);
 		map.put("newQuestionBankId", newQuestionBankId);
-		map.put("newLevel", newLevel);
+		map.put("newLevel", "1");
 		Integer isUpdate = questionsCustomMapper.updateQuestionBatchMove(map);
 
 		return isUpdate > 0 ? true : false;

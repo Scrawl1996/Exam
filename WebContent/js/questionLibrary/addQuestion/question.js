@@ -203,7 +203,7 @@ function queryQuestionBankNameByDeptId() {
 	//alert("ceshi"+departmentIdFromSess)
 	$
 			.ajax({
-				url : "${pageContext.request.contextPath}/questions_getQeustionBankNameListByDeptId.action",
+				url : basePathUrl +"/questions_getQeustionBankNameListByDeptId.action",
 				type : "POST",
 				data : {
 					"departmentId" : departmentIdFromSess

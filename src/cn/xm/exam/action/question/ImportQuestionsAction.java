@@ -73,7 +73,7 @@ public class ImportQuestionsAction  extends ActionSupport{
 				questionObj.setEmplloyeename(upLoadPersonName);
 				questionObj.setEmployeeid(upLoadPersonId);
 				questionObj.setHaspicture("0");
-				//根据部门的命名规则，长度为2代表厂级，5代表部门级，8代表班组级
+				/*//根据部门的命名规则，长度为2代表厂级，5代表部门级，8代表班组级
 				int length = departmentId.length();
 				switch(length){
 					case 2 : questionObj.setLevel("1");
@@ -83,7 +83,7 @@ public class ImportQuestionsAction  extends ActionSupport{
 					case 8 : questionObj.setLevel("3");
 							break;
 					default:questionObj.setLevel("3");
-				}
+				}*/
 			}
 			int count;
 				count = questionsService.saveQuestionBatch(list);

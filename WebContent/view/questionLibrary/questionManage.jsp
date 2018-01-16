@@ -110,7 +110,7 @@
 						<input type="hidden" name="hiddenQuestionBankId" id="hiddenQuestionBankId" />
                     <!--提交查询按钮-->
                     <button type="button" class="btn btn-primary el_queryButton btn-sm" onclick="searchQuestionsInfo()">查询</button>
-                	<button type="reset" class="btn btn-default el_queryButton0 btn-sm">清空</button>
+                	<button onclick="initclear()" type="reset" class="btn btn-default el_queryButton0 btn-sm" >清空</button>
                 </form>
 
             </div>   <!--结束 查询表单提交-->
