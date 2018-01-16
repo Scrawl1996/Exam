@@ -12,11 +12,18 @@ $(function(){
 function searchExamGradeInfo(){
 	//执行查询操作前先将隐藏域中的值清空当前页清空或改为第一页
 	$("#currentPage").val("");
-	//调用查询方法
-	findExamGradeInfo();
+	var type = $("#el_findExamGradeType").val();
+	if(type==0){		
+		//调用按照考试查看成绩的方法
+		findExamGradeInfo();
+	}else{
+		//调用按照部门查看成绩
+		findUnitExamGradeInfo();
+	}
 }
 
 function findExamGradeInfo(){
+	$("#operation").show();
 	$.ajax({
 		url : 'examGrade_findExamGradesInfoWithCondition.action',
 		data : $("#form_findExamGradesInfo").serialize(),
@@ -44,17 +51,17 @@ function showExamGradesInfo(data){
 			showExamGradesListInfo += "<tr><td><input type='radio' name='el_exam' onclick='showGradeImportButton(this)' class='el_checks' value='"+examGradesInfoList[i].examid+"'/></td><td>"
 								+(index + (result.pageBean.currentPage - 1) * currentCount)+"</td><td>"
 							    +examGradesInfoList[i].examname+"</td><td>"			
-				                +Format(new Date(examGradesInfoList[i].starttime.replace(/T/g," ").replace(/-/g,"/")),"yyyy-MM-dd HH:mm")
-								+"到"+Format(new Date(examGradesInfoList[i].endtime.replace(/T/g," ").replace(/-/g,"/")),"yyyy-MM-dd HH:mm")+"</td><td>"
-								+examGradesInfoList[i].level.toString().replace("1","厂级").replace("2","部门级").replace("3","班组级") +"</td><td>"
+				                +examGradesInfoList[i].level.toString().replace("1","厂级").replace("2","部门级").replace("3","班组级") +"</td><td>"								
+				                +"无</td><td>"
+				                +examGradesInfoList[i].sumperson+"</td><td>"
+								+examGradesInfoList[i].countpassperson+"</td><td>"
 								+examGradesInfoList[i].status+"</td><td>"
 								+examGradesInfoList[i].paperscore+"</td><td>"
-								+examGradesInfoList[i].sumperson+"</td><td>"
-								+examGradesInfoList[i].countpassperson+"</td><td>"
+								+Format(new Date(examGradesInfoList[i].starttime.replace(/T/g," ").replace(/-/g,"/")),"yyyy-MM-dd HH:mm")
+								+"到"+Format(new Date(examGradesInfoList[i].endtime.replace(/T/g," ").replace(/-/g,"/")),"yyyy-MM-dd HH:mm")+"</td><td>"									
 								+" <a href='javascript:void(0)' onclick='el_scoreExport(this)'>导出成绩单</a>"
 								+" <a href='gradeEmpInfo.jsp?name="+examGradesInfoList[i].examid+"'>详细信息</a>"
-								+"</td></tr>";
-			
+								+"</td></tr>";			
 		}
 		
 		//清空表格
@@ -87,8 +94,14 @@ function gradeManage_page(currentPage, totalCount,currentCount) {
         	//向隐藏域中设置值
         	$("#currentPage").val(pageNumber);
         	$("#currentCount").val(b);
-        	//调用查找函数
-        	findExamGradeInfo();
+        	var type = $("#el_findExamGradeType").val();
+        	if(type==0){		
+        		//调用按照考试查看成绩的方法
+        		findExamGradeInfo();
+        	}else{
+        		//调用按照部门查看成绩
+        		findUnitExamGradeInfo();
+        	}        	
         }
     });
 
@@ -122,6 +135,8 @@ function gradeAnaly() {
         if ($(this).prop("checked")) {
         	//将隐藏域中的考试ID传入成绩分析的模态框中
         	$("#gradeAnalyse_examId").val($(this).val());
+        	var unitId = $(this).parents("tr").find(".query_unitid").val();
+        	$("#gradeAnalyse_unitId").val(unitId);
             nums++;
         }
     });
@@ -239,18 +254,21 @@ function showGradeImportButton(obj){
 	//先将成绩导入按钮隐藏
 	$("#gradeImportButton").hide();
 	var examId = $(obj).val();
- 	$.ajax({
-		url:"examGrade_getEmployeeOutInfoByExamId.action",
-		data:{"examId":examId},
-		dataType:"json",
-		type:"post",
-		success:function(data){
-			var employeeOutInfoList = data.employeeOutInfoList;
-			if(employeeOutInfoList.length>0){
-				$("#gradeImportButton").show();
+	var type = $("#el_findExamGradeType").val();
+	if(type==0){		
+		$.ajax({
+			url:"examGrade_getEmployeeOutInfoByExamId.action",
+			data:{"examId":examId},
+			dataType:"json",
+			type:"post",
+			success:function(data){
+				var employeeOutInfoList = data.employeeOutInfoList;
+				if(employeeOutInfoList.length>0){
+					$("#gradeImportButton").show();
+				}
 			}
-		}
-	});
+		});
+	}
 	
 }
 
@@ -381,5 +399,111 @@ function importExcelFile(){
 		alert("请选择要上传的文件！")
 	}
 	 
+}
+
+/*********************************查看成绩的两种方式****************************************/
+$(function(){
+	//当查看成绩类型发生变化后执行的操作
+	$("#el_findExamGradeType").change(function(){
+		//执行查询操作前先将隐藏域中的值清空当前页清空或改为第一页
+		$("#currentPage").val("");
+		//先将成绩导入按钮隐藏
+		$("#gradeImportButton").hide();
+		var type = $("#el_findExamGradeType").val();
+		if(type==0){		
+			//调用按照考试查看成绩的方法
+			findExamGradeInfo();
+		}else{
+			//调用按照部门查看成绩
+			findUnitExamGradeInfo();
+		}
+	})
+});
+
+function findUnitExamGradeInfo(){
+	$("#operation").hide();
+	$.ajax({
+		url : basePathUrl+'/examGrade_getUnitExamGradesByCondition.action',
+		data : $("#form_findExamGradesInfo").serialize(),
+		type : 'POST',
+		dataType : 'json',
+		async:true,
+		success : showUnitExamGradesInfo,
+		error: function(){
+			alert("请求失败！");
+		}
+		});
+}
+
+function showUnitExamGradesInfo(data){
+	var result = data;
+	//console.log(result);
+	//当前页显示条数
+	var currentCount = result.pageBean.currentCount;
+	//从数据库中查询出来的数据集合
+	var examGradesInfoList = result.pageBean.productList;
+	var showExamGradesListInfo = "";
+	if(examGradesInfoList != null){
+		for(var i=0;i<examGradesInfoList.length;i++){
+			var index = i+1;
+			showExamGradesListInfo += "<tr><td><input type='radio' name='el_exam' onclick='showGradeImportButton(this)' class='el_checks' value='"+examGradesInfoList[i].examid+"'/></td><td>"
+								+(index + (result.pageBean.currentPage - 1) * currentCount)
+								+"<input type='hidden' class='query_examid' value='"+examGradesInfoList[i].examid+"'/>"
+								+"<input type='hidden' class='query_unitid' value='"+examGradesInfoList[i].unitid+"'/>"
+								+"</td><td>"
+							    +examGradesInfoList[i].examname+"</td><td>"			
+				               	+examGradesInfoList[i].examlevel.toString().replace("1","厂级").replace("2","部门级").replace("3","班组级") +"</td><td>"								
+								+examGradesInfoList[i].unitname+"</td><td onclick='findEmployeeGradeInfo(this)' class='success'>"
+								+examGradesInfoList[i].joinexam+"</td><td>"
+								+examGradesInfoList[i].passexam+"</td><td>"	
+								+examGradesInfoList[i].status+"</td><td>"
+								+examGradesInfoList[i].paperscore+"</td><td>"
+								+Format(new Date(examGradesInfoList[i].starttime.replace(/T/g," ").replace(/-/g,"/")),"yyyy-MM-dd HH:mm")
+								+"到"+Format(new Date(examGradesInfoList[i].endtime.replace(/T/g," ").replace(/-/g,"/")),"yyyy-MM-dd HH:mm")+"</td></tr>";
+								
+		}
+		
+		//清空表格
+		$("#examGradesListInfo").empty();
+		//添加信息
+		$("#examGradesListInfo").append(showExamGradesListInfo);
+		
+		//当前页
+		var currentPage = result.pageBean.currentPage;
+		//总条数
+		var totalCount = result.pageBean.totalCount;
+		
+		//调用分页函数
+		gradeManage_page(currentPage, totalCount,currentCount);
+	}
+}
+
+//点击考试信息中的人数执行的操作
+function findEmployeeGradeInfo(obj){
+	var examId = $(obj).parents("tr").find(".query_examid").val();
+	var unitId = $(obj).parents("tr").find(".query_unitid").val();
+	$.ajax({
+		url:basePathUrl+"/examGrade_getEmployeeGradeInfosByIds.action",
+		data:{"examId":examId,"unitId":unitId},
+		type:"post",
+		dataType:"json",
+		success:showUnitEmployeeGradeInfo
+	})
+}
+
+function showUnitEmployeeGradeInfo(data){
+	var listInfo = data.employeeGradeInfos;
+	var unitEmployeeGradeListInfoStr = "";
+	for(var i=0 , length = listInfo.length;i<length;i++){
+		var index = i+1;
+		unitEmployeeGradeListInfoStr += "<tr><td>"
+			+index+"</td><td>"
+		    +listInfo[i].employeename+"</td><td>"			
+           	+listInfo[i].grade+"</td>"											
+			+(listInfo[i].grade>=90?'<td>是':'<td style=color:red>否')+"</td></tr>";				
+	}
+	$("#unitEmployeeGradeListInfo").empty();
+	$("#unitEmployeeGradeListInfo").append(unitEmployeeGradeListInfoStr);
+	$("#unitEmployeeInfos").modal();
 }
 
