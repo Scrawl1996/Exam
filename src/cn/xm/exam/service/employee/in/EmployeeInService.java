@@ -128,7 +128,7 @@ public interface EmployeeInService {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<ExamEmployeeInQueryVo> getExamEmployeeIns(Map condition) throws SQLException;
+	public List<Map<String,Object>> getExamEmployeeIns(Map condition) throws SQLException;
 	/*************** E QLQ *************/
 
 	

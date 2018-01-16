@@ -36,9 +36,9 @@
 </script>
 <!-- 有修改删除外来单位的权限就修改全局变量的值 -->
 <shiro:hasPermission name="outunit:operating">
-<script>
-hasOutunitOperating = true;
-</script>
+	<script>
+		hasOutunitOperating = true;
+	</script>
 </shiro:hasPermission>
 
 <!--验证-->
@@ -66,7 +66,25 @@ label.success {
 <script src="<%=path%>/js/overhaul/overhaulInfo.js"></script>
 
 <link rel="stylesheet" href="<%=path%>/css/overhaul/overhaulInfo.css">
+<script>
+	$(function() {
+		$("#inpstart2").jeDate({
+			isinitVal : false,
+			minDate : '2000-06-16',
+			maxDate : '2225-06-16',
+			format : 'YYYY-MM-DD',
+			zIndex : 3000
+		})
 
+		$("#inpend2").jeDate({
+			isinitVal : false,
+			minDate : '2000-06-16',
+			maxDate : '2225-06-16',
+			format : 'YYYY-MM-DD',
+			zIndex : 3000
+		})
+	})
+</script>
 </head>
 <body>
 
@@ -94,7 +112,10 @@ label.success {
 					<!--添加考试基本内容-->
 					<div class="row el_addContent">
 
-						<h3 class="el_mainHead">检修详细信息</h3>
+						<h3 class="el_mainHead">检修项目详细信息</h3>
+
+						<!-- 隐藏检修ID -->
+						<input type="hidden" id="hauid" value="${haulId}" />
 						<!-- 大修详细信息 -->
 						<div id="overhaulInfo">
 							<span class="sdf">基本信息</span>
@@ -140,6 +161,76 @@ label.success {
 								</tbody>
 							</table> -->
 						</div>
+						<!--分割线 -->
+						<hr></hr>
+						<span class="sdf" style="margin-left: 40px;">参加单位信息</span> <br />
+						<br />
+
+						<div>
+							<form id="queryHaulunitForm">
+								<!--隐藏当前页与页大小  -->
+								<input type="hidden" name="currentPage" id="currentPage">
+								<input type="hidden" name="currentCount" id="currentCount">
+								<!-- 隐藏一个大修的ID -->
+								<input type="hidden" name="bigId" value="${haulId}">
+								<div class="row">
+									<div class="col-md-3 el_qlmQuery">
+										<div class="input-group" role="toolbar">
+											<span class="el_spans">单位名称：</span> <input type="text"
+												class="form-control" name="unitName" />
+										</div>
+									</div>
+
+									<div class="col-md-3 el_qlmQuery">
+										<div class="input-group" role="toolbar">
+											<span class="el_spans">违章积分：</span>
+											<!--<span class="input-group-addon">违章积分范围</span>-->
+											<select class="selectpicker form-control" title="请选择"
+												name="unitMinus">
+												<option value="">--请选择--</option>
+												<option value="0-15">15分以下</option>
+												<option value="15-30">15-30分</option>
+												<option value="30-50">30-50分</option>
+												<option value="50-100">50-100分</option>
+												<option value="100-1000000">100分以上</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-md-4 el_qlmQuery" id="el_breakTimeIndex">
+										<div class="input-group" id="el_startEndTime" role="toolbar">
+											<span class="el_spans">违章时间：</span> <input type="text"
+												class=" form-control query_dep_starttime" name="fstarttime"
+												placeholder="开始时间" id="inpstart2" readonly> <input
+												type="text" class=" form-control query_dep_endtime"
+												id="inpend2" placeholder="结束时间" name="fendtime" readonly>
+										</div>
+									</div>
+								</div>
+
+
+								<div class="row">
+									<div class="col-md-3 el_qlmQuery">
+										<div class="input-group" role="toolbar">
+											<span class="el_spans">项目名称：</span> <input type="text"
+												class="form-control" name="projectName"  id="projectName"/>
+										</div>
+									</div>
+									<div class="el_qlmQuery" style="margin-left: 500px;text-align: right;">
+										<!--提交查询按钮-->
+										<button type="button" id="queryHualunitBtn"
+											class="btns btn-primary  btn-sm">查询</button>
+										<!--清空按钮-->
+										<button type="reset" class="btn btn-default  btn-sm">清空</button>
+									</div>
+								</div>
+
+
+							</form>
+						</div>
+
+						<!--分割线 -->
+						<hr></hr>
 
 						<div class="panel-body">
 							<!--内容，选择试卷-->
@@ -147,8 +238,7 @@ label.success {
 
 								<!--操作按钮-->
 								<div class="row el_topButtonP">
-									<span>参加单位信息</span>
-									<div class="el_topButton2">
+									<div class="">
 										<!-- 如果大修没有结束的话就可以显示下面的按钮 -->
 										<c:if test="${isf != '1' }">
 											<%-- <a href="<%=path%>/view/outDepart/projectManage.jsp">
@@ -156,35 +246,28 @@ label.success {
 											</a>
 											<button class="btn btn-primary btn-sm" onclick="el_addEmp()">
 												添加员工</button> --%>
-												<shiro:hasPermission name="outunit:add">
-											<a
-												href="<%=path%>/view/outDepart/outdepartManage.jsp?haulId=${haulId}">
-												<button class="btn btn-primary btn-sm">添加单位</button>
-											</a>
+											<shiro:hasPermission name="outunit:add">
+												<a href=javascript:void(0) onclick="addUnit()">
+													<button class="btn btn-primary btn-sm">添加单位</button>
+												</a>
 											</shiro:hasPermission>
 										</c:if>
 									</div>
 								</div>
 								<!--结束 查询表单提交-->
 
+
+								<br />
 								<!--显示内容-->
 								<div class="panel panel-default el_Mainmain">
 
 									<!--按钮面板-->
 									<div class="panel-body">
 										<!-- 用于分页查询基本信息 -->
-										<form id="queryHaulunitForm">
-											<!--隐藏当前页与页大小  -->
-											<input type="hidden" name="currentPage" id="currentPage">
-											<input type="hidden" name="currentCount" id="currentCount">
-											<!-- 隐藏一个大修的ID -->
-											<input type="hidden" name="bigId" value="${haulId}">
-										</form>
-
 										<table class="table table-hover table-bordered">
 											<thead>
 												<tr>
-													<th>选择</th>
+													<th>序号</th>
 													<th>单位名称</th>
 													<th>所属检修</th>
 													<th>项目经理</th>
@@ -208,99 +291,99 @@ label.success {
 								</div>
 
 
-							<!-- 模态框 单位修改-->
-							<div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
-								aria-labelledby="myModalLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
-											<!--关闭符号-->
-											<!--标题-->
-											<h4 class="modal-title" id="myModalLabel24">修改部门信息</h4>
+								<!-- 模态框 单位修改-->
+								<div class="modal fade" id="myModal2" tabindex="-1"
+									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal"
+													aria-hidden="true">&times;</button>
+												<!--关闭符号-->
+												<!--标题-->
+												<h4 class="modal-title" id="myModalLabel24">修改部门信息</h4>
+											</div>
+											<form id="updateForm">
+												<div class="modal-body">
+													<!-- 隐藏一个部门ID -->
+													<input type="hidden" id="update_unitid" name="unitid">
+													<!-- 隐藏一个大修部门ID -->
+													<input type="hidden" id="update_haulUnitid"
+														name="haulUnit.unitbigid">
+
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">单位名称</span>-->
+														<span class="el_spans">单位名称：</span> <input type="text"
+															class="form-control el_modelinput clearFormInput"
+															name="name" id="update_name" /> <span></span>
+													</div>
+
+
+
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">单位地址</span>-->
+														<span class="el_spans">项目经理：</span> <input type="text"
+															class="form-control addUnitInput" name="haulUnit.manager"
+															id="update_manager" />
+													</div>
+
+
+
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">联系人</span>-->
+														<span class="el_spans">经理电话：</span> <input type="text"
+															class="form-control addUnitInput"
+															id="update_managerphone" name="haulUnit.managerphone" />
+													</div>
+
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">联系方式</span>-->
+														<span class="el_spans">安&nbsp;全&nbsp;员&nbsp;：</span> <input
+															type="text" class="form-control addUnitInput"
+															name="haulUnit.secure" id="update_secure" />
+													</div>
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">联系方式</span>-->
+														<span class="el_spans">安全员电话：</span> <input type="text"
+															class="form-control addUnitInput"
+															name="haulUnit.securephone" id="update_securephone" />
+													</div>
+
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">联系方式</span>-->
+														<span class="el_spans">参与工程：</span> <input type="text"
+															class="form-control addUnitInput"
+															name="haulUnit.projectnames" id="update_projectnames" />
+													</div>
+
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">上级单位</span>-->
+														<span class="el_spans">所属检修：</span> <input type="text"
+															class="form-control" name="" value="" id="update_big"
+															disabled />
+													</div>
+
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">上级单位</span>-->
+														<span class="el_spans">违章积分：</span> <input type="text"
+															class="form-control" name="" id="update_nuitMinus"
+															value="" disabled />
+													</div>
+
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default"
+														data-dismiss="modal">关闭</button>
+													<button type="button" class="btn btn-primary"
+														onclick="updateUnit()">保存</button>
+												</div>
+											</form>
+
 										</div>
-										<form id="updateForm">
-											<div class="modal-body">
-												<!-- 隐藏一个部门ID -->
-												<input type="hidden" id="update_unitid" name="unitid">
-												<!-- 隐藏一个大修部门ID -->
-												<input type="hidden" id="update_haulUnitid"
-													name="haulUnit.unitbigid">
-
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">单位名称</span>-->
-													<span class="el_spans">单位名称：</span> <input type="text"
-														class="form-control el_modelinput clearFormInput"
-														name="name" id="update_name" /> <span></span>
-												</div>
-												
-												
-												
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">单位地址</span>-->
-													<span class="el_spans">项目经理：</span> <input type="text"
-														class="form-control addUnitInput" name="haulUnit.manager"
-														id="update_manager" />
-												</div>
-												
-												
-
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">联系人</span>-->
-													<span class="el_spans">经理电话：</span> <input type="text"
-														class="form-control addUnitInput" id="update_managerphone"
-														name="haulUnit.managerphone" />
-												</div>
-
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">联系方式</span>-->
-													<span class="el_spans">安&nbsp;全&nbsp;员&nbsp;：</span> <input
-														type="text" class="form-control addUnitInput"
-														name="haulUnit.secure" id="update_secure" />
-												</div>
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">联系方式</span>-->
-													<span class="el_spans">安全员电话：</span> <input type="text"
-														class="form-control addUnitInput"
-														name="haulUnit.securephone" id="update_securephone" />
-												</div>
-
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">联系方式</span>-->
-													<span class="el_spans">参与工程：</span> <input type="text"
-														class="form-control addUnitInput" name="haulUnit.projectnames"
-														id="update_projectnames" />
-												</div>
-
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">上级单位</span>-->
-													<span class="el_spans">所属检修：</span> <input type="text"
-														class="form-control" name="" value="" id="update_big"
-														disabled />
-												</div>
-
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">上级单位</span>-->
-													<span class="el_spans">违章积分：</span> <input type="text"
-														class="form-control" name="" id="update_nuitMinus"
-														value="" disabled />
-												</div>
-
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
-												<button type="button" class="btn btn-primary"
-													onclick="updateUnit()">保存</button>
-											</div>
-										</form>
-
+										<!-- /.modal-content -->
 									</div>
-									<!-- /.modal-content -->
+									<!-- /.modal -->
 								</div>
-								<!-- /.modal -->
-							</div>
 
 
 
@@ -340,92 +423,107 @@ label.success {
 								<!-- /.modal -->
 
 
-								<!-- 模态框 添加员工-->
-								<div class="modal fade" id="el_addEmp" tabindex="-1"
-									role="dialog" aria-labelledby="myModalLabel23"
-									aria-hidden="true">
-									<div class="modal-dialog"
-										style="width: 60%; max-height: 550px; overflow-y: auto;">
+								<!-- 模态框 点击违章积分，显示违章员工-->
+								<div class="modal fade" id="el_bRInfor" tabindex="-1"
+									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
 												<button type="button" class="close" data-dismiss="modal"
 													aria-hidden="true">&times;</button>
 												<!--关闭符号-->
 												<!--标题-->
-												<h4 class="modal-title" id="myModalLabel23">添加员工</h4>
+												<h4 class="modal-title" id="myModalLabel27">部门员工违章信息</h4>
 											</div>
 											<form>
-												<div class="modal-body" style="position: relative">
-													<!--头像一-->
-													<div class="big-photo"></div>
-
-													<div class="input-group el_modellist01" role="toolbar">
-														<span class="el_spans0">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：</span>
-														<select class="selectpicker el_modelinput form-control"
-															title="请选择">
-															<option>--请选择--</option>
-															<option>工种1</option>
-															<option>工种1</option>
-															<option>工种1</option>
-															<option>工种1</option>
-														</select>
-													</div>
-
-													<div class="input-group el_modellist01" role="toolbar">
-														<span class="el_spans0">员工姓名：</span> <input type="text"
-															class="form-control el_modelinput" disabled name="" />
-													</div>
-
-													<div class="input-group el_modellist01">
-														<span class="el_spans0"> 员工性别：</span>
-														<div>
-															<label><input type="radio" disabled
-																name="el_gender" checked value="0"> 男</label> <label><input
-																type="radio" disabled name="el_gender" value="1">
-																女</label>
-														</div>
-													</div>
-
-													<div class="input-group el_modellist01" role="toolbar">
-														<span class="el_spans0">出生日期：</span> <input type="text"
-															class="form-control el_modelinput" disabled name="" />
-													</div>
-
-													<div class="input-group el_modellist0" role="toolbar">
-														<span class="el_spans0">身&nbsp;&nbsp;份&nbsp;证：</span> <input
-															type="text" class="form-control el_modelinput" disabled
-															name="" />
-													</div>
-
-													<div class="input-group el_modellist0" role="toolbar">
-														<span class="el_spans0">选择单位：</span> <input type="text"
-															class="form-control el_modelinput" disabled name="" />
-													</div>
-
-													<button class="btn btn-default el_modellist02">添加</button>
-
+												<div class="modal-body">
 													<table class="table table-hover table-bordered">
 														<thead>
 															<tr>
-																<th>工种</th>
-																<th>姓名</th>
+																<th>违章员工</th>
 																<th>性别</th>
 																<th>身份证</th>
-																<th>操作</th>
+																<th>违章内容</th>
+																<th>违章时间</th>
+																<th>扣分</th>
 															</tr>
 														</thead>
-														<tbody>
+														<tbody id="breakrulesTbody">
 														</tbody>
 													</table>
+
+													<div id="paginationIDU1" class="paginationID"></div>
 
 												</div>
 												<div class="modal-footer">
 													<button type="button" class="btn btn-default"
 														data-dismiss="modal">关闭</button>
-													<button type="button" class="btn btn-primary">保存</button>
 												</div>
 											</form>
+											<!--查询违章信息的条件  -->
+											<form id="query_break_form">
+												<input type="hidden" id="query_unitid" name="unitId">
+												<input type="hidden" id="query_bigid" name="bigId">
+												<input type="hidden" id="query_fstarttime" name="fstarttime">
+												<input type="hidden" id="query_fendtime" name="fendtime">
+												<input type="hidden" id="currentPage1" name="currentPage"
+													value="1"> <input type="hidden" id="currentCount1"
+													name="currentCount" value="8">
+											</form>
+										</div>
+										<!-- /.modal-content -->
+									</div>
+									<!-- /.modal -->
+								</div>
 
+
+
+
+								<!-- 检修单位下的员工信息模态框-->
+								<div class="modal fade" id="employeeModal" tabindex="-1"
+									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog" style="width: 700px">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal"
+													aria-hidden="true">&times;</button>
+												<!--关闭符号-->
+												<!--标题-->
+												<h4 class="modal-title" id="myModalLabel27">部门员工信息</h4>
+											</div>
+											<form>
+												<div class="modal-body">
+
+
+													<table class="table table-hover table-bordered">
+														<thead>
+															<tr>
+																<th>员工姓名</th>
+																<th>身份证</th>
+																<th>性别</th>
+																<th>地址</th>
+																<th>工种</th>
+																<!-- <th>电话</th> -->
+																<!-- <th>扣分情况</th> -->
+															</tr>
+														</thead>
+														<tbody id="employeeTbody">
+
+														</tbody>
+													</table>
+													<!-- 隐藏查询条件 -->
+													<input type="hidden" id="currentPage2" name="currentPage"
+														value="1"> <input type="hidden" id="currentCount2"
+														name="currentCount" value="8"> <input
+														type="hidden" id="q_bigId"> <input type="hidden"
+														id="q_unitId">
+													<div id="paginationIDU2" class="paginationID"></div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal">关闭</button>
+												</div>
+											</form>
 
 										</div>
 										<!-- /.modal-content -->
@@ -434,112 +532,99 @@ label.success {
 								</div>
 
 
-							<!-- 模态框 点击违章积分，显示违章员工-->
-							<div class="modal fade" id="el_bRInfor" tabindex="-1"
-								role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
-											<!--关闭符号-->
-											<!--标题-->
-											<h4 class="modal-title" id="myModalLabel27">部门员工违章信息</h4>
+
+
+								<!-- 模态框单位添加-->
+								<div class="modal fade" id="myModal" role="dialog"
+									aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal"
+													aria-hidden="true">&times;</button>
+												<!--关闭符号-->
+												<!--标题-->
+												<h4 class="modal-title" id="myModalLabel2">添加单位信息</h4>
+											</div>
+											<form id="addUnitForm">
+												<div class="modal-body">
+
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">单位名称</span>-->
+														<span class="el_spans">单位名称：</span> <input type="text"
+															id="addUnitname" class="form-control addUnitInput"
+															name="name" onkeyup="findNames(this)" /> <span
+															id="validateName" style="color: red"></span>
+														<div id="showDiv"
+															style="margin: 25px 0px 0px 0px; position: absolute; width: 78%; z-index: 3000; background-color: white; border: 1px solid; display: none;"></div>
+													</div>
+
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">单位地址</span>-->
+														<span class="el_spans">项目经理：</span> <input type="text"
+															class="form-control addUnitInput" name="haulUnit.manager"
+															id="manager" />
+													</div>
+
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">联系人</span>-->
+														<span class="el_spans">经理电话：</span> <input type="text"
+															class="form-control addUnitInput" id="managerphone"
+															name="haulUnit.managerphone" />
+													</div>
+
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">联系方式</span>-->
+														<span class="el_spans">安&nbsp;全&nbsp;员&nbsp;：</span> <input
+															type="text" class="form-control addUnitInput"
+															name="haulUnit.secure" id="secure" />
+													</div>
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">联系方式</span>-->
+														<span class="el_spans">安全员电话：</span> <input type="text"
+															class="form-control addUnitInput"
+															name="haulUnit.securephone" id="securephone" />
+													</div>
+
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">联系方式</span>-->
+														<span class="el_spans">参与工程：</span> <input type="text"
+															class="form-control addUnitInput"
+															name="haulUnit.projectnames" id="projectnames" />
+													</div>
+
+													<!-- 												<div class="input-group el_modellist" role="toolbar">
+													<span class="input-group-addon">上级单位</span>
+													<span class="el_spans">上级单位：</span> <input type="text"
+														class="form-control el_modelinput el_chooseInput"
+														id="addDefaultDepart" name="" disabled />
+												</div> -->
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">上级单位</span>-->
+														<span class="el_spans">所属检修：</span> <input type="text"
+															class="form-control el_modelinput el_chooseInput"
+															id="bigname" name="bigname" disabled /> <input
+															type="hidden"
+															class="form-control el_modelinput el_chooseInput"
+															id="bigid" name="bigid" value="${haulId}" />
+													</div>
+													<!--  -->
+
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default"
+														data-dismiss="modal">关闭</button>
+													<button type="button" class="btn btn-primary"
+														onclick="saveUnit()">保存</button>
+												</div>
+											</form>
+
 										</div>
-										<form>
-											<div class="modal-body">
-												<table class="table table-hover table-bordered">
-													<thead>
-														<tr>
-															<th>违章员工</th>
-															<th>性别</th>
-															<th>身份证</th>
-															<th>违章内容</th>
-															<th>违章时间</th>
-															<th>扣分</th>
-														</tr>
-													</thead>
-													<tbody id="breakrulesTbody">
-													</tbody>
-												</table>
-
-												<div id="paginationIDU1" class="paginationID"></div>
-
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
-											</div>
-										</form>
-										<!--查询违章信息的条件  -->
-										<form id="query_break_form">
-											<input type="hidden" id="query_unitid" name="unitId">
-											<input type="hidden" id="query_bigid" name="bigId"> <input
-												type="hidden" id="query_fstarttime" name="fstarttime">
-											<input type="hidden" id="query_fendtime" name="fendtime">
-											<input type="hidden" id="currentPage1" name="currentPage"
-												value="1"> <input type="hidden" id="currentCount1"
-												name="currentCount" value="8">
-										</form>
+										<!-- /.modal-content -->
 									</div>
-									<!-- /.modal-content -->
+									<!-- /.modal -->
 								</div>
-								<!-- /.modal -->
-							</div>
 
-
-
-
-							<!-- 检修单位下的员工信息模态框-->
-							<div class="modal fade" id="employeeModal" tabindex="-1"
-								role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								<div class="modal-dialog" style="width: 700px">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
-											<!--关闭符号-->
-											<!--标题-->
-											<h4 class="modal-title" id="myModalLabel27">部门员工信息</h4>
-										</div>
-										<form>
-											<div class="modal-body">
-
-
-												<table class="table table-hover table-bordered">
-													<thead>
-														<tr>
-															<th>员工姓名</th>
-															<th>身份证</th>
-															<th>性别</th>
-															<th>地址</th>
-															<th>工种</th>
-															<!-- <th>电话</th> -->
-															<!-- <th>扣分情况</th> -->
-														</tr>
-													</thead>
-													<tbody id="employeeTbody">
-
-													</tbody>
-												</table>
-												<!-- 隐藏查询条件 -->
-												<input type="hidden" id="currentPage2" name="currentPage"
-													value="1"> <input type="hidden" id="currentCount2"
-													name="currentCount" value="8"> <input type="hidden"
-													id="q_bigId"> <input type="hidden" id="q_unitId">
-												<div id="paginationIDU2" class="paginationID"></div>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-primary"
-													data-dismiss="modal">关闭</button>
-											</div>
-										</form>
-
-									</div>
-									<!-- /.modal-content -->
-								</div>
-								<!-- /.modal -->
-							</div>
 
 
 							</div>

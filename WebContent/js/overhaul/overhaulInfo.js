@@ -17,15 +17,20 @@ $(function() {
 	queryHaulInfo();// 初始化的时候查询大修基本信息
 
 	queryHaulUnit();
-	
-    // 违章模态框关闭设置全局变量为关闭
-    $('#el_bRInfor').on('hidden.bs.modal', function() {
-    	break_open = false;
-    });
-    // 违章模态框关闭设置全局变量为关闭
-    $('#employeeModal').on('hidden.bs.modal', function() {
-    	user_open = false;
-    });
+
+	$("#queryHualunitBtn").click(function() {
+		$("#currentPage").val("");// 清空页数
+		queryHaulUnit();
+	});
+
+	// 违章模态框关闭设置全局变量为关闭
+	$('#el_bRInfor').on('hidden.bs.modal', function() {
+		break_open = false;
+	});
+	// 违章模态框关闭设置全局变量为关闭
+	$('#employeeModal').on('hidden.bs.modal', function() {
+		user_open = false;
+	});
 });
 
 /** **S 初始化大修基本信息******* */
@@ -65,22 +70,26 @@ function showUnitTale(response) {
 	var units = response.pageBean.productList;// 获取所有的单位
 	for (var i = 0, length_1 = units.length; i < length_1; i++) {
 		// 先列出所有的操作
-		var delUpdate="--";
-			if(hasOutunitOperating){
-				delUpdate='<a href="javascript:void(0)" onclick="openUpdateModal(this)">修改</a>&nbsp;'
+		var delUpdate = "--";
+		if (hasOutunitOperating) {
+			delUpdate = '<a href="javascript:void(0)" onclick="openUpdateModal(this)">修改</a>&nbsp;'
 					+ ' <a href="javascript:void(0)" onclick="deleteUnit(this)">删除</a><br />';
-			}
-			
+		}
+
 		// 如果大修已经结束就把操作隐藏掉
-		var operation=units[i].bigStatus =="已结束"?"--":delUpdate;
+		var operation = units[i].bigStatus == "已结束" ? "--" : delUpdate;
 		$("#haunUnitTbody")
 				.append(
-						'<tr><td><input type="radio" name="el_chooseDepart"	class="el_checks"/><input type="hidden" name="unitId" value="'
+						'<tr><td>'
+								+ ((currentPage - 1) * currentCount + i + 1)
+								+ '<input type="hidden" name="unitId" value="'
 								+ units[i].unitId
 								+ '"/><input type="hidden" name="bigId" value="'
 								+ units[i].bigId
-								+ '"/><input type="hidden" name="haulUnitId" value="'+units[i].unitBigId
-								+'"/>'+ '</td><td>'
+								+ '"/><input type="hidden" name="haulUnitId" value="'
+								+ units[i].unitBigId
+								+ '"/>'
+								+ '</td><td>'
 								+ units[i].name
 								+ '</td><td>'
 								+ units[i].bigName
@@ -97,9 +106,8 @@ function showUnitTale(response) {
 								+ '</td><td><a href="javascript:void(0)" onclick="queryEmployeeBreakrule(this)">'
 								+ units[i].unitMinisMum
 								+ '</a></td><td><a href="javascript:void(0)" onclick="initVariable(this)">'
-								+ units[i].personNum
-								+ '</a></td><td>'+units[i].jiaquan+'</td><td>'
-								+operation
+								+ units[i].personNum + '</a></td><td>'
+								+ units[i].jiaquan + '</td><td>' + operation
 								+ '</td></tr>');
 	}
 	// 动态开启分页组件
@@ -114,7 +122,7 @@ function page(currentPage, totalCount, currentCount) {
 				"total" : totalCount,// 数字 当分页建立时设置记录的总数量 1
 				"pageSize" : currentCount,// 数字 每一页显示的数量 10
 				"pageNumber" : currentPage,// 数字 当分页建立时，显示的页数 1
-				"pageList" : [ 8,15,20 ],// 数组 用户可以修改每一页的大小，
+				"pageList" : [ 8, 15, 20 ],// 数组 用户可以修改每一页的大小，
 				// 功能
 				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
 						'last', 'links' ],
@@ -126,7 +134,6 @@ function page(currentPage, totalCount, currentCount) {
 				}
 			});
 }
-
 
 /** E 查询单位信息**************** */
 /** *S 修改单位信息** */
@@ -231,7 +238,8 @@ function updateUnit() {
 /** *E 修改单位信息** */
 /** *S 根据单位与大修编号查询人数*** */
 //初始化数据
-function initVariable(obj){
+function initVariable(obj) {
+	$("#currentPage2").val("");
 	var $tds = $(obj).parent().parent().children();
 	var unitid = $($tds[0]).children("input:hidden:eq(0)").val();// 获取到部门ID
 	var bigid = $($tds[0]).children("input:hidden:eq(1)").val();// 获取到部门ID
@@ -242,9 +250,9 @@ function initVariable(obj){
 //查询内部员工
 function queryEmployeeOut() {
 	$.post(contextPath + '/unit_getEmployeesByHaulidAndUnitId.action', {
-		"currentPage":$("#currentPage2").val(),
-		"currentCount":$("#currentCount2").val(),
-		"bigId" : 	$("#q_bigId").val(),
+		"currentPage" : $("#currentPage2").val(),
+		"currentCount" : $("#currentCount2").val(),
+		"bigId" : $("#q_bigId").val(),
 		"unitId" : $("#q_unitId").val()
 	}, showEmployeeModal, 'json')
 }
@@ -270,7 +278,7 @@ function showEmployeeModal(response) {
 		}
 	}
 	page3(currentPage, totalCount, currentCount);
-	if(!user_open){
+	if (!user_open) {
 		$("#employeeModal").modal({
 			keyboard : false,
 			backdrop : 'static'
@@ -287,7 +295,7 @@ function page3(currentPage, totalCount, currentCount) {
 				"total" : totalCount,// 数字 当分页建立时设置记录的总数量 1
 				"pageSize" : currentCount,// 数字 每一页显示的数量 10
 				"pageNumber" : currentPage,// 数字 当分页建立时，显示的页数 1
-				"pageList" : [ 8,15,20 ],// 数组 用户可以修改每一页的大小，
+				"pageList" : [ 8, 15, 20 ],// 数组 用户可以修改每一页的大小，
 				// 功能
 				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
 						'last', 'links' ],
@@ -304,25 +312,29 @@ function page3(currentPage, totalCount, currentCount) {
 /** *S 根据单位与大修编号查询违章员工信息*** */
 /** *S 根据单位与检修编号查询违章员工信息*** */
 function queryEmployeeBreakrule(obj) {
+	//	清空页号(上个模态框残留的页号)
+	$("#currentPage1").val("");
 	var $tds = $(obj).parent().parent().children();
 	var unitid = $($tds[0]).children("input:hidden:eq(0)").val();// 获取到部门ID
 	var bigid = $($tds[0]).children("input:hidden:eq(1)").val();// 获取到部门ID
-	var fstarttime=$("[name='fstarttime']").val();
-	var fendtime=$("[name='fendtime']").val();
+	var fstarttime = $("[name='fstarttime']").val();
+	var fendtime = $("[name='fendtime']").val();
 	$("#query_unitid").val(unitid);
 	$("#query_bigid").val(bigid);
 	$("#query_fstarttime").val(fstarttime);
 	$("#query_fendtime").val(fendtime);
 	query_break();
 }
-function query_break(){
+function query_break() {
 	$.post(contextPath
-			+ '/unit_getEmployeeOutsBreakrulesByUaulIdAndUnitId.action',$("#query_break_form").serialize(), showEmployeeBreakrulesModal, 'json')
+			+ '/unit_getEmployeeOutsBreakrulesByUaulIdAndUnitId.action', $(
+			"#query_break_form").serialize(), showEmployeeBreakrulesModal,
+			'json')
 }
 function showEmployeeBreakrulesModal(response) {
-	var currentPage=response.pageBean.currentPage;
-	var currentCount=response.pageBean.currentCount;
-	var totalCount=response.pageBean.totalCount;
+	var currentPage = response.pageBean.currentPage;
+	var currentCount = response.pageBean.currentCount;
+	var totalCount = response.pageBean.totalCount;
 	$("#breakrulesTbody").html("");
 	if (response != null && response.pageBean != null) {
 		var employeeBreakrules = response.pageBean.productList;
@@ -339,16 +351,16 @@ function showEmployeeBreakrulesModal(response) {
 							+ '</td><td>'
 							+ employeeBreakrules[i].breakContent
 							+ '</td><td>'
-							+ Format(new Date(employeeBreakrules[i].breakTime.replace(/T/g," ").replace(/-/g,"/")),
+							+ Format(new Date(employeeBreakrules[i].breakTime
+									.replace(/T/g, " ").replace(/-/g, "/")),
 									"yyyy-MM-dd") + '</td><td>'
 							+ employeeBreakrules[i].minusNum + '</td></tr>');
 
 		}
 	}
-	
-	
+
 	page1(currentPage, totalCount, currentCount);
-	if(!break_open){
+	if (!break_open) {
 		$("#el_bRInfor").modal({
 			keyboard : false,
 			backdrop : 'static'
@@ -364,7 +376,7 @@ function page1(currentPage, totalCount, currentCount) {
 				"total" : totalCount,// 数字 当分页建立时设置记录的总数量 1
 				"pageSize" : currentCount,// 数字 每一页显示的数量 10
 				"pageNumber" : currentPage,// 数字 当分页建立时，显示的页数 1
-				"pageList" : [ 8,15,20 ],// 数组 用户可以修改每一页的大小，
+				"pageList" : [ 8, 15, 20 ],// 数组 用户可以修改每一页的大小，
 				// 功能
 				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
 						'last', 'links' ],
@@ -405,3 +417,165 @@ function deleteSubmit() {
 			}, 'json');
 }
 /** ****E 删除检修单位********* */
+/** ******S 模态框中操作以及保存单位******************** */
+function addUnit() {
+	//		获取到检修项目名字并赋值给文本框
+	$("#bigname").val($("#haulName").html());
+	/* 给模态框中，添加默认部门 */
+	$(".addUnitInput").val("");// 打开模态框的时候清除残留数据
+	$("#validateName").text("");
+	$('#myModal').modal({
+		backdrop : 'static',
+		keyboard : false
+	});
+}
+// 模糊查询姓名
+function findNames(obj) {
+	$("#validateName").text("");// 清除验证消息内容
+	$("#showDiv").html("");
+	// 1.获取表单的值
+	var word = $(obj).val();
+	var content = "";
+	// 2.异步ajax去数据库模糊查询
+	$
+			.post(
+					contextPath + "/addUnit_getNamesByName.action", // 请求地址
+					{
+						"nameWord" : word
+					}, // 请求传递的参数，也可以是JSON
+					function(response) { // data表示传递回来的数据，只有在成功的时候才有
+						if (response.unitsName != null
+								&& response.unitsName.length > 0) {
+							for (var i = 0; i < response.unitsName.length; i++) {
+								content += "<div style='padding:5px;cursor:pointer;' class='unitName' onclick='clickFn(this)' onmouseover='overFun(this);' onmouseout='outFn(this);'>"
+										+ response.unitsName[i] + "</div>";
+							}
+							$("#showDiv").css("display", "block");
+							$("#showDiv").html(content);
+						}
+					}, "json" // 表示返回内容的格式,json会将传回来的自动解析成json对象
+			);
+
+}
+// 鼠标悬浮上去
+function overFun(obj) {
+	$(obj).css("background", "#C0C1C5");
+}
+// 鼠标移走
+function outFn(obj) {
+	$(obj).css("background", "#fff");
+}
+// 点击的时候将值加到上面的文本框事件同时根据名字去数据库 查询信息
+function clickFn(obj) {
+	var selectName = $(obj).html();
+	$("#addUnitname").val(selectName);// 设置到上面
+	$("#showDiv").css("display", "none");
+	// queryUnitinfoByName(selectName);
+}
+// 根据单位名称查询单位信息，查询到后显示到模态框中
+function queryUnitinfoByName(unitName) {
+	$.post(contextPath + "/addUnit_getUnitByUnitName.action", // 请求地址
+	// "name=qlq&password=qlq", //请求参数
+	{
+		"unitName" : unitName
+	}, // 请求传递的参数，也可以是JSON
+	function(response) { // data表示传递回来的数据，只有在成功的时候才有
+		if (response.unit != null) {
+			var unit = response.unit;
+			$("#addAddress").val(unit.name);// 设置单位名称
+			$("#addContact").val(unit.contact);// 设置单位联系人
+			$("#addPhone").val(unit.phone);// 设置单位联系电话
+		}
+	}, "json" // 表示返回内容的格式,json会将传回来的自动解析成json对象
+	);
+}
+// 联系电话(手机/电话皆可)验证
+/*
+ * jQuery.validator.addMethod("isPhone", function(value,element) { var length =
+ * value.length; var mobile = /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/; var tel =
+ * /^\d{3,4}-?\d{7,9}$/; return this.optional(element) || (tel.test(value) ||
+ * mobile.test(value)); }, "请正确填写您的联系电话");
+ */
+
+// 手机号码验证
+jQuery.validator
+		.addMethod(
+				"isMobile",
+				function(value, element) {
+					var length = value.length;
+					var mobile = /(^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$)|(^((\(\d{3}\))|(\d{3}\-))?(1[358]\d{9})$)/;
+					var tel = /^\d{3,4}-?\d{7,9}$/;
+					var tel2 = /^\d{7,9}$/;
+					return this.optional(element) || (tel.test(value))
+							|| (mobile.test(value) || (tel2.test(value)));
+
+				}, "请正确填写您的联系电话");
+// 验证并且保存单位信息到数据库
+function saveUnit() {
+	var isNotNull = $("#addUnitForm").validate({
+		ignore : [],
+		rules : {
+			"name" : {
+				required : true
+			},// 发现日期
+			"haulUnit.manager" : {
+				required : true
+			},
+			"haulUnit.managerphone" : {
+				"isMobile" : true,
+				required : true
+			},
+			"haulUnit.secure" : {
+				required : true
+			},
+			"haulUnit.securephone" : {
+				"isMobile" : true,
+				required : true
+			},
+			"haulUnit.projectnames" : {
+				required : true
+			}
+		},
+		messages : {
+			"name" : {
+				required : "单位名称不能为空"
+			},// 发现日期
+			"haulUnit.manager" : {
+				required : "项目经理不能为空"
+			},
+			"haulUnit.managerphone" : {
+				"isMobile" : "请输入合法的电话",
+				required : "电话不能为空"
+			},
+			"haulUnit.secure" : {
+				required : "安全员不能为空"
+			},
+			"haulUnit.securephone" : {
+				"isMobile" : "请输入合法的电话",
+				required : "安全员电话不能为空"
+			},
+			"haulUnit.projectnames" : {
+				required : "工程名字不能为空"
+			}
+		}
+	});
+
+	if (isNotNull.form()) {
+		// 验证检修下面是否已经存在对应的单位姓名，如果存在结束方法
+		if (confirm("确认保存单位信息?")) {
+			$.post(contextPath + "/addUnit_addUnit.action",// url
+			$("#addUnitForm").serialize(), // data
+					function(response) {
+						if (response.addResult != null) {
+							alert(response.addResult);
+						}
+						// 添加成功之后重新加载页面
+						if (response.addResult != null
+								&& response.addResult == "添加成功!") {
+							window.location.reload();
+						}
+					}, 'json')
+		}
+	}
+}
+/** ******E 模态框中操作以及保存单位******************** */

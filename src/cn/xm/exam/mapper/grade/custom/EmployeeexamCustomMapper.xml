@@ -385,6 +385,7 @@
 		d.departmentName AS
 		unitName,
 		g.examMethod,
+		g.unitId,
 		g.employeeType
 		FROM department d,
 		employee_in emp,
@@ -410,6 +411,9 @@
 		u.name AS unitName,
 		employeeexam.examMethod,
 		employeeexam.employeeType,
+		employeeexam.distributeid,
+		employeeexam.unitid,
+		employeeexam.bigemployeeoutid,
 		haulemployeeout.empType
 
 		FROM

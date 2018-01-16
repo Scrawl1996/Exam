@@ -100,6 +100,9 @@
 		<if test="minMinus != null">
 			and haulunit.unitMinisMum &gt;= #{minMinus}
 		</if>
+		<if test="projectName != null">
+			and haulunit.projectNames like '%${projectName}%'
+		</if>
 		<if test="maxMinus != null">
 			and haulunit.unitMinisMum &lt;= #{maxMinus}
 		</if>

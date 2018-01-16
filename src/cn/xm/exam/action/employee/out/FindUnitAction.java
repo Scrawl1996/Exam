@@ -38,6 +38,7 @@ public class FindUnitAction extends ActionSupport {
 	private String currentCount;
 	private String unitName;// 单位姓名
 	private String unitMinus;// 单位积分
+	private String projectName;// 参与项目
 	private String fstarttime;// 开始时间
 	private String fendtime;// 结束时间
 	private String bigId;// 大修ID
@@ -178,6 +179,9 @@ public class FindUnitAction extends ActionSupport {
 		if (ValidateCheck.isNotNull(unitName)) {
 			condition.put("unitName", unitName);
 		}
+		if (ValidateCheck.isNotNull(projectName)) {
+			condition.put("projectName", projectName);
+		}
 		if (ValidateCheck.isNotNull(unitMinus)) {
 			String[] minus = unitMinus.split("-");
 			condition.put("minMinus", Float.valueOf(minus[0]));
@@ -280,6 +284,14 @@ public class FindUnitAction extends ActionSupport {
 
 	public void setMarkTrainType(String markTrainType) {
 		this.markTrainType = markTrainType;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 	
 	

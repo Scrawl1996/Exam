@@ -184,17 +184,20 @@
 			AND questionBankId IN(SELECT
 			questionBankId
 			FROM questionbank
-			WHERE
-			<!-- 从自己部门或者从二级部门抽取试卷 -->
-			departmentId in (SUBSTRING(#{departmentId},1,5),#{departmentId})
-			<if test="dictionaryIds != null">
-				AND categoryNameId IN
-				<foreach collection="dictionaryIds" item="dictionaryId"
-					separator="," open="(" close=")">
-					#{dictionaryId}
-				</foreach>
-			</if>
-			)
+			<where>
+				<!-- departmentId in (SUBSTRING(#{departmentId},1,5),#{departmentId}) -->
+				<if test="dictionaryIds != null">
+					AND categoryNameId IN
+					<foreach collection="dictionaryIds" item="dictionaryId"
+						separator="," open="(" close=")">
+						#{dictionaryId}
+					</foreach>
+				</if>
+				<if test="1 == 1">
+					and 1=1
+				</if>
+				)
+			</where>
 		</if>
 		<if test="num!=null">
 			ORDER BY RAND() LIMIT #{num}
@@ -267,8 +270,8 @@
 			AND questionbankid in (SELECT
 			questionBankId
 			FROM questionbank
-			WHERE
-			departmentId in (SUBSTRING(#{departmentId},1,5),#{departmentId})
+			WHERE 1=1
+			<!-- departmentId in (SUBSTRING(#{departmentId},1,5),#{departmentId}) -->
 			<if test="dictionaryId != null">
 				AND categoryNameId = #{dictionaryId}
 			</if>

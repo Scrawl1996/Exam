@@ -305,7 +305,7 @@ label.success {
 														id="bigname" name="bigname" disabled /> <input
 														type="hidden"
 														class="form-control el_modelinput el_chooseInput"
-														id="bigid" name="bigid" />
+														id="bigid" name="bigid"/>
 												</div>
 												<!--  -->
 

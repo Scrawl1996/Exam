@@ -21,7 +21,7 @@ public interface EmployeeInCustomMapper {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<ExamEmployeeInQueryVo> getExamEmployeeIns(Map condition) throws SQLException;
+	public List<Map<String,Object>> getExamEmployeeIns(Map condition) throws SQLException;
 
 	/******** E 查询参加考试的人 ****************/
 	/**************** E qlq **********************/

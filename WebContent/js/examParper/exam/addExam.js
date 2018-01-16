@@ -202,37 +202,20 @@ var ajaxQueryEmployeeIn = function(departments) {
 	});
 }
 function showEmployeeInModal(response) {
-	// alert(JSON.stringify(response));// 转换为JSON串输出
 	$("#innerEmployeeTable").html("");
 	var examEmployeeIns = response.examEmployeeIns;
 	for (var i = 0, length = examEmployeeIns.length; i < length; i++) {
 		var sex = examEmployeeIns[i].sex == '1' ? "男" : "女";
-		var trainInt = examEmployeeIns[i].trainStatus;
-		var tarinStr;
-		if (trainInt == 0) {
-			tarinStr = "未参加考试";
-		}
-		if (trainInt == 1) {
-			tarinStr = "通过一级考试";
-		}
-		if (trainInt == 2) {
-			tarinStr = "通过二级考试";
-		}
-		if (trainInt == 3) {
-			tarinStr = "通过三级考试";
-		}
-		var tr_inner = '<tr><td>'
+		var tr_inner = '<tr><td>'+'<input type="hidden" class="departmentId" value="'+examEmployeeIns[i].departmentId+'"/>'
 				+ '<input type="checkbox" name="employeeIn" value="'
-				+ examEmployeeIns[i].idCode + '" class="el_checks" /></td><td>'
+				+ examEmployeeIns[i].idcode + '" class="el_checks" /></td><td>'
 				+ examEmployeeIns[i].name + '</td><td>' + sex + '</td><td>'
-				+ examEmployeeIns[i].idCode + '</td>' + '<td>'
-				+ examEmployeeIns[i].departmentName + '</td><td>' + tarinStr
+				+ examEmployeeIns[i].idcode + '</td>' + '<td>'
+				+ examEmployeeIns[i].departmentname
 				+ '</td></tr>';
 		$("#innerEmployeeTable").append(tr_inner);
 	}
-	// alert(JSON.stringify(data));//转换为JSON串输出
 	checkInHasChecked();// 检验那些元素已经被选中
-	// setColorByUnit();// 动态设置颜色
 	// 如果模态框未打开就打开模态框并设置标志字段为已打开
 	if (!inner_open) {
 		$("#innerEmployeeModal").modal({
@@ -291,8 +274,10 @@ var seleInnerEmployee = function() {
 
 	for (var i = 0, length = employeeInnerIdcode.length; i < length; i++) {
 		/** *S 将选择的员工添加到选择员工** */
+		var departmentId = $(employeeInnerIdcode[i]).parents('tr').children('td')
+				.eq(0).find(".departmentId").val();// 获取部门ID
 		var departName = $(employeeInnerIdcode[i]).parents('tr').children('td')
-				.eq('4').html();// 获取部门名称
+		.eq('4').html();// 获取部门名称
 		var employeeInIdCode = $(employeeInnerIdcode[i]).parents('tr')
 				.children('td').eq('3').html();// 获取员工身份证号(用于标记)
 		var employeeInName = $(employeeInnerIdcode[i]).parents('tr').children(
@@ -306,7 +291,6 @@ var seleInnerEmployee = function() {
 				parseInt($("#" + departName + " .employeeNum").text()) + 1);
 		/** *E 将选择的员工添加到选择员工** */
 		var idCode = $(employeeInnerIdcode[i]).val();
-		// alert(idCode)
 		// 内部员工身份证号添加到form中
 		$("#innerEmployeeDiv").append(
 				'<input type="hidden" name="exam.employeeInExams[' + i
@@ -315,6 +299,10 @@ var seleInnerEmployee = function() {
 		$("#innerEmployeeDiv").append(
 				'<input type="hidden" name="exam.employeeInExams[' + i
 						+ '].employeename" value="' + employeeInName + '"/>');
+		// 将员工的部门ID存到UnitId
+		$("#innerEmployeeDiv").append(
+				'<input type="hidden" name="exam.employeeInExams[' + i
+						+ '].unitid" value="' + departmentId + '"/>');
 	}
 	$("#outEmployeeDiv").html("");// 清空外部员工文本框
 	$('#innerEmployeeModal').modal('hide');// 隐藏模态框
@@ -324,7 +312,6 @@ var seleInnerEmployee = function() {
 
 /** *S 查询外部部门员工 */
 var queryOutEmployee = function() {
-	// alert("添加外部员工")
 	var units = $("#el_chooseUnit").text();// 获取部门名字
 	var examLevel = $("#exam_level").val();// 获取考试级别
 	// 如果没有选择部门提醒选择部门，否则查询
@@ -617,7 +604,7 @@ function showTable(data) {
 								+ papers[i].maketime
 								+ "</td><td>"
 								+ "<a href='/Exam/findPaper_findPaperAllInfoById.action?paperId="
-								+ papers[i].paperid + "'>试卷预览</a>"
+								+ papers[i].paperid + "' target='_blank'>试卷预览</a>"
 								+ "</td></tr>");
 	}
 	/**
