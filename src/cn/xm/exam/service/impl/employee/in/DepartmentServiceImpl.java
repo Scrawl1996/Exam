@@ -217,7 +217,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 		}
 
 		// 删除题库
-		QuestionbankExample questionbankExample = new QuestionbankExample();
+		/*QuestionbankExample questionbankExample = new QuestionbankExample();
 		QuestionbankExample.Criteria criteria_0 = questionbankExample.createCriteria();
 		criteria_0.andDepartmentidEqualTo(departmentId);
 		List<Questionbank> selectByExample = questionBankMapper.selectByExample(questionbankExample);
@@ -226,7 +226,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 				questionbankService.deleteQuestionBankById(bank.getQuestionbankid());
 			}
 		}
-
+		 */
 		int count = employeeInCustomMapper.getCountByDepartmentId(departmentId);
 		if (count != 0) {
 			// message="该部门还有员工，确定删除吗";

@@ -74,7 +74,7 @@ public class QuestionbankServiceImpl implements QuestionbankService {
 	 */
 	public boolean addQuestionBank(Questionbank questionBank) throws Exception {
 		//设置题库的主键
-		questionBank.setQuestionbankid(getNextQuestionBankId(questionBank.getDepartmentid()));
+		questionBank.setQuestionbankid(UUIDUtil.getUUID2());
 		int isInsert = questionBankMapper.insert(questionBank);
 		return isInsert>0 ? true : false;
 	}

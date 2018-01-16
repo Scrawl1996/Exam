@@ -3,22 +3,13 @@ package cn.xm.exam.action.question;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
-import org.apache.struts2.ServletActionContext;
 import org.jsoup.Jsoup;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-
 import com.opensymphony.xwork2.ActionSupport;
-
 import cn.xm.exam.bean.question.Options;
-import cn.xm.exam.bean.question.Questionbank;
 import cn.xm.exam.bean.question.Questions;
-import cn.xm.exam.bean.system.User;
 import cn.xm.exam.service.question.QuestionbankService;
 import cn.xm.exam.service.question.QuestionsService;
 import cn.xm.exam.utils.DefaultValue;
@@ -99,13 +90,14 @@ public class QuestionsAction extends ActionSupport {
 	public String getQeustionBankNameListByDeptId(){
 		try {
 			result = new HashMap<String,Object>();
-			Subject currentUser = SecurityUtils.getSubject();
+			//Subject currentUser = SecurityUtils.getSubject();
 			// 获取Session中的用户信息
-			User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
+			/*User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 			String departmentIdSession = user.getDepartmentid();// 获取部门ID
 			boolean permitted = currentUser.isPermitted("bankmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 			String departmentId = permitted ? null : departmentIdSession;
-			List<Map<String, Object>> questionBankNameList = questionBankService.getQuestionBankNameListByDeptId(departmentId);
+			*/	
+			List<Map<String, Object>> questionBankNameList = questionBankService.getQuestionBankNameListByDeptId(null);
 			result.put("questionBankNameList", questionBankNameList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -118,11 +110,11 @@ public class QuestionsAction extends ActionSupport {
 			
 		try {
 			//根据题库ID查询出部门ID
-			Questionbank questionBankInfo = questionBankService.getQuestionbankById(question.getQuestionbankid());
-			departmentId = questionBankInfo.getDepartmentid();
+			//Questionbank questionBankInfo = questionBankService.getQuestionbankById(question.getQuestionbankid());
+			//departmentId = questionBankInfo.getDepartmentid();
 		//1、根据部门ID判断试题的等级
 		//根据部门的命名规则，长度为2代表厂级，5代表部门级，8代表班组级
-		int length = departmentId.length();
+		/*int length = departmentId.length();
 		switch(length){
 			case 2 : question.setLevel("1");
 					break;
@@ -131,7 +123,7 @@ public class QuestionsAction extends ActionSupport {
 			case 8 : question.setLevel("3");
 					break;
 			default:question.setLevel("3");
-		}
+		}*/
 		//2、对带标签的属性值进行处理
 		//设置不带标签的答案解析
 		/*question.setAnalysis(Jsoup.parse(question.getAnalysiswithtag()).text());
@@ -321,14 +313,14 @@ public class QuestionsAction extends ActionSupport {
 		if (currentCount == null || "".equals(currentCount.trim())) {
 			currentCount = DefaultValue.PAGE_SIZE;
 		}
-		
-		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
+			
+		/*User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 		String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
 		// 获取用户信息
 		Subject currentUser = SecurityUtils.getSubject();
 		boolean permitted = currentUser.isPermitted("bankmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 		String departmentId = permitted ? null : departmentIdSession;
-		condition.put("department_Id", departmentId);
+		condition.put("department_Id", departmentId);*/
 		
 		if(ValidateCheck.isNotNull(keyWord)){
 			condition.put("question_Content", keyWord);

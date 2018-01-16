@@ -15,8 +15,7 @@ $(function() {
 
 // 查询所有的题库名称初始化下拉框
 function queryAllQuestionBankName() {
-	$
-			.ajax({
+	$.ajax({
 				url : "questions_getQeustionBankNameListByDeptId.action",
 				type : "POST",
 				data : {
@@ -27,18 +26,19 @@ function queryAllQuestionBankName() {
 				success : function(data) {
 					var allQuestionBankName = data.questionBankNameList;
 					var optionStrQuestionBankName = "<option value=''>--请选择--</option>";
-					for (var i = 0; i < allQuestionBankName.length; i++) {
-						/*
-						 * if(i==0) //设置默认选中第一条 value值设置题库ID，标签中间设置题库名称
-						 * optionStrQuestionBankName += "<option value='" +
-						 * allQuestionBankName[i].questionBankId+"'
-						 * selected>"+allQuestionBankName[i].questionBankName+"</option>";
-						 * else
-						 */
-						optionStrQuestionBankName += "<option value="
-								+ allQuestionBankName[i].questionBankId + ">"
-								+ allQuestionBankName[i].questionBankName
-								+ "</option>";
+					//获取地址栏中的题库ID
+					var questionbankId = window.location.href.split("=")[1];
+					for (var i = 0; i < allQuestionBankName.length; i++) {					
+						  if(questionbankId==allQuestionBankName[i].questionBankId){
+							  optionStrQuestionBankName += "<option value=" +
+							  allQuestionBankName[i].questionBankId+" selected>" 
+							  +allQuestionBankName[i].questionBankName+"</option>";
+						  } else{							  							
+							  optionStrQuestionBankName += "<option value="
+								  + allQuestionBankName[i].questionBankId + ">"
+								  + allQuestionBankName[i].questionBankName
+								  + "</option>";
+						  }
 					}
 
 					// 先将下拉列表清空
@@ -47,30 +47,12 @@ function queryAllQuestionBankName() {
 					$("#query_QuestionBankNameList").append(
 							optionStrQuestionBankName);
 					$("#move_QuestionBankNameList").append(
-							optionStrQuestionBankName)
-
+							optionStrQuestionBankName)					
+					$("#move_QuestionBankNameList option[selected]").removeAttr("selected");
 				}
 
 			})
 
-	/*
-	 * $.ajax({
-	 * url:"questions_getQuestionBankNameList.action",
-	 * type :"POST", dataType:"json", async:true, success:function(data){
-	 * //alert(data.questionBankNameList.length) var allQuestionBankName =
-	 * data.questionBankNameList; //console.log(allQuestionBankName) var
-	 * optionStrQuestionBankName = "<option value=''>--请选择--</option>";
-	 * for(var i=0;i<allQuestionBankName.length;i++){ if(i==0) //设置默认选中第一条
-	 * value值设置题库ID，标签中间设置题库名称 optionStrQuestionBankName += "<option value='" +
-	 * allQuestionBankName[i].questionBankId+"'
-	 * selected>"+allQuestionBankName[i].questionBankName+"</option>"; else
-	 * optionStrQuestionBankName += "<option
-	 * value="+allQuestionBankName[i].questionBankId+">"+allQuestionBankName[i].questionBankName+"</option>"; }
-	 * //先将下拉列表清空 $("#query_QuestionBankNameList").empty();
-	 * $("#move_QuestionBankNameList").empty();
-	 * $("#query_QuestionBankNameList").append(optionStrQuestionBankName);
-	 * $("#move_QuestionBankNameList").append(optionStrQuestionBankName) } })
-	 */
 }
 // 初始化知识点信息
 function initKnowledgeDic() {
@@ -101,8 +83,7 @@ function searchQuestionsInfo() {
 
 // 调用分页查询试题信息的函数
 function findQuestionsInfo() {
-	$
-			.ajax({
+	$.ajax({
 				url : "questions_findQuestionsInfo.action",
 				data : $("#form_findQuestionsInfo").serialize(),
 				type : "POST",
@@ -200,7 +181,7 @@ $(function() {
 			} else if (optionContent.val() == "batch_status") { // 批量状态设置
 				$("#setCheckState").show()
 				$("#el_setAllMove").hide();
-			} else if (optionContent.val() == "batch_move") { // 批量移动
+			} else if (optionContent.val() == "batch_move") { // 批量移动				
 				$("#el_setAllMove").show();
 				$("#setCheckState").hide();
 			}
@@ -221,8 +202,7 @@ function deleteQuestions_batch() {
 		if (obj[k].checked)
 			questionIds.push(obj[k].value);
 	}
-	$
-			.ajax({
+	$.ajax({
 				url : "questions_deleteQuestionByIds.action",
 				data : {
 					"questionIds" : questionIds
@@ -232,6 +212,7 @@ function deleteQuestions_batch() {
 				dataType : "json",
 				success : function(data) {
 					alert(data.result);
+					$("#el_default").prop("selected",true);
 					// 调用查询当前页面的函数
 					findQuestionsInfo();
 				},
@@ -251,27 +232,30 @@ function moveQuestions_batch() {
 			questionIds.push(obj[k].value);
 	}
 	var questionBankId = $("#move_QuestionBankNameList").val();
-	$
-			.ajax({
-				url : "questions_batchMoveQuestionsByIds.action",
-				data : {
-					"questionIds" : questionIds,
-					"questionBankId" : questionBankId
-				},
-				traditional : true,
-				type : "POST",
-				dataType : "json",
-				success : function(data) {
-					alert(data.result);
-
-					$("#el_setAllMove").hide();
-					// 调用查询当前页面的函数
-					findQuestionsInfo();
-				},
-				error : function() {
-					alert("请求失败！")
-				}
-			});
+	if(questionBankId==""){
+		alert("请选择一个目标题库！")
+	}else{		
+		$.ajax({
+			url : "questions_batchMoveQuestionsByIds.action",
+			data : {
+				"questionIds" : questionIds,
+				"questionBankId" : questionBankId
+			},
+			traditional : true,
+			type : "POST",
+			dataType : "json",
+			success : function(data) {				
+				$("#el_default").prop("selected",true);				
+				alert(data.result);
+				$("#el_setAllMove").hide();
+				// 调用查询当前页面的函数
+				findQuestionsInfo();
+			},
+			error : function() {
+				alert("请求失败！")
+			}
+		});
+	}
 }
 
 /** *******************************预览*************************************** */
@@ -378,4 +362,9 @@ function questions_page(currentPage, totalCount, currentCount) {
 				}
 			});
 
+}
+
+//清除下拉框选中的值
+function initclear(){	
+	$("#query_QuestionBankNameList option[selected]").removeAttr("selected");
 }
