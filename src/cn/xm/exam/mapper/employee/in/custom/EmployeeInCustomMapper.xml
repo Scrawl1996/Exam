@@ -5,10 +5,11 @@
 
 	<!-- S qlq -->
 	<!-- S 查询内部参考人员 -->
-	<select id="getExamEmployeeIns" resultType="cn.xm.exam.vo.exam.ExamEmployeeInQueryVo"
+	<select id="getExamEmployeeIns" resultType="map"
 		parameterType="hashmap">
 		select
 		e.employeeId,
+		e.departmentId,
 		e.name,
 		e.sex,
 		e.idcode,
@@ -34,7 +35,7 @@
 			and e.sex=#{sex}
 		</if>
 		<if test="idCode!=null">
-			and e.idCode=#{idCode}
+			and e.idCode like '%${idCode}%'
 		</if>
 		<if test="trainStatus!=null">
 			and e.trainStatus=#{trainStatus}

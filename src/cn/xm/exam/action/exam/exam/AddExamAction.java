@@ -103,7 +103,7 @@ public class AddExamAction extends ActionSupport {
 
 	public String getEmployeeIns4Exam() {
 		response = new HashMap();
-		List<ExamEmployeeInQueryVo> examEmployeeIns = null;
+		List<Map<String,Object>> examEmployeeIns = null;
 		Map condition = new HashMap();
 		condition = generateInnerCondition(condition);
 		try {

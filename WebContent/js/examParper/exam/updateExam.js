@@ -663,26 +663,12 @@ function showEmployeeInModal(response) {
 	var examEmployeeIns = response.examEmployeeIns;
 	for (var i = 0, length = examEmployeeIns.length; i < length; i++) {
 		var sex = examEmployeeIns[i].sex == '1' ? "男" : "女";
-		var trainInt = examEmployeeIns[i].trainStatus;
-		var tarinStr;
-		if (trainInt == 0) {
-			tarinStr = "未参加考试";
-		}
-		if (trainInt == 1) {
-			tarinStr = "通过一级考试";
-		}
-		if (trainInt == 2) {
-			tarinStr = "通过二级考试";
-		}
-		if (trainInt == 3) {
-			tarinStr = "通过三级考试";
-		}
-		var tr_inner = '<tr><td>'
+		var tr_inner = '<tr><td>'+'<input type="hidden" class="departmentId" value="'+examEmployeeIns[i].departmentId+'"/>'
 				+ '<input type="checkbox" name="employeeIn" value="'
-				+ examEmployeeIns[i].idCode + '" class="el_checks" /></td><td>'
+				+ examEmployeeIns[i].idcode + '" class="el_checks" /></td><td>'
 				+ examEmployeeIns[i].name + '</td><td>' + sex + '</td><td>'
-				+ examEmployeeIns[i].idCode + '</td>' + '<td>'
-				+ examEmployeeIns[i].departmentName + '</td><td>' + tarinStr
+				+ examEmployeeIns[i].idcode + '</td>' + '<td>'
+				+ examEmployeeIns[i].departmentname 
 				+ '</td></tr>';
 		$("#innerEmployeeTable").append(tr_inner);
 	}
@@ -742,6 +728,8 @@ var seleInnerEmployee = function() {
 
 		for (var i = 0, length = employeeInnerIdcode.length; i < length; i++) {
 			/** *S 将选择的员工添加到选择员工** */
+			var departmentId = $(employeeInnerIdcode[i]).parents('tr').children('td')
+			.eq(0).find(".departmentId").val();// 获取部门ID
 			var departName = $(employeeInnerIdcode[i]).parents('tr').children(
 					'td').eq('4').html();// 获取部门名称
 			var employeeInIdCode = $(employeeInnerIdcode[i]).parents('tr')
@@ -768,6 +756,10 @@ var seleInnerEmployee = function() {
 					'<input type="hidden" name="exam.employeeInExams[' + i
 							+ '].employeename" value="' + employeeInName
 							+ '"/>');
+			// 将员工的部门ID存到UnitId
+			$("#innerEmployeeDiv").append(
+					'<input type="hidden" name="exam.employeeInExams[' + i
+							+ '].unitid" value="' + departmentId + '"/>');
 		}
 		$("#outEmployeeDiv").html("");// 清空外部员工文本框
 		$('#innerEmployeeModal').modal('hide');// 隐藏模态框
@@ -1028,3 +1020,16 @@ function getServerDate(){
 	return new Date(nowTimeStr);
 	//return new Date();
 }
+
+function allSecectAndNotSelect(obj){
+	$(".el_checks").prop("checked",$(obj).prop("checked"));
+}
+
+
+
+
+
+
+
+
+

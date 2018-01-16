@@ -106,7 +106,7 @@ public class ExamServiceImpl implements ExamService {
 				//将外部员工独有的置为空
 				employeeIn.setDistributeid(0);
 				employeeIn.setBigemployeeoutid("0");
-				employeeIn.setUnitid("无");
+//				employeeIn.setUnitid("无");
 				employeeIn.setEmployeetype("0");// 0代表内部员工
 			}
 			// 插入内部员工

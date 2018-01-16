@@ -117,7 +117,7 @@ label.success {
 							<!--隐藏考试ID  -->
 							<input type="hidden" name="exam.examid"
 								value="${response.examBaseInfo.examid}">
-							<!--隐藏大修ID  -->
+							<!--隐藏检修ID  -->
 							<input type="hidden" name="exam.bigid"
 								value="${response.examBaseInfo.bigid}">
 
@@ -130,6 +130,8 @@ label.success {
 											name="exam.employeeInExams[${status.index }].employeeid">
 										<input type="hidden" value="${employee.name }"
 											name="exam.employeeInExams[${status.index }].employeename">
+										<input type="hidden" value="${employee.unitId }"
+											name="exam.employeeInExams[${status.index }].unitid">
 									</c:forEach>
 								</div>
 							</c:if>
@@ -142,6 +144,12 @@ label.success {
 											name="exam.employeeOutExams[${status.index }].employeeid">
 										<input type="hidden" value="${employee.name }"
 											name="exam.employeeOutExams[${status.index }].employeename">
+										<input type="hidden" value="${employee.distributeid }"
+											name="exam.employeeOutExams[${status.index }].distributeid">
+										<input type="hidden" value="${employee.unitid }"
+											name="exam.employeeOutExams[${status.index }].unitid">
+										<input type="hidden" value="${employee.bigemployeeoutid }"
+											name="exam.employeeOutExams[${status.index }].bigemployeeoutid">
 									</c:forEach>
 
 								</div>
@@ -207,12 +215,17 @@ label.success {
 							</div>
 
 							<div class="input-group el_modellist" role="toolbar">
-								<span class="el_spans">考试方式：</span> <label
-									class="el_radioBox el_radioBox2"> <input type="radio"
-									name="examMethod"
-									<c:if test="${'线上' eq response.employees[0].examMethod }">checked</c:if>
-									value="线上" id="">线上
-								</label> <label class="el_radioBox el_radioBox2"> <input
+								<span class="el_spans">考试方式：</span> 
+									<c:if test="${response.examBaseInfo.examtype eq '内部考试' }">
+									 	<label
+										class="el_radioBox el_radioBox2">
+										<input type="radio"
+										name="examMethod"
+										<c:if test="${'线上' eq response.employees[0].examMethod }">checked</c:if>
+										value="线上" id="">线上
+										</label>
+									</c:if>
+								 <label class="el_radioBox el_radioBox2"> <input
 									type="radio"
 									<c:if test="${'线下' eq response.employees[0].examMethod }">checked</c:if>
 									name="examMethod" value="线下" id="">线下
@@ -277,11 +290,11 @@ label.success {
 							<c:if test="${response.examBaseInfo.examtype eq '外部考试' }">
 								<!-- 外部显示的东西 -->
 								<div class="input-group el_modellist outShow" id="bigNameDiv">
-									<span class="el_spans">大修名称:</span><select
+									<span class="el_spans">检修项目：</span><select
 										class="selectpicker form-control" title="请选择"
 										name="exam.bigid" id="bigName" onchange="queryHaulUnit()"
 										disabled="disabled">
-										<option value="" selected>---请选择大修后选择部门---</option>
+										<option value="" selected>---请选择检修后选择部门---</option>
 									</select>
 								</div>
 								<div class="input-group el_modellist outShow" role="toolbar">
@@ -403,7 +416,7 @@ label.success {
 												<!-- 隐藏部门串 -->
 												<input type="hidden"
 													name="queryOuterEmployeesCondition.units" />
-												<!-- 隐藏一个大修ID -->
+												<!-- 隐藏一个检修ID -->
 												<input type="hidden"
 													name="queryOuterEmployeesCondition.bigId" />
 												<!-- 隐藏一个培训情况 -->
@@ -422,15 +435,39 @@ label.success {
 
 													<div class="el_qlmQuery">
 														<div class="input-group" role="toolbar">
-															<span class="el_spans">黑名单：</span> <label
+															<span class="el_spans">性别：</span> <label
 																class="el_radioBox"><input type="radio"
-																name="queryOuterEmployeesCondition.isBlack" value="1">
-																是</label> <label class="el_radioBox"><input type="radio"
-																name="queryOuterEmployeesCondition.isBlack" value="0">
-																否</label>
+																name="queryOuterEmployeesCondition.sex" value="1">
+																男</label> <label class="el_radioBox"><input type="radio"
+																name="queryOuterEmployeesCondition.sex" value="2">
+																女</label>
 														</div>
 													</div>
 
+													<div class="el_qlmQuery">
+														<div class="input-group" role="toolbar">
+															<span class="el_spans">身份证：</span> <input type="text"
+																class="form-control"
+																name="queryOuterEmployeesCondition.idCode" width="120" />
+														</div>
+													</div>
+
+												</div>
+
+												<div class="row">
+
+													<div class="el_qlmQuery">
+														<div class="input-group" role="toolbar">
+															<span class="el_spans">工种：</span> <select
+																name="queryOuterEmployeesCondition.empType"
+																class="selectpicker form-control" title="请选择"
+																id="employType">
+																<option value="">--请选择--</option>
+															</select>
+														</div>
+													</div>
+													
+													
 													<div class="el_qlmQuery">
 														<div class="input-group" role="toolbar">
 															<span class="el_spans">违章积分：</span> <select
@@ -445,39 +482,7 @@ label.success {
 															</select>
 														</div>
 													</div>
-												</div>
-
-												<div class="row">
-
-													<div class="el_qlmQuery">
-														<div class="input-group" role="toolbar">
-															<span class="el_spans">性别：</span> <label
-																class="el_radioBox"><input type="radio"
-																name="queryOuterEmployeesCondition.sex" value="1">
-																男</label> <label class="el_radioBox"><input type="radio"
-																name="queryOuterEmployeesCondition.sex" value="0">
-																女</label>
-														</div>
-													</div>
-
-													<div class="el_qlmQuery">
-														<div class="input-group" role="toolbar">
-															<span class="el_spans">身份证：</span> <input type="text"
-																class="form-control"
-																name="queryOuterEmployeesCondition.idCode" width="120" />
-														</div>
-													</div>
-
-													<div class="el_qlmQuery">
-														<div class="input-group" role="toolbar">
-															<span class="el_spans">员工工种：</span> <select
-																name="queryOuterEmployeesCondition.empType"
-																class="selectpicker form-control" title="请选择"
-																id="employType">
-																<option value="">--请选择--</option>
-															</select>
-														</div>
-													</div>
+													
 												</div>
 
 
@@ -501,7 +506,7 @@ label.success {
 												<!--提交查询按钮-->
 												<div class="el_addPersonsQuery">
 													<button type="button" id="queryOutBtn"
-														class="btn btn-default el_queryButton btn-sm">查询</button>
+														class="btn btn-primary el_queryButton btn-sm">查询</button>
 
 												</div>
 
@@ -514,7 +519,7 @@ label.success {
 											class="table el_AddPersonTable table-hover table-bordered">
 											<thead>
 												<tr>
-													<th><input type="checkbox" class="el_checkQuanxuan" /></th>
+													<th><input type="checkbox" class="el_checkQuanxuan" onclick="allSecectAndNotSelect(this)"/></th>
 													<th>姓名</th>
 													<th>性别</th>
 													<th>身份证</th>
@@ -545,7 +550,7 @@ label.success {
 					</div>
 
 
-					<!-- 模态框   大修部门信息 -->
+					<!-- 模态框   检修部门信息 -->
 					<div class="modal fade" id="unitModal">
 						<div class="modal-dialog" style="width: 700px;">
 							>
@@ -649,10 +654,10 @@ label.success {
 											<!--提交查询按钮-->
 											<div>
 												<!--清空按钮-->
+												<button type="button" id="queryInnerBtn"
+													class="btn btn-primary el_queryButton btn-sm">查询</button>
 												<button type="reset"
 													class="btn btn-default el_queryButton0 btn-sm">清空</button>
-												<button type="button" id="queryInnerBtn"
-													class="btn btn-default el_queryButton btn-sm">查询</button>
 											</div>
 										</form>
 
@@ -661,15 +666,14 @@ label.success {
 								<!--结束 查询表单提交-->
 
 								<!--表格内容-->
-								<table class="table el_AddPersonTable">
+								<table class="table el_AddPersonTable table-hover table-bordered">
 									<thead>
 										<tr>
-											<th><input type="checkbox" class="el_checkQuanxuan" /></th>
+											<th><input type="checkbox" class="el_checkQuanxuan" onclick="allSecectAndNotSelect(this)"/></th>
 											<th>姓名</th>
 											<th>性别</th>
 											<th>身份证</th>
 											<th>所属部门</th>
-											<th>考试情况</th>
 										</tr>
 									</thead>
 									<tbody id="innerEmployeeTable">

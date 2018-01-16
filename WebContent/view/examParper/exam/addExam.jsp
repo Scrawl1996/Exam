@@ -326,8 +326,28 @@
 																name="queryOuterEmployeesCondition.name" />
 														</div>
 													</div>
-
+													
+													
 													<div class="el_qlmQuery">
+														<div class="input-group" role="toolbar">
+															<span class="el_spans">性别：</span> <label
+																class="el_radioBox"><input type="radio"
+																name="queryOuterEmployeesCondition.sex" value="1">
+																男</label> <label class="el_radioBox"><input type="radio"
+																name="queryOuterEmployeesCondition.sex" value="2">
+																女</label>
+														</div>
+													</div>
+													
+													<div class="el_qlmQuery">
+														<div class="input-group" role="toolbar">
+															<span class="el_spans">身份证：</span> <input type="text"
+																class="form-control"
+																name="queryOuterEmployeesCondition.idCode" width="120" />
+														</div>
+													</div>
+
+												<!-- <div class="el_qlmQuery">
 														<div class="input-group" role="toolbar">
 															<span class="el_spans">黑名单：</span> <label
 																class="el_radioBox"><input type="radio"
@@ -335,9 +355,24 @@
 																是</label> <label class="el_radioBox"><input type="radio"
 																name="queryOuterEmployeesCondition.isBlack" value="0">
 																否</label>
+														</div> 
+													</div>
+												-->
+												</div>
+
+												<div class="row">
+
+													<div class="el_qlmQuery">
+														<div class="input-group" role="toolbar">
+															<span class="el_spans">工种：</span> <select
+																name="queryOuterEmployeesCondition.empType"
+																class="selectpicker form-control" title="请选择"
+																id="employType">
+																<option value="">--请选择--</option>
+															</select>
 														</div>
 													</div>
-
+													
 													<div class="el_qlmQuery">
 														<div class="input-group" role="toolbar">
 															<span class="el_spans">违章积分：</span> <select
@@ -352,63 +387,15 @@
 															</select>
 														</div>
 													</div>
+													
 												</div>
-
-												<div class="row">
-
-													<div class="el_qlmQuery">
-														<div class="input-group" role="toolbar">
-															<span class="el_spans">性别：</span> <label
-																class="el_radioBox"><input type="radio"
-																name="queryOuterEmployeesCondition.sex" value="1">
-																男</label> <label class="el_radioBox"><input type="radio"
-																name="queryOuterEmployeesCondition.sex" value="2">
-																女</label>
-														</div>
-													</div>
-
-													<div class="el_qlmQuery">
-														<div class="input-group" role="toolbar">
-															<span class="el_spans">身份证：</span> <input type="text"
-																class="form-control"
-																name="queryOuterEmployeesCondition.idCode" width="120" />
-														</div>
-													</div>
-
-													<div class="el_qlmQuery">
-														<div class="input-group" role="toolbar">
-															<span class="el_spans">员工工种：</span> <select
-																name="queryOuterEmployeesCondition.empType"
-																class="selectpicker form-control" title="请选择"
-																id="employType">
-																<option value="">--请选择--</option>
-															</select>
-														</div>
-													</div>
-												</div>
-
-
-												<!-- 												<div class="el_qlmQuery">
-													<div class="input-group" role="toolbar">
-														<span class="el_spans">考试情况：</span> <select
-															name="defaultTrainStatus" disabled="disabled"
-															class="selectpicker form-control" title="请选择">
-															隐藏一个查询的value 
-															<option value="">--请选择--</option>
-															<option value="0">未通过</option>
-															<option value="1">通过一级考试</option>
-															<option value="2">通过二级考试</option>
-															<option value="3">通过三级考试</option>
-														</select>
-													</div>
-												</div> -->
 												<!--清空按钮-->
 												<button type="reset"
 													class="btn btn-default el_queryButton0 btn-sm">清空</button>
 												<!--提交查询按钮-->
 												<div class="el_addPersonsQuery">
 													<button type="button" id="queryOutBtn"
-														class="btn btn-default el_queryButton btn-sm">查询</button>
+														class="btn btn-primary el_queryButton btn-sm">查询</button>
 
 												</div>
 
@@ -425,7 +412,7 @@
 													<th>姓名</th>
 													<th>性别</th>
 													<th>身份证</th>
-													<th>所属部门</th>
+													<th>所属单位</th>
 													<th>工种</th>
 													<th>违章积分</th>
 												</tr>
@@ -485,7 +472,7 @@
 														class="el_radioBox"><input type="radio"
 														name="queryInnerEmployeesCondition.sex" value="1">
 														男</label> <label class="el_radioBox"><input type="radio"
-														name="queryInnerEmployeesCondition.sex" value="0">
+														name="queryInnerEmployeesCondition.sex" value="2">
 														女</label>
 												</div>
 											</div>
@@ -514,11 +501,11 @@
 
 											<!--提交查询按钮-->
 											<div>
+												<button type="button" id="queryInnerBtn"
+													class="btn btn-primary el_queryButton btn-sm">查询</button>
 												<!--清空按钮-->
 												<button type="reset"
 													class="btn btn-default el_queryButton0 btn-sm">清空</button>
-												<button type="button" id="queryInnerBtn"
-													class="btn btn-default el_queryButton btn-sm">查询</button>
 											</div>
 										</form>
 
@@ -527,7 +514,7 @@
 								<!--结束 查询表单提交-->
 
 								<!--表格内容-->
-								<table class="table el_AddPersonTable">
+								<table class="table el_AddPersonTable table-hover table-bordered">
 									<thead>
 										<tr>
 											<th><input type="checkbox" class="el_checkQuanxuan" /></th>
@@ -535,7 +522,6 @@
 											<th>性别</th>
 											<th>身份证</th>
 											<th>所属部门</th>
-											<th>考试情况</th>
 										</tr>
 									</thead>
 									<tbody id="innerEmployeeTable">

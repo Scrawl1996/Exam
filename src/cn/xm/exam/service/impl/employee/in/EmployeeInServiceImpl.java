@@ -486,7 +486,7 @@ public class EmployeeInServiceImpl implements EmployeeInService {
 	/*************** E zwy *************/
 	/*************** S QLQ *************/
 	@Override
-	public List<ExamEmployeeInQueryVo> getExamEmployeeIns(Map condition) throws SQLException {
+	public List<Map<String,Object>> getExamEmployeeIns(Map condition) throws SQLException {
 		return employeeInCustomMapper.getExamEmployeeIns(condition);
 	}
 	/*************** E QLQ *************/
