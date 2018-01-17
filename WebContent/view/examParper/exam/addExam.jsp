@@ -187,13 +187,13 @@
 
 
 
-							<!-- 大修名称 -->
+							<!-- 检修名称 -->
 							<div class="input-group el_modellist outShow" id="bigNameDiv"
 								style="display: none">
 								<span class="el_spans">检修名称：</span><select
 									class="selectpicker form-control" title="请选择" name="exam.bigid"
 									id="bigName" onchange="queryHaulUnit()">
-									<option value="" selected>---请选择大修后选择部门---</option>
+									<option value="" selected>---请选择检修后选择部门---</option>
 								</select>
 							</div>
 							<div class="input-group el_modellist outShow" role="toolbar"
@@ -311,7 +311,7 @@
 												<!-- 隐藏部门串 -->
 												<input type="hidden"
 													name="queryOuterEmployeesCondition.units" />
-												<!-- 隐藏一个大修ID -->
+												<!-- 隐藏一个检修ID -->
 												<input type="hidden"
 													name="queryOuterEmployeesCondition.bigId" />
 												<!-- 隐藏一个培训情况 -->
@@ -547,7 +547,7 @@
 
 
 
-				<!-- 模态框   大修部门信息 -->
+				<!-- 模态框   检修部门信息 -->
 				<div class="modal fade" id="unitModal">
 					<div class="modal-dialog" style="width: 700px;">
 						>
