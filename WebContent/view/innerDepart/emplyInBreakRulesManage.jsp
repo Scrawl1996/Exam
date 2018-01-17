@@ -400,7 +400,7 @@ hasOperatingEmpin = true;
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 													
 													<select class="btn btn-primary" id="el_breakType"
-														title="请选择" onclick="historyBreakInfoFind()">
+														title="请选择" onchange="historyBreakInfoFind()">
 														<!-- <select class="btn btn-primary" id="el_breakType"
 													title="请选择" name="examLevel"> -->
 														<option value="0">当前违章</option>

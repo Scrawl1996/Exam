@@ -719,6 +719,7 @@ function findSaveBtn() {
 					//员工的隐藏域
 					opStr += "<input type='hidden' id='employeeid' value= '"
 							+ employeeId + "'/>";
+					opStr += "<input type='hidden' id='myidCode' value="+idCode+">";
 	
 					opStr += "<input type='hidden' id='departmentid' value='"
 							+ departmentid + "'/>";
