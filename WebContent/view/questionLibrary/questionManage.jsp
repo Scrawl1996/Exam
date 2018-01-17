@@ -144,9 +144,7 @@
                             <th>序号</th>
                             <th width="30%">试题题目</th>
                             <th>所属题库</th>
-                            <th>试题类型</th>
-                           <!--  <th>知识点</th> -->
-                            <!--<th>审核状态</th>-->
+                            <th>试题类型</th>                          
                             <th>上传人</th>
                             <th>上传时间</th>
                             <th width="170">操作</th>
@@ -208,11 +206,11 @@
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                     </div><!-- /.modal -->
+                   
 
-                    <!--分页-->
-                    <div id="questions_paginationIDU" class="paginationID"></div>
-
-                </div>
+                </div>                
+                 <!--分页-->
+                 <div id="questions_paginationIDU" class="paginationID"></div>
             </div>
 
             <!-- 模态框 查看详细信息 预览-->
