@@ -82,11 +82,11 @@
 		<where>
 			<!-- 考试ID -->
 			<if test="examId != null">
-				examId=#{examId} 
+				and examId=#{examId} 
 			</if>
 			<!-- 单位ID -->
 			<if test="unitId != null">
-				unitid = #{unitId}
+				and unitid = #{unitId}
 			</if>
 		</where>
 	</select>
