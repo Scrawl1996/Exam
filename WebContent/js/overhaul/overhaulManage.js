@@ -125,7 +125,7 @@ function showHaulTable(response) {
 				+ '</td><td>' + haulinfos[i].bigstatus + '</td><td>'
 				+ haulinfos[i].bigdescription + '</td><td>';
 
-		tr += '<a href="' + contextPath
+		tr += '<a  title="点击查看具体的检修单位信息" href="' + contextPath
 				+ '/view/overhaul/overhaulInfo.jsp?haulId='
 				+ haulinfos[i].bigid + '">详情</a>';
 		if (hasOperatingJianxiu) {
