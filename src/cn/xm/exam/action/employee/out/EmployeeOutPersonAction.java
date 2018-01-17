@@ -1,6 +1,7 @@
 package cn.xm.exam.action.employee.out;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import cn.xm.exam.bean.employee.out.EmployeeOut;
 import cn.xm.exam.bean.haul.Haulemployeeout;
 import cn.xm.exam.service.employee.out.EmployeeOutService;
 import cn.xm.exam.utils.BSASE64;
+import cn.xm.exam.utils.DateHandler;
 import cn.xm.exam.utils.DefaultValue;
 import cn.xm.exam.utils.PageBean;
 import cn.xm.exam.utils.ResourcesUtil;
@@ -94,17 +96,20 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
-	//组合条件查询分页显示外来单位的员工信息
+	//组合条件查询分页显示外来单位的员工信息 (原先的还没有 时间段 与 违章类型这两个条件)
 	public String getEmployeeOutBaseInfoList(){
 		Map<String,Object> condition = new HashMap<String,Object>();
 		condition = generationCondition(condition);
+		
 		result = new HashMap<String,Object>();
 		try {
-			PageBean<EmployeeOutBaseInfo> pageBean = employeeOutService.findEmployeeOutWithCondition(Integer.valueOf(currentPage), Integer.valueOf(currentCount), condition);
+			PageBean<Map<String,Object>> pageBean = employeeOutService.findEmployeeOutWithCondition(Integer.valueOf(currentPage), Integer.valueOf(currentCount), condition);
 			result.put("pageBean", pageBean);
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		return SUCCESS;
 	}
 	
@@ -333,7 +338,10 @@ public class EmployeeOutPersonAction extends ActionSupport{
 			condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
 		}
 		
-		return condition;
+		//组装查询条件,封装违章信息显示类型的条件(即当前年还是历史的违章)lixianyuan
+		Map<String, Object> condition2 = generateConditionForbreakInfoType(condition);
+		
+		return condition2;
 		
 	}
 	public Map<String, Object> getResult() {
@@ -479,6 +487,68 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	public void setMarkTrainType(String markTrainType) {
 		this.markTrainType = markTrainType;
 	}
+	
+	
+	//lixianyuan start
+	private String empBreakInfoType;//标记是当前年的还是历史的违章
+	private String fstarttime;//违章时间开始
+	private String fendtime;//违章时间结束
+	
+	public String getEmpBreakInfoType() {
+		return empBreakInfoType;
+	}
+	public void setEmpBreakInfoType(String empBreakInfoType) {
+		this.empBreakInfoType = empBreakInfoType;
+	}
+	
+	public String getFstarttime() {
+		return fstarttime;
+	}
+	public void setFstarttime(String fstarttime) {
+		this.fstarttime = fstarttime;
+	}
+	
+	public String getFendtime() {
+		return fendtime;
+	}
+	public void setFendtime(String fendtime) {
+		this.fendtime = fendtime;
+	}
+
+	//组装查询条件,封装违章信息显示类型的条件(即当前年还是历史的违章)并且封装 查询条件的时间段
+	private Map<String,Object> generateConditionForbreakInfoType(Map<String,Object> condition){
+		/*判断若为0表示显示的是当前违章信息，封装条件获取当前年
+		 * 若为1表示的是历史违章信息，封装条件为历史年份
+		 * 默认为当前年的违章信息
+		 */
+		if(empBreakInfoType!=null &&empBreakInfoType.equals("1")){
+			//获取系统当前时间为积分周期为一年封装条件
+			String currentYear = DateHandler.dateToString(new Date(), "yyyy");			
+			Integer currentYear_Int = Integer.valueOf(currentYear);			
+			//根据当前年计算历史记录年份
+			String historyYear = String.valueOf(currentYear_Int-DefaultValue.YEAR_RANGE);
+			if(ValidateCheck.isNotNull(historyYear)){
+				condition.put("history_Year", historyYear+"0101");
+			}
+		}else{
+			//获取系统当前时间为积分周期为一年封装条件
+			String currentYear = DateHandler.dateToString(new Date(), "yyyy");			
+			if(ValidateCheck.isNotNull(currentYear)){
+				condition.put("current_Year", currentYear);
+			}
+		}
+		
+		if(ValidateCheck.isNotNull(fendtime)){
+			condition.put("fendtime", fendtime);// 开始时间
+		}
+		if(ValidateCheck.isNotNull(fstarttime)){
+			condition.put("fstarttime", fstarttime);// 结束时间
+		}
+		
+		return condition;
+	}
+	
+	//lixianyuan end
 	
 	
 	

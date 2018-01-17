@@ -573,7 +573,7 @@ public class BreakrulesAction extends ActionSupport {
 		String sex = detailSex;
 		// 身份证
 		String idCard = detailIdCard;
-		// 大修id
+		// 大修id  这个没用到
 		String bigid = detailBigId;
 		// 所属单位
 		String unitName = detailUnitName;
@@ -581,7 +581,7 @@ public class BreakrulesAction extends ActionSupport {
 		String employeeId = detailEmployeeId;
 		// 大修外来职工id
 		String BigEmployeeoutId = detailBigEmployeeoutId;
-		// 大修单位id
+		// 大修单位id 没用到这个
 		String unitBigHual = detailUnitBigHual;
 
 		// 2.根据大修id和职工id计算出总积分
@@ -640,7 +640,7 @@ public class BreakrulesAction extends ActionSupport {
 		request.setAttribute("name", name);// 姓名
 		request.setAttribute("sex", sex);// 性别
 		request.setAttribute("idCard", idCard);// 身份证
-		request.setAttribute("bigid", bigid);// 大修id
+		request.setAttribute("bigid", bigid);// 大修id 没用到
 		request.setAttribute("unitName", unitName);// 所属单位
 		request.setAttribute("breakSumScore", sumBreakGrade);// 违章总积分
 		request.setAttribute("blackStatus", blackStatus);// 黑名单状态
@@ -648,7 +648,7 @@ public class BreakrulesAction extends ActionSupport {
 		request.setAttribute("headaddress", headaddress);// 员工的头像路径
 		request.setAttribute("BigEmployeeoutId", BigEmployeeoutId);// 大修外来职工id
 																	// 待会儿要用，修改和删除的时候
-		request.setAttribute("unitBigHual", unitBigHual);// 大修单位id
+		request.setAttribute("unitBigHual", unitBigHual);// 大修单位id 没用到
 		// request.setAttribute("isBreak", isBreak);//黑名单状态
 		request.setAttribute("breakruleList", breakruleList);// 违章信息，一个list集合
 

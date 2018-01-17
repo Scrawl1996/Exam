@@ -54,7 +54,9 @@ public interface EmployeeOutCustomMapper {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<EmployeeOutBaseInfo> findEmployeeOutBaseInfoEWithCondition(Map<String, Object> condition)
+	/*public List<EmployeeOutBaseInfo> findEmployeeOutBaseInfoEWithCondition(Map<String, Object> condition)
+	throws SQLException;*/
+	public List<Map<String, Object>> findEmployeeOutBaseInfoEWithCondition(Map<String, Object> condition)
 			throws SQLException;
 
 	/**

@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+
 import cn.xm.exam.bean.employee.out.Breakrules;
 import cn.xm.exam.bean.employee.out.EmployeeOut;
 import cn.xm.exam.bean.employee.out.EmployeeOutExample;
@@ -95,7 +96,7 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 	/**
 	 * 分页查询:按照姓名、身份证、性别、累积积分和是否进入“黑名单”等条件的组合查询，
 	 * 并以列表显示查询结果。
-	 */
+	 *//*
 	public PageBean<EmployeeOutBaseInfo> findEmployeeOutWithCondition(int currentPage, int currentTotal,
 			Map<String, Object> condition) throws Exception {
 		PageBean<EmployeeOutBaseInfo> pageBean = new PageBean<EmployeeOutBaseInfo>();
@@ -110,10 +111,36 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 		condition.put("index", index);
 		condition.put("currentCount",currentTotal);
 		List<EmployeeOutBaseInfo> employeeOutInfo = employeeOutCustomMapper.findEmployeeOutBaseInfoEWithCondition(condition);
+				
 		pageBean.setProductList(employeeOutInfo);
 		return pageBean;
+	}*/
+	
+	/**
+	 * 分页查询:按照姓名、身份证、性别、累积积分和是否进入“黑名单”等条件的组合查询，
+	 * 并以列表显示查询结果。
+	 */
+	@Override
+	public PageBean<Map<String, Object>> findEmployeeOutWithCondition(int currentPage, int currentTotal,
+			Map<String, Object> condition) throws Exception {
+		PageBean<Map<String, Object>> pageBean = new PageBean<Map<String, Object>>();
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setCurrentCount(currentTotal);
+		int totalCount = 0 ;
+		totalCount = employeeOutCustomMapper.findEmployeeOutWithCondition(condition);
+		pageBean.setTotalCount(totalCount);
+		int totalPage = (int) Math.ceil(totalCount*1.0/currentTotal);
+		pageBean.setTotalPage(totalPage);
+		int index = (currentPage-1)*currentTotal;
+		condition.put("index", index);
+		condition.put("currentCount",currentTotal);
+		List<Map<String, Object>> findEmployeeOutBaseInfoEWithCondition = employeeOutCustomMapper.findEmployeeOutBaseInfoEWithCondition(condition);
+		
+		pageBean.setProductList(findEmployeeOutBaseInfoEWithCondition);
+		return pageBean;
 	}
-
+	
+	
 	@Override
 	public PageBean<EmployeeOut> findEmployeeOutByProjectId(int currentPage, int currentTotal, String projectId)
 			throws Exception {
@@ -421,6 +448,8 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 	public int updateHaulEmployeeOutTrainStatusByCondition(Map<String, Object> condition) throws SQLException {
 		return employeeOutCustomMapper.updateHaulEmployeeOutTrainStatusByCondition(condition);
 	}
+
+
 
 	
 

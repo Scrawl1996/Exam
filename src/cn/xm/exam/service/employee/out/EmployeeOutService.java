@@ -99,7 +99,9 @@ public interface EmployeeOutService {
 	 * @return 返回的是一个PageBean对象，里面封装的有分页显示需要的当前页，当前页显示的条数，总条数，总页数以及返回到页面显示的数据集合。
 	 * @throws Exception
 	 */
-	public PageBean<EmployeeOutBaseInfo> findEmployeeOutWithCondition(int currentPage, int currentTotal,
+	/*public PageBean<EmployeeOutBaseInfo> findEmployeeOutWithCondition(int currentPage, int currentTotal,
+			Map<String, Object> condition) throws Exception;*/
+	public PageBean<Map<String,Object>> findEmployeeOutWithCondition(int currentPage, int currentTotal,
 			Map<String, Object> condition) throws Exception;
 
 	/**

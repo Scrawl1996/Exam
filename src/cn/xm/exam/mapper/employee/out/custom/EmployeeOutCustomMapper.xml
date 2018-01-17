@@ -21,7 +21,8 @@
 		</where>
 	</select>
 
-	<!-- 组合条件查询员工总数 -->
+	 <!-- 组合条件查询员工总数 -->
+	 <!--
 	<select id="findEmployeeOutWithCondition" parameterType="map"
 		resultType="int">
 		SELECT COUNT(*) FROM employee_out_base_info
@@ -29,7 +30,7 @@
 			<include refid="query_employeeOut_where"></include>
 		</where>
 	</select>
-	<!-- 组合条件查询员工的基本信息,分页显示数据 -->
+	组合条件查询员工的基本信息,分页显示数据
 	<select id="findEmployeeOutBaseInfoEWithCondition"
 		parameterType="map" resultType="cn.xm.exam.vo.employee.out.EmployeeOutBaseInfo">
 		SELECT * FROM employee_out_base_info
@@ -38,7 +39,7 @@
 		</where>
 		ORDER BY bigCreateDate DESC , trainStatus DESC
 		<include refid="query_page_limit"></include>
-	</select>
+	</select> -->
 
 	<!-- 根据外来员工的身份证号获取培训考试信息 -->
 	<select id="getExamsInfoByEmployeeOutIdCard" parameterType="map"
@@ -448,5 +449,137 @@
 	<!-- E 查询外部参考人员 -->
 
 	<!-- E qlq -->
+	
+	<!-- lixianyuan start -->
+	<!-- 组合条件查询员工总数 -->
+    <select id="findEmployeeOutWithCondition" parameterType="map"
+		resultType="int">
+		SELECT COUNT(*) 
+		FROM employee_out,haulemployeeout,haulinfo 
+	
+	  WHERE employee_out.employeeId = haulemployeeout.employeeId AND haulemployeeout.bigId = haulinfo.bigId 
+	
+		AND employee_out.name LIKE '%${employeeOutName}%' AND employee_out.sex LIKE '%${employeeOutSex}%' AND employee_out.idCode LIKE '%${employeeOutIdCard}%' AND haulemployeeout.empType like '%${employeeType}%'
+		<if test="blackListInfo !=null and blackListInfo!='' ">
+			and (CASE (SELECT	id FROM blacklist WHERE blacklist.blackIdcard = haulemployeeout.empoutIdcard AND temporaryInStatus =1 AND employeeStatus="1") IS NULL WHEN TRUE THEN "否" ELSE "是" END ) = #{blackListInfo}
+		</if>
+		
+		
+		<if test="minusNumLeft !=null and minusNumLeft !='' ">
+			and 
+			<include refid="sql_findSumbreak_ByConditionLeft"></include>
+		</if>
+		<if test="minusNumRight !=null and minusNumRight !='' ">
+			and 
+			<include refid="sql_findSumbreak_ByConditionRight"></include>
+		</if>
+	</select> 
+	<!-- 组合条件查询员工的基本信息,分页显示数据   -->
+	<select id="findEmployeeOutBaseInfoEWithCondition"
+		parameterType="map" resultType="map">
+		SELECT employee_out.`name`,employee_out.idCode idCard,employee_out.sex,employee_out.address,employee_out.birthday,employee_out.headaddress photo,
+			haulemployeeout.*,haulinfo.bigBeginDate,haulinfo.bigCreateDate,haulinfo.bigdescription,haulinfo.bigEndDate,haulinfo.bigName,haulinfo.bigStatus, 
+			(SELECT unit.`name` FROM unit WHERE unitId = haulemployeeout.unitId) departmentName,
+			CASE (SELECT SUM(breakrules.minusNum) FROM breakrules WHERE  employeeId = haulemployeeout.employeeId AND breakTime LIKE CONCAT(YEAR(CURDATE()),'%'))  IS NULL 
+			WHEN TRUE THEN 0 ELSE (SELECT SUM(breakrules.minusNum) FROM breakrules WHERE  employeeId = haulemployeeout.employeeId AND breakTime LIKE CONCAT(YEAR(CURDATE()),'%')) END minusNum,
+			CASE (SELECT SUM(breakrules.minusNum) FROM breakrules WHERE employeeId = haulemployeeout.employeeId ) IS NULL WHEN TRUE THEN 0 ELSE
+			(SELECT SUM(breakrules.minusNum) FROM breakrules WHERE employeeId = haulemployeeout.employeeId )END minusNumSum,
+	
+			IFNULL((SELECT SUM(breakrules.minusNum) FROM breakrules
+			WHERE
+			breakrules.employeeId = employee_out.employeeId
+			<if test="fstarttime != null">
+				and breakTime &gt;= #{fstarttime}
+			</if>
+			<if test="fendtime != null">
+				and breakTime &lt;= #{fendtime}
+			</if>
+			<!-- 当前年 -->
+			<if test="current_Year != null and current_Year != ''">
+				and breakrules.breakTime LIKE  '${current_Year}%'
+			</if>
+			<!-- 历史年 -->
+			<if test="history_Year != null and history_Year != ''">
+				AND breakrules.breakTime between #{history_Year} AND NOW()
+			</if>
+			),0) AS 'sumBreakScore',
+	
+			CASE (SELECT	id FROM blacklist WHERE blacklist.blackIdcard = haulemployeeout.empoutIdcard AND temporaryInStatus =1 AND employeeStatus="1") IS NULL WHEN TRUE THEN "否" ELSE "是" END isblackList,
+			CASE (SELECT	id FROM blacklist WHERE blacklist.blackIdcard = haulemployeeout.empoutIdcard AND employeeStatus="1") IS NULL WHEN TRUE THEN "否" ELSE "是" END isInBlackList
 
+	  FROM employee_out,haulemployeeout,haulinfo 
+	
+	  WHERE employee_out.employeeId = haulemployeeout.employeeId AND haulemployeeout.bigId = haulinfo.bigId 
+	
+		AND employee_out.name LIKE '%${employeeOutName}%' AND employee_out.sex LIKE '%${employeeOutSex}%' AND employee_out.idCode LIKE '%${employeeOutIdCard}%' AND haulemployeeout.empType like '%${employeeType}%'
+		<if test="blackListInfo !=null and blackListInfo!='' ">
+			and (CASE (SELECT	id FROM blacklist WHERE blacklist.blackIdcard = haulemployeeout.empoutIdcard AND temporaryInStatus =1 AND employeeStatus="1") IS NULL WHEN TRUE THEN "否" ELSE "是" END ) = #{blackListInfo}
+		</if>
+		
+		<!-- 单位ID -->
+		<if test="unitId != null">
+			and haulemployeeout.unitid = #{unitId}
+		</if>
+		<!-- 大修ID -->
+		<if test="bigId != null">
+			and haulemployeeout.bigid = #{bigId}
+		</if>
+		<if test="minusNumLeft !=null and minusNumLeft !='' ">
+			and 
+			<include refid="sql_findSumbreak_ByConditionLeft"></include>
+		</if>
+		<if test="minusNumRight !=null and minusNumRight !='' ">
+			and 
+			<include refid="sql_findSumbreak_ByConditionRight"></include>
+		</if>
+				
+		ORDER BY bigCreateDate DESC , trainStatus DESC
+		<include refid="query_page_limit"></include>
+	</select>
+	
+	<!-- 根据时间条件查询当前时间段的违章积分 -->
+	<sql id="sql_findSumbreak_ByConditionLeft">
+		IFNULL((SELECT SUM(breakrules.minusNum) FROM breakrules
+		WHERE
+		breakrules.employeeId = employee_out.employeeId
+		<if test="fstarttime != null">
+			and breakTime &gt;= #{fstarttime}
+		</if>
+		<if test="fendtime != null">
+			and breakTime &lt;= #{fendtime}
+		</if>
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and breakrules.breakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND breakrules.breakTime between #{history_Year} AND NOW()
+		</if> 
+		),0) &gt;= #{minusNumLeft}
+	</sql>
+	
+	<sql id="sql_findSumbreak_ByConditionRight">
+		IFNULL((SELECT SUM(breakrules.minusNum) FROM breakrules
+		WHERE
+		breakrules.employeeId = employee_out.employeeId
+		<if test="fstarttime != null and fstarttime!='' ">
+			and breakTime &gt;= #{fstarttime}
+		</if>
+		<if test="fendtime != null and fendtime!='' ">
+			and breakTime &lt;= #{fendtime}
+		</if>
+		<!-- 当前年 -->
+		<if test="current_Year != null and current_Year != ''">
+			and breakrules.breakTime LIKE  '${current_Year}%'
+		</if>
+		<!-- 历史年 -->
+		<if test="history_Year != null and history_Year != ''">
+			AND breakrules.breakTime between #{history_Year} AND NOW()
+		</if> 
+		),0) &lt;= #{minusNumRight}
+	</sql>
+	
+	<!-- lixianyuan end -->
+	
 </mapper>
