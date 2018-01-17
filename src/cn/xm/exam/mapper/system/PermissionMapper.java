@@ -133,5 +133,11 @@ public interface PermissionMapper {
 	 */
 	public List<Map<String, Object>> getPermissionTree(String scope)throws SQLException;
 	
+	/**
+	 * 更新权限状态
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean updatePermissionsStatus(@Param("permissionids")List<String> permissionids,@Param("status")String status)throws SQLException;
 	
 }

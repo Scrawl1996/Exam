@@ -1,6 +1,7 @@
 package cn.xm.exam.service.impl.system;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -137,7 +138,24 @@ public class PermissionServiceImpl implements PermissionService {
 
 	@Override
 	public List<Map<String, Object>> getMenutop() throws Exception {
-		return permissionMapper.getMenutop();	
+//		List<Map<String, Object>> permissionTree = permissionMapper.getMenutop();	
+//		for (Map<String, Object> map : permissionTree) {
+//			if (map.get("type").toString().equals("menu")) {
+//				String permissionid = map.get("permissionid").toString();
+//				int child=0;
+//				for (Map<String, Object> map1 : permissionTree){
+//					if (map1.get("parentid").toString().equals(map.get("permissionid").toString())) {
+//						child+=1;
+//						break;
+//					}
+//				}
+//				if (child==0) {
+//					
+//				}
+//			}
+//			
+//		}
+		return permissionMapper.getMenutop();
 	}
 
 	@Override
@@ -184,17 +202,56 @@ public class PermissionServiceImpl implements PermissionService {
 	@Override
 	public boolean updatePermissionStatus(String permissionid, String permissionstatus) throws Exception {
 		Permission permission=permissionMapper.getPermissionById(permissionid);
-		
 		Permission parentPermission=permissionMapper.getPermissionById(permission.getParentid());
+		Permission grandFatherPermission=permissionMapper.getPermissionById(parentPermission.getParentid());
 		permissionMapper.updatePermissionStatus(permissionid, permissionstatus);
 		if (parentPermission.getParentid()!=null && !"".equals(parentPermission.getParentid()) ) {		
+			if ("0".equals(grandFatherPermission.getStatus())) {
+				permissionMapper.updatePermissionStatus(parentPermission.getParentid(), "1");
+			}
+		}
+		if (permission.getParentid()!=null && !"".equals(permission.getParentid()) ) {		
 			if ("0".equals(parentPermission.getStatus())) {
 				permissionMapper.updatePermissionStatus(permission.getParentid(), "1");
 			}
 		}
-		
-		if ("menutop".equals(permission.getType())) {
-			permissionMapper.updatePermissionStatusByParentid(permissionid, permissionstatus);
+		if (grandFatherPermission!=null) {
+		if (grandFatherPermission.getParentid()!=null && !"".equals(grandFatherPermission.getParentid())) {
+			if ("0".equals(grandFatherPermission.getStatus())) {
+				permissionMapper.updatePermissionStatus(grandFatherPermission.getParentid(), "1");
+			}
+		}
+		}
+		if ("menutop".equals(permission.getType())||"menu".equals(permission.getType())) {
+			List<String> permissionids=new ArrayList<>();
+			permissionids.add(permissionid);
+			List<Permission> all_permission=permissionMapper.getAllPermission();
+			if ("menutop".equals(permission.getType())) {
+				for (Permission permission2 : all_permission) {
+					if (permission2.getParentid()!=null && !"".equals(permission2.getParentid())) {
+						if (permission2.getParentid().equals(permission.getPermissionid())) {
+							permissionids.add(permission2.getPermissionid());
+							for (Permission permission3 : all_permission) {
+								if (permission3.getParentid()!=null && !"".equals(permission3.getParentid())) {
+								if (permission3.getParentid().equals(permission2.getPermissionid())) {
+									permissionids.add(permission3.getPermissionid());
+								}
+								}
+							}
+						}
+					}
+				}
+			}
+			if ("menu".equals(permission.getType())) {
+				for (Permission permission2 : all_permission) {
+					if (permission2.getParentid()!=null && !"".equals(permission2.getParentid())) {
+					if (permission2.getParentid().equals(permission.getPermissionid())) {
+						permissionids.add(permission2.getPermissionid());
+					}
+					}
+				}
+			}
+			permissionMapper.updatePermissionsStatus(permissionids, permissionstatus);
 		}
 		return true;
 	}

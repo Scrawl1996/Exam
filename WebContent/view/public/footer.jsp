@@ -15,13 +15,21 @@
 
 <!-- 脚 -->
 <link rel="stylesheet" href="<%=path%>/css/home/footer.css" />
-
+<script type="text/javascript" src="${baseurl}/js/public/footer.js"></script>
+<script type="text/javascript">
+	/* 记录项目名字 /Exam */
+	var contextPath = "${pageContext.request.contextPath}";
+</script>
 </head>
 <body>
+	<!-- 缩进菜单的图标 -->
+	<img src="${baseurl}/image/show.png"
+		style="position: fixed; left: 4px; bottom: 50px; width: 40px;"
+		title="点此隐藏与显示菜单栏" id="toggleMenu" />
 
 	<footer class="footer">
-	<div class="center">Copyright © 2017-2018  &nbsp;&nbsp;大唐集团&nbsp;阳城国际发电有限公司 &nbsp;&nbsp; All Rights
-		Reserved. </div>
+	<div class="center">Copyright © 2017-2018
+		&nbsp;&nbsp;大唐集团&nbsp;阳城国际发电有限公司 &nbsp;&nbsp; All Rights Reserved.</div>
 	</footer>
 
 </body>
