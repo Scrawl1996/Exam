@@ -82,7 +82,7 @@ var showExamTable = function(response) {
 				+ '分钟</td><td>'
 				+ exams[i].examType
 				+ '</td><td>'
-				+ '<a class="el_delButton" onClick="queryExamEmployees(\''
+				+ '<a title="点击查看具体的参考人员信息" class="el_delButton" onClick="queryExamEmployees(\''
 				+ exams[i].examId
 				+ '\')">'
 				+ exams[i].employeeNum

@@ -74,7 +74,7 @@ function showQuestionBankInfo(data) {
 					+ "</td><td>"
 					+ questionBankInfoList[i].typename
 					+ "</td><td>"
-					+ "<a href='questionManage.jsp?questionbankId="
+					+ "<a title='点击查看具体的试题信息' href='questionManage.jsp?questionbankId="
 					+ questionBankInfoList[i].questionbankid
 					+ "'>"
 					+ questionBankInfoList[i].sumquestions

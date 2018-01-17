@@ -103,9 +103,9 @@ function showUnitTale(response) {
 								+ units[i].securePhone
 								+ '</td><td>'
 								+ units[i].projectNames
-								+ '</td><td><a href="javascript:void(0)" onclick="queryEmployeeBreakrule(this)">'
+								+ '</td><td><a href="javascript:void(0)" title="点击查看单位违章信息" onclick="queryEmployeeBreakrule(this)">'
 								+ units[i].unitMinisMum
-								+ '</a></td><td><a href="javascript:void(0)" onclick="initVariable(this)">'
+								+ '</a></td><td><a href="javascript:void(0)" title="点击查看单位员工信息" onclick="initVariable(this)">'
 								+ units[i].personNum + '</a></td><td>'
 								+ units[i].jiaquan + '</td><td>' + operation
 								+ '</td></tr>');
