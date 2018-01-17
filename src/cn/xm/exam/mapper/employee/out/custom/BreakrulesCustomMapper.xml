@@ -95,7 +95,7 @@
 		<if test="history_Year != null and history_Year != ''">
 			AND breakrules.breakTime between #{history_Year} AND NOW()
 		</if>
-		
+		ORDER BY minusNum DESC
 	</select>
 
 
