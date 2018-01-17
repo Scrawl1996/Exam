@@ -2,6 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.xm.exam.mapper.employee.in.custom.EmplyinBreakrulesCustomMapper">
 <!-- *********************************************** -->
+
+	<!-- zwy start -->
+	<!--  <sql id="query_isOnlyManage_where">
+		 如果isManager是true则只查询管理员  否则查询所有用户
+		<if test="isManager!=null and isManager=='true'">
+			and employee_in.departmentid = #{departmentid}
+		</if>
+		<if test="departmentid!=null and isManager!=null and isManager=='false'">
+			and employee_in.departmentid like '${departmentid}%'
+		</if>
+		<if test="departmentId != null and isManager!=null and isManager=='false'">
+			AND employee_in.departmentId like '${departmentId}%'
+		</if>
+	
+	</sql> -->
+	
+
+
+
 	<!-- lixianyuan start -->
 	<!-- 查询部门表的所有信息，用于初始化左侧的部门树 -->
 	<select id="initLeftDepartmentTree" resultType="map">
@@ -19,7 +38,8 @@
 		resultType="map">
 		select
 		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,
-		employee_in.phone,
+	<!-- zwy在这里添加了 employee_in.birthday-->
+		employee_in.phone,employee_in.birthday,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
 		from emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
@@ -31,10 +51,25 @@
 		from employee_in,department
 
 		where
+		<!-- 根据部门id来获取 -->
+		
 		employee_in.departmentId = department.departmentId
-		and
+		
+		<!-- zwy start -->
+		<if test="isManager!=null and isManager=='true'">
+			and employee_in.departmentid = #{departmentid}
+		</if>
+		<if test="departmentid!=null and isManager!=null and isManager=='false'">
+			and employee_in.departmentid like '${departmentid}%'
+		</if>
+		<if test="departmentId != null and isManager!=null and isManager=='false'">
+			AND employee_in.departmentId like '${departmentId}%'
+		</if>
+		<!-- zwy end -->
+		
+		<!-- and
 		employee_in.departmentId = #{departmentid}
-
+ -->
 		order by sumBreakScore
 		desc,department.departmentName desc
 		LIMIT
@@ -49,11 +84,25 @@
 
 		from employee_in,department
 
-		where
-		employee_in.departmentId = department.departmentId
-		and
+		<!-- <where>
+		<include refid="query_isOnlyManage_where"></include>
+		</where> -->
+		where 
+		<!-- zwy start -->
+		<if test="isManager!=null and isManager=='true'">
+			and employee_in.departmentid = #{departmentid}
+		</if>
+		<if test="departmentid!=null and isManager!=null and isManager=='false'">
+			and employee_in.departmentid like '${departmentid}%'
+		</if>
+		<if test="departmentId != null and isManager!=null and isManager=='false'">
+			AND employee_in.departmentId like '${departmentId}%'
+		</if>
+		<!-- zwy end -->
+		<!-- and
 		employee_in.departmentId = #{departmentid}
-
+ -->
+ 	
 
 	</select>
 
@@ -62,7 +111,8 @@
 	<select id="initPageDate" parameterType="map" resultType="map">
 		select
 		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,
-		employee_in.phone,
+		<!-- zwy添加的employee_in.birthday, -->
+		employee_in.phone,employee_in.birthday,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
 		from emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
@@ -81,9 +131,28 @@
 
 		where
 		employee_in.departmentId = department.departmentId
-		<if test="departmentId != null and departmentId != ''">
+		<!-- 根据部门id 得到获取-->
+		<!-- <if test="departmentId != null and departmentId != ''">
 			and employee_in.departmentId like '${departmentId}%'
+		</if> -->
+		
+		<!-- zwy start -->
+		<!-- 如果isManager是true则只查询管理员  否则查询所有用户 -->
+		<if test="isManager!=null and isManager=='true'">
+			and employee_in.departmentid = #{departmentid}
 		</if>
+		<if test="departmentid!=null and isManager!=null and isManager=='false'">
+			and employee_in.departmentid like '${departmentid}%'
+		</if>
+		<if test="departmentId != null and isManager!=null and isManager=='false'">
+			AND employee_in.departmentId like '${departmentId}%'
+		</if>
+		
+		
+		
+		<!-- zwy end -->
+		
+		
 		<!-- 当前年 -->
 		<if test="current_Year != null and current_Year != ''">
 			and empInBreakTime LIKE  '${current_Year}%'
@@ -92,6 +161,8 @@
 		<if test="history_Year != null and history_Year != ''">
 			AND empInBreakTime between #{history_Year} AND NOW()
 		</if>
+		
+		
 		
 		order by
 		sumBreakScore desc,department.departmentName desc
@@ -109,9 +180,29 @@
 		where
 		employee_in.departmentId =
 		department.departmentId
-		<if test="value != null">
+		<!-- <if test="value != null">
 			and employee_in.departmentId like '${value}%'
+		</if> -->
+		
+		
+		
+		<!-- zwy start -->
+		<!-- 如果isManager是true则只查询管理员  否则查询所有用户 -->
+		<if test="isManager!=null and isManager=='true'">
+			and employee_in.departmentid = #{departmentid}
 		</if>
+		<if test="departmentid!=null and isManager!=null and isManager=='false'">
+			and employee_in.departmentid like '${departmentid}%'
+		</if>
+		<if test="departmentId != null and isManager!=null and isManager=='false'">
+			AND employee_in.departmentId like '${departmentId}%'
+		</if>
+		
+		<!-- zwy end -->
+		
+		
+		
+		
 		<!-- 当前年 -->
 		<if test="current_Year != null and current_Year != ''">
 			and empInBreakTime LIKE  '${current_Year}%'
@@ -139,8 +230,12 @@
 		select IFNULL(SUM(emplyin_breakrules.empInMinusNum),0)
 		from
 		emplyin_breakrules
-		where emplyin_breakrules.empInEmployeeId =
-		#{employeeid}
+		where 
+		
+		emplyin_breakrules.empInEmployeeId =#{employeeid}
+		
+		
+		
 		<if test="fstarttime!=null">
 			and empInBreakTime &gt;= #{fstarttime}
 		</if>
@@ -215,7 +310,8 @@
 		resultType="map">
 		select
 		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,
-		employee_in.phone,
+		<!-- zwy添加的employee_in.birthday, -->
+		employee_in.phone,employee_in.birthday,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
 		from emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
@@ -277,7 +373,8 @@
 	<select id="leftTreeAndConditionMsg" parameterType="map" resultType="map">
 		select
 		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,
-		employee_in.phone,
+		<!-- zwy添加的employee_in.birthday, -->
+		employee_in.phone,employee_in.birthday,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
 		from emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
@@ -296,6 +393,8 @@
 		<if test="history_Year != null and history_Year != ''">
 			AND emplyin_breakrules.empInBreakTime between #{history_Year} AND NOW()
 		</if>
+		
+		
 		group by emplyin_breakrules.empInEmployeeId
 		),0) as
 		"sumBreakScore",
@@ -314,6 +413,8 @@
 
 		<where>
 			employee_in.departmentId = department.departmentId
+			
+			
 
 			and
 			employee_in.name like '%${name}%'
@@ -328,9 +429,23 @@
 			where
 			emplyin_breakrules.empInEmployeeId = employee_in.employeeId),0)
 			between #{minumsStart} and #{minumsEnd}
-			<if test="departmentId != null">
+			<!-- <if test="departmentId != null">
 				and employee_in.departmentId like '${departmentId}%'
+			</if> -->
+			
+			<!-- zwy start -->
+			<!-- 如果isManager是true则只查询管理员  否则查询所有用户 -->
+			<if test="isManager!=null and isManager=='true'">
+				and employee_in.departmentid = #{departmentid}
 			</if>
+			<if test="departmentid!=null and isManager!=null and isManager=='false'">
+				and employee_in.departmentid like '${departmentid}%'
+			</if>
+			<if test="departmentId != null and isManager!=null and isManager=='false'">
+				AND employee_in.departmentId like '${departmentId}%'
+			</if>
+			
+			<!-- zwy end -->
 
 			<if test="departmentid !=null &amp;&amp; departmentid !='' ">
 				and department.departmentId IN(select
@@ -389,9 +504,25 @@
 			),0)
 			between #{minumsStart}
 			and #{minumsEnd}
-			<if test="departmentId != null">
+			<!-- <if test="departmentId != null">
 				and employee_in.departmentId like '${departmentId}%'
+			</if> -->
+			
+			<!-- zwy start -->
+			<!-- 如果isManager是true则只查询管理员  否则查询所有用户 -->
+			<if test="isManager!=null and isManager=='true'">
+				and employee_in.departmentid = #{departmentid}
 			</if>
+			<if test="departmentid!=null and isManager!=null and isManager=='false'">
+				and employee_in.departmentid like '${departmentid}%'
+			</if>
+			<if test="departmentId != null and isManager!=null and isManager=='false'">
+				AND employee_in.departmentId like '${departmentId}%'
+			</if>
+			
+			<!-- zwy end -->
+			
+			
 
 			<if test="departmentid !=null &amp;&amp; departmentid !='' ">
 				and department.departmentId IN(select
@@ -410,7 +541,8 @@
 		resultType="map">
 		select
 		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,
-		employee_in.phone,
+		<!-- zwy添加的employee_in.birthday, -->
+		employee_in.phone,employee_in.birthday,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
 		from emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
@@ -529,7 +661,8 @@
 		resultType="map">
 		select
 		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,
-		employee_in.phone,
+		<!-- zwy添加的employee_in.birthday, -->
+		employee_in.phone,employee_in.birthday,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
 		from emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
@@ -587,9 +720,27 @@
 				=
 				employee_in.employeeId),'否')!=#{blackstatus}
 			</if>
-			<if test="departmentId != null">
+			<!-- <if test="departmentId != null">
 				and employee_in.departmentId like '${departmentId}%'
+			</if> -->
+			
+			
+			<!-- zwy start -->
+			<!-- 如果isManager是true则只查询管理员  否则查询所有用户 -->
+			<if test="isManager!=null and isManager=='true'">
+				and employee_in.departmentid = #{departmentid}
 			</if>
+			<if test="departmentid!=null and isManager!=null and isManager=='false'">
+				and employee_in.departmentid like '${departmentid}%'
+			</if>
+			<if test="departmentId != null and isManager!=null and isManager=='false'">
+				AND employee_in.departmentId like '${departmentId}%'
+			</if>
+			
+			<!-- zwy end -->
+			
+			
+			
 			<if test="departmentid !=null &amp;&amp; departmentid !='' ">
 				and department.departmentId IN(select
 				department.departmentId from
@@ -639,9 +790,25 @@
 				employee_in.employeeId),'否')!=#{blackstatus}
 			</if>
 
-			<if test="departmentId != null">
+			<!-- <if test="departmentId != null">
 				and employee_in.departmentId like '${departmentId}%'
+			</if> -->
+			
+			
+			
+			<!-- zwy start -->
+			<!-- 如果isManager是true则只查询管理员  否则查询所有用户 -->
+			<if test="isManager!=null and isManager=='true'">
+				and employee_in.departmentid = #{departmentid}
 			</if>
+			<if test="departmentid!=null and isManager!=null and isManager=='false'">
+				and employee_in.departmentid like '${departmentid}%'
+			</if>
+			<if test="departmentId != null and isManager!=null and isManager=='false'">
+				AND employee_in.departmentId like '${departmentId}%'
+			</if>
+			
+			<!-- zwy end -->
 
 			<if test="departmentid !=null &amp;&amp; departmentid !='' ">
 				and department.departmentId IN(select

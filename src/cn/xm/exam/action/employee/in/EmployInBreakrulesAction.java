@@ -88,7 +88,17 @@ public class EmployInBreakrulesAction extends ActionSupport {
 	private String fstarttime;// 违章时间段的开始时间
 	private String fendtime;// 违章时间段的结束时间
 	private String empBreakInfoType;//员工违章记录类型
+	private String isOnlyManager;
+	
 		
+	public String getIsOnlyManager() {
+		return isOnlyManager;
+	}
+
+	public void setIsOnlyManager(String isOnlyManager) {
+		this.isOnlyManager = isOnlyManager;
+	}
+
 	public String getEmpBreakInfoType() {
 		return empBreakInfoType;
 	}
@@ -247,6 +257,11 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		mapLeft.put("departmentid", departmentid);
 		mapLeft.put("curPage", curPage);// 当前页页号 (当前页页号-1)*每页显示的记录数
 		mapLeft.put("curTotal", curTotal);// 每页显示的记录数
+		
+		/******************zwy*********************/
+		mapLeft.put("isManager", isOnlyManager);
+		
+		
 		List<Map<String, Object>> empInMsgByDepIdLeft = employeeInBreakrulesService.getEmpInMsgByDepIdLeft(mapLeft);
 
 		// 获取总记录数
@@ -301,6 +316,9 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		mapInit.put("curPage", curPage);// 当前页页号 (当前页页号-1)*每页显示的记录数
 		mapInit.put("curTotal", curTotal);// 每页显示的记录数
 		mapInit.put("departmentId", departmentId);// 部门ID
+		
+		
+		mapInit.put("isManager", isOnlyManager);
 		
 		//封装违章信息显示类型的条件
 		mapInit = generateConditionForbreakInfoType(mapInit);
@@ -673,6 +691,13 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		String blackStatus = "";// 用于标记黑名单状态是否被选中
 
 		// 接收穿过来的数据
+		
+		
+		String isManager = isOnlyManager;//是否是管理员
+		if(isManager == null){
+			isManager ="";
+		}
+		
 		String name = fName;// 姓名
 		if (name == null) {
 			name = "";
@@ -740,6 +765,10 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			mapLeftAndCondition.put("departmentid", departmentid);// 部门id
 			mapLeftAndCondition.put("curPage", curPage);// 当前页页号
 			mapLeftAndCondition.put("curTotal", curTotal);// 每页显示的记录数
+			
+			/****************************zwy*********************/
+			mapLeftAndCondition.put("isManager", isManager);
+			
 			if (ValidateCheck.isNotNull(departmentId)) {
 				mapLeftAndCondition.put("departmentId", departmentId);
 			}
@@ -768,6 +797,10 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			if (ValidateCheck.isNotNull(departmentId)) {
 				mapLeftAndConditionCount.put("departmentId", departmentId);
 			}
+			/******************zwy*********************/
+			mapLeftAndConditionCount.put("isManager", isManager);
+			
+			
 			//封装违章信息显示类型的条件
 			mapLeftAndConditionCount = generateConditionForbreakInfoType(mapLeftAndConditionCount);
 			
@@ -810,6 +843,12 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			mapLeftAndConditionIsBlack.put("curPage", curPage);// 当前页页号
 			mapLeftAndConditionIsBlack.put("curTotal", curTotal);// 每页显示的记录数
 			mapLeftAndConditionIsBlack.put("departmentId", departmentId);// 每页显示的记录数
+			
+			/******************zwy*********************/
+			mapLeftAndConditionIsBlack.put("isManager", isManager);
+			
+			
+			
 			if (ValidateCheck.isNotNull(fstarttime)) {
 				mapLeftAndConditionIsBlack.put("fstarttime", fstarttime);// 开始时间
 			}
@@ -832,6 +871,12 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			mapLeftAndConditionIsBlackCount.put("blackstatus", "1");
 			mapLeftAndConditionIsBlackCount.put("departmentid", departmentid);// 部门id
 			mapLeftAndConditionIsBlackCount.put("departmentId", departmentId);// 部门id
+			
+			/******************zwy*********************/
+			mapLeftAndConditionIsBlackCount.put("isManager", isManager);
+			
+			
+			
 			if (ValidateCheck.isNotNull(fstarttime)) {
 				mapLeftAndConditionIsBlackCount.put("fstarttime", fstarttime);// 开始时间
 			}
@@ -883,6 +928,13 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			mapLeftAndConditionNoBlack.put("curPage", curPage);// 当前页页号
 			mapLeftAndConditionNoBlack.put("curTotal", curTotal);// 每页显示的记录数
 			mapLeftAndConditionNoBlack.put("departmentId", departmentId);// 每页显示的记录数
+			
+			/******************zwy*********************/
+			mapLeftAndConditionNoBlack.put("isManager", isManager);
+			
+			
+			
+			
 			if (ValidateCheck.isNotNull(fstarttime)) {
 				mapLeftAndConditionNoBlack.put("fstarttime", fstarttime);// 开始时间
 			}
@@ -906,6 +958,12 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			mapLeftAndConditionNoBlackCount.put("blackstatus", "1");
 			mapLeftAndConditionNoBlackCount.put("departmentid", departmentid);// 部门id
 			mapLeftAndConditionNoBlackCount.put("departmentId", departmentId);// 部门id
+			
+			/******************zwy*********************/
+			mapLeftAndConditionNoBlackCount.put("isManager", isManager);
+			
+			
+			
 			if (ValidateCheck.isNotNull(fstarttime)) {
 				mapLeftAndConditionNoBlackCount.put("fstarttime", fstarttime);// 开始时间
 			}
