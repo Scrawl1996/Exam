@@ -6,7 +6,6 @@ $(function() {
 	initKnowledgeDic();
 	// 获取地址栏中传递的题库ID
 	var questionbankId = window.location.href.split("=")[1];
-	// console.log(questionbankId)
 	$("#hiddenQuestionBankId").val(questionbankId);
 	findQuestionsInfo();
 });
@@ -181,7 +180,9 @@ $(function() {
 			} else if (optionContent.val() == "batch_status") { // 批量状态设置
 				$("#setCheckState").show()
 				$("#el_setAllMove").hide();
-			} else if (optionContent.val() == "batch_move") { // 批量移动				
+			} else if (optionContent.val() == "batch_move") { // 批量移动	
+				//清空下拉框
+				$("#move_QuestionBankNameList").val('');
 				$("#el_setAllMove").show();
 				$("#setCheckState").hide();
 			}

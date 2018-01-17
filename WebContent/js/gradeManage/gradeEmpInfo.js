@@ -1,9 +1,7 @@
 /***************************页面加载函数***************************/
 
-$(function(){
-	//获取地址栏中传递的考试ID
-	var examId = window.location.href.split("=")[1];
-	$("#examId").val(examId);
+$(function(){	
+	$("input[name=examName]").val(selectExamName);
 	findEmployeeGradeInfo();
 	
 });
@@ -207,3 +205,4 @@ function employeeGradeExportExcel(){
 	$("#form_findEmployeeGradesInfo").submit();
 	$("#employGradeExportModal").modal("hide");
 }
+

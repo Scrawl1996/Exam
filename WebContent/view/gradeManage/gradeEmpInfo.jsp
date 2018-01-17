@@ -14,7 +14,9 @@
 <title>员工成绩管理</title>
 
 <%@ include file="/public/cssJs.jsp"%>
-
+	<script>
+	   		var selectExamName = "${param.name}";	   		
+  	</script>
     <!--分页-->
     <script src="<%=path %>/js/public/page.js"></script>
    
@@ -22,7 +24,9 @@
     <link rel="stylesheet" href="<%=path %>/css/gradeManage/gradeEmpInfo.css">
     <!-- 日期格式转换 -->
     <script src="${pageContext.request.contextPath }/js/questionLibrary/dateformat.js "></script>
-   
+     	 	
+        
+       
 </head>
 <body>
 
@@ -59,7 +63,7 @@
                             <div class="el_qlmQuery">
                                 <div class="input-group" role="toolbar">
                                     <span class="el_spans">考试名称：</span>
-                                    <input type="text" class="form-control" name="examName"/>
+                                    <input type="text" class="form-control" name="examName" />
                                 </div>
                             </div>
 
@@ -135,7 +139,7 @@
 						<!-- 隐藏当前页和显示条数 -->
                         <input type="hidden" name="currentPage" id="currentPage" />
 						<input type="hidden" name="currentCount" id="currentCount" />
-						<input type="hidden" name="examId" id="examId" />
+						<input type="hidden" name="examId" id="examId" value="${param.examId }" />
 						
                         <!--提交查询按钮-->
                         <button type="button" class="btn btn-primary el_queryButton btn-sm" onclick="searchEmployeeGradeInfo()">查询</button>

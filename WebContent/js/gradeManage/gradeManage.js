@@ -48,6 +48,8 @@ function showExamGradesInfo(data){
 	if(examGradesInfoList != null){
 		for(var i=0;i<examGradesInfoList.length;i++){
 			var index = i+1;
+			var parameterStr =  '{"name":"'+examGradesInfoList[i].examname+'","examId":"'+examGradesInfoList[i].examid+'"}';
+			
 			showExamGradesListInfo += "<tr><td><input type='radio' name='el_exam' onclick='showGradeImportButton(this)' class='el_checks' value='"+examGradesInfoList[i].examid+"'/></td><td>"
 								+(index + (result.pageBean.currentPage - 1) * currentCount)+"</td><td>"
 							    +examGradesInfoList[i].examname+"</td><td>"			
@@ -60,7 +62,8 @@ function showExamGradesInfo(data){
 								+Format(new Date(examGradesInfoList[i].starttime.replace(/T/g," ").replace(/-/g,"/")),"yyyy-MM-dd HH:mm")
 								+"到"+Format(new Date(examGradesInfoList[i].endtime.replace(/T/g," ").replace(/-/g,"/")),"yyyy-MM-dd HH:mm")+"</td><td>"									
 								+" <a href='javascript:void(0)' onclick='el_scoreExport(this)'>导出成绩单</a>"
-								+" <a href='gradeEmpInfo.jsp?name="+examGradesInfoList[i].examid+"'>详细信息</a>"
+								//+" <a href='gradeEmpInfo.jsp?name="+examGradesInfoList[i].examid+"'>详细信息</a>"
+								+"<a href=javascript:doPost('gradeEmpInfo.jsp','"+parameterStr+"')>详细信息</a>"
 								+"</td></tr>";			
 		}
 		
@@ -507,3 +510,23 @@ function showUnitEmployeeGradeInfo(data){
 	$("#unitEmployeeInfos").modal();
 }
 
+/*************************a标签post提交方法******************************/
+//to:提交动作（action）,p:向后台传递的数据
+function doPost(to,p) { 
+	//将json字符串转换为json对象
+	p = eval("(" + p + ")");
+	var myForm = document.createElement("form");
+	myForm.method = "post";
+	myForm.action = to;
+	myForm.target="_self"
+	//遍历json对象
+	for ( var i in p) {
+		var myInput = document.createElement("input");
+		myInput.setAttribute("name", i); // 为input对象设置name  
+		myInput.setAttribute("value", p[i]); // 为input对象设置value  
+		myForm.appendChild(myInput);
+	}
+	document.body.appendChild(myForm);
+	myForm.submit();
+	document.body.removeChild(myForm); // 提交后移除创建的form  
+}
