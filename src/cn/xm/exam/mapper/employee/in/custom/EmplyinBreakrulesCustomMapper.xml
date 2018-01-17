@@ -3,23 +3,6 @@
 <mapper namespace="cn.xm.exam.mapper.employee.in.custom.EmplyinBreakrulesCustomMapper">
 <!-- *********************************************** -->
 
-	<!-- zwy start -->
-	<!--  <sql id="query_isOnlyManage_where">
-		 如果isManager是true则只查询管理员  否则查询所有用户
-		<if test="isManager!=null and isManager=='true'">
-			and employee_in.departmentid = #{departmentid}
-		</if>
-		<if test="departmentid!=null and isManager!=null and isManager=='false'">
-			and employee_in.departmentid like '${departmentid}%'
-		</if>
-		<if test="departmentId != null and isManager!=null and isManager=='false'">
-			AND employee_in.departmentId like '${departmentId}%'
-		</if>
-	
-	</sql> -->
-	
-
-
 
 	<!-- lixianyuan start -->
 	<!-- 查询部门表的所有信息，用于初始化左侧的部门树 -->
@@ -38,8 +21,8 @@
 		resultType="map">
 		select
 		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,
-	<!-- zwy在这里添加了 employee_in.birthday-->
-		employee_in.phone,employee_in.birthday,
+	<!-- zwy在这里添加了 employee_in.birthday,employee_in.photo,,-->
+		employee_in.phone,employee_in.birthday,employee_in.photo,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
 		from emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
@@ -111,8 +94,8 @@
 	<select id="initPageDate" parameterType="map" resultType="map">
 		select
 		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,
-		<!-- zwy添加的employee_in.birthday, -->
-		employee_in.phone,employee_in.birthday,
+		<!-- zwy添加的employee_in.birthday,employee_in.photo, -->
+		employee_in.phone,employee_in.birthday,employee_in.photo,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
 		from emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
@@ -310,8 +293,8 @@
 		resultType="map">
 		select
 		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,
-		<!-- zwy添加的employee_in.birthday, -->
-		employee_in.phone,employee_in.birthday,
+		<!-- zwy添加的employee_in.birthday,employee_in.photo, -->
+		employee_in.phone,employee_in.birthday,employee_in.photo,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
 		from emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
@@ -373,8 +356,8 @@
 	<select id="leftTreeAndConditionMsg" parameterType="map" resultType="map">
 		select
 		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,
-		<!-- zwy添加的employee_in.birthday, -->
-		employee_in.phone,employee_in.birthday,
+		<!-- zwy添加的employee_in.birthday,employee_in.photo, -->
+		employee_in.phone,employee_in.birthday,employee_in.photo,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
 		from emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
@@ -541,8 +524,8 @@
 		resultType="map">
 		select
 		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,
-		<!-- zwy添加的employee_in.birthday, -->
-		employee_in.phone,employee_in.birthday,
+		<!-- zwy添加的employee_in.birthday, employee_in.photo,-->
+		employee_in.phone,employee_in.birthday,employee_in.photo,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
 		from emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
@@ -661,8 +644,8 @@
 		resultType="map">
 		select
 		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,
-		<!-- zwy添加的employee_in.birthday, -->
-		employee_in.phone,employee_in.birthday,
+		<!-- zwy添加的employee_in.birthday, employee_in.photo,-->
+		employee_in.phone,employee_in.birthday,employee_in.photo,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
 		from emplyin_breakrules
 		where emplyin_breakrules.empInEmployeeId =
