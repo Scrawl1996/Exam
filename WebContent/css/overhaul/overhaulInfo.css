@@ -4,10 +4,10 @@
         }
 
         #overhaulInfo {
-            width: 90%;
-            margin: 20px 5%;
+            width: 94%;
+            margin: 20px 3%;
         }
-         #overhaulInfo table{
+          #overhaulInfo table{
             width:100%;
             font-size:13px;
         }
@@ -16,15 +16,15 @@
             border: 1px solid rgb(245, 245, 245);
             height: 35px;
             line-height: 35px;
-        }
-        #overhaulInfo tr:last-child {
+        } 
+      /*   #overhaulInfo tr:last-child {
             height:80px;
-        }
-        #overhaulInfo tr:last-child th{
+        } */
+       /*  #overhaulInfo tr:last-child th{
             line-height:80px;
-        }
+        } */
 
-        #overhaulInfo th {
+         #overhaulInfo th {
             border: 1px solid rgb(245, 245, 245);
             background-color:#ddd;
             text-align: center;
@@ -34,7 +34,7 @@
         #overhaulInfo td {
             border: 1px solid rgb(245, 245, 245);
             text-align: center;
-        }
+        } 
          /* #overhaulInfo ul{
 		 	width:80%;
 		 	margin-left:10%;

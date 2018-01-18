@@ -10,7 +10,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>外来员工与外来员工违章管理合并之后的</title>
+
+<title>短委员工管理</title>
+
 
 <%@ include file="/public/cssJs.jsp"%>
 
@@ -119,6 +121,7 @@ hasOperatingEmpout = true;
 	    border-left: 1px solid #ccc;
 	}
 </style>
+
 
 </head>
 <body>
@@ -305,7 +308,9 @@ hasOperatingEmpout = true;
 
 							<!--显示内容-->
 							<h3 class="el_mainHead">外来单位员工信息</h3>
+
 							<div class="panel panel-default el_Mainmain" >
+
 
 								<!--按钮面板-->
 								<div class="panel-body">
@@ -314,26 +319,41 @@ hasOperatingEmpout = true;
 									<div class="panel panel-default">
 										<div class="panel-body el_MainxiaoMain">
 
-											<div class="el_topButton">
-												<shiro:hasPermission name="empout:add">
+											<div class="el_topButton row">
+												<!-- 新添加的违章信息、当前违章、历史违章 -->
+												<div class="el_topButton">
+												<!-- 按钮触发模态框1 -->
+												   <div class="col-md-8">
+												   <shiro:hasPermission name="empout:add">
 													<button class="btn btn-primary" onclick="el_addEmp()">
 														添加员工</button>
 												</shiro:hasPermission>
-												<button class="btn btn-primary" id="el_lookTrainDocument"
-													onclick="el_empTrainDoc()">查看员工培训档案</button>	
-												<shiro:hasPermission name="outempbreak:add"> 
+											
+
+												   		<button class="btn btn-primary" id="el_lookTrainDocument"
+													onclick="el_empTrainDoc()">查看员工培训档案</button>
+												   
+												      <shiro:hasPermission name="outempbreak:add">
 													     <button id="el_addBreakRules" class="btn btn-primary"
 														 onclick="el_addBreakInfo()">添加违章信息</button>
-												</shiro:hasPermission> 													
+														</shiro:hasPermission>
+													
+
 												    <select class="btn btn-primary" id="el_breakType"
 														title="请选择" onchange="historyBreakInfoFind2()">														
 														<option value="0">当前违章</option>
 														<option value="1">历史违章</option>
-													</select>																							
+
+													</select>
+												    </div>
+												</div>
+
 											</div>
 										</div>
 									</div>
-								
+	
+							<!-- 添加违章信息的模态框开始 -->
+
 							<!-- 模态框 违章信息添加-->
 							<div class="modal fade" id="el_addBreakInfo" tabindex="-1" data-backdrop="static" data-keyboard="false"
 								role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -475,7 +495,7 @@ hasOperatingEmpout = true;
 												<th>违章积分</th> 
 												<th>黑名单状态</th>
 												<!-- <th>考试情况</th> -->
-												<th width="200">操作</th>
+												<th>操作</th>
 											</tr>
 										</thead>
 										<tbody id="employeeOutBaseInfoList">
@@ -696,6 +716,7 @@ hasOperatingEmpout = true;
 										</div>
 										<form>
 											<div class="modal-body" style="padding: 10px 30px 0 30px;">
+
 																								
 												<div class="input-group el_empPhoto" role="toolbar"
 													style="height: 127px;">
