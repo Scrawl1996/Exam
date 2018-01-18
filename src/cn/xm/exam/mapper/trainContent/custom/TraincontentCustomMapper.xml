@@ -17,6 +17,9 @@
 			<if test="level!=null  &amp;&amp; level!='' &amp;&amp; level!='-请选择-'  ">
 				and level = #{level}
 			</if>
+			<if test="departmentId!=null  &amp;&amp; departmentId!=''">
+				and departmentId like '${departmentId}%'
+			</if>
 			<if
 				test="knowledgeType!=null &amp;&amp; knowledgeType!='' &amp;&amp; knowledgeType!='-请选择-'  ">
 				and knowledgeType = #{knowledgeType}

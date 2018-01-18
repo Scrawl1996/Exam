@@ -112,58 +112,34 @@ label.success {
 					<!--添加考试基本内容-->
 					<div class="row el_addContent">
 
-						<h3 class="el_mainHead">检修项目详细信息</h3>
+						<h2 class="el_mainHead">检修项目详细信息</h2>
 
 						<!-- 隐藏检修ID -->
 						<input type="hidden" id="hauid" value="${haulId}" />
 						<!-- 大修详细信息 -->
 						<div id="overhaulInfo">
-							<span class="sdf">基本信息</span>
+							<span class="sdf"><b>检修基本信息</b></span>
 							<table>
+<!-- 							<table class="table table-hover table-bordered"> -->
+								<thead>
+									<tr>
+										<th>检修名称</th>
+										<th>时间</th>
+										<th>状态</th>
+										<th>简介</th>
+									</tr>
+								</thead>
 								<tr>
-									<th>时间：</th>
-									<td id="haulTime"></td>
-									<th>检修名称：</th>
 									<td id="haulName"></td>
-									<th>状态：</th>
+									<td id="haulTime"></td>
 									<td id="haulStatus"></td>
-								</tr>
-								<tr>
-									<th>简介：</th>
-									<td id="haulDesc" colspan="5"></td>
+									<td id="haulDesc"></td>
 								</tr>
 							</table>
-							<!-- <ul>
-								<li class="line-first"><span>●</span>&nbsp;时间：<span
-									id="haulTime"></span></li>
-								<li class="title"><span class="title-center">大修名称：<span
-										id="haulName"></span></span></li>
-								<li class="el_info">状态：<span id="haulStatus"></span></li>
-								<li class="el_info">简介：<span id="haulDesc"></span></li>
-							</ul> -->
-
-							<!-- <table>
-								<tbody>
-									<tr>
-										<th>大修名称</th>
-										<td colspan="3" id="haulName"></td>
-									</tr>
-									<tr>
-										<th>大修时间</th>
-										<td width="40%" id="haulTime"></td>
-										<th>状态</th>
-										<td id="haulStatus"></td>
-									</tr>
-									<tr>
-										<th>大修简介</th>
-										<td colspan="3" id="haulDesc"></td>
-									</tr>
-								</tbody>
-							</table> -->
 						</div>
 						<!--分割线 -->
 						<hr></hr>
-						<span class="sdf" style="margin-left: 40px;">参加单位信息</span> <br />
+						<span class="sdf" style="margin-left: 40px;"><b>参加单位信息</b></span> <br />
 						<br />
 
 						<div>
@@ -197,26 +173,29 @@ label.success {
 										</div>
 									</div>
 
+									<div class="col-md-3 el_qlmQuery">
+										<div class="input-group" role="toolbar">
+											<span class="el_spans">项目名称：</span> <input type="text"
+												class="form-control" name="projectName" id="projectName" />
+										</div>
+									</div>
+
+
+								</div>
+
+
+								<div class="row">
 									<div class="col-md-4 el_qlmQuery" id="el_breakTimeIndex">
 										<div class="input-group" id="el_startEndTime" role="toolbar">
 											<span class="el_spans">违章时间：</span> <input type="text"
-												class=" form-control query_dep_starttime" name="fstarttime"
+												class="form-control query_dep_starttime" name="fstarttime"
 												placeholder="开始时间" id="inpstart2" readonly> <input
 												type="text" class=" form-control query_dep_endtime"
 												id="inpend2" placeholder="结束时间" name="fendtime" readonly>
 										</div>
 									</div>
-								</div>
-
-
-								<div class="row">
-									<div class="col-md-3 el_qlmQuery">
-										<div class="input-group" role="toolbar">
-											<span class="el_spans">项目名称：</span> <input type="text"
-												class="form-control" name="projectName"  id="projectName"/>
-										</div>
-									</div>
-									<div class="el_qlmQuery" style="margin-left: 500px;text-align: right;">
+									<div class="el_qlmQuery"
+										style="margin-left: 500px; text-align: right;">
 										<!--提交查询按钮-->
 										<button type="button" id="queryHualunitBtn"
 											class="btns btn-primary  btn-sm">查询</button>

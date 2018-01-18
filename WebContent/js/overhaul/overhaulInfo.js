@@ -229,7 +229,10 @@ function updateUnit() {
 					if (response != null && response.updateResult != null) {
 						alert(response.updateResult);
 						if (response.updateResult == '修改成功!') {
-							window.location.reload();
+							//0.关闭模态框1.清空查询条件2.查询数据库
+							$("#myModal2").modal("hide");
+							$('#queryHaulunitForm')[0].reset();
+							queryHaulUnit();
 						}
 					}
 				}, 'json')
@@ -411,7 +414,10 @@ function deleteSubmit() {
 				if (response != null && response.deleteResult != null) {
 					alert(response.deleteResult);
 					if (response.deleteResult == '删除成功!') {
-						window.location.reload();
+						//0.关闭模态框1.清空查询条件2.查询数据库
+						$("#delcfmModel").modal("hide");
+						$('#queryHaulunitForm')[0].reset();
+						queryHaulUnit();
 					}
 				}
 			}, 'json');
@@ -419,7 +425,7 @@ function deleteSubmit() {
 /** ****E 删除检修单位********* */
 /** ******S 模态框中操作以及保存单位******************** */
 function addUnit() {
-	//		获取到检修项目名字并赋值给文本框
+	//获取到检修项目名字并赋值给文本框
 	$("#bigname").val($("#haulName").html());
 	/* 给模态框中，添加默认部门 */
 	$(".addUnitInput").val("");// 打开模态框的时候清除残留数据
@@ -572,7 +578,10 @@ function saveUnit() {
 						// 添加成功之后重新加载页面
 						if (response.addResult != null
 								&& response.addResult == "添加成功!") {
-							window.location.reload();
+							//0.关闭模态框1.清空查询条件2.查询数据库
+							$("#myModal").modal("hide");
+							$('#queryHaulunitForm')[0].reset();
+							queryHaulUnit();
 						}
 					}, 'json')
 		}
