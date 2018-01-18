@@ -312,7 +312,7 @@
 
                                 <div class="input-group el_modellist" role="toolbar">
                                     <span class="el_spans">创&nbsp;&nbsp;建&nbsp;人：</span>
-                                    <input type="text" class="form-control el_modelinput" name="employeename" id="update_employeeName"/>
+                                    <input type="text" class="form-control el_modelinput" readonly name="employeename" id="update_employeeName"/>
                                 </div>
 
                                 <div class="input-group el_modellist" role="toolbar">
