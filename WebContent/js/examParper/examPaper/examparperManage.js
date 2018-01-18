@@ -72,15 +72,14 @@ function showTable(data) {
 								+ papers[i].employeename
 								+ "</td><td>"
 								+ papers[i].maketime
-								+ "</td><td>"
-								+ "<a href='javascript:void(0)' onclick='updatePaper(\""
+								+ "</td><td>"+
+								"<a title='预览试卷' href='"+ contextPath+ "/findPaper_findPaperAllInfoById.action?paperId="
+									+ papers[i].paperid + "'><span class='glyphicon glyphicon-search'></span></a>"
+								+ "<a title='修改试卷' href='javascript:void(0)' onclick='updatePaper(\""
 								+ papers[i].paperid
-								+ "\")'>修改</a><a href='javascript:void(0)' onclick='deletePaper(\""
+								+ "\")'><span class='glyphicon glyphicon-pencil'></span></a><a title='删除试卷' href='javascript:void(0)' onclick='deletePaper(\""
 								+ papers[i].paperid
-								+ "\")'>删除</a><a href='"
-								+ contextPath
-								+ "/findPaper_findPaperAllInfoById.action?paperId="
-								+ papers[i].paperid + "'>试卷预览</a>"
+								+ "\")'><span class='glyphicon glyphicon-trash'></span></a>"
 								+ "</td></tr>");
 	}
 	/**

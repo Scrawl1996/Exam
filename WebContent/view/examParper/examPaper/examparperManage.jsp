@@ -97,7 +97,7 @@
 												<!-- 按钮触发模态框1-->
 												<a
 													href="<%=path%>/view/examParper/examPaper/createExamParper.jsp">
-													<button class="btn btn-primary">创建试卷</button>
+													<button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>创建试卷</button>
 												</a>
 												<%-- <a href="<%=path%>/view/examParper/releaseExam.jsp">
 													<button type="button" class="btn btn-primary">发布考试</button>

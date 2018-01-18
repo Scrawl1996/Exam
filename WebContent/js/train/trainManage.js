@@ -497,9 +497,9 @@ function btnFindFy() {
 				tdStr += "<td>"	+ employeename+ "</td>";
 				//
 				tdStr += "<td>";
-				tdStr += "<a href='${pageContext.request.contextPath}/train_modifyButton.action?trainContentId="+ documentid+ "'"+ ">修改</a>"
-				tdStr += "<a href='javascript:void(0)' class='el_delButton' onClick='delcfm(this)'>删除</a>";
-				tdStr += "<a href='${pageContext.request.contextPath}/train_findDetail.action?trainContentId="+ documentid+ "'"	+ ">查看详情</a>"
+				tdStr += "<a title='查看详情' href='${pageContext.request.contextPath}/train_findDetail.action?trainContentId="+ documentid+ "'"	+ "><span class='glyphicon glyphicon-search'></span></a>"
+				tdStr += "<a title='修改信息' href='${pageContext.request.contextPath}/train_modifyButton.action?trainContentId="+ documentid+ "'"+ "><span class='glyphicon glyphicon-pencil'></span></a>"
+				tdStr += "<a href='javascript:void(0)' class='el_delButton' onClick='delcfm(this)' title='删除培训资料'><span class='glyphicon glyphicon-trash'></span></a>";
 				tdStr += "</td>";
 				//
 				tdStr += "</tr>";

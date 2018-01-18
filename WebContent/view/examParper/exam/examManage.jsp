@@ -157,7 +157,7 @@
 												<!-- 按钮触发模态框1-->
 												<div class="col-md-2">
 													<a href="<%=path%>/view/examParper/exam/addExam.jsp">
-														<button class="btn btn-primary">创建考试</button>
+														<button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>创建考试</button>
 													</a>
 												</div>
 											</div>

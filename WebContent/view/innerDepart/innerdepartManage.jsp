@@ -149,7 +149,7 @@
 												<div class="col-md-5">
 													<shiro:hasPermission name="department:add">
 														<button class="btn btn-primary"
-															onclick="el_addDepartment()">添加部门</button>
+															onclick="el_addDepartment()"><span class="glyphicon glyphicon-plus"></span>添加部门</button>
 													</shiro:hasPermission>
 													<select class="btn btn-primary" id="el_departType" title="请选择" onchange="queryDepartIn()">
 				                                        <option value="0">内部部门</option>

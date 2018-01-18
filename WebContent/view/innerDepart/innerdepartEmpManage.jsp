@@ -352,7 +352,7 @@ hasOperatingEmpin = true;
 												<!-- 在模态框中添加 -->
 												<shiro:hasPermission name="empin:add">
 													<a id="el_addUserA" onclick="el_addEmployeeIn()">
-														<button class="btn btn-primary">添加员工</button>
+														<button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>添加员工</button>
 													</a>
 												</shiro:hasPermission>
 												
