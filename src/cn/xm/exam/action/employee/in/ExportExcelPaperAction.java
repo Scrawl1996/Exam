@@ -100,10 +100,16 @@ public class ExportExcelPaperAction extends ActionSupport {
 
 		return myexam;
 	}
-
+	
 	// 2.写入Excel
 	public boolean writeExamEmployees2Excel(List<Map<String, Object>> exams, String fileName) throws Exception {
-
+		
+		/****ll start****/
+		//导出图片操作
+		String path = ResourcesUtil.getValue("path", "photo");
+		String filepath = path + "\\" + idcode + ".jpg";
+		/****ll end****/
+		
 		EmployeeIn employeeIn = employeeInService.getEmployeeInByIdcode(idcode);
 		System.out.println("employeeIn" + employeeIn);
 		System.out.println("employeeIn.getSex()" + employeeIn.getSex());

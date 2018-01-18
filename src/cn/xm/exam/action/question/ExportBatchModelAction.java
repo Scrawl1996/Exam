@@ -12,9 +12,11 @@ import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * 
- * 项目名称：Exam 类名称：ExportBatchModelAction 类描述： 导出试题批量导入模版 创建人：Leilong
+ * 项目名称：Exam
+ * 类名称：ExportBatchModelAction
+ * 类描述： 导出试题批量导入模版 
+ * 创建人：Leilong
  * 创建时间：2017年11月22日 上午3:18:24
- * 
  * @version
  * 
  */
