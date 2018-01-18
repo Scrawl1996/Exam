@@ -110,7 +110,7 @@ label.success {
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>外来单位管理</span><span>>外来单位黑名单管理</span>
+						<span>人员管理</span><span>>短委员工管理</span><span>>黑名单单位管理</span>
 					</div>
 
 					<div class="el_main">
@@ -131,7 +131,7 @@ label.success {
 											<div class="el_topButton">
 												<shiro:hasPermission name="blackunit:add">
 													<button class="btn btn-primary" data-toggle="modal" data-target="#myModal" >
-														拉黑违章单位</button>
+														<span class="glyphicon glyphicon-plus"></span>添加单位</button>
 												</shiro:hasPermission>
 											</div>
 

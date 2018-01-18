@@ -23,8 +23,8 @@
 </head>
 <body>
 	<!-- 缩进菜单的图标 -->
-		<a style="position: fixed; left: 6px; bottom: 50px; width: 40px;border:none;"
-		title="点此隐藏菜单栏" id="toggleMenu" ><span class="glyphicon glyphicon-arrow-left"
+		<a style="position: fixed; left: 6px; bottom: 50px; width: 40px;border:none;color:rgb(51,122,183);"
+		title="点此隐藏菜单栏" id="toggleMenu"><span class="glyphicon glyphicon-arrow-left"
 		></span></a>
 
 	<footer class="footer">

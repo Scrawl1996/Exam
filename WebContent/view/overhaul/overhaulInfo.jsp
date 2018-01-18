@@ -227,7 +227,7 @@ label.success {
 												添加员工</button> --%>
 											<shiro:hasPermission name="outunit:add">
 												<a href=javascript:void(0) onclick="addUnit()">
-													<button class="btn btn-primary btn-sm">添加单位</button>
+													<button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span>添加单位</button>
 												</a>
 											</shiro:hasPermission>
 										</c:if>

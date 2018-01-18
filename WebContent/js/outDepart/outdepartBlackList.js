@@ -86,8 +86,8 @@ function showUnitTale(response) {
 		// 先列出所有的操作
 		var delUpdate="--";
 			if(hasBlackUnitOperating){
-				delUpdate='<a href="javascript:void(0)" onclick="openUpdateModal(this)">修改</a>&nbsp;'
-					+ ' <a href="javascript:void(0)" onclick="deleteUnit(this)">删除</a><br />';
+				delUpdate='<a href="javascript:void(0)" onclick="openUpdateModal(this)" title="修改信息"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;'
+					+ ' <a href="javascript:void(0)" onclick="deleteUnit(this)" title="删除此单位"><span class="glyphicon glyphicon-trash"></span></a><br />';
 			}
 			
 		$("#blackUnitListInfo")

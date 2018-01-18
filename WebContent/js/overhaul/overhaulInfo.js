@@ -72,8 +72,8 @@ function showUnitTale(response) {
 		// 先列出所有的操作
 		var delUpdate = "--";
 		if (hasOutunitOperating) {
-			delUpdate = '<a href="javascript:void(0)" onclick="openUpdateModal(this)">修改</a>&nbsp;'
-					+ ' <a href="javascript:void(0)" onclick="deleteUnit(this)">删除</a><br />';
+			delUpdate = '<a href="javascript:void(0)" onclick="openUpdateModal(this)" title="修改单位信息"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;'
+					+ ' <a href="javascript:void(0)" onclick="deleteUnit(this)" title="删除单位"><span class="glyphicon glyphicon-trash"></span></a><br />';
 		}
 
 		// 如果大修已经结束就把操作隐藏掉
