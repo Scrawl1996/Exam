@@ -182,7 +182,7 @@ var successList = function List(result) {
 				+ departments[i].jiaquan + "</td><td>";
 		// 有删除修改权限就显示连接
 		if (hasOperatingDepart) {
-			str += '<a onclick="updateDepartment(this)" class="el_delButton">修改</a>&nbsp;';
+			str += '<a onclick="updateDepartment(this)" class="el_delButton" title="修改部门信息"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;';
 		} else {
 			str += "-";
 		}
@@ -205,7 +205,7 @@ var successList = function List(result) {
 				+ departments[i].departmenttype + "'/>";
 		// 有删除修改权限就显示连接
 		if (hasOperatingDepart) {
-			str += "<a class='el_delButton' onclick='deleteDepartment(this)' >删除</a>";
+			str += "<a class='el_delButton' onclick='deleteDepartment(this)' title='删除部门'><span class='glyphicon glyphicon-trash'></span></a>";
 		} else {
 			str += "-";
 		}

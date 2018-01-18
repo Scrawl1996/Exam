@@ -166,7 +166,7 @@
 										<div class="panel-body el_MainxiaoMain">
 											<div class="el_topButton">
 												<a href="addTrainFile.jsp">
-													<button class="btn btn-primary">增加培训资料</button>
+													<button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>增加培训资料</button>
 												</a>
 
 												<button type="button" class="btn btn-primary"
