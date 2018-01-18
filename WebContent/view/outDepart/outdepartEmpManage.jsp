@@ -10,13 +10,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>外来员工管理</title>
+<title>外来员工与外来员工违章管理合并之后的</title>
 
 <%@ include file="/public/cssJs.jsp"%>
 
 <link rel="stylesheet" href="<%=path%>/css/outDepart/outdepartTree.css">
 
-<script src="<%=path%>/js/outDepart/outdepartEmpManage.js"></script>
+<script src="<%=path%>/js/outDepart/outdepartEmpAndBreakRulesInfoManager.js"></script>
 <link rel="stylesheet"
 	href="<%=path%>/css/outDepart/outdepartEmpManage.css">
 <!-- 日期格式转换 -->
@@ -27,6 +27,11 @@
 <script src="<%=path%>/js/outDepart/baseISSOnline.js"></script>
 <script src="<%=path%>/js/outDepart/common.js"></script>
 <script src="<%=path%>/js/outDepart/jquery.jBox-2.3.min.js"></script>
+
+<!--验证-->
+<script	src="${pageContext.request.contextPath }/controls/validate/jquery.validate.js"></script>
+<script src="${pageContext.request.contextPath }/controls/validate/messages_zh.js"></script>
+
 <script>
 	//定义一个全局变量
 	var basePathUrl = "${pageContext.request.contextPath}";
@@ -37,12 +42,118 @@
 hasOperatingEmpout = true;
 </script>
 </shiro:hasPermission>
+
+<!-- 设置一个JS全局变量记录项目名字 -->
+<script type="text/javascript">
+	var contextPath = "${pageContext.request.contextPath}";
+</script>
+
+<script>
+
+	$(function() {
+
+		$("#inpstart2").jeDate({
+		    isinitVal:false,
+		    minDate: '2000-06-16',
+		    maxDate: '2225-06-16',
+		    format : 'YYYY-MM-DD',
+		    zIndex:3000
+		})
+
+		$("#inpend2").jeDate({
+		    isinitVal:false,
+		    minDate: '2000-06-16',
+		    maxDate: '2225-06-16',
+		    format : 'YYYY-MM-DD',
+		    zIndex:3000
+		})
+	})
+</script>
+<style>
+	#el_breakType {
+		font-size: 13px;
+	}
+	.el_Mainmain {
+    	padding-bottom: 0px;
+    	top: 1px;
+	}
+	.el_mainHead {
+		border-bottom: 0px solid #ddd;
+	}
+	.el_threeScoreList {
+	    width: 500px;
+	    margin: -10px auto;
+	    margin-bottom: 20px;
+	    height: 160px;
+	    
+	    margin-top: 10px;
+	    margin-left: 70px;
+	    margin-bottom: 0px;
+	     
+	}
+	.el_threeScoreList table {
+	    width: 100%;
+	    font-size:13px;
+	}
+	
+	.el_threeScoreList table caption {
+	    font-size: 16px;
+	    margin: 0;
+	}
+	
+	.el_threeScoreList table tr {
+	    border: 1px solid #ccc;
+	    width: 100%;
+	    height: 30px;
+	    line-height: 30px;
+	}
+	
+	.el_threeScoreList table tr td {
+   	    padding: 5px;
+	}
+	
+	.el_threeScoreList table tr td:nth-child(odd) {
+	    background-color: #eee;
+	    width: 20%;
+	    text-align: center;
+	    border-left: 1px solid #ccc;
+	}
+</style>
+
 </head>
 <body>
-
+	<!-- 用于提交数据的 -->
+	<form id="detailForm" action="${pageContext.request.contextPath}/breakrules_detailOp.action"	method="post">
+		<!-- 违章的开始时间 -->
+		<input type="hidden" name="fstarttime" id="q_starttime">
+		<!-- 违章的结束时间 -->
+		<input	type="hidden" name="fendtime" id="q_endtime">
+		<!-- 姓名 -->
+		<input id="detailName" name="detailName" type="hidden" value="" /> 
+		<!-- 性别 -->
+		<input id="detailSex" name=detailSex type="hidden" value="" /> 
+		<!--身份证  -->
+		<input	id="detailIdCard" name="detailIdCard" type="hidden" value="" />
+		<!-- 单位名称 -->
+		<input id="detailUnitName" name="detailUnitName" type="hidden" value="" />
+		<!-- 职工id -->
+		<input id="detailEmployeeId" name="detailEmployeeId" type="hidden"	value="" />
+		<!-- 参加大修的职工id -->
+		<input id="detailBigEmployeeoutId"	name="detailBigEmployeeoutId" type="hidden" value="" /> 
+		
+		<!-- 隐藏违章信息类型 是历史的还是当前的，默认是当前的-->
+		<input id="detail_breakInfoType" name="empBreakInfoType" type="hidden" value="0" />	
+	</form>
+	
+	
 	<!--头-->
 	<jsp:include page="/view/public/header.jsp"></jsp:include>
 
+	<!-- 隐藏域 start-->
+		<!-- 隐藏一个添加前的违章总积分 -->
+		<input id="beforeBreakScore" type="hidden" value="" />
+	
+	<!-- 隐藏域  end -->
 	<!--中部-->
 	<div class="html_middle">
 
@@ -151,18 +262,22 @@ hasOperatingEmpout = true;
 												</select>
 											</div>
 										</div>
+										
 									</div>
-									<!-- <div class="row el_queryBoxrow">
-										<div class="col-md-3 el_qlmQuery">
-											<div class="input-group" role="toolbar">
-												<span class="el_spans">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：</span>
-												<select class="selectpicker form-control" title="请选择"
-													name="employeeType" id="query_empType">
-
-												</select>
+									<!-- 新添加的违章时间 -->
+									<div class="row el_queryBoxrow">
+										<div class="col-md-6" id="el_breakTimeIndex" style="right:-9px;">
+											<div class="input-group" id="el_startEndTime" role="toolbar">
+												<span class="el_spans">违章时间：</span> 
+												<input type="text"
+													class=" form-control query_dep_starttime" name="fstarttime"
+													id="inpstart2" placeholder="开始时间" value="" readonly> 
+												<input type="text"
+													class="form-control query_dep_endtime" id="inpend2" 
+													name="fendtime" placeholder="结束时间" value="" readonly>
 											</div>
 										</div>
-									</div> -->
+									</div>									
 									<!-- 隐藏部门ID和大修ID -->
 									<input type="hidden" name="unitId" id="query_unitId" /> <input
 										type="hidden" name="bigId" id="query_bigId" />
@@ -171,6 +286,11 @@ hasOperatingEmpout = true;
 										type="hidden" name="currentCount" id="currentCount" />
 									<!-- 增加标记外来单位员工管理 -->
 									<input type="hidden" name="markTrainType" value="1"/>
+									
+									<!-- 隐藏违章信息查询类型，默认查询当前年 -->
+									<input id="breakInfo_Type" type="hidden" value="0"
+										name="empBreakInfoType">
+										
 									<!--提交查询按钮-->
 									<button type="button"
 										class="btn btn-primary el_queryButton btn-sm"
@@ -185,7 +305,7 @@ hasOperatingEmpout = true;
 
 							<!--显示内容-->
 							<h3 class="el_mainHead">外来单位员工信息</h3>
-							<div class="panel panel-default el_Mainmain">
+							<div class="panel panel-default el_Mainmain" >
 
 								<!--按钮面板-->
 								<div class="panel-body">
@@ -200,16 +320,145 @@ hasOperatingEmpout = true;
 														添加员工</button>
 												</shiro:hasPermission>
 												<button class="btn btn-primary" id="el_lookTrainDocument"
-													onclick="el_empTrainDoc()">查看员工培训档案</button>
-<%-- 												<shiro:hasPermission name="grademanager:printcard">
-													<button class="btn btn-primary" onclick="el_empCardModel()">
-														生成工作证</button>
-												</shiro:hasPermission> --%>
-
+													onclick="el_empTrainDoc()">查看员工培训档案</button>	
+												<shiro:hasPermission name="outempbreak:add"> 
+													     <button id="el_addBreakRules" class="btn btn-primary"
+														 onclick="el_addBreakInfo()">添加违章信息</button>
+												</shiro:hasPermission> 													
+												    <select class="btn btn-primary" id="el_breakType"
+														title="请选择" onchange="historyBreakInfoFind2()">														
+														<option value="0">当前违章</option>
+														<option value="1">历史违章</option>
+													</select>																							
 											</div>
 										</div>
 									</div>
+								
+							<!-- 模态框 违章信息添加-->
+							<div class="modal fade" id="el_addBreakInfo" tabindex="-1" data-backdrop="static" data-keyboard="false"
+								role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabeld2">添加违章信息</h4>
+										</div>
+										<form id="addForm">
 
+											<div class="modal-body">
+												<span>员工信息：</span>
+												<div class="el_threeScoreList888">
+													<table class="table table-hover table-bordered">
+														<thead>
+															<tr>
+																<th>姓名</th>
+																<th>性别</th>
+																<!--  <td>联系方式</td> -->
+																<th>违章记分</th>
+																<th>所属单位</th>
+																<th>黑名单</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td id="addName">asdf</td>
+																<td id="addSex">asdf</td>
+																<!--  <td id="addPhone">asdf</td> -->
+																<td id="addbreakScore">asdf</td>
+																<td id="addunitName">asdf</td>
+																<td id="addIsBreak">asdf</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+
+												<!-- 隐藏域 隐藏外来职工的id  隐藏域的值要一起提交到后台-->
+												<!-- 隐藏域，隐藏 、职工id、大修外来职工id -->
+												<!-- 职工id -->
+												<input id="addEmployee" type="hidden" value=""
+													name="breakrules.employeeid" />
+												<!-- 参加大修外来职工id -->
+												<input id="addBigHaulEmployeeId" type="hidden" value=""
+													name="breakrules.bigemployeeoutid" />
+												<!-- 隐藏一个单位id -->
+												<input id="addUnitidM" type="hidden" name="addUnitidM"
+													value="" />
+												<!-- 隐藏一个大修id  添加违章信息的时候没用到这个-->
+												<input id="addBigHaulId" type="hidden" name="addHaulBigId"
+													value="" /> 
+												<!-- 隐藏一个职工的违章id 这个在添加违章信息的时候没用到这个-->
+												<input id="addEmpBreakId" type="hidden" name="addempBreakId"
+													value="" />
+												
+
+												<div class="input-group el_modellist" role="toolbar">
+													<span class="el_spans">违章时间：</span> <input type="text"
+														id="test4" class="wicon form-control el_noVlaue"
+														name="breakrules.breaktime" readonly />
+												</div>
+
+												<div class="input-group el_modellist" role="toolbar">
+													<span class="el_spans">违章积分：</span>
+													<!--不得超过12分-->
+													<input id="breakScoreID" type="text"
+														class="form-control el_modelinput"
+														name="breakrules.minusnum" />
+												</div>
+
+												<div class="input-group el_modellist" role="toolbar">
+													<span class="el_spans">违章内容：</span>
+													<textarea id="addBreakContent"
+														class="form-control el_modelinput" rows="3" value=""
+														name="breakrules.breakcontent"></textarea>
+												</div>
+
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+												<button type="button" onclick="addSaveBtn()"
+													class="btn btn-primary">保存</button>
+											</div>
+										</form>
+
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+							<!-- 模态框  用于当前添加的违章积分 大于12分的情况的提示 start-->
+							<div class="modal fade" id="addAlertMsg" data-backdrop="static" data-keyboard="false">
+								<div class="modal-dialog" data-backdrop="static" data-keyboard="false">
+									<div class="modal-content message_align">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">×</span>
+											</button>
+											<h4 class="modal-title">提示</h4>
+										</div>
+										<div class="modal-body">
+											<p>当前添加的违章积分大于等于12，即将永久加入黑名单，是否继续添加？</p>
+										</div>
+										<div class="modal-footer">
+											<input type="hidden" id="url" />
+											<button type="button" class="btn btn-default"
+												data-dismiss="modal">取消</button>
+											<a onclick="addAlertMsgBtn()" class="btn btn-success"
+												data-dismiss="modal">确定</a>
+										</div>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal-dialog -->
+							</div>
+							<!-- /.modal -->
+							<!-- 模态框  用于违当前添加的 章记分>=12分的情况 end-->
+							<!-- 添加违章信息模态框结束 -->
+	
 									<!--表格
                             	内容都提取到json里边
                         -->
@@ -220,10 +469,10 @@ hasOperatingEmpout = true;
 												<th>序号</th>
 												<th>姓名</th>
 												<th>性别</th>
-												<th>身份证</th>
+												<th>出生日期</th>
 												<th>所属单位</th>
 												<th>工种</th>
-												<th>违章积分</th>
+												<th>违章积分</th> 
 												<th>黑名单状态</th>
 												<!-- <th>考试情况</th> -->
 												<th width="200">操作</th>
@@ -432,59 +681,6 @@ hasOperatingEmpout = true;
 								<!-- /.modal -->
 							</div>
 
-
-							<!-- 模态框 生成工作证-->
-							<div class="modal fade" id="el_empCardModel" tabindex="-1"
-								role="dialog" aria-labelledby="myModalLabel23"
-								data-backdrop="static" data-keyboard="false" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
-											<!--关闭符号-->
-											<!--标题-->
-											<h4 class="modal-title" id="myModalLabel23">生成工作证</h4>
-										</div>
-										<form>
-											<div class="modal-body">
-												<span>符合生成工作证的员工</span>
-
-												<div class="el_threeScoreList">
-													<table class="table table-bordered"
-														style="font-size: 13px;">
-														<thead>
-															<tr>
-																<th><input type="checkbox" id="el_checkQuanxuan3" /></th>
-																<th>部门</th>
-																<th>姓名</th>
-																<th>性别</th>
-																<th>工种</th>
-															</tr>
-														</thead>
-														<tbody id="empInfoListForCertificate">
-														</tbody>
-													</table>
-
-													<!--分页-->
-													<div id="paginationID2_xiugai"></div>
-
-												</div>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
-												<button type="button" class="btn btn-primary"
-													onclick="exportEmployeeOutInfo()">导出工作证信息</button>
-											</div>
-										</form>
-
-									</div>
-									<!-- /.modal-content -->
-								</div>
-								<!-- /.modal -->
-							</div>
-
 							<!-- 模态框 查看培训档案-->
 							<div class="modal fade" id="el_empTrainDoc" tabindex="-1"
 								role="dialog" aria-labelledby="myModalLabel23"
@@ -500,26 +696,32 @@ hasOperatingEmpout = true;
 										</div>
 										<form>
 											<div class="modal-body" style="padding: 10px 30px 0 30px;">
-
-												<span class="el_spanDoc">员工信息</span>
-												<div class="el_threeScoreList el_threeScoreList2">
-													<table class="table-bordered table el_threeScoreListTable">
-														<thead>
-															<tr>
-																<th>姓名</th>
-																<th>性别</th>
-																<th>所属单位</th>
-																<th>违章积分</th>
-																<th>黑名单</th>
-															</tr>
-														</thead>
-														<tbody id="employeeOutTrainBaseInfo">
-														</tbody>
-													</table>
+																								
+												<div class="input-group el_empPhoto" role="toolbar"
+													style="height: 127px;">
+													<img id="myimg2" width="95" height="121">
 												</div>
-
-												<span class="el_spanDoc">培训考试信息</span>
 												<div class="el_threeScoreList">
+
+													<table>
+														<caption style="margin-bottom: 20px; margin-top: -10px;">员工信息：</caption>
+														<tr>
+															<td>姓名</td>
+															<td id="trainName"></td>
+															<td>性别</td>
+															<td id="trainSex"></td>
+														</tr>
+														<tr>
+															<td>黑名单</td>
+															<td id="trainBlackInfo"></td>														
+															<td>所属部门</td>
+															<td id="trainUnit"></td>
+														</tr>
+
+
+													</table>
+												</div>													
+												<div>
 													<table
 														class="table table-bordered table-hover el_threeScoreListTable">
 														<thead>
