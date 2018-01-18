@@ -1,4 +1,5 @@
 <%@page import="cn.xm.exam.bean.system.Permission"%>
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>

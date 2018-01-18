@@ -1,7 +1,7 @@
 /**
  * Qlq   2018.1.8将菜单的js抽出去
  */
-/*******************菜单插件部分********************/
+/** *****************菜单插件部分******************* */
 ;
 (function($, window, document, undefined) {
 	if ($('ul.mtree').length) {
@@ -172,51 +172,91 @@ $(document)
 							});
 				});
 
-/***********************菜单折叠部分*********************/
+/** *********************菜单折叠部分******************** */
 $(function() {
 	var u = location.pathname;
 
 	u = u.substring(11, u.length);
 	var fir = u.indexOf("/");
 	var filename = u.substring(0, fir)
-	//		删除class
+	// 删除class
 	$(".mtree-active").removeClass("mtree-active mtree-open");
-	if (filename == "examParper") {
-		$(".mtree").children("li:eq(0)").removeClass("mtree-closed");
-		$(".mtree").children("li:eq(0)").addClass("mtree-active mtree-open");
-		$(".mtree").children("li:eq(0)").find("ul").css({
-			display : "block",
-			height : "auto"
-		});
-	}
-	//获取到当前页面的二根文件夹名称（view下一层的文件夹）
-	/* 
-	 * 根据文件夹名称，展开相应的菜单
-	 * 菜单展开方式是 添加 in 类， 
-	 * 根据获取的file地址。截取view下一次文件夹。根据该文件夹，判断展开内容
-	 */
-	/* 	$(".in").removeClass("in");
-		if (filename == "examParper") {
-			$("#collapse1").addClass("in");
-		} else if (filename == "gradeManage") {
-			$("#collapse3").addClass("in");
-		} else if (filename == "innerDepart") {
-			$("#collapse6").addClass("in");
-		} else if (filename == "outDepart") {
-			$("#collapse4").addClass("in");
-		} else if (filename == "questionLibrary") {
-			$("#collapse2").addClass("in");
-		} else if (filename == "systemManage") {
-			$("#collapse8").addClass("in");
-		} else if (filename == "train") {
-			$("#collapse7").addClass("in");
-		} else if (filename == "overhaul") {
-			$("#collapse5").addClass("in");
-		} else if (filename == "news") {
-			$("#collapse9").addClass("in");
-		} */
+	if (filename == "innerDepart") {
+		// 检索内部的url
+		$(".mtree a").each(
+				function(i) {
+					var url = $(this).prop("href");
+					if (url.toString().indexOf(filename) > 0) {
+						$(this).parents("[class^='mtree-level']").css({
+							display : "block",
+							height : "auto"
+						});
+						$(this).parents(".mtree-node").removeClass("mtree-closed");
+						$(this).parents(".mtree-node").addClass("mtree-open");
+						$(this).parents(".mtree-level-1").children(
+								".mtree-open").addClass("mtree-active");
+					}
 
-	//alert(filename)
+				});
+	} else if (filename == "outDepart") {
+		// 检索内部的url
+		$(".mtree a").each(
+				function(i) {
+					var url = $(this).prop("href");
+					if (url.toString().indexOf(filename) > 0) {
+						$(this).parents("[class^='mtree-level']").css({
+							display : "block",
+							height : "auto"
+						});
+						$(this).parents(".mtree-node").removeClass("mtree-closed");
+						$(this).parents(".mtree-node").addClass("mtree-open");
+						$(this).parents(".mtree-level-1").children(
+								".mtree-open").addClass("mtree-active");
+					}
+
+				});
+	}else{
+		// 检索内部的url
+		$(".mtree a").each(
+				function(i) {
+					var url = $(this).prop("href");
+					if (url.toString().indexOf(filename) > 0) {
+						$(this).parents("[class^='mtree-level']").css({
+							display : "block",
+							height : "auto"
+						});
+						$(this).parents(".mtree-node").removeClass("mtree-closed");
+						$(this).parents(".mtree-node").addClass("mtree-open mtree-active");
+					}
+
+				});
+	}
+	// 如果是内部部门和员工管理
+	/*
+	 * if (filename == "innerDepart") {
+	 * $(".mtree").children("li:eq(0)").removeClass("mtree-closed");
+	 * $(".mtree").children("li:eq(0)").addClass("mtree-active mtree-open");
+	 * $(".mtree").children("li:eq(0)").find("ul").css({ display : "block",
+	 * height : "auto" }); }
+	 */
+	// 获取到当前页面的二根文件夹名称（view下一层的文件夹）
+	/*
+	 * 根据文件夹名称，展开相应的菜单 菜单展开方式是 添加 in 类， 根据获取的file地址。截取view下一次文件夹。根据该文件夹，判断展开内容
+	 */
+	/*
+	 * $(".in").removeClass("in"); if (filename == "examParper") {
+	 * $("#collapse1").addClass("in"); } else if (filename == "gradeManage") {
+	 * $("#collapse3").addClass("in"); } else if (filename == "innerDepart") {
+	 * $("#collapse6").addClass("in"); } else if (filename == "outDepart") {
+	 * $("#collapse4").addClass("in"); } else if (filename == "questionLibrary") {
+	 * $("#collapse2").addClass("in"); } else if (filename == "systemManage") {
+	 * $("#collapse8").addClass("in"); } else if (filename == "train") {
+	 * $("#collapse7").addClass("in"); } else if (filename == "overhaul") {
+	 * $("#collapse5").addClass("in"); } else if (filename == "news") {
+	 * $("#collapse9").addClass("in"); }
+	 */
+
+	// alert(filename)
 	//根据文件夹名称，展开相应的菜单
 	//菜单展开方式是 添加 in 类，
 	//1、有 in 类的 div ，删除 in 类

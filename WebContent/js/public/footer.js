@@ -20,8 +20,12 @@ function toggleMenu() {
 			duration : 1000,
 			complete : function() {
 				$(".el_left").show(1000);
-				//更换图标的src属性
-				$("#toggleMenu").prop("src",contextPath+"/image/show.png");
+				//刪除向左的class属性
+				$("#toggleMenu span").removeClass();
+				//添加向右的class属性
+				$("#toggleMenu span").addClass("glyphicon glyphicon-arrow-left");
+				//更改提示消息
+				$("#toggleMenu").prop("title","点此隐藏菜单栏");
 			}
 		});
 	} else {
@@ -31,8 +35,12 @@ function toggleMenu() {
 			$(".el_right").animate({
 				width : "100%"
 			}, 1000);
-			//更换图标的src属性
-			$("#toggleMenu").prop("src",contextPath+"/image/hide.png");
+			//刪除向左的属性
+			$("#toggleMenu span").removeClass();
+//			添加向右的属性
+			$("#toggleMenu span").addClass("glyphicon glyphicon-arrow-right");
+			//更改提示消息
+			$("#toggleMenu").prop("title","点此显示菜单栏");
 		});
 
 	}
