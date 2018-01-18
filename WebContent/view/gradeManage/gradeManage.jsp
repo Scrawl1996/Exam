@@ -171,7 +171,7 @@
 		                            <th>序号</th>
 		                            <th>考试名称</th>
 		                            <th>考试级别</th>
-		                            <th>部门名称</th>
+		                            <th id="departmentName">部门名称</th>
 		                            <th>考试人数</th>
 		                            <th>及格人数</th>		                            
 		                            <th>考试状态</th>

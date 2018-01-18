@@ -55,7 +55,9 @@ public class ExamEmployeeexamExampaper {
     private Integer countpassperson;
     
     private String departmentid;
-
+    
+    private String exammethod;
+    
     public String getExamid() {
         return examid;
     }
@@ -222,6 +224,14 @@ public class ExamEmployeeexamExampaper {
 
 	public void setDepartmentid(String departmentid) {
 		this.departmentid = departmentid;
+	}
+
+	public String getExammethod() {
+		return exammethod;
+	}
+
+	public void setExammethod(String exammethod) {
+		this.exammethod = exammethod;
 	}
 	
 	

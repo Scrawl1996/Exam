@@ -82,12 +82,15 @@ function showEmployeeBaseInfo(data) {
 				+ "<input class='find_minusnumsum' type='hidden' value='"
 				+ employeeOutBaseInfoList[i].minusNumSum
 				+ "'/>"
+				+ "<input class='find_idCard' type='hidden' value='"
+				+ employeeOutBaseInfoList[i].idCard
+				+ "'/>"
 				+ "</td><td>"
 				+ employeeOutBaseInfoList[i].name
 				+ "</td><td>"
 				+ (employeeOutBaseInfoList[i].sex > 1 ? '女' : '男')
 				+ "</td><td>"
-				+ employeeOutBaseInfoList[i].idCard
+				+ employeeOutBaseInfoList[i].birthday.substring(0,10)
 				+ "</td><td>"
 				+ employeeOutBaseInfoList[i].departmentName
 				+ "</td><td>"
@@ -100,7 +103,7 @@ function showEmployeeBaseInfo(data) {
 			showEmployeeOutBaseInfoList += "<td style='color:red;'>"
 					+ employeeOutBaseInfoList[i].isblackList + "</td><td>";
 		} else if (employeeOutBaseInfoList[i].isInBlackList == '是') {
-			showEmployeeOutBaseInfoList += "<td style='color:blue;'>"
+			showEmployeeOutBaseInfoList += "<td style='color:#FFCC00;'>"
 					+ employeeOutBaseInfoList[i].isblackList + "</td><td>";
 		} else {
 			showEmployeeOutBaseInfoList += "<td>"
@@ -112,7 +115,7 @@ function showEmployeeBaseInfo(data) {
 				+ "</td><td>"
 				+ "<a href='javascript:void(0)' onclick='allInfo(this)'>详细信息</a>&nbsp;";*/
 		//将培训情况字段内容注释掉
-		showEmployeeOutBaseInfoList +="<a href='javascript:void(0)' onclick='allInfo(this)'>详细信息</a>&nbsp;";
+		showEmployeeOutBaseInfoList +="<a href='javascript:void(0)' onclick='allInfo(this)'>详情</a>&nbsp;";
 		if (employeeOutBaseInfoList[i].bigstatus != "已结束" && hasOperatingEmpout) {
 			showEmployeeOutBaseInfoList += "<a href='javascript:void(0)' onclick='el_modifyEmp(this)'>修改</a>&nbsp;"
 					+ "<a class='el_delButton' onClick='delcfm(this)'>删除</a><br />"
@@ -476,7 +479,7 @@ function initEmployeeTypeDic_update(empType) {
 function el_modifyEmp(obj) {
 	var $tds = $(obj).parents("tr").children("td");
 	$("#update_employeeOutName").val($tds.eq(2).text());
-	$("#update_employeeOutIdCard").val($tds.eq(4).text());
+	$("#update_employeeOutIdCard").val($(obj).parents("tr").find(".find_idCard").val());
 	$("#update_departmentName").val($tds.eq(5).text());
 	$("#update_employeeOutSex").val($tds.eq(3).text());
 	var sex = $tds.eq(3).text();
@@ -498,7 +501,7 @@ function el_modifyEmp(obj) {
 	$("#update_employeeOutType").val($tds.eq(6).text());
 	initEmployeeTypeDic_update($tds.eq(6).text());
 	// 向修改表单的隐藏域中设置值
-	$("#updateAndDelete_employeeOutIdCard").val($tds.eq(4).text());
+	$("#updateAndDelete_employeeOutIdCard").val($(obj).parents("tr").find(".find_idCard").val());
 	$("#updateAndDelete_bigId").val(bigId);
 	//大修员工ID
 	var bigEmployeeOutId = $(obj).parents("tr").find(".find_bigEmployeeOutId").val();
@@ -524,83 +527,7 @@ function updateEmployeeOutInfo() {
 	})
 }
 
-/** ***********************************生成工作证的相关操作*********************************** */
 
-/*// 选中一次大修或部门，点击生成工作证按钮执行的操作
-function el_empCardModel() {
-	if (clickBigAndDepTree == 0) {
-		alert("请选择一次大修！");
-	} else {
-		$
-				.ajax({
-					url : "employeeOutPerson_getEmpInfoforCertificate.action",
-					data : {
-						"unitId" : selectedDepartmentID,
-						"bigId" : selectedOverHaulId
-					},
-					type : "post",
-					dataType : "json",
-					success : function(data) {
-						var employeeOutInfoList = data.employeeOutInfoList;
-						var showEmployeeOutInfoList = "";
-						$("#empInfoListForCertificate").empty();
-						for (var i = 0; i < employeeOutInfoList.length; i++) {
-							showEmployeeOutInfoList = "<tr><td><input type='checkbox' class='el_checks3' value='"
-									+ employeeOutInfoList[i].idcard
-									+ "' /></td><td>"
-									+ employeeOutInfoList[i].departmentname
-									+ "</td><td>"
-									+ employeeOutInfoList[i].name
-									+ "</td><td>"
-									+ (employeeOutInfoList[i].sex > 1 ? '女'
-											: '男')
-									+ "</td><td>"
-									+ employeeOutInfoList[i].emptype
-									+ "</td></tr>";
-							$("#empInfoListForCertificate").append(
-									showEmployeeOutInfoList);
-						}
-						// 将全选按钮的值清空
-						$("#el_checkQuanxuan3").prop("checked", false);
-						$('#el_empCardModel').modal();
-					}
-				});
-
-	}
-
-}
-
-// 生成工作证模态框中全选按钮的操作
-$(function() {
-	$("#el_checkQuanxuan3").change(function() {
-		if ($(this).prop("checked") == true) {
-			$(".el_checks3").prop("checked", "true");
-		} else {
-			$(".el_checks3").removeAttr("checked");
-		}
-	})
-})
-
-// 点击导出工作证信息执行的操作
-function exportEmployeeOutInfo() {
-	var checkBoxValue = "";
-	var test = $(".el_checks3:checked");
-	test.each(function() {
-		checkBoxValue += $(this).val() + ",";
-	})
-	checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
-	if (checkBoxValue.length > 0) {
-		window.location.href = "exportEmpInfo_findEmployeeOutInfosToExport.action?unitId="
-				+ selectedDepartmentID
-				+ "&bigId="
-				+ selectedOverHaulId
-				+ "&employeeOutIds=" + checkBoxValue;
-		$('#el_empCardModel').modal('hide');
-	} else {
-		alert("请选择要需要生成工作证的员工！");
-	}
-}
-*/
 /** *********************外来单位的员工的培训档案********************* */
 function el_empTrainDoc() {
 	if ($(".el_checks:checked").length == "0") {
@@ -608,13 +535,15 @@ function el_empTrainDoc() {
 	} else {
 
 		var $tds = $(".el_checks:checked").parents("tr").children("td");
-		var showEmployeeOutTrainBaseInfo = "<tr><td>" + $tds.eq(2).text()
-				+ "</td><td>"
-				+ $tds.eq(3).text() + "</td><td>" + $tds.eq(5).text()
-				+ "</td>" +"<td>" + $tds.eq(8).text() + "</td></tr>";//去掉了<td>" + $tds.eq(7).text() + "</td>违章积分
-		var employeeOutIdCard = $tds.eq(4).text()
-		$("#employeeOutTrainBaseInfo").empty();
-		$("#employeeOutTrainBaseInfo").append(showEmployeeOutTrainBaseInfo);
+		$("#trainName").text( $tds.eq(2).text());
+		$("#trainSex").text( $tds.eq(3).text());
+		$("#trainBlackInfo").text( $tds.eq(8).text());
+		$("#trainUnit").text( $tds.eq(5).text());
+		var employeeOutPhoto = $(".el_checks:checked").parents("tr").find(".find_employeeOutPhoto")
+		.val();
+		$("#myimg2").prop("src",employeeOutPhoto);
+		
+		var employeeOutIdCard = $(".el_checks:checked").parents("tr").find(".find_idCard").val();		
 		// 分页显示员工的培训档案
 		showEmployeeOutExamsInfoList(employeeOutIdCard, 1, 8);
 	}
@@ -721,7 +650,7 @@ function showEmployeeOutExamsInfoAllList(employeeOutIdCard) {
 function delcfm(obj) {
 	var $tds = $(obj).parents("tr").children("td");
 	// 向修改表单的隐藏域中设置值
-	$("#updateAndDelete_employeeOutIdCard").val($tds.eq(4).text());
+	$("#updateAndDelete_employeeOutIdCard").val($(obj).parents("tr").find(".find_idCard").val());
 	var bigId = $(obj).parents("tr").find(".find_bigId").val();
 	$("#updateAndDelete_bigId").val(bigId);
 	//大修员工ID
@@ -753,7 +682,7 @@ function allInfo(obj) {
 	var $tds = $(obj).parents("tr").children("td");
 	$("#details_employeeOutName").text($tds.eq(2).text());
 	$("#details_employeeOutSex").text($tds.eq(3).text());
-	$("#details_employeeOutIdCard").text($tds.eq(4).text());
+	$("#details_employeeOutIdCard").text($(obj).parents("tr").find(".find_idCard").val());
 	$("#details_employeeOutIsBlack").text($tds.eq(8).text());
 	//$("#details_employeeOutTrainStatus").text($tds.eq(9).text());
 	$("#details_departmentName").text($tds.eq(5).text());
@@ -782,7 +711,6 @@ function el_breakRulesCase(obj){
 	var $input = $tr.eq(1).children("input");
 	//alert("员工id"+$input.eq(2).val())//职工id
 	//alert("员工id"+$input.eq(3).val())//参加大修的职工id
-	
 	//跳转到显示违章信息的详情页面
 	//违章的开始时间 -->
 	$("#q_starttime").val($(".query_dep_starttime").val());
@@ -794,7 +722,7 @@ function el_breakRulesCase(obj){
 	//性别 -->
 	$("#detailSex").val($tr.eq(3).text());
 	//身份证  -->
-	$("#detailIdCard").val($tr.eq(4).text());
+	$("#detailIdCard").val($input.eq(7).val());
 	//单位名称 -->
 	$("#detailUnitName").val($tr.eq(5).text());
 	//职工id -->

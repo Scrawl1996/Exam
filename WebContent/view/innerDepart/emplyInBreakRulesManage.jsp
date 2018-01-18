@@ -18,18 +18,6 @@
 <script type="text/javascript">
 	var contextPath = "${pageContext.request.contextPath}";
 </script>
-<!--分页-->
-<script>
-	
-</script>
-
-<!-- 点击左边的树之后的分页查询 -->
-<script type="text/javascript">
-	
-</script>
-
-
-<!--左边的树-->
 
 <script src="<%=path%>/js/innerDepart/emplyInBreakRulesManage.js"></script>
 <link rel="stylesheet" href="<%=path%>/css/outDepart/outdepartTree.css">
@@ -63,10 +51,7 @@
 
 	})
 </script>
-<!-- 与左边的树绑定之后的点击查询按钮的点击事件  未点击黑名单  和点击了黑名单的情况 -->
-<script type="text/javascript">
-	
-</script>
+
 <!-- ------------员工引入的---------- -->
 
 
@@ -114,9 +99,8 @@ hasOperatingEmpin = true;
 	font-size: 13px;
 }
 
-#el_breakType option {
-	background-color: white;
-	color: black;
+.el_topButton {  
+    margin-top: 10px;
 }
 </style>
 </head>
@@ -422,17 +406,7 @@ hasOperatingEmpin = true;
 									<!--表格    内容都提取到json里边             -->
 									<table class="table table-hover table-bordered">
 										<thead>
-											<tr>
-												<!-- <th>选择</th>
-												<th>姓名</th>
-												<th>性别</th>
-												<th>身份证</th>
-												<th>违章积分</th>
-												<th>黑名单状态</th>
-												<th>所属单位</th>
-												<th>职务</th> -->
-												
-												
+											<tr>											
 												<th>选择</th>
 												<th>姓名</th>
 												<th>性别</th>
@@ -473,7 +447,7 @@ hasOperatingEmpin = true;
 
 											<div class="modal-body">
 												<span>员工信息：</span>
-												<div class="el_threeScoreList">
+												<div>
 													<table class="table table-bordered">
 														<thead>
 															<tr>

@@ -69,7 +69,56 @@ hasOperatingEmpout = true;
 		})
 	})
 </script>
-
+<style>
+	#el_breakType {
+		font-size: 13px;
+	}
+	.el_Mainmain {
+    	padding-bottom: 0px;
+    	top: 1px;
+	}
+	.el_mainHead {
+		border-bottom: 0px solid #ddd;
+	}
+	.el_threeScoreList {
+	    width: 500px;
+	    margin: -10px auto;
+	    margin-bottom: 20px;
+	    height: 160px;
+	    
+	    margin-top: 10px;
+	    margin-left: 70px;
+	    margin-bottom: 0px;
+	     
+	}
+	.el_threeScoreList table {
+	    width: 100%;
+	    font-size:13px;
+	}
+	
+	.el_threeScoreList table caption {
+	    font-size: 16px;
+	    margin: 0;
+	}
+	
+	.el_threeScoreList table tr {
+	    border: 1px solid #ccc;
+	    width: 100%;
+	    height: 30px;
+	    line-height: 30px;
+	}
+	
+	.el_threeScoreList table tr td {
+   	    padding: 5px;
+	}
+	
+	.el_threeScoreList table tr td:nth-child(odd) {
+	    background-color: #eee;
+	    width: 20%;
+	    text-align: center;
+	    border-left: 1px solid #ccc;
+	}
+</style>
 
 </head>
 <body>
@@ -222,24 +271,13 @@ hasOperatingEmpout = true;
 												<span class="el_spans">违章时间：</span> 
 												<input type="text"
 													class=" form-control query_dep_starttime" name="fstarttime"
-													id="inpstart2" value="" readonly> 
+													id="inpstart2" placeholder="开始时间" value="" readonly> 
 												<input type="text"
 													class="form-control query_dep_endtime" id="inpend2" 
-													name="fendtime" value="" readonly>
+													name="fendtime" placeholder="结束时间" value="" readonly>
 											</div>
 										</div>
-									</div>
-									<!-- <div class="row el_queryBoxrow">
-										<div class="col-md-3 el_qlmQuery">
-											<div class="input-group" role="toolbar">
-												<span class="el_spans">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：</span>
-												<select class="selectpicker form-control" title="请选择"
-													name="employeeType" id="query_empType">
-
-												</select>
-											</div>
-										</div>
-									</div> -->
+									</div>									
 									<!-- 隐藏部门ID和大修ID -->
 									<input type="hidden" name="unitId" id="query_unitId" /> <input
 										type="hidden" name="bigId" id="query_bigId" />
@@ -267,7 +305,7 @@ hasOperatingEmpout = true;
 
 							<!--显示内容-->
 							<h3 class="el_mainHead">外来单位员工信息</h3>
-							<div class="panel panel-default el_Mainmain" style="padding-bottom: 18px;">
+							<div class="panel panel-default el_Mainmain" >
 
 								<!--按钮面板-->
 								<div class="panel-body">
@@ -282,35 +320,20 @@ hasOperatingEmpout = true;
 														添加员工</button>
 												</shiro:hasPermission>
 												<button class="btn btn-primary" id="el_lookTrainDocument"
-													onclick="el_empTrainDoc()">查看员工培训档案</button>
-<%-- 												<shiro:hasPermission name="grademanager:printcard">
-													<button class="btn btn-primary" onclick="el_empCardModel()">
-														生成工作证</button>
-													</shiro:hasPermission> 
-												<br/><br/>
-												
-												<!-- 新添加的违章信息、当前违章、历史违章 -->
-												<div class="el_topButton">
-												<!-- 按钮触发模态框1 -->
-												   <div class="col-md-2">
-												      <%-- <shiro:hasPermission name="outempbreak:add"> --%>
+													onclick="el_empTrainDoc()">查看员工培训档案</button>	
+												<shiro:hasPermission name="outempbreak:add"> 
 													     <button id="el_addBreakRules" class="btn btn-primary"
 														 onclick="el_addBreakInfo()">添加违章信息</button>
-														<%-- </shiro:hasPermission> --%>
-													
+												</shiro:hasPermission> 													
 												    <select class="btn btn-primary" id="el_breakType"
 														title="请选择" onchange="historyBreakInfoFind2()">														
 														<option value="0">当前违章</option>
 														<option value="1">历史违章</option>
-													</select>
-												    </div>
-												</div>
-
+													</select>																							
 											</div>
 										</div>
 									</div>
-	
-							<!-- 添加违章信息的模态框开始 -->
+								
 							<!-- 模态框 违章信息添加-->
 							<div class="modal fade" id="el_addBreakInfo" tabindex="-1" data-backdrop="static" data-keyboard="false"
 								role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -446,7 +469,7 @@ hasOperatingEmpout = true;
 												<th>序号</th>
 												<th>姓名</th>
 												<th>性别</th>
-												<th>身份证</th>
+												<th>出生日期</th>
 												<th>所属单位</th>
 												<th>工种</th>
 												<th>违章积分</th> 
@@ -658,59 +681,6 @@ hasOperatingEmpout = true;
 								<!-- /.modal -->
 							</div>
 
-
-							<!-- 模态框 生成工作证-->
-							<div class="modal fade" id="el_empCardModel" tabindex="-1"
-								role="dialog" aria-labelledby="myModalLabel23"
-								data-backdrop="static" data-keyboard="false" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
-											<!--关闭符号-->
-											<!--标题-->
-											<h4 class="modal-title" id="myModalLabel23">生成工作证</h4>
-										</div>
-										<form>
-											<div class="modal-body">
-												<span>符合生成工作证的员工</span>
-
-												<div class="el_threeScoreList">
-													<table class="table table-bordered"
-														style="font-size: 13px;">
-														<thead>
-															<tr>
-																<th><input type="checkbox" id="el_checkQuanxuan3" /></th>
-																<th>部门</th>
-																<th>姓名</th>
-																<th>性别</th>
-																<th>工种</th>
-															</tr>
-														</thead>
-														<tbody id="empInfoListForCertificate">
-														</tbody>
-													</table>
-
-													<!--分页-->
-													<div id="paginationID2_xiugai"></div>
-
-												</div>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
-												<button type="button" class="btn btn-primary"
-													onclick="exportEmployeeOutInfo()">导出工作证信息</button>
-											</div>
-										</form>
-
-									</div>
-									<!-- /.modal-content -->
-								</div>
-								<!-- /.modal -->
-							</div>
-
 							<!-- 模态框 查看培训档案-->
 							<div class="modal fade" id="el_empTrainDoc" tabindex="-1"
 								role="dialog" aria-labelledby="myModalLabel23"
@@ -726,26 +696,32 @@ hasOperatingEmpout = true;
 										</div>
 										<form>
 											<div class="modal-body" style="padding: 10px 30px 0 30px;">
-
-												<span class="el_spanDoc">员工信息</span>
-												<div class="el_threeScoreList el_threeScoreList2">
-													<table class="table-bordered table el_threeScoreListTable">
-														<thead>
-															<tr>
-																<th>姓名</th>
-																<th>性别</th>
-																<th>所属单位</th>
-																<!-- <th>违章积分</th> -->
-																<th>黑名单</th>
-															</tr>
-														</thead>
-														<tbody id="employeeOutTrainBaseInfo">
-														</tbody>
-													</table>
+																								
+												<div class="input-group el_empPhoto" role="toolbar"
+													style="height: 127px;">
+													<img id="myimg2" width="95" height="121">
 												</div>
-
-												<span class="el_spanDoc">培训考试信息</span>
 												<div class="el_threeScoreList">
+
+													<table>
+														<caption style="margin-bottom: 20px; margin-top: -10px;">员工信息：</caption>
+														<tr>
+															<td>姓名</td>
+															<td id="trainName"></td>
+															<td>性别</td>
+															<td id="trainSex"></td>
+														</tr>
+														<tr>
+															<td>黑名单</td>
+															<td id="trainBlackInfo"></td>														
+															<td>所属部门</td>
+															<td id="trainUnit"></td>
+														</tr>
+
+
+													</table>
+												</div>													
+												<div>
 													<table
 														class="table table-bordered table-hover el_threeScoreListTable">
 														<thead>
@@ -759,7 +735,7 @@ hasOperatingEmpout = true;
 																<th>试卷总分</th>
 																<th>获得成绩</th>
 																<th>是否通过</th>
-																<th>培训学识</th>
+																<th>培训学时</th>
 																<th>培训内容</th>
 															</tr>
 														</thead>
