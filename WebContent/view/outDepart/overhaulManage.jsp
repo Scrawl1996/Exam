@@ -225,7 +225,7 @@ label.success {
 											<div class="el_topButton">
 												<shiro:hasPermission name="jianxiu:add">
 													<button class="btn btn-primary" onclick="el_addOverhaul()">
-														创建检修</button>
+														<span class="glyphicon glyphicon-plus"></span>创建检修</button>
 												</shiro:hasPermission>
 											</div>
 										</div>
