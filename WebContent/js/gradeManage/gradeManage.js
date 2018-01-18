@@ -24,6 +24,7 @@ function searchExamGradeInfo(){
 
 function findExamGradeInfo(){
 	$("#operation").show();
+	$("#departmentName").hide();
 	$.ajax({
 		url : 'examGrade_findExamGradesInfoWithCondition.action',
 		data : $("#form_findExamGradesInfo").serialize(),
@@ -49,12 +50,15 @@ function showExamGradesInfo(data){
 		for(var i=0;i<examGradesInfoList.length;i++){
 			var index = i+1;
 			var parameterStr =  '{"name":"'+examGradesInfoList[i].examname+'","examId":"'+examGradesInfoList[i].examid+'"}';
-			
-			showExamGradesListInfo += "<tr><td><input type='radio' name='el_exam' onclick='showGradeImportButton(this)' class='el_checks' value='"+examGradesInfoList[i].examid+"'/></td><td>"
+			if(examGradesInfoList[i].exammethod=="线下"){
+				showExamGradesListInfo +="<tr style='background:#EEEEEE'>";
+			}else{
+				showExamGradesListInfo +="<tr>";
+			}
+			showExamGradesListInfo += "<td><input type='radio' name='el_exam' onclick='showGradeImportButton(this)' class='el_checks' value='"+examGradesInfoList[i].examid+"'/></td><td>"
 								+(index + (result.pageBean.currentPage - 1) * currentCount)+"</td><td>"
 							    +examGradesInfoList[i].examname+"</td><td>"			
-				                +examGradesInfoList[i].level.toString().replace("1","厂级").replace("2","部门级").replace("3","班组级") +"</td><td>"								
-				                +"无</td><td>"
+				                +examGradesInfoList[i].level.toString().replace("1","厂级").replace("2","部门级").replace("3","班组级") +"</td><td>"												                
 				                +examGradesInfoList[i].sumperson+"</td><td>"
 								+examGradesInfoList[i].countpassperson+"</td><td>"
 								+examGradesInfoList[i].status+"</td><td>"
@@ -256,21 +260,24 @@ function showGradeImportButton(obj){
 	
 	//先将成绩导入按钮隐藏
 	$("#gradeImportButton").hide();
-	var examId = $(obj).val();
+	var examId = $(obj).val();	
 	var type = $("#el_findExamGradeType").val();
-	if(type==0){		
-		$.ajax({
-			url:"examGrade_getEmployeeOutInfoByExamId.action",
-			data:{"examId":examId},
-			dataType:"json",
-			type:"post",
-			success:function(data){
-				var employeeOutInfoList = data.employeeOutInfoList;
-				if(employeeOutInfoList.length>0){
-					$("#gradeImportButton").show();
+	if(type==0){
+		var countPerson = $(obj).parents("tr").children("td").eq(5).text();
+		if(countPerson==0){
+			$.ajax({
+				url:"examGrade_getEmployeeOutInfoByExamId.action",
+				data:{"examId":examId},
+				dataType:"json",
+				type:"post",
+				success:function(data){
+					var employeeOutInfoList = data.employeeOutInfoList;
+					if(employeeOutInfoList.length>0){
+						$("#gradeImportButton").show();
+					}
 				}
-			}
-		});
+			});
+		}		
 	}
 	
 }
@@ -424,7 +431,8 @@ $(function(){
 });
 
 function findUnitExamGradeInfo(){
-	$("#operation").hide();
+	$("#departmentName").show();
+	$("#operation").hide();	
 	$.ajax({
 		url : basePathUrl+'/examGrade_getUnitExamGradesByCondition.action',
 		data : $("#form_findExamGradesInfo").serialize(),
@@ -446,10 +454,18 @@ function showUnitExamGradesInfo(data){
 	//从数据库中查询出来的数据集合
 	var examGradesInfoList = result.pageBean.productList;
 	var showExamGradesListInfo = "";
-	if(examGradesInfoList != null){
-		for(var i=0;i<examGradesInfoList.length;i++){
+	if(examGradesInfoList != null){		
+		for(var i=0,j='FFFFFF';i<examGradesInfoList.length;i++){
 			var index = i+1;
-			showExamGradesListInfo += "<tr><td><input type='radio' name='el_exam' onclick='showGradeImportButton(this)' class='el_checks' value='"+examGradesInfoList[i].examid+"'/></td><td>"
+			if(i==0){
+				showExamGradesListInfo +="<tr style='background:#"+j+"'>";
+			}else if(i>0&&examGradesInfoList[i].examid==examGradesInfoList[i-1].examid){
+				showExamGradesListInfo +="<tr style='background:#"+j+"'>";
+			}else{
+				j = (j=='FFFFFF'?'EEEEEE':'FFFFFF');	
+				showExamGradesListInfo +="<tr style='background:#"+j+"'>";
+			}
+			showExamGradesListInfo += "<td><input type='radio' name='el_exam' onclick='showGradeImportButton(this)' class='el_checks' value='"+examGradesInfoList[i].examid+"'/></td><td>"
 								+(index + (result.pageBean.currentPage - 1) * currentCount)
 								+"<input type='hidden' class='query_examid' value='"+examGradesInfoList[i].examid+"'/>"
 								+"<input type='hidden' class='query_unitid' value='"+examGradesInfoList[i].unitid+"'/>"

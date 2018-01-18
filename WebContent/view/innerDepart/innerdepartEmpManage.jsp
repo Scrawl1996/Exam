@@ -11,15 +11,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>内部员工管理</title>
+<title>内部员工违章管理</title>
 
 <%@ include file="/public/cssJs.jsp"%>
 <!-- 设置一个JS全局变量记录项目名字 -->
 <script type="text/javascript">
 	var contextPath = "${pageContext.request.contextPath}";
 </script>
-<!--分页-->
-
 
 <script src="<%=path%>/js/innerDepart/emplyInBreakRulesManage.js"></script>
 <link rel="stylesheet" href="<%=path%>/css/outDepart/outdepartTree.css">
@@ -53,6 +51,7 @@
 
 	})
 </script>
+
 <!-- ------------员工引入的---------- -->
 
 
@@ -60,7 +59,7 @@
     var contextPath="${baseurl}";
     var hasOperatingEmpin=false;
 </script>
-<!--操作员工权限-->
+
 <shiro:hasPermission name="empin:operating">
 <script>
 hasOperatingEmpin = true;
@@ -100,9 +99,8 @@ hasOperatingEmpin = true;
 	font-size: 13px;
 }
 
-#el_breakType option {
-	background-color: white;
-	color: black;
+.el_topButton {  
+    margin-top: 10px;
 }
 </style>
 </head>
@@ -146,7 +144,7 @@ hasOperatingEmpin = true;
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>人员管理</span><span>>内部员工管理</span><span>>员工管理</span>
+						<span>内部单位管理</span><span>>内部员工违章管理</span>
 					</div>
 					<div class="el_main">
 
@@ -408,17 +406,7 @@ hasOperatingEmpin = true;
 									<!--表格    内容都提取到json里边             -->
 									<table class="table table-hover table-bordered">
 										<thead>
-											<tr>
-												<!-- <th>选择</th>
-												<th>姓名</th>
-												<th>性别</th>
-												<th>身份证</th>
-												<th>违章积分</th>
-												<th>黑名单状态</th>
-												<th>所属单位</th>
-												<th>职务</th> -->
-												
-												
+											<tr>											
 												<th>选择</th>
 												<th>姓名</th>
 												<th>性别</th>
@@ -459,7 +447,7 @@ hasOperatingEmpin = true;
 
 											<div class="modal-body">
 												<span>员工信息：</span>
-												<div class="el_threeScoreList">
+												<div>
 													<table class="table table-bordered">
 														<thead>
 															<tr>

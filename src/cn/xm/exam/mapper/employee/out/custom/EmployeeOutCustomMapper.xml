@@ -533,7 +533,7 @@
 			<include refid="sql_findSumbreak_ByConditionRight"></include>
 		</if>
 				
-		ORDER BY bigCreateDate DESC , trainStatus DESC
+		ORDER BY haulinfo.bigCreateDate DESC , sumBreakScore DESC
 		<include refid="query_page_limit"></include>
 	</select>
 	
