@@ -207,7 +207,7 @@ public class UserServiceImpl implements UserService {
 			}else if ("2".equals(user_type)) {	
 				for (Permission permission : permissions) {
 					for (Permission permissionson : permissions) {
-						if (permission.getPermissionid().equals(permissionson.getParentid())) {
+						if (permission.getPermissionid().equals(permissionson.getParentid())&&ValidateCheck.isNotNull(permissionson.getUrl())) {
 							initializeUrl=permissionson.getUrl();
 							break;
 						}

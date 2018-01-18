@@ -23,9 +23,9 @@
 </head>
 <body>
 	<!-- 缩进菜单的图标 -->
-	<img src="${baseurl}/image/show.png"
-		style="position: fixed; left: 4px; bottom: 50px; width: 40px;"
-		title="点此隐藏与显示菜单栏" id="toggleMenu" />
+		<a style="position: fixed; left: 6px; bottom: 50px; width: 40px;border:none;"
+		title="点此隐藏菜单栏" id="toggleMenu" ><span class="glyphicon glyphicon-arrow-left"
+		></span></a>
 
 	<footer class="footer">
 	<div class="center">Copyright © 2017-2018

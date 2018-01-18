@@ -1,7 +1,6 @@
 /**
  * Created by yorge on 2017/9/14.
  */
-
 /* 添加违章信息 */
 function el_addBreakInfo() {
 	// 累计选择的个数，若等于1，才执行，否则提示
@@ -19,18 +18,22 @@ function el_addBreakInfo() {
 
 		// 获取被选中按钮的值
 		// 姓名
-		var empName = $('input[name="el_chooseBreakRules"]:checked ').parents("tr").children("td").eq(1).text();// 姓名
+		var empName = $('input[name="el_chooseBreakRules"]:checked ').parents(
+				"tr").children("td").eq(1).text();// 姓名
 		// 联系方式
 		var phone = $('input[name="el_chooseBreakRules"]:checked ').val();
 		// 违章记分
-		var score = $('input[name="el_chooseBreakRules"]:checked ').parents("tr").children("td").eq(7).text();
+		var score = $('input[name="el_chooseBreakRules"]:checked ').parents(
+				"tr").children("td").eq(7).text();
 		// 所属单位
-		var unitName = $('input[name="el_chooseBreakRules"]:checked ').parents("tr").children("td").eq(5).text();
+		var unitName = $('input[name="el_chooseBreakRules"]:checked ').parents(
+				"tr").children("td").eq(5).text();
 		// 黑名单
-		var isBreak = $('input[name="el_chooseBreakRules"]:checked ').parents("tr").children("td").eq(8).text();
+		var isBreak = $('input[name="el_chooseBreakRules"]:checked ').parents(
+				"tr").children("td").eq(8).text();
 		// 性别
-		var sex = $('input[name="el_chooseBreakRules"]:checked ').parents("tr").children("td").eq(2).text();
-		
+		var sex = $('input[name="el_chooseBreakRules"]:checked ').parents("tr")
+				.children("td").eq(2).text();
 
 		// 为表格中的数据初始化
 		// 姓名
@@ -47,13 +50,17 @@ function el_addBreakInfo() {
 		$("#addSex").text(sex);
 
 		// 获取职工id
-		var empId = $('input[name="el_chooseBreakRules"]:checked').parents("tr").children('input[name="el_ycy"]').eq(0).val();
+		var empId = $('input[name="el_chooseBreakRules"]:checked')
+				.parents("tr").children('input[name="el_ycy"]').eq(0).val();
 		// 操作的标记 是左侧的树还是顶部的按条件分页查询
-		var allmark = $('input[name="el_chooseBreakRules"]:checked').parents("tr").children('input[name="el_ycy"]').eq(1).val();
+		var allmark = $('input[name="el_chooseBreakRules"]:checked').parents(
+				"tr").children('input[name="el_ycy"]').eq(1).val();
 		// 部门id
-		var departmentid = $('input[name="el_chooseBreakRules"]:checked').parents("tr").children('input[name="el_ycy"]').eq(2).val();
+		var departmentid = $('input[name="el_chooseBreakRules"]:checked')
+				.parents("tr").children('input[name="el_ycy"]').eq(2).val();
 		// 职工的身份证号码
-		var idcode = $('input[name="el_chooseBreakRules"]:checked').parents("tr").children('input[name="el_ycy"]').eq(3).val();
+		var idcode = $('input[name="el_chooseBreakRules"]:checked').parents(
+				"tr").children('input[name="el_ycy"]').eq(3).val();
 
 		// 为员工id的隐藏域赋值
 		$("#addEmpID").val(empId);
@@ -72,7 +79,6 @@ function el_addBreakInfo() {
 		$("#breakScoreID").val("");
 		// 初始化违章内容
 		$("#addBreakContent").val("");
-		
 
 		if ($("#addIsBreak").text() == "是") {
 			alert("处于永久黑名状态的外来职工不能添加违章积分")
@@ -145,9 +151,9 @@ function getTree_2(treeList2) {
 	// 添加 树节点的 点击事件；
 	var log, className = "dark";
 	function onClick(event, treeId, treeNode, clickFlag) {
-		
+
 		clickOnTree(event, treeId, treeNode, clickFlag);
-		
+
 	}
 	$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 	// var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
@@ -168,7 +174,7 @@ $(function() {
 
 	// 页面加载的时候初始化一些数据出来
 	findSaveBtn();
-	//initData();
+	// initData();
 })
 
 /** *********************请求树信息********************* */
@@ -189,14 +195,10 @@ function beforeClick(treeId, treeNode, clickFlag) {
 	selectedDepartmentID = treeNode.departmentId;// 当前选中的树的id
 	selectedOverHaulId = treeNode.upDepartmentId;// 当前选中的树的上级id
 
-
-
 	// 隐藏当前选中的部门的部门id
 	$("#departmentidTree").val(selectedDepartmentID);
-	
-	
-	$("#queryDepartmentId").val(selectedDepartmentID);
 
+	$("#queryDepartmentId").val(selectedDepartmentID);
 
 	// 点击部门显示其及其子孙部门下的所有内部员工信息及其违章信息
 	leftBtn();
@@ -207,108 +209,79 @@ function beforeClick(treeId, treeNode, clickFlag) {
 
 // *********************页面加载初始化一些数据出来
 // 页面初始化的
-/*function initData() {
-
-		$.ajax({
-				url : contextPath+"/empInbreakrules_initPageDate.action",
-				data : {
-					"curPage" : $("#yeHao").val(),// 当前页页号
-					"curTotal" : $("#jiLuShu").val()
-				// 每页显示的记录数
-				},
-				dataType : "json",
-				type : "POST",
-				async : true,
-				success : function(data) {
-					// alert("执行了左侧的树的回掉函数")
-					// 每次查询之前都先清空表格中的数据
-					$("#tbody tr").remove();
-					var opStr = "";
-					for (var i = 0; i < data.empInMsgByDepIdLeft.length; i++) {
-
-						var name = data.empInMsgByDepIdLeft[i].name;// 姓名
-						var sex = data.empInMsgByDepIdLeft[i].sex;// 性别
-						if (sex == "1") {
-							sex = "男";
-						} else if (sex == "2") {
-							sex = "女";
-						}
-						var idCode = data.empInMsgByDepIdLeft[i].idCode;// 身份证
-						var sumBreakScore = data.empInMsgByDepIdLeft[i].sumBreakScore;// 违章总记分
-						var phone = data.empInMsgByDepIdLeft[i].phone;// 电话
-						var duty = data.empInMsgByDepIdLeft[i].duty;// 职务
-						var unitName = data.empInMsgByDepIdLeft[i].departmentName;// 部门名称
-						var employeeId = data.empInMsgByDepIdLeft[i].employeeId;// 内部员工id
-						var departmentid = data.empInMsgByDepIdLeft[i].departmentId;// 部门id
-						var blackStatus = data.empInMsgByDepIdLeft[i].status;// 黑名单状态
-
-						opStr += "<tr>";
-						// 隐藏域
-						opStr += "<input name='el_ycy' type='hidden' value="+ employeeId + ">";// 隐藏域，隐藏一个职工id employeeId
-						opStr += "<input name='el_ycy' type='hidden' value='initData'>";// 隐藏域，隐藏一个标记，是左侧的树还是顶部的按条件分页查询
-						opStr += "<input name='el_ycy' type='hidden' value="+ departmentid + ">";// 隐藏部门id
-						opStr += "<input name='el_ycy' type='hidden' value="+ idCode + ">";// 隐藏身份证
-
-						opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="+ phone + "></td>";
-						opStr += "<td>" + name + "</td>";// 姓名
-						opStr += "<td>" + sex + "</td>";// 性别
-						opStr += "<td>" + idCode + "</td>";// 身份证
-						opStr += "<td>" + sumBreakScore + "</td>";// 违章记分
-						// 为隐藏职工id的隐藏域赋值
-						if (blackStatus == "1") {
-							opStr += "<td><font color='red'>" + "是"	+ "</font></td>";
-						} else {
-							if (sumBreakScore >= 12) {
-								opStr += "<td><font color='blue'>" + "否"+ "</font></td>";
-							} else {
-								opStr += "<td>" + "否" + "</td>";
-							}
-						}
-
-						opStr += "<td>" + unitName + "</td>";// 所属单位
-						opStr += " <th>" + duty + "</th>";// 职务
-
-						opStr += "<td>";
-
-						opStr += "<input type='hidden' value=" + employeeId	+ ">";// 隐藏域，隐藏一个职工id employeeId
-						opStr += "<input type='hidden' value='initData'/>";// 隐藏域，隐藏式操作左边的树的还是顶部的分页条的"&empOutphone="+empOutphone+
-						opStr += "<input type='hidden' value=" + unitName + ">";// 隐藏域，隐藏部门名称
-						
-						opStr += "<a href='javascript:void(0)' onclick='detailInBtn(this)'>详情</a>";
-						opStr += "</td>";
-
-						opStr += "</tr>";
-					}
-					$("#tbody").append(opStr);
-
-					
-					var count = data.count;// 总记录数
-					var curPage = data.curPage;// 当前页页号
-					var curTotal = data.curTotal;// 每页显示的记录数
-					
-					// 参数1：总记录数 参数2：当前页页号 参数3：每页显示的记录条数
-					queryFy4(count, curPage, curTotal);
-				},
-				error : function() {
-					alert("error");
-				}
-			});
-}*/
+/*
+ * function initData() {
+ * 
+ * $.ajax({ url : contextPath+"/empInbreakrules_initPageDate.action", data : {
+ * "curPage" : $("#yeHao").val(),// 当前页页号 "curTotal" : $("#jiLuShu").val() //
+ * 每页显示的记录数 }, dataType : "json", type : "POST", async : true, success :
+ * function(data) { // alert("执行了左侧的树的回掉函数") // 每次查询之前都先清空表格中的数据 $("#tbody
+ * tr").remove(); var opStr = ""; for (var i = 0; i <
+ * data.empInMsgByDepIdLeft.length; i++) {
+ * 
+ * var name = data.empInMsgByDepIdLeft[i].name;// 姓名 var sex =
+ * data.empInMsgByDepIdLeft[i].sex;// 性别 if (sex == "1") { sex = "男"; } else if
+ * (sex == "2") { sex = "女"; } var idCode =
+ * data.empInMsgByDepIdLeft[i].idCode;// 身份证 var sumBreakScore =
+ * data.empInMsgByDepIdLeft[i].sumBreakScore;// 违章总记分 var phone =
+ * data.empInMsgByDepIdLeft[i].phone;// 电话 var duty =
+ * data.empInMsgByDepIdLeft[i].duty;// 职务 var unitName =
+ * data.empInMsgByDepIdLeft[i].departmentName;// 部门名称 var employeeId =
+ * data.empInMsgByDepIdLeft[i].employeeId;// 内部员工id var departmentid =
+ * data.empInMsgByDepIdLeft[i].departmentId;// 部门id var blackStatus =
+ * data.empInMsgByDepIdLeft[i].status;// 黑名单状态
+ * 
+ * opStr += "<tr>"; // 隐藏域 opStr += "<input name='el_ycy' type='hidden'
+ * value="+ employeeId + ">";// 隐藏域，隐藏一个职工id employeeId opStr += "<input
+ * name='el_ycy' type='hidden' value='initData'>";//
+ * 隐藏域，隐藏一个标记，是左侧的树还是顶部的按条件分页查询 opStr += "<input name='el_ycy' type='hidden'
+ * value="+ departmentid + ">";// 隐藏部门id opStr += "<input name='el_ycy'
+ * type='hidden' value="+ idCode + ">";// 隐藏身份证
+ * 
+ * opStr += "<td><input type='radio' name='el_chooseBreakRules'
+ * class='el_checks' value="+ phone + "></td>"; opStr += "<td>" + name + "</td>";//
+ * 姓名 opStr += "<td>" + sex + "</td>";// 性别 opStr += "<td>" + idCode + "</td>";//
+ * 身份证 opStr += "<td>" + sumBreakScore + "</td>";// 违章记分 // 为隐藏职工id的隐藏域赋值 if
+ * (blackStatus == "1") { opStr += "<td><font color='red'>" + "是" + "</font></td>"; }
+ * else { if (sumBreakScore >= 12) { opStr += "<td><font color='blue'>" + "否"+ "</font></td>"; }
+ * else { opStr += "<td>" + "否" + "</td>"; } }
+ * 
+ * opStr += "<td>" + unitName + "</td>";// 所属单位 opStr += " <th>" + duty + "</th>";//
+ * 职务
+ * 
+ * opStr += "<td>";
+ * 
+ * opStr += "<input type='hidden' value=" + employeeId + ">";// 隐藏域，隐藏一个职工id
+ * employeeId opStr += "<input type='hidden' value='initData'/>";//
+ * 隐藏域，隐藏式操作左边的树的还是顶部的分页条的"&empOutphone="+empOutphone+ opStr += "<input
+ * type='hidden' value=" + unitName + ">";// 隐藏域，隐藏部门名称
+ * 
+ * opStr += "<a href='javascript:void(0)' onclick='detailInBtn(this)'>详情</a>";
+ * opStr += "</td>";
+ * 
+ * opStr += "</tr>"; } $("#tbody").append(opStr);
+ * 
+ * 
+ * var count = data.count;// 总记录数 var curPage = data.curPage;// 当前页页号 var
+ * curTotal = data.curTotal;// 每页显示的记录数 // 参数1：总记录数 参数2：当前页页号 参数3：每页显示的记录条数
+ * queryFy4(count, curPage, curTotal); }, error : function() { alert("error"); }
+ * }); }
+ */
 
 // 与左侧的树相关的，点击左侧的树之后，把其及其旗下的部门的员工显示出来
-
 // 与查看详情相关的方法
 function detailInBtn(obj) {
 	// 向隐藏的时间文本框赋值
 	$("#q_starttime").val($(".query_dep_starttime").val());
 	$("#q_endtime").val($(".query_dep_endtime").val());
-	$("#detailemployeeId").val($(obj).parents("tr").find('input[name="el_ycy"]').eq(0).val());// 职工id
-	$("#detailunitName").val($(obj).parents('td').children('input').eq(5).html());// 部门名称
+	$("#detailemployeeId").val(
+			$(obj).parents("tr").find('input[name="el_ycy"]').eq(0).val());// 职工id
+	$("#detailunitName").val(
+			$(obj).parents('td').children('input').eq(5).html());// 部门名称
 
-	
-	$("#detail_breakInfoType").val($("#el_breakType").val());//违章类型
-	
-	var unitName = $(obj).parents("tr").find("#yincangunitName").val();//部门名称
+	$("#detail_breakInfoType").val($("#el_breakType").val());// 违章类型
+
+	var unitName = $(obj).parents("tr").find("#yincangunitName").val();// 部门名称
 	$("#detailunitName").val(unitName);
 
 	$("#detailInForm").submit();
@@ -319,22 +292,24 @@ function detailInBtn(obj) {
 // 参数1：总记录数 参数2：当前页页号 参数3：每页显示的记录条数
 function queryFy(resultCount, currentPage, currentTotal) {
 	// 分页栏 start
-	$('#paginationIDU').pagination({
-			// 组件属性
-			"total" : resultCount,// 数字 当分页建立时设置记录的总数量 1
-			"pageSize" : currentTotal,// 数字 每一页显示的数量 10
-			"pageNumber" : parseInt(currentPage),// 数字 当分页建立时，显示的页数 1
-			"pageList" : [ 8, 15, 20 ],// 数组 用户可以修改每一页的大小，
-			// 功能
-			"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next','last', 'links' ],
-			"onSelectPage" : function(pageNumber, b) {
-				// 为两个隐藏域赋值 当前页页号 每页显示的记录数
-				$("#yeHao").val(pageNumber),// 当前页页号
-				$("#jiLuShu").val(b)// 每页显示的记录数
-				// 执行左边的树的查询
-				leftBtn();
-			}
-		});
+	$('#paginationIDU').pagination(
+			{
+				// 组件属性
+				"total" : resultCount,// 数字 当分页建立时设置记录的总数量 1
+				"pageSize" : currentTotal,// 数字 每一页显示的数量 10
+				"pageNumber" : parseInt(currentPage),// 数字 当分页建立时，显示的页数 1
+				"pageList" : [ 8, 15, 20 ],// 数组 用户可以修改每一页的大小，
+				// 功能
+				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
+						'last', 'links' ],
+				"onSelectPage" : function(pageNumber, b) {
+					// 为两个隐藏域赋值 当前页页号 每页显示的记录数
+					$("#yeHao").val(pageNumber),// 当前页页号
+					$("#jiLuShu").val(b)// 每页显示的记录数
+					// 执行左边的树的查询
+					leftBtn();
+				}
+			});
 }
 // 新版的分页条(最底部的那个) end
 
@@ -342,454 +317,471 @@ function queryFy(resultCount, currentPage, currentTotal) {
 // 参数1：总记录数 参数2：当前页页号 参数3：每页显示的记录条数
 function queryFy3(resultCount, currentPage, currentTotal) {
 	// 分页栏 start
-	$('#paginationIDU').pagination({
-		// 组件属性
-		"total" : resultCount,// 数字 当分页建立时设置记录的总数量 1
-		"pageSize" : currentTotal,// 数字 每一页显示的数量 10
-		"pageNumber" : parseInt(currentPage),// 数字 当分页建立时，显示的页数 1
-		"pageList" : [ 8, 15, 20 ],// 数组 用户可以修改每一页的大小，
-		// 功能
-		"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next','last', 'links' ],
-		"onSelectPage" : function(pageNumber, b) {
-			$("#yeHao").val(pageNumber),// 当前页页号
-			$("#jiLuShu").val(b)// 每页显示的记录数
-			findSaveBtn();
-		}
-	});
+	$('#paginationIDU').pagination(
+			{
+				// 组件属性
+				"total" : resultCount,// 数字 当分页建立时设置记录的总数量 1
+				"pageSize" : currentTotal,// 数字 每一页显示的数量 10
+				"pageNumber" : parseInt(currentPage),// 数字 当分页建立时，显示的页数 1
+				"pageList" : [ 8, 15, 20 ],// 数组 用户可以修改每一页的大小，
+				// 功能
+				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
+						'last', 'links' ],
+				"onSelectPage" : function(pageNumber, b) {
+					$("#yeHao").val(pageNumber),// 当前页页号
+					$("#jiLuShu").val(b)// 每页显示的记录数
+					findSaveBtn();
+				}
+			});
 }
 // 新版的分页条(最底部的那个) end
 
 // 新版的分页条(用于页面初始化) start
 // 参数1：总记录数 参数2：当前页页号 参数3：每页显示的记录条数
-/*function queryFy4(resultCount, currentPage, currentTotal) {
-	// 分页栏 start
-	$('#paginationIDU').pagination({
-		// 组件属性
-		"total" : resultCount,// 数字 当分页建立时设置记录的总数量 1
-		"pageSize" : currentTotal,// 数字 每一页显示的数量 10
-		"pageNumber" : parseInt(currentPage),// 数字 当分页建立时，显示的页数 1
-		"pageList" : [ 8, 15, 20 ],// 数组 用户可以修改每一页的大小，
-		// 功能
-		"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next','last', 'links' ],
-		"onSelectPage" : function(pageNumber, b) {
-			// 设置当前页号
-			$("#yeHao").val(pageNumber);
-			// 设置每页显示的记录数
-			$("#jiLuShu").val(b);
-			// 刷新数据
-			initData();
-		}
-	});
-}*/
+/*
+ * function queryFy4(resultCount, currentPage, currentTotal) { // 分页栏 start
+ * $('#paginationIDU').pagination({ // 组件属性 "total" : resultCount,// 数字
+ * 当分页建立时设置记录的总数量 1 "pageSize" : currentTotal,// 数字 每一页显示的数量 10 "pageNumber" :
+ * parseInt(currentPage),// 数字 当分页建立时，显示的页数 1 "pageList" : [ 8, 15, 20 ],// 数组
+ * 用户可以修改每一页的大小， // 功能 "layout" : [ 'list', 'sep', 'first', 'prev', 'manual',
+ * 'next','last', 'links' ], "onSelectPage" : function(pageNumber, b) { //
+ * 设置当前页号 $("#yeHao").val(pageNumber); // 设置每页显示的记录数 $("#jiLuShu").val(b); //
+ * 刷新数据 initData(); } }); }
+ */
 // 新版的分页条(最底部的那个) end
-
 // 点击左侧的树之后的 分页查询
 function leftBtn() {
-	$.ajax({
-		url : contextPath+"/empInbreakrules_clickLeftTreeShowMsg.action",
-		data : {
-			"departmentid" : $("#departmentidTree").val(),// 部门id
-			"curPage" : $("#yeHao").val(),// 当前页页号
-			"curTotal" : $("#jiLuShu").val(),// 每页显示的记录数
-			"empBreakInfoType":$("#el_breakType").val()
-		},
-		dataType : "json",
-		type : "POST",
-		async : true,
-		success : function(data) {
-			// 每次查询之前都先清空表格中的数据
-			$("#tbody tr").remove();
-			var opStr = "";
-			// alert("总数量"+data.selectLeftToTable.length)
-			for (var i = 0; i < data.empInMsgByDepIdLeft.length; i++) {
+	$
+			.ajax({
+				url : contextPath
+						+ "/empInbreakrules_clickLeftTreeShowMsg.action",
+				data : {
+					"departmentid" : $("#departmentidTree").val(),// 部门id
+					"curPage" : $("#yeHao").val(),// 当前页页号
+					"curTotal" : $("#jiLuShu").val(),// 每页显示的记录数
+					"empBreakInfoType" : $("#el_breakType").val()
+				},
+				dataType : "json",
+				type : "POST",
+				async : true,
+				success : function(data) {
+					// 每次查询之前都先清空表格中的数据
+					$("#tbody tr").remove();
+					var opStr = "";
+					// alert("总数量"+data.selectLeftToTable.length)
+					for (var i = 0; i < data.empInMsgByDepIdLeft.length; i++) {
 
-		/*		var name = data.empInMsgByDepIdLeft[i].name;// 姓名
-				var sex = data.empInMsgByDepIdLeft[i].sex;// 性别
-				if (sex == "1") {
-					sex = "男";
-				} else if (sex == "2") {
-					sex = "女";
-				}
-				var idCode = data.empInMsgByDepIdLeft[i].idCode;// 身份证
-				var sumBreakScore = data.empInMsgByDepIdLeft[i].sumBreakScore;// 违章总记分
-				var phone = data.empInMsgByDepIdLeft[i].phone;// 电话
-				var duty = data.empInMsgByDepIdLeft[i].duty;// 职务
-				var unitName = data.empInMsgByDepIdLeft[i].departmentName;// 部门名称
-				var employeeId = data.empInMsgByDepIdLeft[i].employeeId;// 内部员工id
-				var departmentid = data.empInMsgByDepIdLeft[i].departmentId;// 部门id
-				var blackStatus = data.empInMsgByDepIdLeft[i].status;// 黑名单状态
+						/*
+						 * var name = data.empInMsgByDepIdLeft[i].name;// 姓名 var
+						 * sex = data.empInMsgByDepIdLeft[i].sex;// 性别 if (sex ==
+						 * "1") { sex = "男"; } else if (sex == "2") { sex = "女"; }
+						 * var idCode = data.empInMsgByDepIdLeft[i].idCode;//
+						 * 身份证 var sumBreakScore =
+						 * data.empInMsgByDepIdLeft[i].sumBreakScore;// 违章总记分
+						 * var phone = data.empInMsgByDepIdLeft[i].phone;// 电话
+						 * var duty = data.empInMsgByDepIdLeft[i].duty;// 职务 var
+						 * unitName =
+						 * data.empInMsgByDepIdLeft[i].departmentName;// 部门名称
+						 * var employeeId =
+						 * data.empInMsgByDepIdLeft[i].employeeId;// 内部员工id var
+						 * departmentid =
+						 * data.empInMsgByDepIdLeft[i].departmentId;// 部门id var
+						 * blackStatus = data.empInMsgByDepIdLeft[i].status;//
+						 * 黑名单状态
+						 * 
+						 * opStr += "<tr>"; // 隐藏域 opStr += "<input
+						 * name='el_ycy' type='hidden' value="+ employeeId +
+						 * ">";// 隐藏域，隐藏一个职工id employeeId opStr += "<input
+						 * name='el_ycy' type='hidden' value='left'>";//
+						 * 隐藏域，隐藏一个标记，是左侧的树还是顶部的按条件分页查询 opStr += "<input
+						 * name='el_ycy' type='hidden' value="+ departmentid +
+						 * ">";// 隐藏部门id opStr += "<input name='el_ycy'
+						 * type='hidden' value="+ idCode + ">";// 隐藏身份证
+						 * 
+						 * opStr += "<td><input type='radio'
+						 * name='el_chooseBreakRules' class='el_checks' value="+
+						 * phone + "></td>"; opStr += "<td>" + name + "</td>";//
+						 * 姓名 opStr += "<td>" + sex + "</td>";// 性别 opStr += "<td>" +
+						 * idCode + "</td>";// 身份证 opStr += "<td>" +
+						 * sumBreakScore + "</td>";// 违章记分 // 为隐藏职工id的隐藏域赋值 if
+						 * (blackStatus == "1") { opStr += "<td><font
+						 * color='red'>" + "是" + "</font></td>"; } else { if
+						 * (sumBreakScore >= 12) { opStr += "<td><font
+						 * color='blue'>" + "否"+ "</font></td>"; } else {
+						 * opStr += "<td>" + "否" + "</td>"; } }
+						 * 
+						 * opStr += "<td>" + unitName + "</td>";// 所属单位
+						 * opStr += " <th>" + duty + "</th>";// 职务
+						 * 
+						 * opStr += "<td>";
+						 * 
+						 * opStr += "<input type='hidden' value=" + employeeId +
+						 * ">";// 隐藏域，隐藏一个职工id employeeId opStr += "<input
+						 * type='hidden' value='left'/>";//
+						 * 隐藏域，隐藏式操作左边的树的还是顶部的分页条的"&empOutphone="+empOutphone+
+						 * opStr += "<input type='hidden' value=" + unitName +
+						 * ">";// 隐藏域，隐藏部门名称
+						 * 
+						 * opStr += "<a href='javascript:void(0)'
+						 * onclick='detailInBtn(this)'>详情</a>"; opStr += "</td>";
+						 * 
+						 * opStr += "</tr>";
+						 */
 
-				opStr += "<tr>";
-				// 隐藏域
-				opStr += "<input name='el_ycy' type='hidden' value="+ employeeId + ">";// 隐藏域，隐藏一个职工id employeeId
-				opStr += "<input name='el_ycy' type='hidden' value='left'>";// 隐藏域，隐藏一个标记，是左侧的树还是顶部的按条件分页查询
-				opStr += "<input name='el_ycy' type='hidden' value="+ departmentid + ">";// 隐藏部门id
-				opStr += "<input name='el_ycy' type='hidden' value="+ idCode + ">";// 隐藏身份证
+						var name = data.empInMsgByDepIdLeft[i].name;// 姓名
+						var sex = data.empInMsgByDepIdLeft[i].sex;// 性别
+						if (sex == "1") {
+							sex = "男";
+						} else if (sex == "2") {
+							sex = "女";
+						}
+						var idCode = data.empInMsgByDepIdLeft[i].idCode;// 身份证
 
-				opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="+ phone + "></td>";
-				opStr += "<td>" + name + "</td>";// 姓名
-				opStr += "<td>" + sex + "</td>";// 性别
-				opStr += "<td>" + idCode + "</td>";// 身份证
-				opStr += "<td>" + sumBreakScore + "</td>";// 违章记分
-				// 为隐藏职工id的隐藏域赋值
-				if (blackStatus == "1") {
-					opStr += "<td><font color='red'>" + "是"	+ "</font></td>";
-				} else {
-					if (sumBreakScore >= 12) {
-						opStr += "<td><font color='blue'>" + "否"+ "</font></td>";
-					} else {
-						opStr += "<td>" + "否" + "</td>";
+						var sumBreakScore = data.empInMsgByDepIdLeft[i].sumBreakScore;// 违章总记分
+						var phone = data.empInMsgByDepIdLeft[i].phone;// 电话
+						var duty = data.empInMsgByDepIdLeft[i].duty;// 职务
+						var unitName = data.empInMsgByDepIdLeft[i].departmentName;// 部门名称
+						var employeeId = data.empInMsgByDepIdLeft[i].employeeId;// 内部员工id
+						var departmentid = data.empInMsgByDepIdLeft[i].departmentId;// 部门id
+						var blackStatus = data.empInMsgByDepIdLeft[i].status;// 黑名单状态
+						var birthday = data.empInMsgByDepIdLeft[i].birthday;// 出生日期
+
+						opStr += "<tr>";
+						// 隐藏域
+						opStr += "<input name='el_ycy' type='hidden' value="
+								+ employeeId + ">";// 隐藏域，隐藏一个职工id employeeId
+						opStr += "<input name='el_ycy' type='hidden' value='top'>";// 隐藏域，隐藏一个标记，是左侧的树还是顶部的按条件分页查询
+						opStr += "<input name='el_ycy' type='hidden' value="
+								+ departmentid + ">";// 隐藏部门id
+						opStr += "<input name='el_ycy' type='hidden' value="
+								+ idCode + ">";// 隐藏身份证
+
+						opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="
+								+ employeeId + "></td>";
+						opStr += "<td>" + name + "</td>";// 姓名
+						opStr += "<td>" + sex + "</td>";// 性别
+
+						opStr += "<td>"
+								+ Format(new Date(birthday.replace(/T/g, " ")
+										.replace(/-/g, "/")), "yyyy-MM-dd")
+								+ "</td>";// 出生日期
+						opStr += "<td>" + phone + "</td>";// 电话
+						opStr += "<td>" + unitName + "</td>";
+						opStr += "<td>" + duty + "</td>";// 职务
+
+						/*
+						 * opStr += "<td><a href='javascript:void(0)'
+						 * class='el_delButton' onclick='detailInBtn(this)>"+
+						 * sumBreakScore+ "</a></td>";//违章记分
+						 */
+						// opStr += "<td>"+ sumBreakScore+ "</td>";//违章记分
+						opStr += "<td><a href='javascript:void(0)' class='el_delButton' onclick='detailInBtn(this)'>"
+								+ sumBreakScore + "</a></td>";// 违章记分
+						// 为隐藏职工id的隐藏域赋值
+						// 为隐藏职工id的隐藏域赋值
+						if (blackStatus == "1") {
+							opStr += "<td><font color='red'>" + "是"
+									+ "</font></td>";
+						} else {
+							if (sumBreakScore >= 12) {
+								opStr += "<td><font color='blue'>" + "否"
+										+ "</font></td>";
+							} else {
+								opStr += "<td>" + "否" + "</td>";
+							}
+						}
+						opStr += "<td>";
+
+						opStr += "<input type='hidden' value=" + employeeId
+								+ ">";// 隐藏域，隐藏一个职工id employeeId
+						opStr += "<input type='hidden' value='top'/>";// 隐藏域，隐藏式操作左边的树的还是顶部的分页条的"&empOutphone="+empOutphone+
+						opStr += "<input type='hidden' id='yincangunitName' value="
+								+ unitName + ">";// 隐藏域，隐藏部门名称
+
+						// 员工的隐藏域
+						opStr += "<input type='hidden' id='employeeid' value= '"
+								+ employeeId + "'/>";
+
+						opStr += "<input type='hidden' id='myidCode' value="
+								+ idCode + ">";
+
+						opStr += "<input type='hidden' id='departmentid' value='"
+								+ departmentid + "'/>";
+						opStr += "<input type='hidden' id='employeephoto' value='"
+								+ data.empInMsgByDepIdLeft[i].photo + "'/>";
+						opStr += "<input type='hidden' id='employeebirthday' value='"
+								+ birthday + "'/>";
+						opStr += "<input type='hidden' id='zhiwu' value='"
+								+ duty + "'/>";
+
+						var finger;
+						if (data.empInMsgByDepIdLeft[i] != null) {
+							finger = data.empInMsgByDepIdLeft[i].finger;
+						} else {
+							finger = "无";
+						}
+						opStr += "<input type='hidden' id='employeefinger' value='"
+								+ finger + "'/>";
+						opStr += "<input type='hidden' id='employeeminusnum' value='"
+								+ data.empInMsgByDepIdLeft[i].trainstatus
+								+ "'/>";
+
+						opStr += "<a onclick='allInfo(this)' title='查看详情' class='el_delButton'><span class='glyphicon glyphicon-search'></span></a>&nbsp;";
+						if (hasOperatingEmpin) {
+							opStr += "<a title='修改员工信息' href='/Exam/employeein_toUpdateEmployeeIn.action?method="
+									+ employeeId + "'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;";
+						}
+						if (hasOperatingEmpin) {
+							opStr += "<a class='el_delButton' title='删除员工' onclick='deleteEmployeeIn(this)' ><span class='glyphicon glyphicon-trash'></span></a>";
+						}
+						opStr += "</td>";
+
+						opStr += "</tr>";
+
 					}
+					$("#tbody").append(opStr);
+
+					var count = data.count;// 总记录数
+					var curPage = data.curPage;// 当前页页号
+					var curTotal = data.curTotal;// 每页显示的记录数
+					// 参数1：总记录数 参数2：当前页页号 参数3：每页显示的记录条数
+					queryFy(count, curPage, curTotal);
+				},
+				error : function() {
+					alert("error");
 				}
-
-				opStr += "<td>" + unitName + "</td>";// 所属单位
-				opStr += " <th>" + duty + "</th>";// 职务
-
-				opStr += "<td>";
-
-				opStr += "<input type='hidden' value=" + employeeId	+ ">";// 隐藏域，隐藏一个职工id employeeId
-				opStr += "<input type='hidden' value='left'/>";// 隐藏域，隐藏式操作左边的树的还是顶部的分页条的"&empOutphone="+empOutphone+
-				opStr += "<input type='hidden' value=" + unitName + ">";// 隐藏域，隐藏部门名称
-				
-				opStr += "<a href='javascript:void(0)' onclick='detailInBtn(this)'>详情</a>";
-				opStr += "</td>";
-
-				opStr += "</tr>";*/
-				
-				
-				var name = data.empInMsgByDepIdLeft[i].name;//姓名
-				var sex = data.empInMsgByDepIdLeft[i].sex;//性别
-				if (sex == "1") {
-					sex = "男";
-				} else if (sex == "2") {
-					sex = "女";
-				}
-				var idCode = data.empInMsgByDepIdLeft[i].idCode;//身份证
-				
-				var sumBreakScore = data.empInMsgByDepIdLeft[i].sumBreakScore;//违章总记分
-				var phone = data.empInMsgByDepIdLeft[i].phone;//电话
-				var duty = data.empInMsgByDepIdLeft[i].duty;//职务
-				var unitName = data.empInMsgByDepIdLeft[i].departmentName;//部门名称
-				var employeeId = data.empInMsgByDepIdLeft[i].employeeId;//内部员工id
-				var departmentid = data.empInMsgByDepIdLeft[i].departmentId;//部门id
-				var blackStatus = data.empInMsgByDepIdLeft[i].status;//黑名单状态
-				var birthday = data.empInMsgByDepIdLeft[i].birthday;//出生日期
-				
-				opStr += "<tr>";
-				//隐藏域
-				opStr += "<input name='el_ycy' type='hidden' value="+employeeId+">";//隐藏域，隐藏一个职工id employeeId
-				opStr += "<input name='el_ycy' type='hidden' value='top'>";//隐藏域，隐藏一个标记，是左侧的树还是顶部的按条件分页查询
-				opStr += "<input name='el_ycy' type='hidden' value="+departmentid+">";//隐藏部门id
-				opStr += "<input name='el_ycy' type='hidden' value="+idCode+">";//隐藏身份证
-
-				opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="+employeeId+"></td>";
-				opStr += "<td>" + name+ "</td>";//姓名
-				opStr += "<td>" + sex+ "</td>";//性别
-				
-				opStr += "<td>" +Format(new Date(birthday.replace(/T/g, " ").replace(
-						/-/g, "/")), "yyyy-MM-dd") + "</td>";//出生日期
-				opStr += "<td>" + phone + "</td>";//电话
-				opStr += "<td>" + unitName + "</td>";
-				opStr += "<td>" + duty + "</td>";//职务
-				
-		
-				
-				/*opStr += "<td><a href='javascript:void(0)' class='el_delButton' onclick='detailInBtn(this)>"+ sumBreakScore+ "</a></td>";//违章记分
-*/					
-				//opStr += "<td>"+ sumBreakScore+ "</td>";//违章记分
-				
-				opStr += "<td><a href='javascript:void(0)' class='el_delButton' onclick='detailInBtn(this)'>"+ sumBreakScore+ "</a></td>";//违章记分
-				//为隐藏职工id的隐藏域赋值
-				//为隐藏职工id的隐藏域赋值
-				if (blackStatus == "1") {
-					opStr += "<td><font color='red'>"+ "是"+ "</font></td>";
-				} else {
-					if (sumBreakScore >= 12) {
-						opStr += "<td><font color='blue'>"+ "否"+ "</font></td>";
-					} else {
-						opStr += "<td>"+ "否"+ "</td>";
-					}
-				}
-				opStr += "<td>";
-
-				opStr += "<input type='hidden' value="+employeeId+">";//隐藏域，隐藏一个职工id employeeId
-				opStr += "<input type='hidden' value='top'/>";//隐藏域，隐藏式操作左边的树的还是顶部的分页条的"&empOutphone="+empOutphone+
-				opStr += "<input type='hidden' id='yincangunitName' value="+unitName+">";//隐藏域，隐藏部门名称
-				
-				//员工的隐藏域
-				opStr += "<input type='hidden' id='employeeid' value= '"
-						+ employeeId + "'/>";
-				
-				opStr += "<input type='hidden' id='myidCode' value="+idCode+">";
-				
-				opStr += "<input type='hidden' id='departmentid' value='"
-						+ departmentid + "'/>";
-				opStr += "<input type='hidden' id='employeephoto' value='"
-						+ data.empInMsgByDepIdLeft[i].photo + "'/>";
-				opStr += "<input type='hidden' id='employeebirthday' value='"
-						+ birthday + "'/>";
-				opStr += "<input type='hidden' id='zhiwu' value='"
-						+ duty + "'/>";
-				
-				var finger;
-				if (data.empInMsgByDepIdLeft[i] != null) {
-					finger = data.empInMsgByDepIdLeft[i].finger;
-				} else {
-					finger = "无";
-				}
-				opStr += "<input type='hidden' id='employeefinger' value='"
-						+ finger + "'/>";
-				opStr += "<input type='hidden' id='employeeminusnum' value='"
-						+ data.empInMsgByDepIdLeft[i].trainstatus + "'/>";
-				
-				opStr += "<a onclick='allInfo(this)' class='el_delButton'>详情</a>&nbsp;";
-				opStr += "<a href='/Exam/employeein_toUpdateEmployeeIn.action?method="
-					+ employeeId
-					+ "'>修改</a>&nbsp;";
-				
-				opStr += "<a class='el_delButton' onclick='deleteEmployeeIn(this)' >删除</a>";
-				
-				opStr += "</td>";
-
-				opStr += "</tr>";
-				
-				
-			}
-			$("#tbody").append(opStr);
-
-			var count = data.count;// 总记录数
-			var curPage = data.curPage;// 当前页页号
-			var curTotal = data.curTotal;// 每页显示的记录数
-			// 参数1：总记录数 参数2：当前页页号 参数3：每页显示的记录条数
-			queryFy(count, curPage, curTotal);
-		},
-		error : function() {
-			alert("error");
-		}
-	});
+			});
 }
 
-
-
-
-
 /**
- * 与左边的树绑定之后的点击查询按钮的点击事件  未点击黑名单  和点击了黑名单的情况
+ * 与左边的树绑定之后的点击查询按钮的点击事件 未点击黑名单 和点击了黑名单的情况
  */
 function clearPagenum() {
 	$("#yeHao").val("1");
 	findSaveBtn();
 }
 function findSaveBtn() {
-	//设置违章积分类型
+	// 设置违章积分类型
 	var type = $("#el_breakType").val();
 	$("#breakInfo_Type").val(type);
-		$.ajax({
-			url : contextPath+"/empInbreakrules_leftTreeAndConditionShowMsg.action",
-			data : $("#findForm").serialize(),
-			dataType : "json",
-			type : "POST",
-			async : true,
-			success : function(data) {
+	$
+			.ajax({
+				url : contextPath
+						+ "/empInbreakrules_leftTreeAndConditionShowMsg.action",
+				data : $("#findForm").serialize(),
+				dataType : "json",
+				type : "POST",
+				async : true,
+				success : function(data) {
 
-				
-				$("#tbody tr").remove();
-				var opStr = "";
-				for (var i = 0; i < data.empInMsgByDepIdLeft.length; i++) {
-	/*				
-					var name = data.empInMsgByDepIdLeft[i].name;//姓名
-					var sex = data.empInMsgByDepIdLeft[i].sex;//性别
-					if (sex == "1") {
-						sex = "男";
-					} else if (sex == "2") {
-						sex = "女";
-					}
-					var idCode = data.empInMsgByDepIdLeft[i].idCode;//身份证
-					var sumBreakScore = data.empInMsgByDepIdLeft[i].sumBreakScore;//违章总记分
-					var phone = data.empInMsgByDepIdLeft[i].phone;//电话
-					var duty = data.empInMsgByDepIdLeft[i].duty;//职务
-					var unitName = data.empInMsgByDepIdLeft[i].departmentName;//部门名称
-					var employeeId = data.empInMsgByDepIdLeft[i].employeeId;//内部员工id
-					var departmentid = data.empInMsgByDepIdLeft[i].departmentId;//部门id
-					var blackStatus = data.empInMsgByDepIdLeft[i].status;//黑名单状态
+					$("#tbody tr").remove();
+					var opStr = "";
+					for (var i = 0; i < data.empInMsgByDepIdLeft.length; i++) {
+						/*
+						 * var name = data.empInMsgByDepIdLeft[i].name;//姓名 var
+						 * sex = data.empInMsgByDepIdLeft[i].sex;//性别 if (sex ==
+						 * "1") { sex = "男"; } else if (sex == "2") { sex = "女"; }
+						 * var idCode = data.empInMsgByDepIdLeft[i].idCode;//身份证
+						 * var sumBreakScore =
+						 * data.empInMsgByDepIdLeft[i].sumBreakScore;//违章总记分 var
+						 * phone = data.empInMsgByDepIdLeft[i].phone;//电话 var
+						 * duty = data.empInMsgByDepIdLeft[i].duty;//职务 var
+						 * unitName =
+						 * data.empInMsgByDepIdLeft[i].departmentName;//部门名称 var
+						 * employeeId =
+						 * data.empInMsgByDepIdLeft[i].employeeId;//内部员工id var
+						 * departmentid =
+						 * data.empInMsgByDepIdLeft[i].departmentId;//部门id var
+						 * blackStatus =
+						 * data.empInMsgByDepIdLeft[i].status;//黑名单状态
+						 * 
+						 * opStr += "<tr>"; //隐藏域 opStr += "<input
+						 * name='el_ycy' type='hidden'
+						 * value="+employeeId+">";//隐藏域，隐藏一个职工id employeeId
+						 * opStr += "<input name='el_ycy' type='hidden'
+						 * value='top'>";//隐藏域，隐藏一个标记，是左侧的树还是顶部的按条件分页查询 opStr += "<input
+						 * name='el_ycy' type='hidden'
+						 * value="+departmentid+">";//隐藏部门id opStr += "<input
+						 * name='el_ycy' type='hidden'
+						 * value="+idCode+">";//隐藏身份证
+						 * 
+						 * opStr += "<td><input type='radio'
+						 * name='el_chooseBreakRules' class='el_checks'
+						 * value="+phone+"></td>"; opStr += "<td>" + name+ "</td>";//姓名
+						 * opStr += "<td>" + sex+ "</td>";//性别 opStr += "<td>"+
+						 * idCode+ "</td>";//身份证 opStr += "<td>"+
+						 * sumBreakScore+ "</td>";//违章记分 //为隐藏职工id的隐藏域赋值
+						 * //为隐藏职工id的隐藏域赋值 if (blackStatus == "1") { opStr += "<td><font
+						 * color='red'>"+ "是"+ "</font></td>"; } else { if
+						 * (sumBreakScore >= 12) { opStr += "<td><font
+						 * color='blue'>"+ "否"+ "</font></td>"; } else {
+						 * opStr += "<td>"+ "否"+ "</td>"; } }
+						 * 
+						 * opStr += "<td>" + unitName+ "</td>";//所属单位 opStr += "
+						 * <th>" + duty+ "</th>";//职务
+						 * 
+						 * opStr += "<td>";
+						 * 
+						 * opStr += "<input type='hidden'
+						 * value="+employeeId+">";//隐藏域，隐藏一个职工id employeeId
+						 * opStr += "<input type='hidden'
+						 * value='top'/>";//隐藏域，隐藏式操作左边的树的还是顶部的分页条的"&empOutphone="+empOutphone+
+						 * opStr += "<input type='hidden'
+						 * value="+unitName+">";//隐藏域，隐藏部门名称
+						 * 
+						 * opStr += "<a href='javascript:void(0)'
+						 * class='el_delButton' onclick='detailInBtn(this)'>详情</a>";
+						 * opStr += "</td>";
+						 * 
+						 * opStr += "</tr>";
+						 */
 
-					opStr += "<tr>";
-					//隐藏域
-					opStr += "<input name='el_ycy' type='hidden' value="+employeeId+">";//隐藏域，隐藏一个职工id employeeId
-					opStr += "<input name='el_ycy' type='hidden' value='top'>";//隐藏域，隐藏一个标记，是左侧的树还是顶部的按条件分页查询
-					opStr += "<input name='el_ycy' type='hidden' value="+departmentid+">";//隐藏部门id
-					opStr += "<input name='el_ycy' type='hidden' value="+idCode+">";//隐藏身份证
-
-					opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="+phone+"></td>";
-					opStr += "<td>" + name+ "</td>";//姓名
-					opStr += "<td>" + sex+ "</td>";//性别
-					opStr += "<td>"+ idCode+ "</td>";//身份证
-					opStr += "<td>"+ sumBreakScore+ "</td>";//违章记分
-					//为隐藏职工id的隐藏域赋值
-					//为隐藏职工id的隐藏域赋值
-					if (blackStatus == "1") {
-						opStr += "<td><font color='red'>"+ "是"+ "</font></td>";
-					} else {
-						if (sumBreakScore >= 12) {
-							opStr += "<td><font color='blue'>"+ "否"+ "</font></td>";
-						} else {
-							opStr += "<td>"+ "否"+ "</td>";
+						var name = data.empInMsgByDepIdLeft[i].name;// 姓名
+						var sex = data.empInMsgByDepIdLeft[i].sex;// 性别
+						if (sex == "1") {
+							sex = "男";
+						} else if (sex == "2") {
+							sex = "女";
 						}
-					}
+						var idCode = data.empInMsgByDepIdLeft[i].idCode;// 身份证
 
-					opStr += "<td>"	+ unitName+ "</td>";//所属单位
-					opStr += " <th>" + duty+ "</th>";//职务
+						var sumBreakScore = data.empInMsgByDepIdLeft[i].sumBreakScore;// 违章总记分
+						var phone = data.empInMsgByDepIdLeft[i].phone;// 电话
+						var duty = data.empInMsgByDepIdLeft[i].duty;// 职务
+						var unitName = data.empInMsgByDepIdLeft[i].departmentName;// 部门名称
+						var employeeId = data.empInMsgByDepIdLeft[i].employeeId;// 内部员工id
+						var departmentid = data.empInMsgByDepIdLeft[i].departmentId;// 部门id
+						var blackStatus = data.empInMsgByDepIdLeft[i].status;// 黑名单状态
+						var birthday = data.empInMsgByDepIdLeft[i].birthday;// 出生日期
 
-					opStr += "<td>";
+						opStr += "<tr>";
+						// 隐藏域
+						opStr += "<input name='el_ycy' type='hidden' value="
+								+ employeeId + ">";// 隐藏域，隐藏一个职工id employeeId
+						opStr += "<input name='el_ycy' type='hidden' value='top'>";// 隐藏域，隐藏一个标记，是左侧的树还是顶部的按条件分页查询
+						opStr += "<input name='el_ycy' type='hidden' value="
+								+ departmentid + ">";// 隐藏部门id
+						opStr += "<input name='el_ycy' type='hidden' value="
+								+ idCode + ">";// 隐藏身份证
 
-					opStr += "<input type='hidden' value="+employeeId+">";//隐藏域，隐藏一个职工id employeeId
-					opStr += "<input type='hidden' value='top'/>";//隐藏域，隐藏式操作左边的树的还是顶部的分页条的"&empOutphone="+empOutphone+
-					opStr += "<input type='hidden' value="+unitName+">";//隐藏域，隐藏部门名称
-					
-					opStr += "<a href='javascript:void(0)' class='el_delButton' onclick='detailInBtn(this)'>详情</a>";
-					opStr += "</td>";
+						opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="
+								+ phone + "></td>";
+						opStr += "<td>" + name + "</td>";// 姓名
+						opStr += "<td>" + sex + "</td>";// 性别
+						// opStr += "<td>" + birthday+ "</td>";//出生日期
 
-					opStr += "</tr>";*/
-					
-					
-					
-					
-					var name = data.empInMsgByDepIdLeft[i].name;//姓名
-					var sex = data.empInMsgByDepIdLeft[i].sex;//性别
-					if (sex == "1") {
-						sex = "男";
-					} else if (sex == "2") {
-						sex = "女";
-					}
-					var idCode = data.empInMsgByDepIdLeft[i].idCode;//身份证
-					
-					var sumBreakScore = data.empInMsgByDepIdLeft[i].sumBreakScore;//违章总记分
-					var phone = data.empInMsgByDepIdLeft[i].phone;//电话
-					var duty = data.empInMsgByDepIdLeft[i].duty;//职务
-					var unitName = data.empInMsgByDepIdLeft[i].departmentName;//部门名称
-					var employeeId = data.empInMsgByDepIdLeft[i].employeeId;//内部员工id
-					var departmentid = data.empInMsgByDepIdLeft[i].departmentId;//部门id
-					var blackStatus = data.empInMsgByDepIdLeft[i].status;//黑名单状态
-					var birthday = data.empInMsgByDepIdLeft[i].birthday;//出生日期
-					
-					opStr += "<tr>";
-					//隐藏域
-					opStr += "<input name='el_ycy' type='hidden' value="+employeeId+">";//隐藏域，隐藏一个职工id employeeId
-					opStr += "<input name='el_ycy' type='hidden' value='top'>";//隐藏域，隐藏一个标记，是左侧的树还是顶部的按条件分页查询
-					opStr += "<input name='el_ycy' type='hidden' value="+departmentid+">";//隐藏部门id
-					opStr += "<input name='el_ycy' type='hidden' value="+idCode+">";//隐藏身份证
+						opStr += "<td>"
+								+ Format(new Date(birthday.replace(/T/g, " ")
+										.replace(/-/g, "/")), "yyyy-MM-dd")
+								+ "</td>";// 出生日期
+						opStr += "<td>" + phone + "</td>";// 电话
+						opStr += "<td>" + unitName + "</td>";
+						opStr += "<td>" + duty + "</td>";// 职务
 
-					opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="+phone+"></td>";
-					opStr += "<td>" + name+ "</td>";//姓名
-					opStr += "<td>" + sex+ "</td>";//性别
-					//opStr += "<td>" + birthday+ "</td>";//出生日期
-					
-				
-					opStr += "<td>" +Format(new Date(birthday.replace(/T/g, " ").replace(
-							/-/g, "/")), "yyyy-MM-dd") + "</td>";//出生日期
-					opStr += "<td>" + phone + "</td>";//电话
-					opStr += "<td>" + unitName + "</td>";
-					opStr += "<td>" + duty + "</td>";//职务
-					
-			
-					
-					opStr += "<td><a href='javascript:void(0)' class='el_delButton' onclick='detailInBtn(this)'>"+ sumBreakScore+ "</a></td>";//违章记分
-				
-				//opStr += "<td><a href='javascript:void(0)' class='el_delButton' onclick='detailInBtn(this)>vjfjkgl</a></td>";//违章记分
-					
-//					/opStr += "<td><a a href='javascript:void(0)' class='el_delButton' onclick='detailInBtn(this)'>vjfjkgl</a></td>";//违章记分
-					
-					//为隐藏职工id的隐藏域赋值
-					//为隐藏职工id的隐藏域赋值
-					if (blackStatus == "1") {
-						opStr += "<td><font color='red'>"+ "是"+ "</font></td>";
-					} else {
-						if (sumBreakScore >= 12) {
-							opStr += "<td><font color='blue'>"+ "否"+ "</font></td>";
+						opStr += "<td><a href='javascript:void(0)' class='el_delButton' onclick='detailInBtn(this)'>"
+								+ sumBreakScore + "</a></td>";// 违章记分
+
+						// opStr += "<td><a href='javascript:void(0)'
+						// class='el_delButton'
+						// onclick='detailInBtn(this)>vjfjkgl</a></td>";//违章记分
+
+						// /opStr += "<td><a a href='javascript:void(0)'
+						// class='el_delButton'
+						// onclick='detailInBtn(this)'>vjfjkgl</a></td>";//违章记分
+
+						// 为隐藏职工id的隐藏域赋值
+						// 为隐藏职工id的隐藏域赋值
+						if (blackStatus == "1") {
+							opStr += "<td><font color='red'>" + "是"
+									+ "</font></td>";
 						} else {
-							opStr += "<td>"+ "否"+ "</td>";
+							if (sumBreakScore >= 12) {
+								opStr += "<td><font color='blue'>" + "否"
+										+ "</font></td>";
+							} else {
+								opStr += "<td>" + "否" + "</td>";
+							}
 						}
+						opStr += "<td>";
+
+						opStr += "<input type='hidden' value=" + employeeId
+								+ ">";// 隐藏域，隐藏一个职工id employeeId
+						opStr += "<input type='hidden' value='top'/>";// 隐藏域，隐藏式操作左边的树的还是顶部的分页条的"&empOutphone="+empOutphone+
+						opStr += "<input type='hidden' id='yincangunitName' value="
+								+ unitName + ">";// 隐藏域，隐藏部门名称
+
+						// 员工的隐藏域
+						opStr += "<input type='hidden' id='employeeid' value= '"
+								+ employeeId + "'/>";
+						opStr += "<input type='hidden' id='myidCode' value="
+								+ idCode + ">";
+
+						opStr += "<input type='hidden' id='departmentid' value='"
+								+ departmentid + "'/>";
+						opStr += "<input type='hidden' id='employeephoto' value='"
+								+ data.empInMsgByDepIdLeft[i].photo + "'/>";
+						opStr += "<input type='hidden' id='employeebirthday' value='"
+								+ birthday + "'/>";
+						opStr += "<input type='hidden' id='zhiwu' value='"
+								+ duty + "'/>";
+
+						var finger;
+						if (data.empInMsgByDepIdLeft[i] != null) {
+							finger = data.empInMsgByDepIdLeft[i].finger;
+						} else {
+							finger = "无";
+						}
+						opStr += "<input type='hidden' id='employeefinger' value='"
+								+ finger + "'/>";
+						opStr += "<input type='hidden' id='employeeminusnum' value='"
+								+ data.empInMsgByDepIdLeft[i].trainstatus
+								+ "'/>";
+
+						opStr += "<a onclick='allInfo(this)' class='el_delButton' title='查看详情'><span class='glyphicon glyphicon-search'></span></a>&nbsp;";
+						if (hasOperatingEmpin) {
+							opStr += "<a title='修改员工信息' href='/Exam/employeein_toUpdateEmployeeIn.action?method="
+									+ employeeId + "'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;";
+							opStr += "<a class='el_delButton' onclick='deleteEmployeeIn(this)' title='删除员工' ><span class='glyphicon glyphicon-trash'></span></a>";
+						}
+
+						opStr += "</td>";
+
+						opStr += "</tr>";
 					}
-					opStr += "<td>";
+					$("#tbody").append(opStr);
 
-					opStr += "<input type='hidden' value="+employeeId+">";//隐藏域，隐藏一个职工id employeeId
-					opStr += "<input type='hidden' value='top'/>";//隐藏域，隐藏式操作左边的树的还是顶部的分页条的"&empOutphone="+empOutphone+
-					opStr += "<input type='hidden' id='yincangunitName' value="+unitName+">";//隐藏域，隐藏部门名称
-					
-					//员工的隐藏域
-					opStr += "<input type='hidden' id='employeeid' value= '"
-							+ employeeId + "'/>";
-					opStr += "<input type='hidden' id='myidCode' value="+idCode+">";
-	
-					opStr += "<input type='hidden' id='departmentid' value='"
-							+ departmentid + "'/>";
-					opStr += "<input type='hidden' id='employeephoto' value='"
-							+ data.empInMsgByDepIdLeft[i].photo + "'/>";
-					opStr += "<input type='hidden' id='employeebirthday' value='"
-							+ birthday + "'/>";
-					opStr += "<input type='hidden' id='zhiwu' value='"
-							+ duty + "'/>";
-					
-					var finger;
-					if (data.empInMsgByDepIdLeft[i] != null) {
-						finger = data.empInMsgByDepIdLeft[i].finger;
-					} else {
-						finger = "无";
-					}
-					opStr += "<input type='hidden' id='employeefinger' value='"
-							+ finger + "'/>";
-					opStr += "<input type='hidden' id='employeeminusnum' value='"
-							+ data.empInMsgByDepIdLeft[i].trainstatus + "'/>";
-					
-					opStr += "<a onclick='allInfo(this)' class='el_delButton'>详情</a>&nbsp;";
-					opStr += "<a href='/Exam/employeein_toUpdateEmployeeIn.action?method="
-						+ employeeId
-						+ "'>修改</a>&nbsp;";
-					
-					opStr += "<a class='el_delButton' onclick='deleteEmployeeIn(this)' >删除</a>";
-					
-					
-					
-					opStr += "</td>";
+					var count = data.count;// 总记录数
+					var curPage = data.curPage;// 当前页页号
+					var curTotal = data.curTotal;// 每页显示的记录数
 
-					opStr += "</tr>";
-				}
-				$("#tbody").append(opStr);
+					// 参数1：总记录数 参数2：当前页页号 参数3：每页显示的记录条数
+					queryFy3(count, curPage, curTotal);
 
-				
-				var count = data.count;//总记录数
-				var curPage = data.curPage;//当前页页号
-				var curTotal = data.curTotal;//每页显示的记录数
-				
-				//参数1：总记录数   参数2：当前页页号  参数3：每页显示的记录条数
-				queryFy3(count, curPage,curTotal);
-
-			},//success回掉函数的括号
-			error : function() {
-				alert("error");
-			}//error的括号
-		});//ajax的括号
-}//方法的括号
-
+				},// success回掉函数的括号
+				error : function() {
+					alert("error");
+				}// error的括号
+			});// ajax的括号
+}// 方法的括号
 
 /**
- * 清空按钮的点击事件 
+ * 清空按钮的点击事件
  */
 function clearBtn() {
-	$("#inpstart2").val("");//清空姓名
-	$("#inpend2").val("");//清空身份证
-	$("#initName").val("");//清空姓名
-	$("#initIdCard").val("");//清空身份证
-	$("#el_breakSelect option:first").prop("selected", 'selected');//清空违章记分  
-	$(".initsex").attr("checked", false); //清空性别
-	$(".initBlack").attr("checked", false);//清空是否黑名单
-	//清空时间段
+	$("#inpstart2").val("");// 清空姓名
+	$("#inpend2").val("");// 清空身份证
+	$("#initName").val("");// 清空姓名
+	$("#initIdCard").val("");// 清空身份证
+	$("#el_breakSelect option:first").prop("selected", 'selected');// 清空违章记分
+	$(".initsex").attr("checked", false); // 清空性别
+	$(".initBlack").attr("checked", false);// 清空是否黑名单
+	// 清空时间段
 	$("#inpstart2").val("");
-	//清空时间段
+	// 清空时间段
 	$("#inpend2").val("");
-	//清空之后让黑名单选项可以选中
+	// 清空之后让黑名单选项可以选中
 	$("#el_blackCheckbox").find("input").attr("disabled", false);
-	
+
 	//
 	$("#departmentidTree").val("");
 }
@@ -797,108 +789,110 @@ function clearBtn() {
 /**
  * 添加违章信息的保存按钮的点击事件及关联操作 start
  */
-//<!-- 添加违章信息的保存按钮的点击事件-->
-function addSaveBtn(){
-	//添加前的违章总积分
+// <!-- 添加违章信息的保存按钮的点击事件-->
+function addSaveBtn() {
+	// 添加前的违章总积分
 	var addBeforeBreakScore = $("#breakScoreSum").val();
-	//alert(addBeforeBreakScore+"添加前")
-	
-	if($("#breakScoreID").val()>=12){
-		//弹出警告的模态框
+	// alert(addBeforeBreakScore+"添加前")
+
+	if ($("#breakScoreID").val() >= 12) {
+		// 弹出警告的模态框
 		$("#addyAlertModel2").modal();
-	}else{
-		if(parseInt(addBeforeBreakScore)+parseInt($("#breakScoreID").val())>=12){
+	} else {
+		if (parseInt(addBeforeBreakScore) + parseInt($("#breakScoreID").val()) >= 12) {
 			alert("该员工的违章记分累计超过12分");
 		}
-		//如果本次添加的违章记分<12分，就不给警告提示
+		// 如果本次添加的违章记分<12分，就不给警告提示
 		addSaveAfterBtn();
-	} 
+	}
 }
 
 /**
  * 给出"正式员工积分12分为厂级下岗，8分为部门内部下岗，"的提醒 的方法
  */
-function addAlertMsg(){
-	//$("#addEmpID").val(empId);//当天添加记分的员工id
+function addAlertMsg() {
+	// $("#addEmpID").val(empId);//当天添加记分的员工id
 	$.ajax({
-		url:contextPath+"/empInbreakrules_getSingleEmplyInBreakScoreSum.action",
-		data:{"employeeid":$("#addEmpID").val()},
-		dataType:"json",
-		type:"POST",
-		async:true,
-		success:function(data){
-			//给出提示
-			if((data.result>=8) && (data.result<12)){
+		url : contextPath
+				+ "/empInbreakrules_getSingleEmplyInBreakScoreSum.action",
+		data : {
+			"employeeid" : $("#addEmpID").val()
+		},
+		dataType : "json",
+		type : "POST",
+		async : true,
+		success : function(data) {
+			// 给出提示
+			if ((data.result >= 8) && (data.result < 12)) {
 				alert("该员工部门内部下岗");
-			}else if(data.result>=12){
+			} else if (data.result >= 12) {
 				alert("该员工厂级下岗");
 			}
 		},
 	});
 }
 
-//点击了警告提示框 的确定按钮之后的事件
-function addAlertModelBtn2(){
-	//执行添加违章记分的后续操作
+// 点击了警告提示框 的确定按钮之后的事件
+function addAlertModelBtn2() {
+	// 执行添加违章记分的后续操作
 	addSaveAfterBtn();
 }
 
-
-//进入添加模态框 之后点击确定时的后续操作
-function addSaveAfterBtn(){
-	//表单校验
+// 进入添加模态框 之后点击确定时的后续操作
+function addSaveAfterBtn() {
+	// 表单校验
 	var isNotNull = $("#addForm").validate({
 		ignore : [],
-			rules : {
-				"emplyinBreakrules.empinbreaktime" : "required",//违章时间
-				"emplyinBreakrules.empinminusnum" : {//违章记分
-					"required":true,
-					"isNumber":true
-				},
-				"emplyinBreakrules.empinbreakcontent" : "required"//违章内容
+		rules : {
+			"emplyinBreakrules.empinbreaktime" : "required",// 违章时间
+			"emplyinBreakrules.empinminusnum" : {// 违章记分
+				"required" : true,
+				"isNumber" : true
 			},
-			messages : {
-				"emplyinBreakrules.empinbreaktime" : {//违章时间
-					required : "不能为空"
-				},//下边与上边对应
-				"emplyinBreakrules.empinminusnum" : {//违章记分
-					required : "不能为空",
-					isNumber:"请输入一个数字"
-				},
-				"emplyinBreakrules.empinbreakcontent" : {
-					required : "不能为空"
-				}
+			"emplyinBreakrules.empinbreakcontent" : "required"// 违章内容
+		},
+		messages : {
+			"emplyinBreakrules.empinbreaktime" : {// 违章时间
+				required : "不能为空"
+			},// 下边与上边对应
+			"emplyinBreakrules.empinminusnum" : {// 违章记分
+				required : "不能为空",
+				isNumber : "请输入一个数字"
+			},
+			"emplyinBreakrules.empinbreakcontent" : {
+				required : "不能为空"
 			}
-		});
-	//表单校验结束						
+		}
+	});
+	// 表单校验结束
 	if (isNotNull.form()) {
 		$.ajax({
-			url:contextPath+"/empInbreakrules_addEmpInBreakrules.action",
-			data:$("#addForm").serialize(),
-			dataType:"json",
-			type:"POST",
-			async:true,
-			success:function(data){
+			url : contextPath + "/empInbreakrules_addEmpInBreakrules.action",
+			data : $("#addForm").serialize(),
+			dataType : "json",
+			type : "POST",
+			async : true,
+			success : function(data) {
 				alert(data.result);
-				//操作成功之后，再次分页查询数据(当作数据的刷新)
-				if($("#allMark").val()=="left"){
-					//alert("left")
-					//执行左边的树的查询
+				// 操作成功之后，再次分页查询数据(当作数据的刷新)
+				if ($("#allMark").val() == "left") {
+					// alert("left")
+					// 执行左边的树的查询
 					leftBtn();
-				}else if($("#allMark").val()=="top"){
-					//执行顶部的分页的查询
+				} else if ($("#allMark").val() == "top") {
+					// 执行顶部的分页的查询
 					findSaveBtn();
-				}/*else if($("#allMark").val()=="initData"){
-					initData();
-				}*/
-				//记分添加完成之后，给出"正式员工积分12分为厂级下岗，8分为部门内部下岗，"的提醒
+				}/*
+					 * else if($("#allMark").val()=="initData"){ initData(); }
+					 */
+				// 记分添加完成之后，给出"正式员工积分12分为厂级下岗，8分为部门内部下岗，"的提醒
 				addAlertMsg();
 			},
-			error:function(){
+			error : function() {
 				alert("添加失败，请从新添加")
 			}
 		});
-		//关闭模态框
+		// 关闭模态框
 		$('#el_addBreakInfo').modal("hide");
 	}
 
@@ -907,18 +901,16 @@ function addSaveAfterBtn(){
  * 添加违章信息的保存按钮的点击事件及关联操作 end
  */
 
-
 /** *****************lixianyuan end ********* */
-//查看历史违章信息
-function historyBreakInfoFind(){
+// 查看历史违章信息
+function historyBreakInfoFind() {
 	var type = $("#el_breakType").val();
 	$("#breakInfo_Type").val(type);
 	$("#yeHao").val("1");
 	findSaveBtn();
 }
 
-
-/*************************************zwy start********/
+/** ***********************************zwy start******* */
 /**
  * 删除员工
  */
@@ -929,9 +921,10 @@ function historyBreakInfoFind(){
 function deleteEmployeeIn(obj) {
 
 	// 获取单位编号
-	//var employeeid = $(obj).parents("tr").find(input[name="el_ycy"]).val();
+	// var employeeid = $(obj).parents("tr").find(input[name="el_ycy"]).val();
 
-	var employeeid = $(obj).parents("tr").find('input[name="el_ycy"]').eq(0).val();
+	var employeeid = $(obj).parents("tr").find('input[name="el_ycy"]').eq(0)
+			.val();
 
 	$("#url").val(employeeid);
 
@@ -964,7 +957,6 @@ function urlSubmit() {
 
 }
 
-
 /**
  * 员工详细信息
  */
@@ -979,7 +971,8 @@ function allInfo(obj) {
 	var employeefinger = $(obj).parents("tr").find("#employeefinger").val();
 	var employeephoto = $(obj).parents("tr").find("#employeephoto").val();
 	var zhiwu = $(obj).parents("tr").find("#zhiwu").val();
-	var idcode = $(obj).parents("tr").children('input[name="el_ycy"]').eq(3).val();
+	var idcode = $(obj).parents("tr").children('input[name="el_ycy"]').eq(3)
+			.val();
 	// 图片
 	// $("[href='default.htm']")contextPath+
 
@@ -989,10 +982,10 @@ function allInfo(obj) {
 	$("#InfoSex").html($tds.eq(2).html());
 	$("#InfoBirthday").html($tds.eq(3).html());
 	$("#InfoPhone").html($tds.eq(4).html());
-	//$("#InfoIdcode").html($tds.eq(7).html());
+	// $("#InfoIdcode").html($tds.eq(7).html());
 	$("#InfoIdcode").html(idcode);
 	// $("#InfoTrainstatus").html($tds.eq(7).html());
-	
+
 	$("#InfoDepartmentid").html($tds.eq(5).html());
 	// $("#InfoFinger").html(employeefinger);
 	$("#Infozhiwu").html(zhiwu);
@@ -1004,10 +997,9 @@ function allInfo(obj) {
 	$('#allInfo').modal();
 }
 
-
-//得到部门名称
+// 得到部门名称
 function getDepartmentName2(departmentid) {
-	
+
 	$.ajax({
 		url : '/Exam/department_getDepartmentName.action',
 		data : {
@@ -1024,7 +1016,7 @@ function getDepartmentName2(departmentid) {
 
 }
 
-//得到部门名称
+// 得到部门名称
 function getDepartmentName(departmentid) {
 
 	$.ajax({
@@ -1091,7 +1083,6 @@ function selectDuty() {
 	});
 }
 
-
 /**
  * 添加员工
  */
@@ -1152,131 +1143,126 @@ function addEmployeeInInfo() {
 		/**
 		 * 如果年龄符合，即aged为true ，则执行下边内容。
 		 */
-		//if (aged) {
-
-			// 判断该身份证是否已经添加
-			for (var i = 0; i < idCardArrays.length; i++) {
-				if (idCardArrays[i] == idCard) {
-					added = true;
-				}
+		// if (aged) {
+		// 判断该身份证是否已经添加
+		for (var i = 0; i < idCardArrays.length; i++) {
+			if (idCardArrays[i] == idCard) {
+				added = true;
 			}
+		}
 
-			if (added) {
-				alert("该员工已经添加到表格中！")
-			} else {
+		if (added) {
+			alert("该员工已经添加到表格中！")
+		} else {
 
-				var name = $("#personName").val();
-				var sex = $("#gender").val();
-				var birthday = $("#birthday").val();
-				var address = $("#address").val();
+			var name = $("#personName").val();
+			var sex = $("#gender").val();
+			var birthday = $("#birthday").val();
+			var address = $("#address").val();
 
-				var phone = $("#addEmployeeInPhone").val();
-				// var duty = $("#addEmployeeInDuty").val();
+			var phone = $("#addEmployeeInPhone").val();
+			// var duty = $("#addEmployeeInDuty").val();
 
-				var options = $("#addEmployeeInDuty option:selected");
+			var options = $("#addEmployeeInDuty option:selected");
 
-				var add_departmentName = $("#add_departmentName").val();
+			var add_departmentName = $("#add_departmentName").val();
 
-				var departmentid = $("#queryDepartmentId").val();
+			var departmentid = $("#queryDepartmentId").val();
 
-				var idCardImageStr = $("#idCardImageStr").val();
+			var idCardImageStr = $("#idCardImageStr").val();
 
-				// 判断该员工是否进入黑名单
-				$
-						.ajax({
-							url : "/Exam/employeein_isBlackList.action",
-							data : {
-								"myIdcode" : idCard
-							},
-							dataType : "json",
-							type : "post",
-							success : function(data) {
+			// 判断该员工是否进入黑名单
+			$
+					.ajax({
+						url : "/Exam/employeein_isBlackList.action",
+						data : {
+							"myIdcode" : idCard
+						},
+						dataType : "json",
+						type : "post",
+						success : function(data) {
 
-								if (data.flag == "0") {
+							if (data.flag == "0") {
 
-									$
-											.ajax({
-												url : '/Exam/employeein_isIdCode.action',
-												data : {
-													"myIdcode" : idCard
-												},
-												type : 'POST',
-												dataType : 'json',
-												async : true,
-												success : function(result) {
+								$
+										.ajax({
+											url : '/Exam/employeein_isIdCode.action',
+											data : {
+												"myIdcode" : idCard
+											},
+											type : 'POST',
+											dataType : 'json',
+											async : true,
+											success : function(result) {
 
-													if (result.flag) {
-														// 若尚未添加将员工信息保存到数组中
-														idCardArrays
-																.push(idCard);
-														var showAddEmployeeInInfo = "<tr><td>"
-																+ name
-																+ "</td><td>"
-																+ sex
-																+ "</td><td>"
-																+ idCard
-																+ "</td><td>"
-																+ options
-																		.text()
-																+ "</td><td>"
-																+ phone
-																+ "</td><td>"
-																+ add_departmentName
-																+ "</td><td>"
-																+ "<input type='hidden' class='address' value='"
-																+ address
-																+ "'/>"
-																+ "<input type='hidden' class='idCardImageStr' value='"
-																+ idCardImageStr
-																+ "'/>"
-																+ "<input type='hidden' class='departmentid' value='"
-																+ departmentid
-																+ "'/>"
-																+ "<input type='hidden' class='birthday' value='"
-																+ birthday
-																+ "'/>"
-																+ "<a class='el_delButton' onClick='deleteAddInfo(this)'>删除</a><br/>"
-																+ "</td></tr>";
+												if (result.flag) {
+													// 若尚未添加将员工信息保存到数组中
+													idCardArrays.push(idCard);
+													var showAddEmployeeInInfo = "<tr><td>"
+															+ name
+															+ "</td><td>"
+															+ sex
+															+ "</td><td>"
+															+ idCard
+															+ "</td><td>"
+															+ options.text()
+															+ "</td><td>"
+															+ phone
+															+ "</td><td>"
+															+ add_departmentName
+															+ "</td><td>"
+															+ "<input type='hidden' class='address' value='"
+															+ address
+															+ "'/>"
+															+ "<input type='hidden' class='idCardImageStr' value='"
+															+ idCardImageStr
+															+ "'/>"
+															+ "<input type='hidden' class='departmentid' value='"
+															+ departmentid
+															+ "'/>"
+															+ "<input type='hidden' class='birthday' value='"
+															+ birthday
+															+ "'/>"
+															+ "<a class='el_delButton' onClick='deleteAddInfo(this)'>删除</a><br/>"
+															+ "</td></tr>";
 
-														$(
-																"#addEmployeeOutInfoList")
-																.append(
-																		showAddEmployeeInInfo);
+													$("#addEmployeeOutInfoList")
+															.append(
+																	showAddEmployeeInInfo);
 
-														$
-																.ajax({
-																	url : "/Exam/employeein_saveEmployeePhoto.action",
-																	data : {
-																		"employeeInIdCard" : idCard,
-																		"photoStr" : idCardImageStr
-																	},
-																	type : "post"
-																});
+													$
+															.ajax({
+																url : "/Exam/employeein_saveEmployeePhoto.action",
+																data : {
+																	"employeeInIdCard" : idCard,
+																	"photoStr" : idCardImageStr
+																},
+																type : "post"
+															});
 
-													} else {
-														idCardArrays.splice(i,
-																1);
-														alert("该员工已经添加，不能重复添加");
-													}
+												} else {
+													idCardArrays.splice(i, 1);
+													alert("该员工已经添加，不能重复添加");
 												}
-											});
-								} else if (data.flag == "2") {
+											}
+										});
+							} else if (data.flag == "2") {
 
-									alert("该员工的违章积分已经累计达到12分,不能添加");
-								} else if (data.flag == "1") {
-									alert("该员工已进入永久黑名单，不能添加");
-								}
-
+								alert("该员工的违章积分已经累计达到12分,不能添加");
+							} else if (data.flag == "1") {
+								alert("该员工已进入永久黑名单，不能添加");
 							}
-						});
 
-				// 将联系方式文本框清空
-				$("#addEmployeeInPhone").val('');
-				$("#message3").hide();
-				selectDuty();
+						}
+					});
 
-			}
-		//}
+			// 将联系方式文本框清空
+			$("#addEmployeeInPhone").val('');
+			$("#message3").hide();
+			selectDuty();
+
+		}
+		// }
 	} else {
 		alert("请录入员工信息");
 	}
@@ -1405,7 +1391,6 @@ function saveEmployeeAndHaulInfo() {
 
 }
 
-
 /**
  * 员工培训档案
  */
@@ -1417,8 +1402,8 @@ function el_empTrainDoc() {
 
 	} else {
 
-		$tds = $("input[name='el_chooseBreakRules']:checked").parents('tr').find(
-				'td');
+		$tds = $("input[name='el_chooseBreakRules']:checked").parents('tr')
+				.find('td');
 		// 分别将这些数据放到修改模态框中
 		/*
 		 * var employeeminusnum =
@@ -1431,23 +1416,23 @@ function el_empTrainDoc() {
 		$("#TrainPhone").html($tds.eq(4).html());
 		// 显示头像
 
-		var employeephoto = $("input[name='el_chooseBreakRules']:checked").parents(
-				"tr").find("#employeephoto").val();
+		var employeephoto = $("input[name='el_chooseBreakRules']:checked")
+				.parents("tr").find("#employeephoto").val();
 		$("#myimg2").attr("src", "/files/EmployeeIn/" + employeephoto);
 		/* $("#TrainblackkList").html("黑名单"); */
 
 		$("#TrainUnit").html($tds.eq(5).html());
 		/* $("#TrainMinusnum").html(employeeminusnum); */
 		$("#el_empTrainDoc").modal();
-		var employeeid = $("input[name='el_chooseBreakRules']:checked").parents(
-				"tr").find("#employeeid").val();
+		var employeeid = $("input[name='el_chooseBreakRules']:checked")
+				.parents("tr").find("#employeeid").val();
 		// alert(employeeid);
 
-		 var idcode =
-		 $("input[name='el_chooseBreakRules']:checked").parents("tr").find("#myidCode").val();
+		var idcode = $("input[name='el_chooseBreakRules']:checked").parents(
+				"tr").find("#myidCode").val();
 		// 身份证
 
-		//var idcode = $tds.eq(7).html()
+		// var idcode = $tds.eq(7).html()
 
 		$("#hiddenidcode").val(idcode);
 		EmpTrainDoc();
@@ -1455,7 +1440,6 @@ function el_empTrainDoc() {
 	}
 
 }
-
 
 function fenye2(total, pageSize, pageNumber) {
 	$('#paginationIDU2').pagination(
@@ -1569,7 +1553,7 @@ function EmpTrainDoc() {
 function extEmpTrain() {
 	// 将数据打包发送到后台
 	var idcode = $("#hiddenidcode").val();
-	
+
 	if (confirm("确定导出?")) {
 		window.location.href = "/Exam/exportTrainDoc.action?idcode=" + idcode;
 		// self.location ="/Exam/exportTrainDoc.action?idcode="+idcode;
@@ -1590,5 +1574,4 @@ function isShowOnlyManager() {
 	findSaveBtn();
 }
 
-
-/*********************************zwy end***********************/
+/** *******************************zwy end********************** */

@@ -125,12 +125,12 @@ function showHaulTable(response) {
 				+ '</td><td>' + haulinfos[i].bigstatus + '</td><td>'
 				+ haulinfos[i].bigdescription + '</td><td>';
 
-		tr += '<a  title="点击查看具体的检修单位信息" href="' + contextPath
+		tr += '<a  title="查看具体的检修单位信息" href="' + contextPath
 				+ '/view/overhaul/overhaulInfo.jsp?haulId='
-				+ haulinfos[i].bigid + '">详情</a>';
+				+ haulinfos[i].bigid + '"><span class="glyphicon glyphicon-search"></span></a>';
 		if (hasOperatingJianxiu) {
-			tr += '<a href="javascript:void(0)" onclick="el_modifyOverhaul(this)">修改</a>'
-			tr += '<a href="javascript:void(0)" onclick="showDeleteModal(this)">删除</a>';
+			tr += '<a title="修改检修" href="javascript:void(0)" onclick="el_modifyOverhaul(this)"><span class="glyphicon glyphicon-pencil"></span></a>'
+			tr += '<a title="删除检修" href="javascript:void(0)" onclick="showDeleteModal(this)"><span class="glyphicon glyphicon-trash"></span></a>';
 		}
 		tr += '</td></tr>';
 		// 填充表格

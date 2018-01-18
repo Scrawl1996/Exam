@@ -437,7 +437,7 @@ public class TraincontentAction extends ActionSupport {
 		// 获取Session中的用户信息
 		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 		String departmentIdSession = user.getDepartmentid();// 获取部门ID
-		boolean permitted = currentUser.isPermitted("exammanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
+		boolean permitted = currentUser.isPermitted("trainmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 		String departmentId = permitted ? null : departmentIdSession;
 		// 该Map集合用于封装分页查询的条件
 		Map<String, Object> mapFY = new LinkedHashMap<String, Object>();
@@ -458,7 +458,7 @@ public class TraincontentAction extends ActionSupport {
 		map2.put("departmentName", departmentName);// 部门名称
 		map2.put("level", level);// 等级
 		map2.put("knowledgeType", knowledgeType);// 知识点
-		map2.put("departmentId", departmentId);// 知识点
+		map2.put("departmentId", departmentId);// 部门
 
 		// 根据 资料名称、部门名称、等级、知识点查询总记录数
 		int resultCount = traincontentService.selectTraincontentCountWithFYCondition(map2);

@@ -1,22 +1,60 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro"%>
 <%
 	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-		+ request.getServerName() + ":" + request.getServerPort()
-		+ path + "/";
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 <%@ include file="/public/tag.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>员工管理</title>
+<title>内部员工违章管理</title>
 
 <%@ include file="/public/cssJs.jsp"%>
+<!-- 设置一个JS全局变量记录项目名字 -->
+<script type="text/javascript">
+	var contextPath = "${pageContext.request.contextPath}";
+</script>
 
-<!--分页-->
-<%-- <script src="<%=path %>/js/public/page.js"></script> --%>
+<script src="<%=path%>/js/innerDepart/emplyInBreakRulesManage.js"></script>
+<link rel="stylesheet" href="<%=path%>/css/outDepart/outdepartTree.css">
+
+<!-- 员工的CSS -->
+<link rel="stylesheet"
+	href="<%=path %>/css/innerDepart/innerdepartEmpManage.css">
+<!--验证-->
+<script
+	src="${pageContext.request.contextPath }/controls/validate/jquery.validate.js"></script>
+<script
+	src="${pageContext.request.contextPath }/controls/validate/messages_zh.js"></script>
+<script>
+	$(function() {
+
+		$("#inpstart2").jeDate({
+			isinitVal : false,
+			minDate : '2000-06-16',
+			maxDate : '2225-06-16',
+			format : 'YYYY-MM-DD',
+			zIndex : 3000
+		})
+
+		$("#inpend2").jeDate({
+			isinitVal : false,
+			minDate : '2000-06-16',
+			maxDate : '2225-06-16',
+			format : 'YYYY-MM-DD',
+			zIndex : 3000
+		})
+
+	})
+</script>
+
+<!-- ------------员工引入的---------- -->
+
+
 <script>
     var contextPath="${baseurl}";
     var hasOperatingEmpin=false;
@@ -27,15 +65,6 @@
 hasOperatingEmpin = true;
 </script>
 </shiro:hasPermission>
-
-<!--左边的树-->
-
-
-<script src="<%=path %>/js/innerDepart/innerdepartEmpManage.js"></script>
-<link rel="stylesheet"
-	href="<%=path %>/css/innerDepart/innerdepartEmpManage.css">
-
-<link rel="stylesheet" href="<%=path %>/css/outDepart/outdepartTree.css">
 
 <!-- 验证 -->
 <script src="<%=path %>/controls/validate/jquery.validate.js"></script>
@@ -54,9 +83,49 @@ hasOperatingEmpin = true;
     	//定义一个全局变量
     	var basePathUrl = "${pageContext.request.contextPath}";
     </script>
-</head>
-<body onkeydown="keyLogin();">
+    
+    
+<style>
+#el_breakTimeIndex input {
+	width: 33% !important;
+	margin-right: 10px;
+}
 
+#el_breakTimeIndex {
+	margin-left: 15px;
+}
+
+#el_breakType {
+	font-size: 13px;
+}
+
+.el_topButton {  
+    margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+	<!-- 用于提交数据的 -->
+	<form id="detailInForm"
+		action="${pageContext.request.contextPath}/empInbreakrules_detailOp.action"
+		method="post">
+		<input type="hidden" name="fstarttime" id="q_starttime"> <input
+			type="hidden" name="fendtime" id="q_endtime"> <input
+			id="detailunitName" name="detailunitName" type="hidden" value="" />
+		<input id="detailemployeeId" name="detailemployeeId" type="hidden"
+			value="" /> <input id="detail_breakInfoType" name="empBreakInfoType"
+			type="hidden" value="0" />
+	</form>
+
+	<!-- 隐藏域 start -->
+
+
+	<!-- 隐藏 操作哪块地标记 -->
+	<input id="allMark" type="hidden" value="" />
+
+
+	<!-- 隐藏域  end -->
 	<!--头-->
 	<jsp:include page="/view/public/header.jsp"></jsp:include>
 
@@ -75,9 +144,8 @@ hasOperatingEmpin = true;
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>部门管理</span><span>>员工管理</span>
+						<span>内部单位管理</span><span>>内部员工违章管理</span>
 					</div>
-
 					<div class="el_main">
 
 						<!--树-->
@@ -92,76 +160,181 @@ hasOperatingEmpin = true;
 
 							<!--索引-->
 							<div class="row el_queryBox">
-								<form id="InnerEmpQueryForm" method="POST"
-									onsubmit="return false;">
-
+								<form id="findForm">
 									<div class="row el_queryBoxrow">
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
 												<span class="el_spans">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span>
-												<input type="text" class="form-control" name="name"
-													id="InnerEmpName" /> <input type="hidden"
-													name="currentPage" id="currentPage" /> <input
-													type="hidden" name="currentCount" id="currentCount" /> <input
-													type="hidden" name="departmentid" id="queryDepartmentId"
-													value='${result.getdepartmentid }' />
-												<!-- <input type="text" name="departmentid" id="queryDepartmentId" value="12001"/> -->
+												<input id="initName" type="text" class="form-control"
+													name="fName" value="" />
+											</div>
+										</div>
+
+										<!-- <div class="col-md-3 el_qlmQuery">
+											<div class="input-group" role="toolbar">
+												<span class="el_spans">身份证：</span> <input id="initIdCard"
+													type="text" class="form-control" name="fIdCode" value="" />
+													
+													
+													<input
+													type="hidden" name="departmentid" id="queryDepartmentId" />
+												
+												默认显示管理员
+												<input type="hidden" name="isOnlyManager" value="false"
+													id="el_showManagerInput" />
+											</div>
+										</div> -->
+
+										<div class="col-md-3 el_qlmQuery">
+											<div class="input-group" role="toolbar">
+												<span class="el_spans">性别：</span> <label class="el_radioBox"><input
+													class="initsex" type="radio" name="fSex" value="1">
+													男</label> <label class="el_radioBox"><input class="initsex"
+													type="radio" name="fSex" value="2"> 女</label>
+													
+														<input
+													type="hidden" name="departmentid" id="queryDepartmentId" />
+												
 												<!-- 默认显示管理员 -->
 												<input type="hidden" name="isOnlyManager" value="false"
 													id="el_showManagerInput" />
 											</div>
 										</div>
+										
+											<div class="col-md-3 el_qlmQuery">
+											<div class="input-group" id="el_blackCheckbox" role="toolbar">
+												<span class="el_spans">黑名单：</span> <label
+													class="el_radioBox"><input class="initBlack"
+													type="radio" name="fIsBreak" value="是"> 是</label> <label
+													class="el_radioBox"><input class="initBlack"
+													type="radio" name="fIsBreak" value="否"> 否</label>
+											</div>
+										</div>
+										
+										
+									</div>
+
+									<div class="row el_queryBoxrow">
 
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
-												<span class="el_spans">性别：</span> <label class="el_radioBox"><input
-													type="radio" name="sex" value="1"> 男</label> <label
-													class="el_radioBox"><input type="radio" name="sex"
-													value="2"> 女</label>
+												<span class="el_spans">违章积分：</span> <select
+													class="selectpicker form-control" id="el_breakSelect"
+													name="fBreakScore" title="请选择">
+													<option value="0,100">--请选择--</option>
+													<option value="0,3">3分以下</option>
+													<option value="4,6">4-6</option>
+													<option value="7,11">7-11</option>
+													<option value="12,1000">12分及以上</option>
+												</select>
 											</div>
 										</div>
+										<div class="col-md-6" id="el_breakTimeIndex">
+											<div class="input-group" id="el_startEndTime" role="toolbar">
+												<span class="el_spans">违章时间：</span> <input type="text"
+													class=" form-control query_dep_starttime" name="fstarttime"
+													placeholder="开始时间" id="inpstart2" readonly> <input
+													type="text" class="form-control query_dep_endtime"
+													id="inpend2" placeholder="结束时间" name="fendtime" readonly>
+											</div>
+										</div>
+										
 
-										<div class="col-md-3 el_qlmQuery">
-											<div class="input-group" role="toolbar">
-												<span class="el_spans">身份证：</span> <input type="text"
-													class="form-control" name="idcode" id="InnerEmpIdcode" />
+
+									<!-- 	<div class="col-md-3 el_qlmQuery">
+											<div class="input-group" id="el_blackCheckbox" role="toolbar">
+												<span class="el_spans">黑名单：</span> <label
+													class="el_radioBox"><input class="initBlack"
+													type="radio" name="fIsBreak" value="是"> 是</label> <label
+													class="el_radioBox"><input class="initBlack"
+													type="radio" name="fIsBreak" value="否"> 否</label>
 											</div>
-										</div>
+										</div> -->
+
 
 									</div>
 
-									<!--  <div class="row el_queryBoxrow">
-
-                            <div class="col-md-3 el_qlmQuery">
-                                <div class="input-group" role="toolbar">
-                                    <span class="el_spans">考试情况：</span>
-                                    <select class="selectpicker form-control" title="请选择" name="trainstatus" id="InnerEmpTrainstatus">
-                                        <option value="">--请选择--</option>
-                                        <option value="1">通过一级考试</option>
-                                        <option value="2">通过二级考试</option>
-                                        <option value="3">通过三级考试</option>
-                                        <option value="0">未通过</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div> -->
-									<!--清空按钮-->
-									<button type="reset"
-										class="btn btn-default el_queryButton0 btn-sm">清空</button>
-
+									<!-- <div class="row el_queryBoxrow">
+										<div class="col-md-6" id="el_breakTimeIndex">
+											<div class="input-group" id="el_startEndTime" role="toolbar">
+												<span class="el_spans">违章时间：</span> <input type="text"
+													class=" form-control query_dep_starttime" name="fstarttime"
+													placeholder="开始时间" id="inpstart2" readonly> <input
+													type="text" class="form-control query_dep_endtime"
+													id="inpend2" placeholder="结束时间" name="fendtime" readonly>
+											</div>
+										</div>
+									</div> -->
+									<!-- 当前页页号 -->
+									<input id="yeHao" type="hidden" name="fcurpage" value="1" />
+									<!-- 每页显示的记录数 -->
+									<input id="jiLuShu" type="hidden" name="fcurtotal" value="8" />
+									<!-- 隐藏一个左侧的树选中的部门的部门id -->
+									<input id="departmentidTree" type="hidden" name="fdepartmentid"
+										value="" />
+									<!-- 隐藏违章信息查询类型，默认查询当前年 -->
+									<input id="breakInfo_Type" type="hidden" value="0"
+										name="empBreakInfoType">
 									<!--提交查询按钮-->
-									<button type="button"
-										class="btn btn-default el_queryButton btn-sm btn-primary"
-										onclick="clearPage()">查询</button>
-
-
+									<button type="button" onclick="clearPagenum()"
+										class="btn btn-primary el_queryButton btn-sm">查询</button>
+									<button type="button" onclick="clearBtn()"
+										class="btn btn-default el_queryButton btn-sm"
+										style="right: 12px">清空</button>
 								</form>
 
 							</div>
 							<!--结束 查询表单提交-->
 
+							<!-- 清空按钮的点击事件 -->
+							<script type="text/javascript">
+								
+							</script>
+							<!-- 解决违章记分和黑名单冲突 -->
+							<script>
+								$(
+										function() {
+											$("#el_breakSelect")
+													.change(
+															function() {
+																var breakValue = $(
+																		this)
+																		.val();
+
+																if (breakValue != "") {
+																	$(
+																			"#el_blackCheckbox")
+																			.find(
+																					"input")
+																			.attr(
+																					"disabled",
+																					true);
+																	$(
+																			"#el_blackCheckbox")
+																			.find(
+																					"input")
+																			.attr(
+																					"checked",
+																					false);
+																} else {
+																	$(
+																			"#el_blackCheckbox")
+																			.find(
+																					"input")
+																			.attr(
+																					"disabled",
+																					false);
+																}
+															})
+										})
+							</script>
+
+
+
+
+
 							<!--显示内容-->
-							<h4 class="el_mainHead">员工信息</h4>
+							<h3 class="el_mainHead">员工违章信息</h3>
 							<div class="panel panel-default el_Mainmain">
 
 								<!--按钮面板-->
@@ -171,6 +344,9 @@ hasOperatingEmpin = true;
 										<div class="panel-body el_MainxiaoMain">
 
 											<div class="el_topButton">
+												<div >
+												
+												<!-- 员工按钮 -->
 												<!-- 按钮触发模态框1 -->
 
 												<!-- 在模态框中添加 -->
@@ -179,10 +355,18 @@ hasOperatingEmpin = true;
 														<button class="btn btn-primary">添加员工</button>
 													</a>
 												</shiro:hasPermission>
+												
+												
+												<shiro:hasPermission name="breakrules:add">
+														<!-- 按钮触发模态框1 -->
 
-												<button class="btn btn-primary" data-toggle="modal"
-													onclick="el_empTrainDoc()">查看员工培训档案</button>
+														<button id="el_addBreakRules" class="btn btn-primary"
+															onclick="el_addBreakInfo()">添加违章信息</button>
 
+
+												</shiro:hasPermission>
+
+												
 												<!-- <label id="el_showAllUser" title="选中将会显示该部门的管理人员"
 										class="btn btn-sm btn-primary"> <input
 										type="checkbox" onclick="isShowOnlyManager()"
@@ -194,21 +378,35 @@ hasOperatingEmpin = true;
 													<option value="false">全部员工</option>
 													<option value="true">管理人员</option>
 												</select>
-
-												<!-- <button class="btn btn-primary" data-toggle="modal" onclick="el_batchInput()">
-                                      	 批量导入
-                                    </button> -->
+												
+												<!-- 违章按钮 -->
+													
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+													
+													<select class="btn btn-primary" id="el_breakType"
+														title="请选择" onchange="historyBreakInfoFind()">
+														<!-- <select class="btn btn-primary" id="el_breakType"
+													title="请选择" name="examLevel"> -->
+														<option value="0">当前违章</option>
+														<option value="1">历史违章</option>
+													</select>
+													
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+													<button class="btn btn-primary" data-toggle="modal"
+													onclick="el_empTrainDoc()">查看员工培训档案</button>
+													
+													
+													
+												</div>
 											</div>
 
 										</div>
 									</div>
 
-									<!--表格
-                            内容都提取到json里边
-                        -->
-									<table class="table table-hover  table-bordered">
+									<!--表格    内容都提取到json里边             -->
+									<table class="table table-hover table-bordered">
 										<thead>
-											<tr>
+											<tr>											
 												<th>选择</th>
 												<th>姓名</th>
 												<th>性别</th>
@@ -216,21 +414,328 @@ hasOperatingEmpin = true;
 												<th>联系方式</th>
 												<th>所属部门</th>
 												<th>职务</th>
-												<th>身份证</th>
-
-												<th>操作</th>
+												<th>违章积分</th>
+												<th>黑名单状态</th>
+												<th width="190">操作</th>
 											</tr>
 										</thead>
+										<tbody id="tbody">
 
-										<tbody id="t_body"></tbody>
+										</tbody>
 									</table>
 
-									<!--分页-->
+									<!--分页  用于左侧的树的-->
 									<div id="paginationIDU" class="paginationID"></div>
 
 								</div>
 							</div>
 
+							<!-- 模态框 违章信息添加-->
+							<div class="modal fade" id="el_addBreakInfo" tabindex="-1"
+								data-backdrop="static" data-keyboard="false" role="dialog"
+								aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabeld2">添加违章信息</h4>
+										</div>
+										<form id="addForm">
+
+											<div class="modal-body">
+												<span>员工信息：</span>
+												<div>
+													<table class="table table-bordered">
+														<thead>
+															<tr>
+																<th>姓名</th>
+																<!--  <td>联系方式</td> -->
+																<th>性别</th>
+																<th>所属单位</th>
+																<th>违章记分</th>
+																<th>黑名单</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td id="addName"></td>
+																<td id="addSex"></td>
+																<!--  <td id="addPhone">asdf</td> -->
+																<td id="addunitName"></td>
+																<td id="addbreakScore"></td>
+																<td id="addIsBreak"></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+
+												<!-- 隐藏一个员工id -->
+												<input id="addEmpID" type="hidden"
+													name="emplyinBreakrules.empinemployeeid" value="" />
+
+												<!-- 隐藏一个身份证 -->
+												<input id="addIdCard" type="hidden" name="addIdCard"
+													value="" />
+												<div class="input-group el_modellist" role="toolbar">
+													<span class="el_spans">违章时间：</span> <input type="text"
+														id="test41" class="workinput wicon form-control el_noVlaue"
+														name="emplyinBreakrules.empinbreaktime" readonly />
+												</div>
+
+												<div class="input-group el_modellist" role="toolbar">
+													<span class="el_spans">违章积分：</span>
+													<!--不得超过12分-->
+													<input id="breakScoreID" type="text"
+														class="form-control el_modelinput"
+														name="emplyinBreakrules.empinminusnum" />
+												</div>
+
+												<div class="input-group el_modellist" role="toolbar">
+													<span class="el_spans">违章内容：</span>
+													<textarea id="addBreakContent"
+														class="form-control el_modelinput" rows="3" value=""
+														name="emplyinBreakrules.empinbreakcontent"></textarea>
+												</div>
+
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+												<button type="button" onclick="addSaveBtn()"
+													class="btn btn-primary">保存</button>
+											</div>
+										</form>
+
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+
+							<!-- 模态框，用于提示本次添加的 违章记分>=12分的情况   start-->
+							<div class="modal fade" id="addyAlertModel2"
+								data-backdrop="static" data-keyboard="false">
+								<div class="modal-dialog">
+									<div class="modal-content message_align">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">×</span>
+											</button>
+											<h4 class="modal-title">提示</h4>
+										</div>
+										<div class="modal-body">
+											<p>您当前添加的违章积分大于等于12分，该员工被永久进入黑名单，是否继续添加？</p>
+										</div>
+										<div class="modal-footer">
+											<input type="hidden" id="url" />
+											<button type="button" class="btn btn-default"
+												data-dismiss="modal">取消</button>
+											<a onclick="addAlertModelBtn2()" class="btn btn-success"
+												data-dismiss="modal">确定</a>
+										</div>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal-dialog -->
+							</div>
+							<!-- /.modal -->
+							<!-- 模态框，用于提示本次添加的 违章记分>=12分的情况  end-->
+							
+							
+							
+							
+							
+							<!-- zwy start -->
+							
+							
+							<!-- 模态框   员工信息删除确认 -->
+							<div class="modal fade" id="delcfmModel" data-backdrop="static"
+								data-keyboard="false">
+								<div class="modal-dialog">
+									<div class="modal-content message_align">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">×</span>
+											</button>
+											<h4 class="modal-title">提示</h4>
+										</div>
+										<div class="modal-body">
+											<p>您确认要删除该条信息吗？</p>
+										</div>
+										<div class="modal-footer">
+											<input type="hidden" id="url" />
+											<button type="button" class="btn btn-default"
+												data-dismiss="modal">取消</button>
+											<a onclick="urlSubmit()" class="btn btn-success"
+												data-dismiss="modal">确定</a>
+										</div>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal-dialog -->
+							</div>
+							<!-- /.modal -->
+							
+							<!-- 模态框 员工详细信息-->
+							<div class="modal fade" id="allInfo" tabindex="-1" role="dialog"
+								aria-labelledby="myModalLabel" aria-hidden="true"
+								data-backdrop="static" data-keyboard="false">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabel">员工详细信息</h4>
+										</div>
+										<form>
+											<div class="modal-body">
+
+												<div class="input-group el_empPhoto" role="toolbar"
+													style="height: 127px; border-left-width: 0px; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px;">
+													<img id="myimg" width="95" height="121">
+												</div>
+												<div class="el_parperInfo">
+													<table>
+														<tr>
+															<td>员工姓名：</td>
+															<td id="InfoName"></td>
+														</tr>
+														<tr>
+															<td>性别：</td>
+															<td id="InfoSex"></td>
+														</tr>
+														<tr>
+															<td>出生日期：</td>
+															<td id="InfoBirthday"></td>
+														</tr>
+														<tr>
+															<td>联系方式：</td>
+															<td id="InfoPhone"></td>
+														</tr>
+														<tr>
+															<td>身份证：</td>
+															<td id="InfoIdcode"></td>
+														</tr>
+														<!-- <tr>
+                                                <td>安全培训情况：</td>
+                                                <td id="InfoTrainstatus"></td>
+                                            </tr> -->
+														<tr>
+															<td>所属单位：</td>
+															<td id="InfoDepartmentid"></td>
+														</tr>
+														<tr>
+															<td>职务：</td>
+															<td id="Infozhiwu"></td>
+														</tr>
+													</table>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+												<!-- <button type="button" class="btn btn-primary">提交更改</button> -->
+											</div>
+										</form>
+
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+							
+							
+							<!-- 模态框  修改员工-->
+							<div class="modal fade" id="el_modifyEmp" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								aria-hidden="true" data-backdrop="static" data-keyboard="false">
+								<div class="modal-dialog"
+									style="width: 50%; max-height: 550px; overflow-y: auto;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabel23">修改员工信息</h4>
+										</div>
+										<form id="updateEmployeeIn">
+											<div class="modal-body" style="position: relative">
+												<!--头像一-->
+												<div class="big-photo"></div>
+
+												<div class="input-group el_modellist01" role="toolbar">
+													<span class="el_spans0">员工姓名：</span> <input type="text"
+														class="form-control el_modelinput" disabled
+														name="EmployeeIn.name" id="updateEmployeeInName" /> <input
+														type="hidden" name="EmployeeIn.employeeid"
+														id="updateEmployeeEmployeeid" />
+												</div>
+
+												<div class="input-group el_modellist01">
+													<span class="el_spans0"> 员工性别：</span>
+													<div>
+														<label><input type="radio" disabled
+															name="EmployeeIn.sex" value="男"> 男</label> <label><input
+															type="radio" disabled name="EmployeeIn.sex" value="女">女</label>
+													</div>
+												</div>
+
+												<div class="input-group el_modellist01" role="toolbar">
+													<span class="el_spans0">出生日期：</span> <input type="text"
+														class="form-control el_modelinput" disabled
+														name="EmployeeIn.birthday" id="updateEmployeeInBirthday" />
+												</div>
+
+												<div class="input-group el_modellist01" role="toolbar">
+													<span class="el_spans0">身&nbsp;&nbsp;份&nbsp;证：</span> <input
+														type="text" class="form-control el_modelinput" disabled
+														name="EmployeeIn.idcode" id="updateEmployeeInIdcode" />
+												</div>
+
+												<div class="input-group el_modellist01" role="toolbar">
+													<!-- <span class="el_spans0">选择单位：</span> <input type="text"
+														class="form-control el_modelinput" disabled name="" />
+														 -->
+
+
+
+													<!-- 部门树 -->
+													<span class="el_spans el_chooseSpan">选择部门：</span> <input
+														type="hidden" id="updateEmployeeInDepartment"
+														name="EmployeeIn.departmentid" />
+													<ul id="el_chooseUpdateDepart"
+														class="el_modelinput el_chooseInput log"></ul>
+													<img src="../../controls/selectDropTree/smallTriangle.png"
+														class="el_smallTriangle" width="7" />
+													<ul id="treeDemo100" class="ztree" style="display: none"></ul>
+
+												</div>
+
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+												<button type="button" class="btn btn-primary"
+													onclick="saveUpdateEmployeeInButton()">保存</button>
+											</div>
+										</form>
+
+
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+							
+							
 							<!-- 模态框 添加员工-->
 							<div class="modal fade" id="el_addEmployeeIn" tabindex="-1"
 								role="dialog" aria-labelledby="myModalLabel23"
@@ -334,9 +839,7 @@ hasOperatingEmpin = true;
 												onclick="saveEmployeeAndHaulInfo()">保存</button>
 										</div>
 
-										<!-- <form id="form_addEmployeeOutInfo">											
-										</form> -->
-
+									
 
 									</div>
 
@@ -345,91 +848,7 @@ hasOperatingEmpin = true;
 								</div>
 								<!-- /.modal -->
 							</div>
-
-							<!-- 模态框  修改员工-->
-							<div class="modal fade" id="el_modifyEmp" tabindex="-1"
-								role="dialog" aria-labelledby="myModalLabel23"
-								aria-hidden="true" data-backdrop="static" data-keyboard="false">
-								<div class="modal-dialog"
-									style="width: 50%; max-height: 550px; overflow-y: auto;">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
-											<!--关闭符号-->
-											<!--标题-->
-											<h4 class="modal-title" id="myModalLabel23">修改员工信息</h4>
-										</div>
-										<form id="updateEmployeeIn">
-											<div class="modal-body" style="position: relative">
-												<!--头像一-->
-												<div class="big-photo"></div>
-
-												<div class="input-group el_modellist01" role="toolbar">
-													<span class="el_spans0">员工姓名：</span> <input type="text"
-														class="form-control el_modelinput" disabled
-														name="EmployeeIn.name" id="updateEmployeeInName" /> <input
-														type="hidden" name="EmployeeIn.employeeid"
-														id="updateEmployeeEmployeeid" />
-												</div>
-
-												<div class="input-group el_modellist01">
-													<span class="el_spans0"> 员工性别：</span>
-													<div>
-														<label><input type="radio" disabled
-															name="EmployeeIn.sex" value="男"> 男</label> <label><input
-															type="radio" disabled name="EmployeeIn.sex" value="女">女</label>
-													</div>
-												</div>
-
-												<div class="input-group el_modellist01" role="toolbar">
-													<span class="el_spans0">出生日期：</span> <input type="text"
-														class="form-control el_modelinput" disabled
-														name="EmployeeIn.birthday" id="updateEmployeeInBirthday" />
-												</div>
-
-												<div class="input-group el_modellist01" role="toolbar">
-													<span class="el_spans0">身&nbsp;&nbsp;份&nbsp;证：</span> <input
-														type="text" class="form-control el_modelinput" disabled
-														name="EmployeeIn.idcode" id="updateEmployeeInIdcode" />
-												</div>
-
-												<div class="input-group el_modellist01" role="toolbar">
-													<!-- <span class="el_spans0">选择单位：</span> <input type="text"
-														class="form-control el_modelinput" disabled name="" />
-														 -->
-
-
-
-													<!-- 部门树 -->
-													<span class="el_spans el_chooseSpan">选择部门：</span> <input
-														type="hidden" id="updateEmployeeInDepartment"
-														name="EmployeeIn.departmentid" />
-													<ul id="el_chooseUpdateDepart"
-														class="el_modelinput el_chooseInput log"></ul>
-													<img src="../../controls/selectDropTree/smallTriangle.png"
-														class="el_smallTriangle" width="7" />
-													<ul id="treeDemo100" class="ztree" style="display: none"></ul>
-
-												</div>
-
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
-												<button type="button" class="btn btn-primary"
-													onclick="saveUpdateEmployeeInButton()">保存</button>
-											</div>
-										</form>
-
-
-									</div>
-									<!-- /.modal-content -->
-								</div>
-								<!-- /.modal -->
-							</div>
-
-
+							
 							<!-- 模态框 查看培训档案-->
 							<div class="modal fade" id="el_empTrainDoc" tabindex="-1"
 								role="dialog" aria-labelledby="myModalLabel23"
@@ -514,217 +933,26 @@ hasOperatingEmpin = true;
 								</div>
 								<!-- /.modal -->
 							</div>
+							
+							
+							
+							
+							
+							<!-- zwy end -->
 
-							<!-- 模态框 员工详细信息-->
-							<div class="modal fade" id="allInfo" tabindex="-1" role="dialog"
-								aria-labelledby="myModalLabel" aria-hidden="true"
-								data-backdrop="static" data-keyboard="false">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
-											<!--关闭符号-->
-											<!--标题-->
-											<h4 class="modal-title" id="myModalLabel">员工详细信息</h4>
-										</div>
-										<form>
-											<div class="modal-body">
+							<!-- 隐藏域，隐藏一个添加前的违章总积分 -->
+							<input id="breakScoreSum" type="hidden" value="" />
+							<script type="text/javascript">
+								
+							</script>
 
-												<div class="input-group el_empPhoto" role="toolbar"
-													style="height: 127px; border-left-width: 0px; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px;">
-													<img id="myimg" width="95" height="121">
-												</div>
-												<div class="el_parperInfo">
-													<table>
-														<tr>
-															<td>员工姓名：</td>
-															<td id="InfoName"></td>
-														</tr>
-														<tr>
-															<td>性别：</td>
-															<td id="InfoSex"></td>
-														</tr>
-														<tr>
-															<td>出生日期：</td>
-															<td id="InfoBirthday"></td>
-														</tr>
-														<tr>
-															<td>联系方式：</td>
-															<td id="InfoPhone"></td>
-														</tr>
-														<tr>
-															<td>身份证：</td>
-															<td id="InfoIdcode"></td>
-														</tr>
-														<!-- <tr>
-                                                <td>安全培训情况：</td>
-                                                <td id="InfoTrainstatus"></td>
-                                            </tr> -->
-														<tr>
-															<td>所属单位：</td>
-															<td id="InfoDepartmentid"></td>
-														</tr>
-														<tr>
-															<td>职务：</td>
-															<td id="Infozhiwu"></td>
-														</tr>
-													</table>
-												</div>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
-												<!-- <button type="button" class="btn btn-primary">提交更改</button> -->
-											</div>
-										</form>
-
-									</div>
-									<!-- /.modal-content -->
-								</div>
-								<!-- /.modal -->
-							</div>
-
-							<!-- 模态框   信息删除确认 -->
-							<div class="modal fade" id="delcfmModel" data-backdrop="static"
-								data-keyboard="false">
-								<div class="modal-dialog">
-									<div class="modal-content message_align">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-label="Close">
-												<span aria-hidden="true">×</span>
-											</button>
-											<h4 class="modal-title">提示</h4>
-										</div>
-										<div class="modal-body">
-											<p>您确认要删除该条信息吗？</p>
-										</div>
-										<div class="modal-footer">
-											<input type="hidden" id="url" />
-											<button type="button" class="btn btn-default"
-												data-dismiss="modal">取消</button>
-											<a onclick="urlSubmit()" class="btn btn-success"
-												data-dismiss="modal">确定</a>
-										</div>
-									</div>
-									<!-- /.modal-content -->
-								</div>
-								<!-- /.modal-dialog -->
-							</div>
-							<!-- /.modal -->
-
-							<!-- 模态框 违章情况-->
-							<div class="modal fade" id="el_breakRulesCase" tabindex="-1"
-								role="dialog" aria-labelledby="myModalLabel23"
-								aria-hidden="true" data-backdrop="static" data-keyboard="false">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
-											<!--关闭符号-->
-											<!--标题-->
-											<h4 class="modal-title" id="myModalLabe5l23">违章情况</h4>
-										</div>
-										<form>
-											<div class="modal-body">
-												<div class="el_threeScoreList">
-													<table>
-														<caption>员工信息：</caption>
-														<tr>
-															<td>名称</td>
-															<td>asdf</td>
-															<td>性别</td>
-															<td>sadf</td>
-														</tr>
-														<tr>
-															<td>联系方式</td>
-															<td>asdf</td>
-															<td>违章记分</td>
-															<td>asdf</td>
-														</tr>
-														<tr>
-															<td>所属单位</td>
-															<td>asdf</td>
-															<td>黑名单</td>
-															<td>否</td>
-														</tr>
-													</table>
-												</div>
-												<table class="table table-bordered" id="table2">
-													<thead>
-														<th>违章时间</th>
-														<th>违章地点</th>
-														<th>违章积分</th>
-														<th>违章内容</th>
-													</thead>
-													<tbody>
-														<tr>
-															<td>2011-12-45</td>
-															<td>撒打发士大夫士大</td>
-															<td>12</td>
-															<td>啊撒旦飞洒地方撒地方沙发上阿飞士大夫撒旦发</td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
-											</div>
-										</form>
-									</div>
-									<!-- /.modal-content -->
-								</div>
-								<!-- /.modal -->
-							</div>
-
-							<!-- 模态框 批量导入-->
-							<div class="modal fade" id="el_batchInput2" tabindex="-1"
-								role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-								data-backdrop="static" data-keyboard="false">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
-											<!--关闭符号-->
-											<!--标题-->
-											<h4 class="modal-title" id="myModalLabel">批量导入员工信息</h4>
-										</div>
-										<!-- /Exam/employeein_updateEmployeeIn.action -->
-										<form action="/Exam/employeein_batchImportEmployeeIn.action"
-											method="post" enctype="multipart/form-data">
-											<div class="modal-body">
-												<p
-													style="font-weight: bolder; margin-bottom: 5px; margin-left: 5px;">请选择文件：</p>
-												<input type="file" name="fileName"
-													style="height: 22px; font-size: 13px"
-													accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-												<input type="hidden" value="${message }" id="message">
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
-												<button type="submit" class="btn btn-primary">上传</button>
-											</div>
-										</form>
-										<!-- <script type="text/javascript">
-                            		alert($("#message").val())
-                            	
-                            	</script> -->
-
-									</div>
-									<!-- /.modal-content -->
-								</div>
-								<!-- /.modal -->
-							</div>
 
 						</div>
+
 					</div>
 
 				</div>
+
 			</div>
 
 
