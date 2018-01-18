@@ -90,6 +90,7 @@ public class QuestionbankAction extends ActionSupport implements ModelDriven<Que
 		try {
 			// 默认设置为启用状态
 			questionBank.setIsuse("1");
+			questionBank.setDepartmentid("1");	
 			boolean isAdd = questionBankService.addQuestionBank(questionBank);
 			result = new HashMap<String, Object>();
 			if (isAdd) {
@@ -110,7 +111,7 @@ public class QuestionbankAction extends ActionSupport implements ModelDriven<Que
 		try {
 			// 默认设置为启用状态
 			questionBank.setIsuse("1");
-
+			questionBank.setDepartmentid("1");	
 			boolean isUpdate = questionBankService.updateQuestionBanK(questionBank);
 			result = new HashMap<String, Object>();
 			if (isUpdate) {

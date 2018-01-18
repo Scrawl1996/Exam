@@ -132,7 +132,7 @@ public class ExportExcelPaperAction extends ActionSupport {
 		HSSFRow row0 = sheet.createRow(0);
 		// 创建一个单元格
 		HSSFCell cell0 = row0.createCell(2);
-		;
+		
 		if (cell0 != null) {
 
 			// 设置样式
@@ -165,7 +165,6 @@ public class ExportExcelPaperAction extends ActionSupport {
 			HSSFFont font = workbook.createFont();
 			font.setFontName("宋体");
 			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
-			// font.setFontHeight((short)12);
 			font.setFontHeightInPoints((short) 13);
 			cellStyle.setFont(font);
 			cell1.setCellStyle(cellStyle);
@@ -180,6 +179,7 @@ public class ExportExcelPaperAction extends ActionSupport {
 		HSSFRow row2 = sheet.createRow(2);
 		for (int j = 0; j < 4; j = j + 1) {
 			cell1 = row2.createCell(j);
+			setCellStyle(workbook,cell1);
 			// 设置数据
 			if (j == 0) {
 				cell1.setCellValue(employeeIn.getName());
@@ -198,6 +198,7 @@ public class ExportExcelPaperAction extends ActionSupport {
 				Department department = departmentService.getDepartmentById(employeeIn.getDepartmentid());
 				cell1.setCellValue(department.getDepartmentname());
 			}
+			
 
 		}
 
@@ -215,14 +216,12 @@ public class ExportExcelPaperAction extends ActionSupport {
 			HSSFFont font = workbook.createFont();
 			font.setFontName("宋体");
 			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
-			// font.setFontHeight((short)12);
 			font.setFontHeightInPoints((short) 20);
 			cellStyle.setFont(font);
 			cell5.setCellStyle(cellStyle);
 
 			// 写入数据
-			cell5.setCellValue("考试培训详细信息");
-			System.out.println("cell5" + cell5);
+			cell5.setCellValue("考试培训详细信息");			
 		}
 		/*
 		 * 培训信息
@@ -263,6 +262,8 @@ public class ExportExcelPaperAction extends ActionSupport {
 			for (int j = 0; j < 7; j++) {
 
 				HSSFCell cell2 = nextRow.createCell(j);
+				//设置单元格样式
+				setCellStyle(workbook,cell2);
 				if (j == 0) {
 					cell2.setCellValue(exam.get("examName").toString());
 				}
@@ -313,6 +314,7 @@ public class ExportExcelPaperAction extends ActionSupport {
 			file.delete();
 		}
 		try {
+			workbook.close();
 			file.createNewFile();
 			// 打开文件流
 			FileOutputStream outputStream = FileUtils.openOutputStream(file);
@@ -379,5 +381,18 @@ public class ExportExcelPaperAction extends ActionSupport {
 		// this.setFileName(String.valueOf(System.currentTimeMillis()));
 		this.setFileName(idcode);
 		return super.execute();
+	}
+	
+	//设置行的字体和样式
+	private void setCellStyle(HSSFWorkbook workbook,HSSFCell cell){
+		// 设置样式
+		HSSFCellStyle cellStyle = workbook.createCellStyle();
+		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 设置字体居中
+		// 设置字体
+		HSSFFont font = workbook.createFont();
+		font.setFontName("宋体");		
+		font.setFontHeightInPoints((short) 13);
+		cellStyle.setFont(font);
+		cell.setCellStyle(cellStyle);
 	}
 }
