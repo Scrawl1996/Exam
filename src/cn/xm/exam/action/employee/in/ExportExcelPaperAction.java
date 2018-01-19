@@ -1,5 +1,7 @@
 package cn.xm.exam.action.employee.in;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,10 +11,14 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -32,10 +38,7 @@ import cn.xm.exam.utils.ResourcesUtil;
 @Controller
 @Scope("prototype")
 public class ExportExcelPaperAction extends ActionSupport {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	// 查数据的身份证编号
 	private String idcode;
@@ -104,11 +107,6 @@ public class ExportExcelPaperAction extends ActionSupport {
 	// 2.写入Excel
 	public boolean writeExamEmployees2Excel(List<Map<String, Object>> exams, String fileName) throws Exception {
 		
-		/****ll start****/
-		//导出图片操作
-		String path = ResourcesUtil.getValue("path", "photo");
-		String filepath = path + "\\" + idcode + ".jpg";
-		/****ll end****/
 		
 		EmployeeIn employeeIn = employeeInService.getEmployeeInByIdcode(idcode);
 		System.out.println("employeeIn" + employeeIn);
@@ -133,7 +131,7 @@ public class ExportExcelPaperAction extends ActionSupport {
 		HSSFSheet sheet = workbook.createSheet();
 		// 设置列宽
 		setColumnWidth(sheet, 8);
-
+		
 		// 创建第一行
 		HSSFRow row0 = sheet.createRow(0);
 		// 创建一个单元格
@@ -319,6 +317,26 @@ public class ExportExcelPaperAction extends ActionSupport {
 		if (file.exists()) {
 			file.delete();
 		}
+		
+		/****ll start****/
+		//导出图片操作
+		String path = ResourcesUtil.getValue("path", "photo");
+		String filepath = path + "\\" + idcode + ".jpg";
+		
+	    ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();   
+	    BufferedImage bufferImg = ImageIO.read(new File(filepath));   
+        ImageIO.write(bufferImg, "jpg", byteArrayOut);
+        
+        //画图的顶级管理器，一个sheet只能获取一个（一定要注意这点）
+        HSSFPatriarch patriarch = sheet.createDrawingPatriarch();   
+        //anchor主要用于设置图片的属性
+        HSSFClientAnchor anchor = new HSSFClientAnchor(0, 125, 800, 0,(short) 5, 0, (short) 5, 5);   
+        //注意：这个方法在新版本的POI中参数类型改成了（AnchorType anchorType）　
+     	anchor.setAnchorType(3); 
+        patriarch.createPicture(anchor, workbook.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG));
+		/****ll end****/
+		
+		
 		try {
 			workbook.close();
 			file.createNewFile();
