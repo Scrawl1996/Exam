@@ -588,3 +588,21 @@ function saveUnit() {
 	}
 }
 /** ******E 模态框中操作以及保存单位******************** */
+/*******************S 显示与隐藏查询条件*********************/
+function toggleQueryDiv(){
+//	点击显示查询条件与分割符
+	if($("#query_haulunit_div").css("display")=="none"){
+		$("#query_haulunit_div").show("slow",function(){
+			$("#query_haulunit_hr").css("display","block");
+			//删除class属性(切换上下箭头)
+			$(".glyphicon-arrow-down").removeClass().addClass("glyphicon glyphicon-arrow-up").prop("title","点击隐藏查询条件");
+		});
+	}else{//隱藏条件与分割符
+		$("#query_haulunit_hr").css("display","none");
+		$("#query_haulunit_div").hide("slow",function(){
+			//删除class属性(切换上下箭头)
+			$(".glyphicon-arrow-up").removeClass().addClass("glyphicon glyphicon-arrow-down").prop("title","点击显示查询条件");
+		});
+	}
+}
+/*******************E 显示与隐藏查询条件*********************/

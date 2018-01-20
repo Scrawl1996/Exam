@@ -201,6 +201,7 @@
 									</div>
 
 									<div class="el_tiBoxMainDelBox">
+										<a href='javascript:void(0)' class='bigss'><span  title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 										<a href='javascript:void(0)' class='bigsy'>上移</a> <a
 											href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
 											href="javascript:void(0)" value="0" class="el_tiBoxMainDel">删除所有</a>
@@ -229,6 +230,7 @@
 									</div>
 
 									<div class="el_tiBoxMainDelBox">
+										<a href='javascript:void(0)' class='bigss'><span  title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 										<a href='javascript:void(0)' class='bigsy'>上移</a> <a
 											href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
 											href="javascript:void(0)" value="1" class="el_tiBoxMainDel">删除所有</a>
@@ -256,6 +258,7 @@
 									</div>
 
 									<div class="el_tiBoxMainDelBox">
+										<a href='javascript:void(0)' class='bigss'><span  title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 										<a href='javascript:void(0)' class='bigsy'>上移</a> <a
 											href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
 											href="javascript:void(0)" value="2" class="el_tiBoxMainDel">删除所有</a>
@@ -445,16 +448,6 @@
 												</span> <select class="combox form-control" id="knowSelect"
 													name="dictionaryId">
 													<option value="">--请选择--</option>
-													<!-- <option value="安全生产法律法规">安全生产法律法规</option>
-													<option value="安全生产基础知识">安全生产基础知识</option>
-													<option value="安全生产管理知识">安全生产管理知识</option>
-													<option value="安全生产技术知识">安全生产技术知识</option>
-													<option value="电力安全规程制度">电力安全规程制度</option>
-													<option value="电力人身安全风险防控">电力人身安全风险防控</option>
-													<option value="防止电力生产事故的二十五项重点要求">防止电力生产事故的二十五项重点要求</option>
-													<option value="职业健康类知识">职业健康类知识</option>
-													<option value="现场急救知识">现场急救知识</option>
-													<option value="公共安全知识">公共安全知识</option> -->
 												</select> <br />
 											</div>
 										</div>

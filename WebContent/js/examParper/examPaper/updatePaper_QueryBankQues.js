@@ -4,9 +4,6 @@
 // 页面加载后执行的函数
 var isLoad = false;// 全局变量记录是否已经加载
 $(function() {
-	// alert($("select[name='exampaper.level'] option:selected").val())
-	searchQuestions();
-
 	/**
 	 * 题库试题的提交按钮的点击事件
 	 */

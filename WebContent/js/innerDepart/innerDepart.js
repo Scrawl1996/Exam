@@ -175,9 +175,9 @@ var successList = function List(result) {
 				+ departmentType_1 + '</td><td>' + departments[i].upDepartName
 				+ '</td><td>' + departments[i].employeeName + '</td><td>'
 				+ departments[i].phone
-				+ '</td><td><a onclick="openEmpCaseModal(this)">'
+				+ '</td><td><a title="点击查看部门员工信息" onclick="openEmpCaseModal(this)">'
 				+ departments[i].perNum + '</a></td><td>'
-				+ '<a onclick="openBreakrulesModal(this)">'
+				+ '<a title="点击查看部门违章信息" onclick="openBreakrulesModal(this)">'
 				+ departments[i].totalMinus + '</a></td><td>'
 				+ departments[i].jiaquan + "</td><td>";
 		// 有删除修改权限就显示连接

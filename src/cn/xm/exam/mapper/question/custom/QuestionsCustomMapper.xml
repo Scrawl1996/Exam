@@ -249,7 +249,7 @@
 	<!-- S 根据题等级，题库名字，类型，知识点等条件组合查询试题用于根据题库 产生试卷 -->
 	<select id="getQuestionsForBankGeneExamPaper" parameterType="hashmap"
 		resultMap="questionAndOptionForPaper">
-		SELECT * FROM questions q,OPTIONS o
+		SELECT * FROM questions q,options o
 		<where>
 			<include refid="bankGenePaper_where"></include>
 		</where>
