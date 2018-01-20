@@ -291,7 +291,7 @@ function gradeInput() {
         if ($(this).prop("checked")) {
         	//从当前行中获取考试名称设置到成绩导入的模态框中
         	var examName = $(this).parents("tr").children("td").eq(2).html();
-        	var passPerson = $(this).parents("tr").children("td").eq(8).html();
+        	var passPerson = $(this).parents("tr").children("td").eq(5).html();
         	if(passPerson==0){
         		passBoolean = true;
         	}
