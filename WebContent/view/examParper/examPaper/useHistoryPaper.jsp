@@ -153,7 +153,8 @@
 										<tr>
 											<td>创建时间</td>
 											<td><input type="text" id="test4"
-												name="exampaper.maketime" class="wicon  form-control el_noVlaue"
+												name="exampaper.maketime"
+												class="wicon  form-control el_noVlaue"
 												value='<fmt:formatDate value="${exampaper.maketime }" pattern="yyyy-MM-dd HH:mm:ss"/>'
 												readonly /></td>
 										</tr>
@@ -209,6 +210,8 @@
 
 											<!-- 上下移动 -->
 											<div class="el_tiBoxMainDelBox">
+												<a href='javascript:void(0)' class='bigss'><span
+													title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 												<a href='javascript:void(0)' class='bigsy'>上移</a> <a
 													href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
 													href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a>
@@ -255,6 +258,8 @@
 
 											<!-- 上下移动 -->
 											<div class="el_tiBoxMainDelBox">
+												<a href='javascript:void(0)' class='bigss'><span
+													title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 												<a href='javascript:void(0)' class='bigsy'>上移</a> <a
 													href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
 													href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a>
@@ -301,6 +306,8 @@
 
 											<!-- 上下移动 -->
 											<div class="el_tiBoxMainDelBox">
+												<a href='javascript:void(0)' class='bigss'><span
+													title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 												<a href='javascript:void(0)' class='bigsy'>上移</a> <a
 													href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
 													href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a>
@@ -615,6 +622,8 @@
 			</div>
 			<!-- /.modal -->
 			<!--放脚-->
-			<jsp:include page="/view/public/footer.jsp"></jsp:include>
+		</div>
+	</div>
+	<jsp:include page="/view/public/footer.jsp"></jsp:include>
 </body>
 </html>

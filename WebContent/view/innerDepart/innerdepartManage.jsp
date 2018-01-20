@@ -53,8 +53,6 @@
 <!-- 日期格式转换 -->
 <script
 	src="${pageContext.request.contextPath }/js/questionLibrary/dateformat.js "></script>
-
-
 </head>
 
 <body>

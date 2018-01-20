@@ -1,5 +1,5 @@
 
-/*回到顶部*/
+/*鍥炲埌椤堕儴*/
 #el_returnTop {
     width: 30px;
     height: 90px;
@@ -13,7 +13,6 @@
     border-radius: 4px;
     display: none;
 }
-
 #el_returnTop img {
     width: 23px;
     position: absolute;
@@ -26,7 +25,7 @@
     border-radius: 4px;
 }
 
-/*课修改的标题*/
+/*璇句慨鏀圭殑鏍囬*/
 .el_modifiedTitle{
     text-align:center;
     padding:2px;
@@ -49,7 +48,7 @@
 .el_modifiedGrade{
     width: 40px;
 }
-/*试卷的基本信息*/
+/*璇曞嵎鐨勫熀鏈俊鎭�*/
 .el_paperInfo{
     margin-bottom:30px;
     padding-bottom:10px;
@@ -60,7 +59,7 @@ a, a:hover, a:active, a:after, a:before, a:visited {
     color: black;
 }
 
-/*类型题干*/
+/*绫诲瀷棰樺共*/
 .elquesTitle {
     width: 100%;
     height: 40px;
@@ -83,7 +82,7 @@ a, a:hover, a:active, a:after, a:before, a:visited {
     top:10px;
 }
 
-/*选项样式*/
+/*閫夐」鏍峰紡*/
 .movie_box {
     width: 90%;
     margin: 0 auto;
@@ -114,7 +113,7 @@ h2 {
     text-align: center;
 }
 
-/*试卷基本信息*/
+/*璇曞嵎鍩烘湰淇℃伅*/
 .el_examInfo .input-group {
     margin: 8px;
 }
@@ -122,8 +121,8 @@ h2 {
 
 
 
-/*<!--!*span改变样式后的样子*!-->*/
-     /*模态框中的内容*/
+/*<!--!*span鏀瑰彉鏍峰紡鍚庣殑鏍峰瓙*!-->*/
+     /*妯℃�佹涓殑鍐呭*/
  .el_modellist {
      margin: 10px;
      margin-bottom: 15px;
@@ -151,7 +150,7 @@ h2 {
 
 
 
-/*<!--导航-->*/
+/*<!--瀵艰埅-->*/
     #el_statistic:hover {
         background-color: rgb(231, 231, 231)
     }
@@ -161,14 +160,14 @@ h2 {
     margin-right: 20px;
 }
 
-/*提交试卷内容*/
+/*鎻愪氦璇曞嵎鍐呭*/
 .el_Inputlulli {
     text-align: left;
     margin-left: 25%;
     color: black;
 }
 
-/*全选*/
+/*鍏ㄩ��*/
 .el_Inputlulli1 {
     border-bottom: 1px solid #ccc;
     width: 100%;
@@ -191,7 +190,7 @@ h2 {
 }
 
 
-/*统计*/
+/*缁熻*/
 .el_ulParent{
     height:230px;
 }
@@ -233,7 +232,7 @@ h2 {
 
 
 
-/*<!--添加试题-->*/
+/*<!--娣诲姞璇曢-->*/
     .el_queryBox form {
         margin-top: 20px;
     }
@@ -264,7 +263,7 @@ h2 {
     font-weight: 700;
 }
 
-/*分值*/
+/*鍒嗗��*/
 .el_quesionScore{
     width:200px;
     height:50px;
@@ -278,7 +277,7 @@ h2 {
     top:10px;
 }
 
-/*解析*/
+/*瑙ｆ瀽*/
 .el_quesionAnaly {
     margin-top: 10px;
     width: 100%;
@@ -287,7 +286,7 @@ h2 {
 .el_quesionAnaly textarea {
     width: 100%;
 }
-/*选项*/
+/*閫夐」*/
 .kzjxx_iteam{
     padding-top:7px;
     height:50px;

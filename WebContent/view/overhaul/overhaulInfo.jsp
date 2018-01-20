@@ -139,10 +139,15 @@ label.success {
 						</div>
 						<!--分割线 -->
 						<hr></hr>
-						<span class="sdf" style="margin-left: 40px;"><b>参加单位信息</b></span> <br />
+						<span class="sdf" style="margin-left: 40px;"><b>参加单位信息</b></span>
+						<!-- 收缩查询的条件 -->
+						<a href=javascript:void(0) style="margin-left:70%;color:rgb(51,122,183);" onclick="toggleQueryDiv()"><span class="glyphicon glyphicon-arrow-down" title="点击显示查询条件"></span></a>
+						
+						
+						 <br />
 						<br />
 
-						<div>
+						<div id="query_haulunit_div" style="display:none;">
 							<form id="queryHaulunitForm">
 								<!--隐藏当前页与页大小  -->
 								<input type="hidden" name="currentPage" id="currentPage">
@@ -209,7 +214,7 @@ label.success {
 						</div>
 
 						<!--分割线 -->
-						<hr></hr>
+						<hr id="query_haulunit_hr" style="display: none"></hr>
 
 						<div class="panel-body">
 							<!--内容，选择试卷-->

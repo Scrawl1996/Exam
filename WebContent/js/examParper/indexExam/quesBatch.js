@@ -100,4 +100,23 @@ $(function (e) {
             $(this).parents(".el_addEPtikuang").find(".numQues").text("0题)");
         }
     })
+    // 折叠与展开
+    $(".el_addEPtikuang").on("click", ".el_tiBoxMainDelBox .bigss", function () {
+    	var dqgs = $(this).parents(".el_addEPtikuang");//获取到大题题干
+    	//如果箭头是向下(证明点击是展开)
+    	if($(this).children("span").hasClass("glyphicon-chevron-down")){
+    		$(this).children("span").removeClass().addClass("glyphicon glyphicon-chevron-up").prop("title","点击收起题目");
+    		dqgs.find(".movie_box").css("display","block");
+    	}else{//如果箭头是向上(点击是收缩)
+    		var tishu=dqgs.find(".movie_box").length;//获取其下面的题数，根据题数判断是否可以折叠
+    		if(tishu>0){
+    			//更换图标
+    			$(this).children("span").removeClass().addClass("glyphicon glyphicon-chevron-down").prop("title","您折叠了"+tishu+"道题，点击展开");
+    			//隐藏题目
+    			dqgs.find(".movie_box").css("display","none");
+    		}else{
+    			alert("您没有题目可以隐藏");
+    		}
+    	}
+    })
 });

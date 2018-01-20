@@ -78,11 +78,18 @@
 		<!--放菜单框-->
 		<div class="el_left">
 			<jsp:include page="/view/public/menu.jsp"></jsp:include>
+			<!--回到顶部-->
+			<a href="#goTop">
+				<div id="el_returnTop">
+					<span> &#9650; 回到顶部</span>
+				</div>
+			</a>
 		</div>
 
 		<!--放主界面内容-->
 		<div class="el_right">
-
+			<!--顶部锚-->
+			<a name="goTop"></a>
 			<div class="container-fluid">
 
 				<div class="panel panel-default">
@@ -98,15 +105,6 @@
 						</ul>
 					</div>
 				</div>
-
-				<!--顶部锚-->
-				<a name="goTop"></a>
-				<!--回到顶部-->
-				<a href="#goTop">
-					<div id="el_returnTop">
-						<span> &#9650; 回到顶部</span>
-					</div>
-				</a>
 
 				<!--试卷基本信息-->
 				<div class="el_paperInfo">
@@ -205,7 +203,9 @@
 								</div>
 
 								<div class="el_tiBoxMainDelBox">
-									<a href='javascript:void(0)' class='bigsy'>上移</a> <a
+									<a href='javascript:void(0)' class='bigss'><span  title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
+									<a href='javascript:void(0)' class='bigsy'>上移</a>
+									 <a
 										href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
 										href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a>
 								</div>
@@ -257,6 +257,7 @@
 								</div>
 
 								<div class="el_tiBoxMainDelBox">
+									<a href='javascript:void(0)' class='bigss'><span  title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 									<a href='javascript:void(0)' class='bigsy'>上移</a> <a
 										href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
 										href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a>
@@ -303,6 +304,7 @@
 								</div>
 
 								<div class="el_tiBoxMainDelBox">
+									<a href='javascript:void(0)' class='bigss'><span  title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 									<a href='javascript:void(0)' class='bigsy'>上移</a> <a
 										href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
 										href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a>
