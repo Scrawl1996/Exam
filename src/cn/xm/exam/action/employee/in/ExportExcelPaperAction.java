@@ -1,5 +1,7 @@
 package cn.xm.exam.action.employee.in;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,34 +10,30 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
-
+import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
+import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-
 import com.opensymphony.xwork2.ActionSupport;
-
 import cn.xm.exam.bean.employee.in.Department;
 import cn.xm.exam.bean.employee.in.EmployeeIn;
 import cn.xm.exam.service.employee.in.DepartmentService;
 import cn.xm.exam.service.employee.in.EmployeeInService;
 import cn.xm.exam.service.exam.exam.ExamService;
+import cn.xm.exam.utils.GenerateEmployeeInTrainFile;
 import cn.xm.exam.utils.ResourcesUtil;
 
 @Controller
 @Scope("prototype")
 public class ExportExcelPaperAction extends ActionSupport {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	// 查数据的身份证编号
 	private String idcode;
@@ -100,219 +98,47 @@ public class ExportExcelPaperAction extends ActionSupport {
 
 		return myexam;
 	}
-
-	// 2.写入Excel
+	
+	//ll 生成Excel文件
 	public boolean writeExamEmployees2Excel(List<Map<String, Object>> exams, String fileName) throws Exception {
 
 		EmployeeIn employeeIn = employeeInService.getEmployeeInByIdcode(idcode);
-		System.out.println("employeeIn" + employeeIn);
-		System.out.println("employeeIn.getSex()" + employeeIn.getSex());
-		String sex = null;
-		if ("1".equals(employeeIn.getSex())) {
-			sex = "男";
-		} else if ("2".equals(employeeIn.getSex())) {
-			sex = "女";
-		}
-		System.out.println("sex" + sex);
-		/*
-		 * 员工信息
-		 */
-		// 标题
-
-		String[] title1 = { "姓名", "性别","联系方式", "所属单位" };
-
-		// 创建一个工作簿
-		HSSFWorkbook workbook = new HSSFWorkbook();
-		// 创建一个工作表sheet
-		HSSFSheet sheet = workbook.createSheet();
-		// 设置列宽
-		setColumnWidth(sheet, 8);
-
-		// 创建第一行
-		HSSFRow row0 = sheet.createRow(0);
-		// 创建一个单元格
-		HSSFCell cell0 = row0.createCell(2);
 		
-		if (cell0 != null) {
-
-			// 设置样式
-			HSSFCellStyle cellStyle = workbook.createCellStyle();
-			cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 设置字体居中
-			// 设置字体
-			HSSFFont font = workbook.createFont();
-			font.setFontName("宋体");
-			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
-			// font.setFontHeight((short)12);
-			font.setFontHeightInPoints((short) 20);
-			cellStyle.setFont(font);
-			cell0.setCellStyle(cellStyle);
-
-			// 写入数据
-			cell0.setCellValue("员工详细信息");
-
-		}
-		// 创建第二行
-		HSSFRow row1 = sheet.createRow(1);
-		// 创建一个单元格
-		HSSFCell cell1 = null;
-
-		for (int j = 0, i = 0; j < 4; j ++, i++) {
-			cell1 = row1.createCell(j);
-			// 设置样式
-			HSSFCellStyle cellStyle = workbook.createCellStyle();
-			cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 设置字体居中
-			// 设置字体
-			HSSFFont font = workbook.createFont();
-			font.setFontName("宋体");
-			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
-			font.setFontHeightInPoints((short) 13);
-			cellStyle.setFont(font);
-			cell1.setCellStyle(cellStyle);
-
-			// 写入数据
-			cell1.setCellValue(title1[i]);
-			System.out.println("cell1" + cell1);
-
-		}
-
-		// 创建第二行
-		HSSFRow row2 = sheet.createRow(2);
-		for (int j = 0; j < 4; j = j + 1) {
-			cell1 = row2.createCell(j);
-			setCellStyle(workbook,cell1);
-			// 设置数据
-			if (j == 0) {
-				cell1.setCellValue(employeeIn.getName());
-
-			}
-			if (j == 1) {
-				cell1.setCellValue(sex);
-				
-			}
-			if (j == 2) {
-				cell1.setCellValue(employeeIn.getPhone());
-				
-
-			}
-			if (j == 3) {
-				Department department = departmentService.getDepartmentById(employeeIn.getDepartmentid());
-				cell1.setCellValue(department.getDepartmentname());
-			}
-			
-
-		}
-
-		// 创建第五行
-		HSSFRow row5 = sheet.createRow(5);
-		// 创建一个单元格
-		HSSFCell cell5 = row5.createCell(2);
-		;
-		if (cell5 != null) {
-
-			// 设置样式
-			HSSFCellStyle cellStyle = workbook.createCellStyle();
-			cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 设置字体居中
-			// 设置字体
-			HSSFFont font = workbook.createFont();
-			font.setFontName("宋体");
-			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
-			font.setFontHeightInPoints((short) 20);
-			cellStyle.setFont(font);
-			cell5.setCellStyle(cellStyle);
-
-			// 写入数据
-			cell5.setCellValue("考试培训详细信息");			
-		}
-		/*
-		 * 培训信息
-		 */
-		// 标题
-
-		String[] title = { "考试名称", "考试级别", "培训内容", "培训学时", "考试时间", "考试总分数", "获得成绩" };
-		// 创建第六行
-		HSSFRow row = sheet.createRow(6);
-		// 创建一个单元格
-		HSSFCell cell = null;
-		// 创建表头
-		for (int i = 0; i < title.length; i++) {
-			cell = row.createCell(i);
-			// 设置样式
-			HSSFCellStyle cellStyle = workbook.createCellStyle();
-			cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 设置字体居中
-			// 设置字体
-			HSSFFont font = workbook.createFont();
-			font.setFontName("宋体");
-			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
-
-			font.setFontHeightInPoints((short) 13);
-			cellStyle.setFont(font);
-			cell.setCellStyle(cellStyle);
-			cell.setCellValue(title[i]);
-
-		}
-
-		// 写入数据
-		// 从第六行开始追加数据
-		for (int i = 7; i < (exams.size() + 7); i++) {
-			// 创建第i行
-			HSSFRow nextRow = sheet.createRow(i);
-			// 获取数据
-			Map<String, Object> exam = exams.get(i - 7);
-
-			for (int j = 0; j < 7; j++) {
-
-				HSSFCell cell2 = nextRow.createCell(j);
-				//设置单元格样式
-				setCellStyle(workbook,cell2);
-				if (j == 0) {
-					cell2.setCellValue(exam.get("examName").toString());
-				}
-				if (j == 1) {
-					String level = "";
-
-					if (exam.get("examLevel").toString() == null) {
-						level = "未开始";
-					}
-					if ("0".equals(exam.get("examLevel").toString())) {
-						level = "未通过";
-					}
-					if ("1".equals(exam.get("examLevel").toString())) {
-						level = "通过一级考试";
-					}
-					if ("2".equals(exam.get("examLevel").toString())) {
-						level = "通过二级考试";
-					}
-					if ("3".equals(exam.get("examLevel").toString())) {
-						level = "通过三级考试";
-					}
-
-					cell2.setCellValue(level);
-				}
-				if (j == 2) {
-					cell2.setCellValue(exam.get("traincontent").toString());
-				}
-				if (j == 3) {
-					cell2.setCellValue(exam.get("xueshi").toString());
-				}
-				if (j == 4) {
-					cell2.setCellValue(exam.get("startTime").toString() + "到" + exam.get("endTime").toString());
-				}
-				if (j == 5) {
-					cell2.setCellValue(exam.get("paperScore").toString());
-				}
-				if (j == 6) {
-					cell2.setCellValue(exam.get("grade").toString());
-				}
-
-			}
-		}
-
+		Map<String, Object> map = GenerateEmployeeInTrainFile.generateEmployeeInTrainProfile(fileName, employeeIn, exams);
+		HSSFWorkbook workbook = (HSSFWorkbook) map.get("workBook");
+	
+		HSSFSheet sheet = (HSSFSheet) map.get("sheet");
+		
+		//查询部门名称
+		Department department = departmentService.getDepartmentById(employeeIn.getDepartmentid());		
+		HSSFRow row = sheet.getRow(2);
+		HSSFCell cell = row.getCell(3);
+		//设置部门名称
+		cell.setCellValue(department.getDepartmentname());
+	
+		//导出图片操作
+		String path = ResourcesUtil.getValue("path", "photo");
+		String filepath = path + "\\" + idcode + ".jpg";
+		
+	    ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();   
+	    BufferedImage bufferImg = ImageIO.read(new File(filepath));   
+	    ImageIO.write(bufferImg, "jpg", byteArrayOut);
+	    
+	    //画图的顶级管理器，一个sheet只能获取一个
+	    HSSFPatriarch patriarch = sheet.createDrawingPatriarch();   
+	    //anchor主要用于设置图片的属性
+	    HSSFClientAnchor anchor = new HSSFClientAnchor(20, 5, 1000, 250, (short) 4, 1, (short) 4, 2);   
+	    //注意：这个方法在新版本的POI中参数类型改成了（AnchorType anchorType）　
+	 	anchor.setAnchorType(3); 
+	    patriarch.createPicture(anchor, workbook.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG));
+	
 		// 创建一个文件
 		File file = new File(fileName);
 		// 如果存在就删除
 		if (file.exists()) {
 			file.delete();
 		}
+
 		try {
 			workbook.close();
 			file.createNewFile();
@@ -324,18 +150,11 @@ public class ExportExcelPaperAction extends ActionSupport {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		return true;
 	}
-
-	// 设置列宽()
-	private static void setColumnWidth(HSSFSheet sheet, int colNum) {
-		for (int i = 0; i < colNum; i++) {
-			int v = 0;
-			v = Math.round(Float.parseFloat("15.0") * 37F);
-			v = Math.round(Float.parseFloat("20.0") * 267.5F);
-			sheet.setColumnWidth(i, v);
-		}
-	}
+	
+	
 
 	// 3.打开文件的流提供下载
 	public InputStream getInputStream() throws Exception {
@@ -383,16 +202,5 @@ public class ExportExcelPaperAction extends ActionSupport {
 		return super.execute();
 	}
 	
-	//设置行的字体和样式
-	private void setCellStyle(HSSFWorkbook workbook,HSSFCell cell){
-		// 设置样式
-		HSSFCellStyle cellStyle = workbook.createCellStyle();
-		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 设置字体居中
-		// 设置字体
-		HSSFFont font = workbook.createFont();
-		font.setFontName("宋体");		
-		font.setFontHeightInPoints((short) 13);
-		cellStyle.setFont(font);
-		cell.setCellStyle(cellStyle);
-	}
+	
 }
