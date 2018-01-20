@@ -18,8 +18,7 @@ import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.Region;
-
+import org.apache.poi.ss.util.CellRangeAddress;
 import cn.xm.exam.bean.employee.in.EmployeeIn;
 
  /*   
@@ -179,11 +178,13 @@ public class GenerateEmployeeInTrainFile {
 	}
 
 	// 合并单元格
-	@SuppressWarnings("deprecation")
 	public static void mergeCell(HSSFSheet sheet, int x, int y, int z, int q) {
-		Region region1 = new Region(x, (short) y, z, (short) q);
-
 		// 参数1：行号 参数2：起始列号 参数3：行号 参数4：终止列号
+		//Region region1 = new Region(x, (short) y, z, (short) q);
+
+		//参数1：起始行 参数2：终止行 参数3：起始列号 参数4：终止列号
+		CellRangeAddress region1 = new CellRangeAddress(x, z, (short) y, (short) q);     
+			
 		sheet.addMergedRegion(region1);
 	}
 
