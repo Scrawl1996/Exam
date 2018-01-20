@@ -243,7 +243,7 @@ function beforeClick(treeId, treeNode, clickFlag) {
  * 姓名 opStr += "<td>" + sex + "</td>";// 性别 opStr += "<td>" + idCode + "</td>";//
  * 身份证 opStr += "<td>" + sumBreakScore + "</td>";// 违章记分 // 为隐藏职工id的隐藏域赋值 if
  * (blackStatus == "1") { opStr += "<td><font color='red'>" + "是" + "</font></td>"; }
- * else { if (sumBreakScore >= 12) { opStr += "<td><font color='blue'>" + "否"+ "</font></td>"; }
+ * else { if (sumBreakScore >= 12) { opStr += "<td><font color='#F9BA0F'>" + "否"+ "</font></td>"; }
  * else { opStr += "<td>" + "否" + "</td>"; } }
  * 
  * opStr += "<td>" + unitName + "</td>";// 所属单位 opStr += " <th>" + duty + "</th>";//
@@ -407,7 +407,7 @@ function leftBtn() {
 						 * (blackStatus == "1") { opStr += "<td><font
 						 * color='red'>" + "是" + "</font></td>"; } else { if
 						 * (sumBreakScore >= 12) { opStr += "<td><font
-						 * color='blue'>" + "否"+ "</font></td>"; } else {
+						 * color='#F9BA0F'>" + "否"+ "</font></td>"; } else {
 						 * opStr += "<td>" + "否" + "</td>"; } }
 						 * 
 						 * opStr += "<td>" + unitName + "</td>";// 所属单位
@@ -484,7 +484,7 @@ function leftBtn() {
 									+ "</font></td>";
 						} else {
 							if (sumBreakScore >= 12) {
-								opStr += "<td><font color='blue'>" + "否"
+								opStr += "<td><font color='#F9BA0F'>" + "否"
 										+ "</font></td>";
 							} else {
 								opStr += "<td>" + "否" + "</td>";
@@ -614,7 +614,7 @@ function findSaveBtn() {
 						 * //为隐藏职工id的隐藏域赋值 if (blackStatus == "1") { opStr += "<td><font
 						 * color='red'>"+ "是"+ "</font></td>"; } else { if
 						 * (sumBreakScore >= 12) { opStr += "<td><font
-						 * color='blue'>"+ "否"+ "</font></td>"; } else {
+						 * color='#F9BA0F'>"+ "否"+ "</font></td>"; } else {
 						 * opStr += "<td>"+ "否"+ "</td>"; } }
 						 * 
 						 * opStr += "<td>" + unitName+ "</td>";//所属单位 opStr += "
@@ -696,7 +696,7 @@ function findSaveBtn() {
 									+ "</font></td>";
 						} else {
 							if (sumBreakScore >= 12) {
-								opStr += "<td><font color='blue'>" + "否"
+								opStr += "<td><font color='#F9BA0F'>" + "否"
 										+ "</font></td>";
 							} else {
 								opStr += "<td>" + "否" + "</td>";

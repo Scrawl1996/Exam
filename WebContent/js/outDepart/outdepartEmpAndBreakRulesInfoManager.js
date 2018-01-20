@@ -103,7 +103,7 @@ function showEmployeeBaseInfo(data) {
 			showEmployeeOutBaseInfoList += "<td style='color:red;'>"
 					+ employeeOutBaseInfoList[i].isblackList + "</td><td>";
 		} else if (employeeOutBaseInfoList[i].isInBlackList == '是') {
-			showEmployeeOutBaseInfoList += "<td style='color:#FFCC00;'>"
+			showEmployeeOutBaseInfoList += "<td style='color:#F9BA0F;'>"
 					+ employeeOutBaseInfoList[i].isblackList + "</td><td>";
 		} else {
 			showEmployeeOutBaseInfoList += "<td>"
