@@ -137,3 +137,7 @@ function initKnowledgeType(){
 	});
 }
 
+/************S   QLQ加的登录后台的功能********************************/
+$(function(){
+//	$("#myModal").modal("show");
+});

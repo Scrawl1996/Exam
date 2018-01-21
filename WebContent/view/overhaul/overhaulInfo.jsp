@@ -141,7 +141,7 @@ label.success {
 						<hr></hr>
 						<span class="sdf" style="margin-left: 40px;"><b>参加单位信息</b></span>
 						<!-- 收缩查询的条件 -->
-						<a href=javascript:void(0) style="margin-left:70%;color:rgb(51,122,183);" onclick="toggleQueryDiv()"><span class="glyphicon glyphicon-arrow-down" title="点击显示查询条件"></span></a>
+						<a href=javascript:void(0) style="margin-left:70%;color:rgb(221,221,221);" onclick="toggleQueryDiv()"><span class="glyphicon glyphicon-arrow-down" title="点击显示查询条件"></span></a>
 						
 						
 						 <br />

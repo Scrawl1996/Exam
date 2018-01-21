@@ -107,9 +107,9 @@
 
     <!--右侧登录-->
     <div class="el_navLogin">
-        <button class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick='modal_login()'>
+        <button class="btn btn-link" onclick='modal_login()'>
             <%-- <img src="<%=path%>/image/img/indexLoginButton.png" width="17"/>&nbsp;登 录 --%>
-            <img src="<%=path%>/image/img/asss.png" width="17"/>&nbsp;登&nbsp;录
+            <img src="<%=path%>/image/img/asss.png" width="17"/>&nbsp;登录后台
         </button>
     </div>
 </div>
@@ -121,8 +121,8 @@
     <div class="modal-dialog" id="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-hidden="true">&times;</button><!--关闭符号-->
+               <button type="button" class="close" data-dismiss="modal" id="closeModal"
+                        aria-hidden="true">&times;</button>
                 <!--标题-->
                 <h3 class="modal-title" id="myModalLabel">用户登录</h3>
             </div>
@@ -142,6 +142,7 @@
                         <select class="form-control" name="user_type" id="el_userType">
                             <option value="1">员工</option>
                             <option value="2">管理员</option>
+                            <!-- <option value="3">学员</option> -->
                         </select>
                         <!--<span class="tips" id="divpassword2"></span>-->
                     </li>
