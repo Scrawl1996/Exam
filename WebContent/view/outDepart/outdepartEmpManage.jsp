@@ -182,7 +182,7 @@
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>外来单位管理</span><span>>外来单位员工管理</span>
+						<span>短委员工管理</span><span>>员工管理</span>
 					</div>
 					<div class="el_main">
 
@@ -519,7 +519,8 @@
 
 									<!--分页-->
 									<div id="paginationIDU" class="paginationID"></div>
-
+									<br/><br/><br/>
+									<br/><br/><br/>
 								</div>
 							</div>
 

@@ -56,7 +56,7 @@
 <div class="container-fluid">
     <div class="panel panel-default">
         <!--菜单连接标题-->
-        <div class="panel-heading"><span>题库管理</span><span>>题库信息管理</span></div>
+        <div class="panel-heading"><span>资料管理</span><span>>题库管理</span></div>
 
         <div class="el_main">
             <!--树-->

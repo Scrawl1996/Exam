@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>检修管理</title>
+<title>检修项目管理</title>
 
 <%@ include file="/public/cssJs.jsp"%>
 
@@ -153,7 +153,7 @@ label.success {
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>检修管理</span><span>>检修信息管理</span>
+						<span>短委员工管理</span><span>>检修项目管理</span>
 					</div>
 
 					<div class="el_main">

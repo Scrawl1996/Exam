@@ -75,7 +75,7 @@
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>部门管理</span><span>>部门信息管理</span>
+						<span>内部员工管理</span><span>>部门管理</span>
 					</div>
 					<div class="panel-body el_main">
 						<!--树-->
