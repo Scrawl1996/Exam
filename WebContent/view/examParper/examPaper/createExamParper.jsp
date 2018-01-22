@@ -45,7 +45,7 @@
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>考试及试卷管理</span><span>>创建试卷</span>
+						<span>培训管理</span><span>>创建试卷</span>
 					</div>
 					<div class="panel-body">
 						<br />

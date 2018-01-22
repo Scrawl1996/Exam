@@ -51,7 +51,7 @@
 				<!--选择操作-->
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<span>考试及试卷管理</span><span>>创建试卷</span><span>>快速生成试卷</span>
+						<span>培训管理</span><span>>创建试卷</span><span>>快速生成试卷</span>
 					</div>
 					<div class="el_section">
 						<div class="el_navButton">

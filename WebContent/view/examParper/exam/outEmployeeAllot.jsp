@@ -52,7 +52,7 @@ hasOperatingEmpout = true;
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>外来单位管理</span><span>>分配员工</span>
+						<span>培训管理</span><span>>新来员工培训</span>
 					</div>
 					<div class="el_main">
 
