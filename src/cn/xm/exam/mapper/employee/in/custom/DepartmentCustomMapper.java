@@ -95,5 +95,54 @@ public interface DepartmentCustomMapper {
 	 * @throws SQLException
 	 */
 	public void updateDepartmentIds(Map<String,Object> condition) throws SQLException;
+	
+	
+	/*******************部门统计*********************/
+	/**
+	 * 统计内部正式部门个数
+	 * @param conditon
+	 * @return
+	 * @throws SQLException
+	 */
+	public int getDepartmentInFormalCount(Map<String,Object> conditon) throws SQLException;
+	
+	/**
+	 * 统计内部长期外委部门个数
+	 * @param conditon
+	 * @return
+	 * @throws SQLException
+	 */
+	public int getDepartmentInToDoCount(Map<String,Object> conditon) throws SQLException;
+	
+	/**
+	 * 查询内部正式部门统计信息
+	 * @param condition
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String,Object>> getDepartmentInFormalCountInfo(Map<String,Object> condition) throws SQLException;
+	
+	/**
+	 * 查询内部长期外委单位的统计信息
+	 * @param condition
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String,Object>> getDepartmentInToDoCountInfo(Map<String,Object> condition) throws SQLException;
+	
+	/**
+	 * 查询内部正式单位和员工数
+	 * @return
+	 * @throws SQLException
+	 */
+	public Map<String,Object> getFormalDepartmentAndEmpNum() throws SQLException;
+	
+	/**
+	 * 查询内部长委单位和员工数
+	 * @return
+	 * @throws SQLException
+	 */
+	public Map<String,Object> getToDoDepartmentAndEmpNum() throws SQLException;
 	/****** E leilong **********/
+
 }

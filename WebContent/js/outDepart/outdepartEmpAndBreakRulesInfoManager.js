@@ -85,6 +85,9 @@ function showEmployeeBaseInfo(data) {
 				+ "<input class='find_idCard' type='hidden' value='"
 				+ employeeOutBaseInfoList[i].idCard
 				+ "'/>"
+				+ "<input class='find_address' type='hidden' value='"
+				+ employeeOutBaseInfoList[i].address
+				+ "'/>"
 				+ "</td><td>"
 				+ employeeOutBaseInfoList[i].name
 				+ "</td><td>"
@@ -533,7 +536,8 @@ function el_empTrainDoc() {
 	if ($(".el_checks:checked").length == "0") {
 		alert("请选择要查看的员工！");
 	} else {
-
+		$("#train_empBaseInfo").show();
+		$("#train_empPhoto").show();
 		var $tds = $(".el_checks:checked").parents("tr").children("td");
 		$("#trainName").text( $tds.eq(2).text());
 		$("#trainSex").text( $tds.eq(3).text());
@@ -692,10 +696,13 @@ function allInfo(obj) {
 			".find_employeeOutBirthday").val();
 	var employeeOutPhoto = $(obj).parents("tr").find(".find_employeeOutPhoto")
 			.val();
+	var address = $(obj).parents("tr").find(".find_address")
+	.val();
 	$("#details_employeeOutBirthday").text(
 			Format(new Date(employeeOutBirthday.replace(/T/g, " ").replace(
 					/-/g, "/")), "yyyy-MM-dd"));
 	$("#details_employeeOutPhoto").prop("src", employeeOutPhoto);
+	$("#details_address").text(address);
 	$('#allInfo').modal();
 }
 
@@ -1058,4 +1065,15 @@ function historyBreakInfoFind2(){
 	$("#breakInfo_Type").val(type);//违章信息是哪种类型？即是历史的还是当前的违章
 	findEmployeeOutBaseInfo();//查询一下数据
 	
+}
+
+//添加员工时查看培训档案
+function queryEmployeeOutTrainInfo(){
+	$("#train_empBaseInfo").hide();
+	$("#train_empPhoto").hide();
+	var employeeOutIdCard = $("#certNumber").val();
+	if(employeeOutIdCard!= null && employeeOutIdCard != '' ){		
+		//分页显示员工的培训档案
+		showEmployeeOutExamsInfoList(employeeOutIdCard, 1, 8);
+	}
 }

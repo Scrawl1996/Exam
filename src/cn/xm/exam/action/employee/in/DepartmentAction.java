@@ -199,64 +199,6 @@ public class DepartmentAction extends ActionSupport {
 		result.put("pageBean", pageBean);
 		return SUCCESS;
 	}
-	/*
-	 * 按条件查询所有的部门
-	 */
-	/*
-	 * public String findDepartment() { Map<String, Object> condition = new
-	 * HashMap<String, Object>(); // result是用来返回到jsp中 result = new
-	 * HashMap<String, Object>(); // condition是用来充当查询的条件 condition =
-	 * generateCondition(condition);
-	 * 
-	 * try {
-	 * 
-	 * PageBean<Department> pageBean =
-	 * departmentService.findDepartmentsWithCondition(condition);
-	 * 
-	 * result.put("pageBean", pageBean);
-	 * 
-	 * // 部门违章积分 List<Integer> departmentMinusList = new LinkedList<Integer>();
-	 * // 用来放入所有的上级部门名称 List<String> updepartmentname = new
-	 * LinkedList<String>();
-	 * 
-	 * // 用来存放所有的部门人数 List<Integer> employeeInCounts = new
-	 * LinkedList<Integer>(); // 获取上级部门 // List<Department> departments=
-	 * pageBean.getProductList();
-	 * 
-	 * List<Department> departments = pageBean.getProductList();
-	 * 
-	 * for (int i = 0; i < departments.size(); i++) { // 得到该部门id String
-	 * departmentid1 = departments.get(i).getDepartmentid();
-	 * departmentMinusList.add(getempsMinus(departmentid1)); // 得到上级部门id String
-	 * updepartmentid = departments.get(i).getUpdepartmentid();
-	 * 
-	 * if (updepartmentid != null) {
-	 * 
-	 * if ("0".equals(updepartmentid)) { updepartmentname.add("无"); } else {
-	 * 
-	 * // 部门名称 Department department =
-	 * departmentService.getDepartmentById(updepartmentid);
-	 * 
-	 * updepartmentname.add(department.getDepartmentname());
-	 * 
-	 * }
-	 * 
-	 * } else {
-	 * 
-	 * updepartmentname.add("无"); }
-	 * 
-	 * } for (int i = 0; i < departments.size(); i++) { // 部门人数 String
-	 * mydepartmentid = departments.get(i).getDepartmentid(); int
-	 * employeeInCount =
-	 * departmentService.getEmployeeInCountsById(mydepartmentid);
-	 * employeeInCounts.add(employeeInCount);
-	 * 
-	 * } result.put("updepartmentname", updepartmentname);
-	 * result.put("employeeInCounts", employeeInCounts);
-	 * result.put("departmentMinus", departmentMinusList); } catch (Exception e)
-	 * { // TODO Auto-generated catch block e.printStackTrace(); } return
-	 * SUCCESS; }
-	 */
 
 	/*
 	 * 通过部门id查询出该部门下的员工的违章积分

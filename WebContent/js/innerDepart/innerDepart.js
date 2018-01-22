@@ -924,6 +924,9 @@ function queryDepartIn(){
 	clearPageNum();
 }
 
+function el_departmentCount(){
+	window.location.href="innerdepartCount.jsp";
+}
 
 
 
