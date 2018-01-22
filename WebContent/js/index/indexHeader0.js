@@ -41,7 +41,6 @@ function initModal() {
 	// 判断是否是直接访问主页
 	var u = location.pathname;
 	u = u.substring(6, u.length);
-	debugger
 	if (!denglu && (u.length==29||u=="") ) {
 		if($("#el_userType").find("[value='3']").length==0){
 			$("#el_userType").append('<option value="3">学员</option>');
@@ -50,27 +49,6 @@ function initModal() {
 		$("#myModal").modal("show");
 	}
 }
-
-/*
- * $().ready(function() {
- * 
- * 验证码 var verifyCode = new GVerify("v_container");
- * 
- * $("#my_button").click(function () { var res =
- * verifyCode.validate(document.getElementById("code_input").value); if (res) {
- * 
- * login(); 如果正确，判断登录的用户类型 如果checkText是1，用户是员工 如果checkText是2，用户是管理员
- * 
- * var checkText = $("#el_userType").find("option:selected").val(); if
- * (checkText == 1) { $("#el_form").prop("action","");
- * $("#el_form").prop("action","view/lineExam/examInterface.jsp"); } else {
- * $("#el_form").prop("action","");
- * $("#el_form").prop("action","view/examParper/examManage.jsp");
- * //$("#el_loginA").css("href", "lineExam/examInterface.html") } } else {
- * alert("验证码错误") $("#code_input").val(''); } })
- * 
- * });
- */
 function Enter_login() {
 	if (event.keyCode == 13) // 回车键的键值为13
 		document.getElementById("my_button").click(); // 调用登录按钮的登录事件

@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>内部员工违章管理</title>
+<title>内部员工管理</title>
 
 <%@ include file="/public/cssJs.jsp"%>
 <!-- 设置一个JS全局变量记录项目名字 -->
@@ -144,7 +144,7 @@ hasOperatingEmpin = true;
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>内部单位管理</span><span>>内部员工违章管理</span>
+						<span>内部员工管理</span><span>>员工管理</span>
 					</div>
 					<div class="el_main">
 

@@ -105,8 +105,8 @@ label.success {
 				<div class="panel panel-default el_queryBoxMainPage">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>检修管理</span><span>><a
-							href="<%=path%>/view/overhaul/overhaulManage.jsp">检修信息管理</a></span><span>>检修详情</span>
+						<span>短委员工管理</span><span>><a
+							href="<%=path%>/view/overhaul/overhaulManage.jsp">检修项目管理</a></span><span>>检修详情</span>
 					</div>
 
 					<!--添加考试基本内容-->
