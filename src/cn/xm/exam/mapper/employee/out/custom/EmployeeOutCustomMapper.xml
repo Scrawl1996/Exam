@@ -464,6 +464,14 @@
 			and (CASE (SELECT	id FROM blacklist WHERE blacklist.blackIdcard = haulemployeeout.empoutIdcard AND temporaryInStatus =1 AND employeeStatus="1") IS NULL WHEN TRUE THEN "否" ELSE "是" END ) = #{blackListInfo}
 		</if>
 		
+		<!-- 单位ID -->
+		<if test="unitId != null">
+			and haulemployeeout.unitid = #{unitId}
+		</if>
+		<!-- 大修ID -->
+		<if test="bigId != null">
+			and haulemployeeout.bigid = #{bigId}
+		</if>
 		
 		<if test="minusNumLeft !=null and minusNumLeft !='' ">
 			and 
