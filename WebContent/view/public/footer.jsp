@@ -27,7 +27,7 @@
 		title="点此隐藏菜单栏" id="toggleMenu"><span class="glyphicon glyphicon-arrow-left"
 		></span></a>
 
-	<footer class="footer">
+	<footer class="footer" style="font-size:12px !important;">
 	<div class="center">Copyright © 2017-2018
 		&nbsp;&nbsp;大唐集团&nbsp;阳城国际发电有限公司 &nbsp;&nbsp; All Rights Reserved.</div>
 	</footer>

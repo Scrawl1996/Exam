@@ -86,7 +86,7 @@
 <div class="container-fluid">
     <div class="panel panel-default">
         <!--菜单连接标题-->
-        <div class="panel-heading"><span>成绩管理</span><span>>成绩信息管理</span></div>
+        <div class="panel-heading"><span>培训管理</span><span>>成绩管理</span></div>
         <div class="panel-body el_main">
             <!--内容-->
             <div class=" col-md-12">

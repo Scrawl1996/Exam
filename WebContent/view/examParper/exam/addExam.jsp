@@ -70,7 +70,7 @@
 				<div class="panel panel-default el_queryBoxMainPage">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>考试管理</span><span>>添加考试</span>
+						<span>培训管理</span><span>>添加考试</span>
 					</div>
 
 					<!--添加考试基本内容-->

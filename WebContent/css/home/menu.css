@@ -60,7 +60,7 @@ ul.mtree.transit ul > li {
 }
 
 ul.mtree.transit li > a {
-	font-size:18px;
+	font-size:16px;
 	font-family:Î¢ÈíÑÅºÚ;
     font-weight: bold;
     text-transform: upperCase;
@@ -100,14 +100,14 @@ ul.mtree.transit a {
 
 ul.mtree.transit li li > a {
 	background:white;
-	font-size:16px;
+	font-size:14px;
 	font-family:Î¢ÈíÑÅºÚ;
     padding-left: 2em;
     color:black;
 }
 .mtree-level-2 li > a{
 	background:white;
-	font-size:12px !important;
+	font-size:13px !important;
 	font-family:Î¢ÈíÑÅºÚ;
     padding-left: 4em !important;
     color:black;

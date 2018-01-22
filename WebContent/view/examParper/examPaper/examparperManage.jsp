@@ -42,7 +42,7 @@
 				<div class="panel panel-default el_queryBoxMainPage">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span class="el_stairTitle">考试及试卷管理</span><span>>试卷管理</span>
+						<span class="el_stairTitle">培训管理</span><span>>试卷管理</span>
 					</div>
 					<div class="panel-body">
 
