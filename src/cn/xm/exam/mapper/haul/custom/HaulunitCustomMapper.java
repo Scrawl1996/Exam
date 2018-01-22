@@ -2,6 +2,7 @@ package cn.xm.exam.mapper.haul.custom;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +22,5 @@ public interface HaulunitCustomMapper {
 	 * @throws SQLException
 	 */
 	public List<String> selectUnitidsByHaulId(@Param("haulId")String haulId,@Param("departmentId")String departmentId) throws SQLException;
+
 }

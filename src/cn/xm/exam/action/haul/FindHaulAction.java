@@ -39,6 +39,70 @@ public class FindHaulAction extends ActionSupport {
 	private String bigStatus;// 大修状态
 	private String startMonth;// 创建月份
 	private String haulId;// 大修ID，用于查询大修信息
+	
+	
+	
+	/**
+	 * 分页查询biaoduan
+	 * 
+	 * @return
+	 */
+	private Map<String, Object> generateCondition1() {
+		Map<String, Object> condition = new HashMap<String, Object>();
+		if (ValidateCheck.isNull(currentCount)) {
+			currentCount = DefaultValue.PAGE_SIZE;
+		}
+		if (ValidateCheck.isNull(currentPage)) {
+			currentPage = "1";
+		}
+		if (ValidateCheck.isNotNull(haulId)) {
+			condition.put("bigId", haulId);
+		}
+		return condition;
+	}
+	public String queryBiaoDuan() {
+		response = new HashMap<String, Object>();
+		Map<String, Object> condition = generateCondition1();
+		if(ValidateCheck.isNotNull(haulId)){
+			condition.put("bigId", haulId);
+		}
+		PageBean<Map<String, Object>> pageBean = null;
+		try {
+			pageBean = haulinfoService.getProjectInfoByBigId(Integer.valueOf(currentPage),
+					Integer.valueOf(currentCount), condition);
+		} catch (NumberFormatException e) {
+			logger.error("数字格式化异常", e);
+		} catch (SQLException e) {
+			logger.error("查询标段信息L异常", e);
+		}
+		response.put("pageBean", pageBean);
+		return SUCCESS;
+	}
+	public String queryUnitBiaoduanPerNum() {
+		response = new HashMap<String, Object>();
+		Map<String, Object> condition = generateCondition1();
+		if(ValidateCheck.isNotNull(haulId)){
+			condition.put("bigId", haulId);
+		}
+		PageBean<Map<String, Object>> pageBean = null;
+		try {
+			pageBean = haulinfoService.getProjectUnitPerNumInfoByBigId(Integer.valueOf(currentPage),
+					Integer.valueOf(currentCount), condition);
+		} catch (NumberFormatException e) {
+			logger.error("数字格式化异常", e);
+		} catch (SQLException e) {
+			logger.error("查询标段信息L异常", e);
+		}
+		response.put("pageBean", pageBean);
+		return SUCCESS;
+	}
+
+
+
+
+
+
+
 
 	/**
 	 * 查询大修部门树
@@ -65,7 +129,7 @@ public class FindHaulAction extends ActionSupport {
 	public String queryPageHaul() {
 		response = new HashMap<String, Object>();
 		Map<String, Object> condition = generateQueryHaulCondition();
-		PageBean<Haulinfo> pageBean = null;
+		PageBean<Map<String, Object>> pageBean = null;
 		try {
 			pageBean = haulinfoService.getHaulinfoPageByCondition(Integer.valueOf(currentPage),
 					Integer.valueOf(currentCount), condition);

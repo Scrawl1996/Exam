@@ -15,6 +15,7 @@
 		<action name="addHaul" class="addHaulAction"></action>
 		<!-- 修改大修基本信息 -->
 		<action name="updateHaul" class="updateHaulAction"></action>
+		<action name="upHaul_*" class="updateHaulAction" method="{1}"></action>
 		<!-- 查询大修信息 -->
 		<action name="haul_*" class="findHaulAction" method="{1}"></action>
 		<!-- 查询大修信息 -->

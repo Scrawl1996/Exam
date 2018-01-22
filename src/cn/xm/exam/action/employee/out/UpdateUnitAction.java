@@ -33,6 +33,7 @@ public class UpdateUnitAction extends ActionSupport implements ModelDriven<Unit>
 	private UnitService unitService;// 外来单位服务
 	private Unit unit = new Unit();// 模型驱动的单位
 	private Haulunit haulUnit;
+	private  String projectids;
 	/**
 	 * 修改单位信息到数据库
 	 * 
@@ -42,8 +43,8 @@ public class UpdateUnitAction extends ActionSupport implements ModelDriven<Unit>
 		response = new HashMap();
 		String updateResult = null;
 		try {
-			if (unit != null && haulUnit !=null) {
-				updateResult = unitService.updateUnit(unit,haulUnit) ? "修改成功!" : "修改失败!";
+			if (unit != null && haulUnit !=null &&ValidateCheck.isNotNull(projectids)) {
+				updateResult = unitService.updateUnit(unit,haulUnit,projectids) ? "修改成功!" : "修改失败!";
 			}
 		} catch (Exception e) {
 			logger.error("修改单位信息失败!",e);
@@ -74,6 +75,14 @@ public class UpdateUnitAction extends ActionSupport implements ModelDriven<Unit>
 
 	public void setHaulUnit(Haulunit haulUnit) {
 		this.haulUnit = haulUnit;
+	}
+
+	public String getProjectids() {
+		return projectids;
+	}
+
+	public void setProjectids(String projectids) {
+		this.projectids = projectids;
 	}
 
 }

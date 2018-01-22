@@ -1,7 +1,7 @@
-package cn.xm.exam.mapper.employee.out;
+package cn.xm.exam.mapper.haul;
 
-import cn.xm.exam.bean.employee.out.Project;
-import cn.xm.exam.bean.employee.out.ProjectExample;
+import cn.xm.exam.bean.haul.Project;
+import cn.xm.exam.bean.haul.ProjectExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,7 +10,7 @@ public interface ProjectMapper {
 
     int deleteByExample(ProjectExample example);
 
-    int deleteByPrimaryKey(Integer projectid);
+    int deleteByPrimaryKey(String projectid);
 
     int insert(Project record);
 
@@ -18,7 +18,7 @@ public interface ProjectMapper {
 
     List<Project> selectByExample(ProjectExample example);
 
-    Project selectByPrimaryKey(Integer projectid);
+    Project selectByPrimaryKey(String projectid);
 
     int updateByExampleSelective(@Param("record") Project record, @Param("example") ProjectExample example);
 

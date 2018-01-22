@@ -1,6 +1,7 @@
 package cn.xm.exam.service.impl.employee.out;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,16 +11,17 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.xm.exam.bean.employee.out.Project;
-import cn.xm.exam.bean.employee.out.ProjectExample;
 import cn.xm.exam.bean.employee.out.Unit;
 import cn.xm.exam.bean.employee.out.UnitExample;
 import cn.xm.exam.bean.haul.Haulunit;
 import cn.xm.exam.bean.haul.HaulunitExample;
-import cn.xm.exam.mapper.employee.out.ProjectMapper;
+import cn.xm.exam.bean.haul.Haulunitproject;
+import cn.xm.exam.bean.haul.HaulunitprojectExample;
+import cn.xm.exam.bean.haul.HaulunitprojectExample.Criteria;
 import cn.xm.exam.mapper.employee.out.UnitMapper;
 import cn.xm.exam.mapper.employee.out.custom.UnitCustomMapper;
 import cn.xm.exam.mapper.haul.HaulunitMapper;
+import cn.xm.exam.mapper.haul.HaulunitprojectMapper;
 import cn.xm.exam.mapper.haul.custom.HaulemployeeoutCustomMapper;
 import cn.xm.exam.mapper.haul.custom.HaulunitCustomMapper;
 import cn.xm.exam.service.employee.out.EmployeeOutService;
@@ -40,11 +42,11 @@ public class UnitServiceImpl implements UnitService {
 	@Autowired
 	private HaulemployeeoutCustomMapper haulemployeeoutCustomMapper;
 	@Autowired
-	private ProjectMapper projectMapper;
-	@Autowired
 	private EmployeeOutService employeeOutService;
 	@Autowired
 	private HaulunitCustomMapper haulunitCustomMapper;
+	@Autowired
+	private HaulunitprojectMapper haulunitprojectMapper;
 
 	@Override
 	public String getNextUnitId(String upUnitId) throws Exception {
@@ -53,7 +55,7 @@ public class UnitServiceImpl implements UnitService {
 	}
 
 	@Override
-	public boolean addUnit(Unit unit, String bigID, Haulunit haulunit) throws Exception {
+	public boolean addUnit(Unit unit, String bigID, Haulunit haulunit, String projectids) throws Exception {
 		// 1.根据单位姓名判断是否存在,如果存在加中间表，不存在加两个表
 		Unit unitByUnitName = this.getUnitByUnitName(unit.getName());
 		if (unitByUnitName != null) {// 存在修改信息
@@ -65,6 +67,17 @@ public class UnitServiceImpl implements UnitService {
 			haulunit.setUnitbigid(UUIDUtil.getUUID2());
 			haulunit.setUnitminismum(0);
 			haulunit.setIsnewbig("1");
+			//
+			// 3.添加中间表工程信息
+			List<String> projectIds = Arrays.asList(projectids.split(","));
+			Haulunitproject haulunitproject = null;
+			for (String projectId : projectIds) {
+				haulunitproject = new Haulunitproject();
+				haulunitproject.setBigid(bigID);// 大修ID
+				haulunitproject.setProjectid(projectId);// 工程id
+				haulunitproject.setUnitid(unitByUnitName.getUnitid());// 设置单位ID
+				haulunitprojectMapper.insert(haulunitproject);
+			}
 			return haulunitMapper.insert(haulunit) > 0 ? true : false;
 		}
 		// 不存在证明是新的就添加两个表
@@ -78,16 +91,28 @@ public class UnitServiceImpl implements UnitService {
 		// 2.添加中间表
 		haulunit.setBigid(bigID);
 		haulunit.setUnitid(unitId);
-		haulunit.setUnitbigid(UUIDUtil.getUUID2());
+		String haulUnitId = UUIDUtil.getUUID2();
+		haulunit.setUnitbigid(haulUnitId);
 		haulunit.setUnitminismum(0);
 		haulunit.setIsnewbig("1");
+		// 3.添加中间表工程信息
+		List<String> projectIds = Arrays.asList(projectids.split(","));
+		Haulunitproject haulunitproject = null;
+		for (String projectId : projectIds) {
+			haulunitproject = new Haulunitproject();
+			haulunitproject.setBigid(bigID);// 大修ID
+			haulunitproject.setProjectid(projectId);// 工程id
+			haulunitproject.setUnitid(unitId);// 单位ID
+			haulunitprojectMapper.insert(haulunitproject);
+		}
+
 		return haulunitMapper.insert(haulunit) > 0 ? true : false;
 	}
 
 	@Override
 	public boolean deleteUnitByBigIdAndHaulId(Map bididAndUnitid) throws Exception {
 		// 1.查出所有的身份证号ID
-		List<Map<String,Object>> bigemployeeids = haulemployeeoutCustomMapper
+		List<Map<String, Object>> bigemployeeids = haulemployeeoutCustomMapper
 				.getBigEmployeeoutIdcardsByBigidAndUnitid(bididAndUnitid);
 		// 2.循环遍历ID进行删除员工
 		if (bigemployeeids != null && bigemployeeids.size() > 0) {
@@ -119,9 +144,29 @@ public class UnitServiceImpl implements UnitService {
 	}
 
 	@Override
-	public boolean updateUnit(Unit unit, Haulunit haulUnit) throws Exception {
-		return unitMapper.updateByPrimaryKeySelective(unit) > 0
+	public boolean updateUnit(Unit unit, Haulunit haulUnit, String projectids) throws Exception {
+		//1.修改基本信息
+		boolean result = unitMapper.updateByPrimaryKeySelective(unit) > 0
 				&& haulunitMapper.updateByPrimaryKeySelective(haulUnit) > 0 ? true : false;
+		//2.修改检修单位工程信息(删掉重加)
+		HaulunitprojectExample haulunitprojectExample = new HaulunitprojectExample();
+		HaulunitprojectExample.Criteria createCriteria = haulunitprojectExample.createCriteria();
+		createCriteria.andBigidEqualTo(haulUnit.getBigid());
+		createCriteria.andUnitidEqualTo(unit.getUnitid());
+		//2.1删掉记录
+		haulunitprojectMapper.deleteByExample(haulunitprojectExample);
+		//重新添加
+		// 3.添加中间表工程信息
+		List<String> projectIds = Arrays.asList(projectids.split(","));
+		Haulunitproject haulunitproject = null;
+		for (String projectId : projectIds) {
+			haulunitproject = new Haulunitproject();
+			haulunitproject.setBigid(haulUnit.getBigid());// 大修ID
+			haulunitproject.setProjectid(projectId);// 工程id
+			haulunitproject.setUnitid(unit.getUnitid());// 设置单位ID
+			haulunitprojectMapper.insert(haulunitproject);
+		}
+		return true;
 	}
 
 	@Override
@@ -172,12 +217,6 @@ public class UnitServiceImpl implements UnitService {
 	}
 
 	@Override
-	public PageBean<Project> findUnitProjectWithCondition(Map<String, Object> condition) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Map<String, Object>> getUnitTreeForExam() throws SQLException {
 		// TODO Auto-generated method stub
 		return unitCustomMapper.getUnitTreeForExam();
@@ -202,11 +241,9 @@ public class UnitServiceImpl implements UnitService {
 	}
 
 	@Override
-	public PageBean<Map<String, Object>> getEmployeeOutsByUaulIdAndUnitId( int currentPage,
-			int currentCount,Map<String, Object> haulIdAndUnitId)
-			throws SQLException {
-		
-		
+	public PageBean<Map<String, Object>> getEmployeeOutsByUaulIdAndUnitId(int currentPage, int currentCount,
+			Map<String, Object> haulIdAndUnitId) throws SQLException {
+
 		PageBean<Map<String, Object>> pageBean = new PageBean();
 		pageBean.setCurrentPage(currentPage);// 1.设置当前页
 		pageBean.setCurrentCount(currentCount);// 2. 设置页大小
@@ -250,9 +287,10 @@ public class UnitServiceImpl implements UnitService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getUnitidsAndNamesByHaulId(String haulId,String departmentId) throws SQLException {
+	public List<Map<String, Object>> getUnitidsAndNamesByHaulId(String haulId, String departmentId)
+			throws SQLException {
 		// 1.根据大修ID查出大秀部门Id
-		List<String> haulUnitIds = haulunitCustomMapper.selectUnitidsByHaulId(haulId,departmentId);
+		List<String> haulUnitIds = haulunitCustomMapper.selectUnitidsByHaulId(haulId, departmentId);
 		List<Map<String, Object>> unitidsAndNames = null;
 		// 2.根据部门ID查出部门名称
 		if (haulUnitIds != null && haulUnitIds.size() > 0) {

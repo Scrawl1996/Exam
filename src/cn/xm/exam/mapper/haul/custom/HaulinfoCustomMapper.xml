@@ -13,9 +13,15 @@
 	</select>
 	<!--E 查询分页总数 -->
 	<!--S 分页查询大修 -->
-	<select id="getHaulinfoslByCondition" resultType="cn.xm.exam.bean.haul.Haulinfo"
+	<select id="getHaulinfoslByCondition" resultType="map"
 		parameterType="hashmap">
-		SELECT * FROM haulinfo
+		SELECT haulinfo.*,(select count(haulprojectid) from haulproject where
+		bigid=haulinfo.bigId) as biaoduan,
+		(select count(BigEmployeeoutId) from
+		haulemployeeout where bigid=haulinfo.bigId and trainstatus='2') as perNum,
+		(select
+		count(unitBigId) from haulunit where bigid=haulinfo.bigId) as unitNum
+		FROM haulinfo
 		<where>
 			<include refid="queryHaulWhere"></include>
 		</where>
@@ -79,6 +85,66 @@
 		bigCreateDate DESC
 	</select>
 	<!--E 查询大修的名字与ID集合 -->
-
-
+	<!-- S查询标段信息 -->
+	<select id="getCountProjectInfoByBigId" parameterType="string"
+		resultType="_int">
+		SELECT COUNT(haulprojectid) FROM haulproject WHERE
+		bigid=#{value}
+	</select>
+	<select id="getProjectInfoByBigId" parameterType="map"
+		resultType="map">
+		SELECT
+		project.*,
+		bigpro.*,
+		(SELECT
+		COUNT(BigEmployeeoutId)
+		FROM haulemployeeout
+		WHERE unitId IN(SELECT
+		unitid
+		FROM haulunitproject
+		WHERE haulunitproject.projectId = project.projectid) AND
+		trainStatus='2')
+		AS perNum
+		FROM project,
+		haulproject bigpro
+		WHERE
+		project.projectid = bigpro.projectid
+		AND bigpro.projectid IN(SELECT
+		haulproject.projectId
+		FROM haulproject
+		WHERE bigid = #{bigId})
+		limit #{index},#{currentCount}
+	</select>
+	<!-- E查询标段信息 -->
+	<!-- S查询标段单位人数信息 -->
+	<select id="getCountProjectUnitPerNumInfoByBigId" parameterType="string" resultType="int">
+	SELECT COUNT(unitBigId) FROM haulunit WHERE bigId =#{value}
+	</select>
+	
+	
+	<select id="getProjectUnitPerNumInfoByBigId" parameterType="map"
+		resultType="map">
+		SELECT
+		haulunitproject.*,
+		project.*,
+		unit.name,
+		(SELECT
+		COUNT(BigEmployeeoutId)
+		FROM haulemployeeout
+		WHERE
+		haulemployeeout.unitId = unit.unitId
+		AND haulemployeeout.bigId =
+		haulunitproject.bigid
+		AND trainStatus = '2') AS perNum
+		FROM
+		haulunitproject,
+		project,
+		unit
+		WHERE unit.unitId = haulunitproject.unitid
+		AND haulunitproject.projectId = project.projectid
+		AND
+		haulunitproject.bigid = #{bigId}
+		limit #{index},#{currentCount}
+	</select>
+	<!-- E查询标段单位人数信息 -->
 </mapper>

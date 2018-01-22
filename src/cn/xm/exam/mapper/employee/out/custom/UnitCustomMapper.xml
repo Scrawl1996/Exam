@@ -37,15 +37,21 @@
 		haulunit.unitId,
 		haulunit.unitBigId,
 		haulunit.bigId,
-		haulunit.projectNames,
+		(select
+		group_concat(projectname) from project where projectid in (select projectId from
+		haulunitproject where bigId =haulunit.bigId and unitId=
+		haulunit.unitId)) as
+		projectNames,
 		haulunit.manager,
 		haulunit.managerPhone,
 		haulunit.secure,
 		haulunit.securePhone,
-		@b:= (IFNULL((SELECT SUM(minusNum) FROM breakrules,
+		@b:=
+		(IFNULL((SELECT SUM(minusNum) FROM breakrules,
 		haulemployeeout WHERE
 		breakrules.BigEmployeeoutId =
-		haulemployeeout.BigEmployeeoutId <!-- AND haulemployeeout.bigId = haulinfo.bigId -->
+		haulemployeeout.BigEmployeeoutId <!-- AND haulemployeeout.bigId 
+			= haulinfo.bigId -->
 		AND haulemployeeout.unitid =
 		haulunit.unitId
 		<if test="fstarttime != null">
@@ -67,9 +73,11 @@
 		COUNT(BigEmployeeoutId)
 		FROM haulemployeeout
 		WHERE
-		haulemployeeout.bigId = haulunit.bigId
+		haulemployeeout.bigId
+		= haulunit.bigId
 		AND haulemployeeout.unitId =
-		haulunit.unitId) AS personNum,
+		haulunit.unitId) AS
+		personNum,
 		TRUNCATE(IFNULL(@b/@a,0),3) AS jiaquan
 		FROM haulunit,
 		haulinfo,
@@ -79,12 +87,9 @@
 		</where>
 
 		ORDER BY jiaquan desc
-<!-- 		<if test="fstarttime != null or fendtime != null">
-			unitMinisMum desc
-		</if>
-		<if test="fstarttime == null and fendtime == null">
-			haulinfo.bigCreateDate DESC,CONVERT(unit.name USING gbk)
-		</if> -->
+		<!-- <if test="fstarttime != null or fendtime != null"> unitMinisMum desc 
+			</if> <if test="fstarttime == null and fendtime == null"> haulinfo.bigCreateDate 
+			DESC,CONVERT(unit.name USING gbk) </if> -->
 		<include refid="query_haulunit_limit"></include>
 	</select>
 	<!--组合查询条件 -->
@@ -116,7 +121,8 @@
 		</if>
 		<!-- 外部培训 -->
 		<if test="markTrainType_Out !=null">
-			and haulunit.bigId NOT IN (#{regular_train},#{longterm_train})
+			and haulunit.bigId NOT IN
+			(#{regular_train},#{longterm_train})
 		</if>
 	</sql>
 	<sql id="query_haulunit_limit">
@@ -148,7 +154,8 @@
 		emp.idCode =
 		emplhaul.empoutIdcard
 		AND bigId = #{bigId}
-		and emplhaul.unitId=#{unitId}
+		and
+		emplhaul.unitId=#{unitId}
 		<if test="index != null">
 			limit #{index},#{currentCount}
 		</if>
@@ -194,8 +201,7 @@
 		BigEmployeeoutId
 		FROM haulemployeeout
 		WHERE unitId = #{unitId})
-	<!-- 	AND bigId=
-		#{bigId} -->
+		<!-- AND bigId= #{bigId} -->
 		<if test="fstarttime != null">
 			and breakTime &gt;= #{fstarttime}
 		</if>

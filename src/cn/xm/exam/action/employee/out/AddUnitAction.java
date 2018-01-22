@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -15,6 +17,7 @@ import com.opensymphony.xwork2.ModelDriven;
 import cn.xm.exam.bean.employee.out.Unit;
 import cn.xm.exam.bean.haul.Haulunit;
 import cn.xm.exam.service.employee.out.UnitService;
+import cn.xm.exam.service.haul.ProjectService;
 import cn.xm.exam.utils.ValidateCheck;
 
 /**
@@ -62,6 +65,28 @@ public class AddUnitAction extends ActionSupport implements ModelDriven<Unit> {
 		response.put("unitsName", unitsName);
 		return SUCCESS;
 	}
+	@Resource
+	private ProjectService projectService;
+	public String getProjectInfoByHaulId() {
+		response = new HashMap();
+		List<Map<String,Object>> projects = null;
+		try {
+			if (ValidateCheck.isNotNull(bigid)) {
+				projects = projectService.getProjectInfoByHaulId(bigid);
+			}
+		} catch (Exception e) {
+			logger.error("查询检修标段出错", e);
+		}
+		response.put("projects", projects);
+		return SUCCESS;
+	}
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * 根据单位名称查询单位信息
@@ -82,6 +107,9 @@ public class AddUnitAction extends ActionSupport implements ModelDriven<Unit> {
 		return SUCCESS;
 	}
 
+	
+		
+	private String projectids;
 	/**
 	 * 保存单位信息到数据库
 	 * 
@@ -93,7 +121,7 @@ public class AddUnitAction extends ActionSupport implements ModelDriven<Unit> {
 		// 传到Service进行保存
 		if (unit != null && ValidateCheck.isNotNull(bigid)) {
 			try {
-				addResult = unitService.addUnit(unit, bigid,haulUnit) ? "添加成功!" : "添加失败!";
+				addResult = unitService.addUnit(unit, bigid,haulUnit,projectids) ? "添加成功!" : "添加失败!";
 			} catch (Exception e) {
 				logger.error("添加单位失败!", e);
 				addResult = "添加失败!";
@@ -147,6 +175,14 @@ public class AddUnitAction extends ActionSupport implements ModelDriven<Unit> {
 
 	public void setProjectnames(String projectnames) {
 		this.projectnames = projectnames;
+	}
+
+	public String getProjectids() {
+		return projectids;
+	}
+
+	public void setProjectids(String projectids) {
+		this.projectids = projectids;
 	}
 
 }

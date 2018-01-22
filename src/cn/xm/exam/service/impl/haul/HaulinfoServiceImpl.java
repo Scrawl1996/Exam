@@ -14,8 +14,17 @@ import org.springframework.stereotype.Service;
 import cn.xm.exam.bean.exam.Exam;
 import cn.xm.exam.bean.exam.ExamExample;
 import cn.xm.exam.bean.haul.Haulinfo;
+import cn.xm.exam.bean.haul.Haulproject;
+import cn.xm.exam.bean.haul.HaulprojectExample;
+import cn.xm.exam.bean.haul.Haulunitproject;
+import cn.xm.exam.bean.haul.HaulunitprojectExample;
+import cn.xm.exam.bean.haul.HaulunitprojectExample.Criteria;
+import cn.xm.exam.bean.haul.Project;
 import cn.xm.exam.mapper.exam.ExamMapper;
 import cn.xm.exam.mapper.haul.HaulinfoMapper;
+import cn.xm.exam.mapper.haul.HaulprojectMapper;
+import cn.xm.exam.mapper.haul.HaulunitprojectMapper;
+import cn.xm.exam.mapper.haul.ProjectMapper;
 import cn.xm.exam.mapper.haul.custom.HaulinfoCustomMapper;
 import cn.xm.exam.service.employee.out.UnitService;
 import cn.xm.exam.service.exam.exam.ExamService;
@@ -37,15 +46,40 @@ public class HaulinfoServiceImpl implements HaulinfoService {
 	private ExamService examService;// 考试mapper
 	@Autowired
 	private UnitService unitService;
+	@Resource
+	private ProjectMapper projectMapper;
+	@Resource
+	private HaulprojectMapper haulprojectMapper;
+	@Resource
+	private HaulunitprojectMapper haulunitprojectMapper;
 
 	@Override
-	public boolean addHaulinfo(Haulinfo haulInfo) throws SQLException {
+	public boolean addHaulinfo(Haulinfo haulInfo,List<String> list) throws SQLException {
+		String bigId = UUIDUtil.getUUID2();
 		if (ValidateCheck.isNull(haulInfo.getBigid())) {// 设置ID
-			haulInfo.setBigid(UUIDUtil.getUUID2());
+			haulInfo.setBigid(bigId);
 		}
 		haulInfo.setBigcreatedate(new Date());// 设置创建日期
 		haulInfo.setBigstatus("未开始");// 设置状态
-		return haulinfoMapper.insert(haulInfo) > 0 ? true : false;
+		//0.插入大修基本信息
+		haulinfoMapper.insert(haulInfo);
+		Project project = null;
+		Haulproject haulproject = null ;
+		//1.插入工程信息,插入大修工程表
+		for(String projectName:list){
+			project = new Project();
+			project.setProjectname(projectName);
+			String projectId = UUIDUtil.getUUID2();
+			project.setProjectid(projectId);
+			//插入工程
+			projectMapper.insert(project);
+			//插入检修工程
+			haulproject = new Haulproject();
+			haulproject.setBigid(bigId);
+			haulproject.setProjectid(projectId);
+			haulprojectMapper.insert(haulproject);
+		}
+		return true;
 	}
 
 	@Override
@@ -86,9 +120,9 @@ public class HaulinfoServiceImpl implements HaulinfoService {
 	}
 
 	@Override
-	public PageBean<Haulinfo> getHaulinfoPageByCondition(int currentPage, int currentCount,
+	public PageBean<Map<String, Object>> getHaulinfoPageByCondition(int currentPage, int currentCount,
 			Map<String, Object> condition) throws SQLException {
-		PageBean<Haulinfo> pageBean = new PageBean<Haulinfo>();
+		PageBean<Map<String, Object>> pageBean = new PageBean<Map<String, Object>>();
 		pageBean.setCurrentCount(currentCount);// 设置页大小
 		pageBean.setCurrentPage(currentPage);// 设置当前页
 		int total = 0;
@@ -103,7 +137,7 @@ public class HaulinfoServiceImpl implements HaulinfoService {
 		int index = (currentPage - 1) * currentCount;// 起始值
 		condition.put("index", index);
 		condition.put("currentCount", currentCount);
-		List<Haulinfo> haulinfos = haulinfoCustomMapper.getHaulinfoslByCondition(condition);
+		List<Map<String, Object>> haulinfos = haulinfoCustomMapper.getHaulinfoslByCondition(condition);
 		pageBean.setProductList(haulinfos);
 		return pageBean;
 	}
@@ -131,6 +165,96 @@ public class HaulinfoServiceImpl implements HaulinfoService {
 	@Override
 	public List<Map<String, Object>> getHaulNameAndIdsForExam() throws SQLException {
 		return haulinfoCustomMapper.getHaulNameAndIdsForExam();
+	}
+
+	@Override
+	public PageBean<Map<String, Object>> getProjectInfoByBigId(int currentPage,int currentCount,Map<String,Object> condition) throws SQLException {
+		String bigId=(String) condition.get("bigId");
+		PageBean<Map<String, Object>> pageBean = new PageBean<Map<String, Object>>();
+		pageBean.setCurrentCount(currentCount);// 设置页大小
+		pageBean.setCurrentPage(currentPage);// 设置当前页
+		int total = 0;
+		int totalCount = haulinfoCustomMapper.getCountProjectInfoByBigId(bigId);// 查询满足条件的总数
+		pageBean.setTotalCount(totalCount);// 总记录数
+		int totalPage = (int) Math.ceil(1.0 * totalCount / currentCount);
+		pageBean.setTotalPage(totalPage);// 总页数
+
+		/******
+		 * 计算起始值 页数 起始值 页大小 1 0 8 2 8 16
+		 *******/
+		int index = (currentPage - 1) * currentCount;// 起始值
+		condition.put("index", index);
+		condition.put("currentCount", currentCount);
+		List<Map<String, Object>> biaoduaninfo = haulinfoCustomMapper.getProjectInfoByBigId(condition);
+		pageBean.setProductList(biaoduaninfo);
+		return pageBean;
+	}
+
+	@Override
+	public PageBean<Map<String, Object>> getProjectUnitPerNumInfoByBigId(int currentPage,int currentCount,Map<String,Object> condition) throws SQLException {
+		// TODO Auto-generated method stub
+		String bigId=(String) condition.get("bigId");
+		PageBean<Map<String, Object>> pageBean = new PageBean<Map<String, Object>>();
+		pageBean.setCurrentCount(currentCount);// 设置页大小
+		pageBean.setCurrentPage(currentPage);// 设置当前页
+		int total = 0;
+		int totalCount = haulinfoCustomMapper.getCountProjectUnitPerNumInfoByBigId(bigId);// 查询满足条件的总数
+		pageBean.setTotalCount(totalCount);// 总记录数
+		int totalPage = (int) Math.ceil(1.0 * totalCount / currentCount);
+		pageBean.setTotalPage(totalPage);// 总页数
+
+		/******
+		 * 计算起始值 页数 起始值 页大小 1 0 8 2 8 16
+		 *******/
+		int index = (currentPage - 1) * currentCount;// 起始值
+		condition.put("index", index);
+		condition.put("currentCount", currentCount);
+		List<Map<String, Object>> projeunitper = haulinfoCustomMapper.getProjectUnitPerNumInfoByBigId(condition);
+		pageBean.setProductList(projeunitper);
+		return pageBean;
+	}
+
+	@Override
+	public boolean addOnebiaoduan(String bigId, String projectname) throws SQLException {
+		Project pro = new Project();
+		String projectId = UUIDUtil.getUUID2();
+		pro.setProjectid(projectId);
+		pro.setProjectname(projectname);
+		//1.添加标段
+		projectMapper.insert(pro);
+		//2.添加检修表短
+		Haulproject hau = new Haulproject();
+		hau.setBigid(bigId);
+		hau.setProjectid(projectId);
+		haulprojectMapper.insert(hau);
+		return true;
+	}
+
+	@Override
+	public boolean updateOnebiaoduan(String projectId, String projectname) throws SQLException {
+		Project pro = new Project();
+		pro.setProjectid(projectId);
+		pro.setProjectname(projectname);
+		return projectMapper.updateByPrimaryKeySelective(pro)>0?true:false;
+	}
+
+	@Override
+	public boolean daleteOnebiaoduan(String projectId) throws SQLException {
+		//1.根据标段ID判断是否有单位
+		HaulunitprojectExample haulunitprojectExample = new HaulunitprojectExample();
+		HaulunitprojectExample.Criteria criteria = haulunitprojectExample.createCriteria();
+		criteria.andProjectidEqualTo(projectId);
+		List<Haulunitproject> selectByExample = haulunitprojectMapper.selectByExample(haulunitprojectExample);
+		if(selectByExample.size()>0){//1.2如果有单位提醒用户不能删除该标段
+			return false;
+		}else{//1.1没有单位可以删除
+					//1.删除大修工程管理即可
+			HaulprojectExample examp = new HaulprojectExample();
+			HaulprojectExample.Criteria criteria_1 = examp.createCriteria();
+			criteria_1.andProjectidEqualTo(projectId);
+			haulprojectMapper.deleteByExample(examp);
+			return true;
+		}
 	}
 
 }

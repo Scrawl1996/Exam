@@ -280,10 +280,14 @@ label.success {
 														id="inpend0" readonly>
 												</div>
 												<div class="input-group el_modellist" role="toolbar">
+													<span class="el_spans">标段名称：</span>
+													<input name="XXXXXX"/>
+												</div>
+												<!-- <div class="input-group el_modellist" role="toolbar">
 													<span class="el_spans">检修简介：</span>
 													<textarea name="bigdescription"
 														class="form-control el_modelinput clearAdd" rows="5"></textarea>
-												</div>
+												</div> -->
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"

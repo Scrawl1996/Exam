@@ -31,7 +31,7 @@ public interface HaulinfoCustomMapper {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Haulinfo> getHaulinfoslByCondition(Map<String, Object> condition) throws SQLException;
+	public List<Map<String, Object>> getHaulinfoslByCondition(Map<String, Object> condition) throws SQLException;
 
 	/**
 	 * 获取大修树
@@ -65,5 +65,35 @@ public interface HaulinfoCustomMapper {
 	 * @throws SQLException
 	 */
 	public List<Map<String, Object>> getHaulNameAndIdsForExam() throws SQLException;
-
+	/*********S  查询标段信息****************/
+	/**
+	 * 根据大修ID查找标段信息
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String,Object>> getProjectInfoByBigId(Map<String,Object> condition)throws SQLException;
+	/**
+	 * 根据大修ID查找标段信息总数
+	 * @return
+	 * @throws SQLException
+	 */
+	public int getCountProjectInfoByBigId(String bigId)throws SQLException;
+	/*********E  查询标段信息****************/
+	
+	
+	/*********S  查询标段单位人数信息****************/
+	/**
+	 * 根据大修ID查找标段、单位、人数信息
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String,Object>> getProjectUnitPerNumInfoByBigId(Map<String,Object> condition)throws SQLException;
+	/**
+	 * 查询总数
+	 * @param bigId
+	 * @return
+	 * @throws SQLException
+	 */
+	public int getCountProjectUnitPerNumInfoByBigId(String bigId)throws SQLException;
+	/*********E  查询标段单位人数信息****************/
 }
