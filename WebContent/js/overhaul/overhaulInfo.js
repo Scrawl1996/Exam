@@ -45,19 +45,19 @@ var showHaulInfo = function(response) {
 		$("#haulName").text(haulinfo.bigname);
 		$("#haulTime").text(
 				haulinfo.bigbegindate + "  到    " + haulinfo.bigenddate);
-		$("#haulDesc").text(haulinfo.bigdescription);
+		/* $("#haulDesc").text(haulinfo.bigdescription); */
 		$("#haulStatus").text(haulinfo.bigstatus);
 	}
 }
 /** **E 初始化大修基本信息******* */
 /** ******E 模态框中操作以及保存单位******************** */
 /** S 查询单位信息**************** */
-//查询部门信息
+// 查询部门信息
 function queryHaulUnit() {
 	$.post(contextPath + '/unit_getHaulUnitPage.action',
 			$("#queryHaulunitForm").serialize(), showUnitTale, 'json');
 }
-//添加信息到表格中
+// 添加信息到表格中
 function showUnitTale(response) {
 	// 如果为空结束方法
 	if (response.pageBean == null) {
@@ -113,7 +113,7 @@ function showUnitTale(response) {
 	// 动态开启分页组件
 	page(currentPage, totalCount, currentCount);
 }
-//显示分页
+// 显示分页
 function page(currentPage, totalCount, currentCount) {
 	// 修改分页的基本属性
 	$('#paginationIDU').pagination(
@@ -169,12 +169,65 @@ function openUpdateModal(obj) {
 	$("#update_securephone").val(update_securephone);
 	$("#update_nuitMinus").val(update_nuitMinus);
 	$("#update_projectnames").val(update_projectnames);
+	$.post(contextPath + '/addUnit_getProjectInfoByHaulId.action',
+			{
+				"bigid" : $("#hauid").val()
+			},
+			function(response) {
+				var projects = response.projects;
+				$("#updateBiaoduanDiv").find("label").remove();
+				for (var i = 0; i < projects.length; i++) {
+					$("#updateBiaoduanDiv")
+							.append(
+									'<label class="update_project" style="padding-right:10px;" class="unit_project"><input type="checkbox" '
+											+ 'name="unit_project_update" value="'
+											+ projects[i].projectid
+											+ '">'
+											+ projects[i].projectname
+											+ '</label>');
+				}
+				var projectnames=update_projectnames.split(",");
+				for(var j=0;j<projectnames.length;j++){
+					$(".update_project").each(function(){
+						if($(this).text()==projectnames[j]){
+							$(this).find(":checkbox").prop("checked",true);
+						}
+					});
+				}
+			}, 'json');
+
+	
 	$("#myModal2").modal({
 		backdrop : 'static',
 		keyboard : false
 	}); // 手动开启
 }
+
+/** **查询出所有的检修标段并且打上对勾* */
+
+
+
+
+//开始更新单位
 function updateUnit() {
+	/** S 验证工程 */
+	var projectNames = $("[name='unit_project_update']:checked");
+	var project_id = "";// 工程编号串
+	var project_name = "";// 工程名字串
+	for (var i = 0; i < projectNames.length; i++) {
+		project_id += $(projectNames[i]).val() + ",";
+		project_name += $(projectNames[i]).parent().text() + ",";
+	}
+	if (project_id == "") {
+		alert("参与工程不能为空!");
+		return;
+	} else {
+		project_id = project_id.substring(0, project_id.length - 1);// 去掉逗号(工程编号)
+		project_name = project_name.substring(0, project_name.length - 1);// 去掉逗号(工程名称)
+		$("#update_projectnames").val(project_name);
+		$("#update_projectids").val(project_id);
+	}
+	
 	var isNotNull = $("#updateForm").validate({
 		ignore : [],
 		rules : {
@@ -229,7 +282,7 @@ function updateUnit() {
 					if (response != null && response.updateResult != null) {
 						alert(response.updateResult);
 						if (response.updateResult == '修改成功!') {
-							//0.关闭模态框1.清空查询条件2.查询数据库
+							// 0.关闭模态框1.清空查询条件2.查询数据库
 							$("#myModal2").modal("hide");
 							$('#queryHaulunitForm')[0].reset();
 							queryHaulUnit();
@@ -240,7 +293,7 @@ function updateUnit() {
 }
 /** *E 修改单位信息** */
 /** *S 根据单位与大修编号查询人数*** */
-//初始化数据
+// 初始化数据
 function initVariable(obj) {
 	$("#currentPage2").val("");
 	var $tds = $(obj).parent().parent().children();
@@ -250,7 +303,7 @@ function initVariable(obj) {
 	$("#q_unitId").val(unitid);
 	queryEmployeeOut();
 }
-//查询内部员工
+// 查询内部员工
 function queryEmployeeOut() {
 	$.post(contextPath + '/unit_getEmployeesByHaulidAndUnitId.action', {
 		"currentPage" : $("#currentPage2").val(),
@@ -289,7 +342,7 @@ function showEmployeeModal(response) {
 	}
 }
 
-//显示分页
+// 显示分页
 function page3(currentPage, totalCount, currentCount) {
 	// 修改分页的基本属性
 	$('#paginationIDU2').pagination(
@@ -315,7 +368,7 @@ function page3(currentPage, totalCount, currentCount) {
 /** *S 根据单位与大修编号查询违章员工信息*** */
 /** *S 根据单位与检修编号查询违章员工信息*** */
 function queryEmployeeBreakrule(obj) {
-	//	清空页号(上个模态框残留的页号)
+	// 清空页号(上个模态框残留的页号)
 	$("#currentPage1").val("");
 	var $tds = $(obj).parent().parent().children();
 	var unitid = $($tds[0]).children("input:hidden:eq(0)").val();// 获取到部门ID
@@ -414,7 +467,7 @@ function deleteSubmit() {
 				if (response != null && response.deleteResult != null) {
 					alert(response.deleteResult);
 					if (response.deleteResult == '删除成功!') {
-						//0.关闭模态框1.清空查询条件2.查询数据库
+						// 0.关闭模态框1.清空查询条件2.查询数据库
 						$("#delcfmModel").modal("hide");
 						$('#queryHaulunitForm')[0].reset();
 						queryHaulUnit();
@@ -425,7 +478,28 @@ function deleteSubmit() {
 /** ****E 删除检修单位********* */
 /** ******S 模态框中操作以及保存单位******************** */
 function addUnit() {
-	//获取到检修项目名字并赋值给文本框
+	// 查到大修下面的标段并在界面显示
+	$
+			.post(
+					contextPath + '/addUnit_getProjectInfoByHaulId.action',
+					{
+						"bigid" : $("#hauid").val()
+					},
+					function(response) {
+						var projects = response.projects;
+						$("#projectDiv").find("label").remove();
+						for (var i = 0; i < projects.length; i++) {
+							$("#projectDiv")
+									.append(
+											'<label style="padding-right:10px;" class="unit_project"><input type="checkbox" '
+													+ 'name="unit_project" value="'
+													+ projects[i].projectid
+													+ '">'
+													+ projects[i].projectname
+													+ '</label>');
+						}
+					}, 'json');
+	// 获取到检修项目名字并赋值给文本框
 	$("#bigname").val($("#haulName").html());
 	/* 给模态框中，添加默认部门 */
 	$(".addUnitInput").val("");// 打开模态框的时候清除残留数据
@@ -518,6 +592,26 @@ jQuery.validator
 				}, "请正确填写您的联系电话");
 // 验证并且保存单位信息到数据库
 function saveUnit() {
+
+	/** S 验证工程 */
+	var projectNames = $("[name='unit_project']:checked");
+	var project_id = "";// 工程编号串
+	var project_name = "";// 工程名字串
+	for (var i = 0; i < projectNames.length; i++) {
+		project_id += $(projectNames[i]).val() + ",";
+		project_name += $(projectNames[i]).parent().text() + ",";
+	}
+	if (project_id == "") {
+		alert("参与工程不能为空!");
+		return;
+	} else {
+		project_id = project_id.substring(0, project_id.length - 1);// 去掉逗号(工程编号)
+		project_name = project_name.substring(0, project_name.length - 1);// 去掉逗号(工程名称)
+		$("#projectnames").val(project_name);
+		$("#projectids").val(project_id);
+	}
+	/** E 验证工程 */
+
 	var isNotNull = $("#addUnitForm").validate({
 		ignore : [],
 		rules : {
@@ -578,7 +672,7 @@ function saveUnit() {
 						// 添加成功之后重新加载页面
 						if (response.addResult != null
 								&& response.addResult == "添加成功!") {
-							//0.关闭模态框1.清空查询条件2.查询数据库
+							// 0.关闭模态框1.清空查询条件2.查询数据库
 							$("#myModal").modal("hide");
 							$('#queryHaulunitForm')[0].reset();
 							queryHaulUnit();
@@ -588,21 +682,29 @@ function saveUnit() {
 	}
 }
 /** ******E 模态框中操作以及保存单位******************** */
-/*******************S 显示与隐藏查询条件*********************/
-function toggleQueryDiv(){
-//	点击显示查询条件与分割符
-	if($("#query_haulunit_div").css("display")=="none"){
-		$("#query_haulunit_div").show("slow",function(){
-			$("#query_haulunit_hr").css("display","block");
-			//删除class属性(切换上下箭头)
-			$(".glyphicon-arrow-down").removeClass().addClass("glyphicon glyphicon-arrow-up").prop("title","点击隐藏查询条件");
-		});
-	}else{//隱藏条件与分割符
-		$("#query_haulunit_hr").css("display","none");
-		$("#query_haulunit_div").hide("slow",function(){
-			//删除class属性(切换上下箭头)
-			$(".glyphicon-arrow-up").removeClass().addClass("glyphicon glyphicon-arrow-down").prop("title","点击显示查询条件");
-		});
+/** *****************S 显示与隐藏查询条件******************** */
+function toggleQueryDiv() {
+	// 点击显示查询条件与分割符
+	if ($("#query_haulunit_div").css("display") == "none") {
+		$("#query_haulunit_div").show(
+				"slow",
+				function() {
+					$("#query_haulunit_hr").css("display", "block");
+					// 删除class属性(切换上下箭头)
+					$(".glyphicon-arrow-down").removeClass().addClass(
+							"glyphicon glyphicon-arrow-up").prop("title",
+							"点击隐藏查询条件");
+				});
+	} else {//隱藏条件与分割符
+		$("#query_haulunit_hr").css("display", "none");
+		$("#query_haulunit_div").hide(
+				"slow",
+				function() {
+					//删除class属性(切换上下箭头)
+					$(".glyphicon-arrow-up").removeClass().addClass(
+							"glyphicon glyphicon-arrow-down").prop("title",
+							"点击显示查询条件");
+				});
 	}
 }
 /*******************E 显示与隐藏查询条件*********************/

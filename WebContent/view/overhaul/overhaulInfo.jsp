@@ -126,7 +126,6 @@ label.success {
 										<th>检修名称</th>
 										<th>时间</th>
 										<th>状态</th>
-										<th>简介</th>
 									</tr>
 								</thead>
 								<tr>
@@ -294,6 +293,9 @@ label.success {
 													<!-- 隐藏一个大修部门ID -->
 													<input type="hidden" id="update_haulUnitid"
 														name="haulUnit.unitbigid">
+													<!-- 隐藏一个检修ID -->
+													<input type="hidden" id="update_haulUnitid"
+														name="haulUnit.bigid" value="${haulId }">
 
 													<div class="input-group el_modellist" role="toolbar">
 														<!--<span class="input-group-addon">单位名称</span>-->
@@ -333,11 +335,20 @@ label.success {
 															name="haulUnit.securephone" id="update_securephone" />
 													</div>
 
-													<div class="input-group el_modellist" role="toolbar">
+													<div class="input-group el_modellist" role="toolbar" id="updateBiaoduanDiv">
 														<!--<span class="input-group-addon">联系方式</span>-->
-														<span class="el_spans">参与工程：</span> <input type="text"
+														<span class="el_spans">参与工程：</span>  <input type="hidden"
 															class="form-control addUnitInput"
 															name="haulUnit.projectnames" id="update_projectnames" />
+															<input type="hidden"
+															class="form-control addUnitInput"
+															name="projectids" id="update_projectids" />
+															
+															
+															
+															
+															
+															
 													</div>
 
 													<div class="input-group el_modellist" role="toolbar">
@@ -570,19 +581,22 @@ label.success {
 															name="haulUnit.securephone" id="securephone" />
 													</div>
 
-													<div class="input-group el_modellist" role="toolbar">
+													<div class="input-group el_modellist" role="toolbar" id="projectDiv">
 														<!--<span class="input-group-addon">联系方式</span>-->
-														<span class="el_spans">参与工程：</span> <input type="text"
+														<span class="el_spans">参与工程：</span>
+																
+																 <input type="hidden"
 															class="form-control addUnitInput"
 															name="haulUnit.projectnames" id="projectnames" />
+															<!-- 隐藏工程ID -->
+																 <input type="hidden"
+															class="form-control addUnitInput"
+															name="projectids" id="projectids" />
+															
+															
+															
 													</div>
 
-													<!-- 												<div class="input-group el_modellist" role="toolbar">
-													<span class="input-group-addon">上级单位</span>
-													<span class="el_spans">上级单位：</span> <input type="text"
-														class="form-control el_modelinput el_chooseInput"
-														id="addDefaultDepart" name="" disabled />
-												</div> -->
 													<div class="input-group el_modellist" role="toolbar">
 														<!--<span class="input-group-addon">上级单位</span>-->
 														<span class="el_spans">所属检修：</span> <input type="text"

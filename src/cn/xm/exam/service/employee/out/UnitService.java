@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import cn.xm.exam.bean.employee.out.Project;
 import cn.xm.exam.bean.employee.out.Unit;
 import cn.xm.exam.bean.haul.Haulunit;
 import cn.xm.exam.utils.PageBean;
@@ -40,10 +39,12 @@ public interface UnitService {
 	 *            保存的外来单位对象对应的大修ID
 	 * @param projectnames
 	 *            保存的外来单位对象的工程信息
+	 * @param projectids
+	 *            工程ID
 	 * @return 是否保存成功，根据返回的影响的行数判断
 	 * @throws Exception
 	 */
-	public boolean addUnit(Unit unit, String bigId, Haulunit hulunit) throws Exception;
+	public boolean addUnit(Unit unit, String bigId, Haulunit hulunit,String projectids) throws Exception;
 
 	/**
 	 * 通大修ID与单位ID删除单位
@@ -63,7 +64,7 @@ public interface UnitService {
 	 * @return 是否修改成功
 	 * @throws Exception
 	 */
-	public boolean updateUnit(Unit unit, Haulunit haulUnit) throws Exception;
+	public boolean updateUnit(Unit unit, Haulunit haulUnit,String projectids) throws Exception;
 
 	/**
 	 * 通过id查询外来单位。
@@ -128,7 +129,6 @@ public interface UnitService {
 	 * @return 封装有分页信息显示需要的PageBean对象，返回的数据在其list集合中
 	 * @throws Exception
 	 */
-	public PageBean<Project> findUnitProjectWithCondition(Map<String, Object> condition) throws Exception;
 
 	/**************** S qlq **********************/
 	/******** S 查询外部部门树 ****************/

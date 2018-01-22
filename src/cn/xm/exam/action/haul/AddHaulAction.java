@@ -1,7 +1,9 @@
 package cn.xm.exam.action.haul;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -14,6 +16,7 @@ import com.opensymphony.xwork2.ModelDriven;
 
 import cn.xm.exam.bean.haul.Haulinfo;
 import cn.xm.exam.service.haul.HaulinfoService;
+import cn.xm.exam.utils.ValidateCheck;
 
 /**
  * 增加大修Action(ajax方式增加)
@@ -31,12 +34,19 @@ public class AddHaulAction extends ActionSupport implements ModelDriven<Haulinfo
 	@Autowired // 自动装配
 	private HaulinfoService haulinfoService;
 
+	private String hidden_biaoduan;// 标段名称(转为list后批量加入)
+
 	@Override
 	public String execute() {
 		response = new HashMap<String, Object>();
 		String result = "";
 		try {
-			result = haulinfoService.addHaulinfo(haulinfo) ? "添加成功!" : "添加失败!";
+			// 将标段名称拆分为集合
+			List list = null;
+			if (ValidateCheck.isNotNull(hidden_biaoduan)) {
+				list = Arrays.asList(hidden_biaoduan.split(","));
+			}
+			result = haulinfoService.addHaulinfo(haulinfo,list) ? "添加成功!" : "添加失败!";
 		} catch (SQLException e) {
 			logger.error("添加大修出错", e);
 		}
@@ -57,5 +67,13 @@ public class AddHaulAction extends ActionSupport implements ModelDriven<Haulinfo
 	public void setResponse(Map<String, Object> response) {
 		this.response = response;
 	}
-	
+
+	public String getHidden_biaoduan() {
+		return hidden_biaoduan;
+	}
+
+	public void setHidden_biaoduan(String hidden_biaoduan) {
+		this.hidden_biaoduan = hidden_biaoduan;
+	}
+
 }

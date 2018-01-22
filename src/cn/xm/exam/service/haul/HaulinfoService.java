@@ -18,10 +18,11 @@ public interface HaulinfoService {
 	 * 增加大修基本信息
 	 * 
 	 * @param haulInfo
+	 * @param list  工程名字
 	 * @return
 	 * @throws SQLException
 	 */
-	public boolean addHaulinfo(Haulinfo haulInfo) throws SQLException;
+	public boolean addHaulinfo(Haulinfo haulInfo,List<String> list) throws SQLException;
 
 	/**
 	 * 根据大修ID删除大写
@@ -64,7 +65,7 @@ public interface HaulinfoService {
 	 * @return
 	 * @throws SQLException
 	 */
-	public PageBean<Haulinfo> getHaulinfoPageByCondition(int currentPage, int currentCount,
+	public PageBean<Map<String, Object>> getHaulinfoPageByCondition(int currentPage, int currentCount,
 			Map<String, Object> condition) throws SQLException;
 
 	/**
@@ -101,5 +102,39 @@ public interface HaulinfoService {
 	 * @throws SQLException
 	 */
 	public List<Map<String, Object>> getHaulNameAndIdsForExam() throws SQLException;
-
+	/**
+	 * 根据大修ID查找标段信息
+	 * @return
+	 * @throws SQLException
+	 */
+	public PageBean<Map<String, Object>> getProjectInfoByBigId(int currentPage,int currentCount,Map<String,Object> condition) throws SQLException;
+	/**
+	 * 根据大修ID查找标段、单位、人数信息
+	 * @return
+	 * @throws SQLException
+	 */
+	public PageBean<Map<String,Object>> getProjectUnitPerNumInfoByBigId(int currentPage,int currentCount,Map<String,Object> condition)throws SQLException;
+	/**
+	 * 增加单个标段
+	 * @param bigId
+	 * @param projectname
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean addOnebiaoduan(String bigId,String projectname)throws SQLException;
+	/**
+	 * 修改单个标段
+	 * @param bigId
+	 * @param projectname
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean updateOnebiaoduan(String projectId,String projectname)throws SQLException;
+	/**
+	 * 删除单个标段
+	 * @param projectId
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean daleteOnebiaoduan(String projectId)throws SQLException;
 }
