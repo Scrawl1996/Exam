@@ -80,6 +80,8 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	private String photoStr;
 	//标记培训类型
 	private String markTrainType;
+	//家庭住址
+	private String address;
 	 
 	//初始化大修部门树
 	public String getDepartmentAndOverHaulTree(){
@@ -324,6 +326,10 @@ public class EmployeeOutPersonAction extends ActionSupport{
 			condition.put("bigId", bigId);
 		}
 		
+		if(ValidateCheck.isNotNull(address)){
+			condition.put("address", address);
+		}
+		
 		//培训类型标记
 		if(ValidateCheck.isNotNull(markTrainType)){
 			//判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
@@ -547,8 +553,17 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		
 		return condition;
 	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	
 	//lixianyuan end
+	
 	
 	
 	

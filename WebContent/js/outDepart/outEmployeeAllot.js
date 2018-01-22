@@ -62,10 +62,12 @@ function geneDepartmentTree(departmentTrees) {
 		},
 		check : {
 			enable : true,
-			chkboxType : {
+			/*chkboxType : {
 				"Y" : "",
 				"N" : ""
-			}
+			}*/
+			chkStyle: "radio",
+			radioType: "all"
 		},
 		data : {
 			simpleData : {
@@ -351,10 +353,12 @@ function geneDepartmentTree1(departmentTrees) {
 		},
 		check : {
 			enable : true,
-			chkboxType : {
+			/*chkboxType : {
 				"Y" : "",
 				"N" : ""
-			}
+			}*/
+			chkStyle: "radio",
+			radioType: "all"
 		},
 		data : {
 			simpleData : {

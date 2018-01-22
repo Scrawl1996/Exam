@@ -500,5 +500,68 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return departmentCustomMapper.getDepartmentTreeForExam(departmentId);
 	}
 	/**** E QLQ *****/
+	
+	/** S ll *********/
+	/**
+	 * 统计内部正式单位的信息分页显示
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public PageBean<Map<String, Object>> getDepartmentInFormalCountInfo(int currentPage, int currentCount,Map<String, Object> condition) throws Exception {
+		PageBean<Map<String,Object>> pageBean = new PageBean<Map<String,Object>>();
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setCurrentCount(currentCount);
+		int totalCount = 0;
+		totalCount = departmentCustomMapper.getDepartmentInFormalCount(condition);
+		pageBean.setTotalCount(totalCount);
+		int totalPage = (int) Math.ceil(totalCount*1.0/currentCount);
+		pageBean.setTotalPage(totalPage);
+		int index = (currentPage-1)*currentCount;		
+		condition.put("index", index);
+		condition.put("currentCount", currentCount);
+		List<Map<String, Object>> list = departmentCustomMapper.getDepartmentInFormalCountInfo(condition);
+		pageBean.setProductList(list);		
+		return pageBean;
+	}
+	
+	/**
+	 * 统计内部长委单位的信息分页显示
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public PageBean<Map<String, Object>> getDepartmentInToDoCountInfo(int currentPage, int currentCount,Map<String, Object> condition) throws Exception {
+		
+		PageBean<Map<String,Object>> pageBean = new PageBean<Map<String,Object>>();
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setCurrentCount(currentCount);
+		int totalCount = 0;
+		totalCount = departmentCustomMapper.getDepartmentInToDoCount(condition);
+		pageBean.setTotalCount(totalCount);
+		int totalPage = (int) Math.ceil(totalCount*1.0/currentCount);
+		pageBean.setTotalPage(totalPage);
+		int index = (currentPage-1)*currentCount;		
+		condition.put("index", index);
+		condition.put("currentCount", currentCount);
+		List<Map<String, Object>> list = departmentCustomMapper.getDepartmentInToDoCountInfo(condition);
+		pageBean.setProductList(list);		
+		return pageBean;
+	}
+	/** E ll *********/
 
+		
+	@Override
+	public Map<String, Object> getFormalDepartmentAndEmpNum() throws Exception {
+	
+		return departmentCustomMapper.getFormalDepartmentAndEmpNum();
+	}
+
+	@Override
+	public Map<String, Object> getToDoDepartmentAndEmpNum() throws Exception {
+		
+		return departmentCustomMapper.getToDoDepartmentAndEmpNum();
+	}
 }

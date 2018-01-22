@@ -889,7 +889,7 @@ function addSaveAfterBtn() {
 				addAlertMsg();
 			},
 			error : function() {
-				alert("添加失败，请从新添加")
+				alert("添加失败，请重新添加")
 			}
 		});
 		// 关闭模态框

@@ -156,5 +156,37 @@ public interface DepartmentService {
 	 */
 	public List<Map<String, Object>> getDepartmentTreeForExam(String departmentId) throws SQLException;
 	/** E qlq *********/
-
+	
+	/** S ll *********/
+	
+	/**
+	 * 统计内部正式单位的信息分页显示
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	public PageBean<Map<String, Object>> getDepartmentInFormalCountInfo(int currentPage, int currentTotal,Map<String,Object> condition) throws Exception;
+	
+	/**
+	 * 统计内部长委单位的信息分页显示
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	public PageBean<Map<String, Object>> getDepartmentInToDoCountInfo(int currentPage, int currentTotal,Map<String,Object> condition) throws Exception;
+	
+	/**
+	 * 获取内部正式单位部门和员工数
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String,Object> getFormalDepartmentAndEmpNum() throws Exception;
+	
+	/**
+	 * 获取内部常委单位单位和部门数
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String,Object> getToDoDepartmentAndEmpNum() throws Exception;
+	/** E ll *********/
 }

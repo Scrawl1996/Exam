@@ -154,6 +154,10 @@
 				                                        <option value="1">长期外来单位</option>
 				                                        <option value="" selected="selected">全部单位</option>
 				                                    </select>
+				                                    &nbsp;
+				                                    <button class="btn btn-primary"
+															onclick="el_departmentCount()"><span class="glyphicon glyphicon-search"></span>部门统计</button>
+													
 												</div>
 											</div>
 										</div>

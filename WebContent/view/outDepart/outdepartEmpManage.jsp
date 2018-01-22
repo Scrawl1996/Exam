@@ -290,6 +290,14 @@
 													readonly>
 											</div>
 										</div>
+										
+										<div class="col-md-4 el_qlmQuery" style="right: -39px;">
+											<div class="input-group" role="toolbar">
+												<span class="el_spans">家庭住址：</span> <input class="form-control" name="address" type="text">
+											</div>
+										</div>
+										
+										
 									</div>
 									<!-- 隐藏部门ID和大修ID -->
 									<input type="hidden" name="unitId" id="query_unitId" /> <input
@@ -595,6 +603,8 @@
 											<!-- <button class="btn btn-default" id="button_readID">读取身份证信息</button> -->
 											<button class="btn btn-primary el_modellist02"
 												onclick="addEmployeeOutInfo()">添加</button>
+											<button class="btn btn-primary el_modellist02"
+												onclick="queryEmployeeOutTrainInfo()">查看历史培训档案</button>
 
 											<table class="table table-hover table-bordered">
 												<thead>
@@ -734,11 +744,11 @@
 											<div class="modal-body" style="padding: 10px 30px 0 30px;">
 
 
-												<div class="input-group el_empPhoto" role="toolbar"
+												<div  id="train_empPhoto" class="input-group el_empPhoto" role="toolbar"
 													style="height: 127px;">
 													<img id="myimg2" width="95" height="121">
 												</div>
-												<div class="el_threeScoreList">
+												<div  id="train_empBaseInfo" class="el_threeScoreList">
 
 													<table>
 														<caption style="margin-bottom: 20px; margin-top: -10px;">员工信息：</caption>
@@ -903,6 +913,10 @@
 														<tr>
 															<td>工种:</td>
 															<td id="details_employeeType"></td>
+														</tr>
+														<tr>
+															<td>家庭住址:</td>
+															<td id="details_address"></td>
 														</tr>
 													</table>
 												</div>
