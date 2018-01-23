@@ -57,8 +57,15 @@
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>内部员工管理</span><span>>部门统计</span>
+						<span>内部员工管理</span><span>>部门统计</span>						
+						<ul class="nav navbar-nav navbar-right">
+							<li>
+								<!-- <a href="javascript:history.back(-1);"></a> -->
+								<button type="button" onclick="javascript:history.back(-1);" class="btn btn-block btn-default">返回</button>
+							</li>
+						</ul>
 					</div>
+					
 					<div class="panel-body el_main">						
 						<!--内容-->
 						<div class="el_qlmContent" style="width: 100%;">

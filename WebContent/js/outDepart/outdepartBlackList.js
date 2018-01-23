@@ -25,6 +25,9 @@ function saveBlackUnit() {
           
             "description" : {
             	required:true
+            },
+            "corporation":{
+            	required:true
             }
         },
         messages : {
@@ -37,6 +40,9 @@ function saveBlackUnit() {
             
             "description" : {
             	required:"拉黑原因不能为空"
+            },
+            "corporation":{
+            	required:"单位法人不能为空"
             }
         }
     });
@@ -97,6 +103,8 @@ function showUnitTale(response) {
 								+ '</td><td>'
 								+ units[i].unitname
 								+ '</td><td>'
+								+ units[i].corporation
+								+ '</td><td>'
 								+ units[i].addtime
 								+ '</td><td>'
 								+ units[i].description
@@ -135,10 +143,12 @@ function openUpdateModal(obj) {
 	var tr = $(obj).parent().parent();
 	var update_id = tr.find(".blackunitid").val();
 	var update_name = tr.find("td:eq(1)").text();
-	var update_date = tr.find("td:eq(2)").text();
-	var update_description = tr.find("td:eq(3)").text();
+	var update_corporation = tr.find("td:eq(2)").text();
+	var update_date = tr.find("td:eq(3)").text();
+	var update_description = tr.find("td:eq(4)").text();
 	$("#update_id").val(update_id);
 	$("#update_name").val(update_name);
+	$("#update_corporation").val(update_corporation);
 	$("#test41").val(update_date);
 	$("#update_description").val(update_description);
 	

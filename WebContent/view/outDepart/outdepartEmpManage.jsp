@@ -761,7 +761,7 @@
 														<tr>
 															<td>黑名单</td>
 															<td id="trainBlackInfo"></td>
-															<td>所属部门</td>
+															<td>所属单位</td>
 															<td id="trainUnit"></td>
 														</tr>
 
