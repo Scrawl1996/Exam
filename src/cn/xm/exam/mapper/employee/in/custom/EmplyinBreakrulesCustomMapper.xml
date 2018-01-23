@@ -314,8 +314,9 @@
 		blacklist.employeestatus='0' and blacklist.employeeId =
 		employee_in.employeeId),'否') as 'status',
 		department.departmentId,
-		department.departmentName
-
+		department.departmentName,
+		department.departmentType
+		
 		from employee_in,department
 
 		where
@@ -383,13 +384,14 @@
 		"sumBreakScore",
 		department.departmentId,
 		department.departmentName,
+		department.departmentType,
 		IFNULL((select
 		blacklist.temporaryInStatus
 		from blacklist where
 		blacklist.employeestatus='0' and
 		blacklist.employeeId =
 		employee_in.employeeId),'否') as 'status'
-
+		
 
 		from
 		employee_in,department
@@ -549,6 +551,7 @@
 		"sumBreakScore",
 		department.departmentId,
 		department.departmentName,
+		department.departmentType,
 		IFNULL((select
 		blacklist.temporaryInStatus
 		from blacklist where
@@ -668,6 +671,7 @@
 		"sumBreakScore",
 		department.departmentId,
 		department.departmentName,
+		department.departmentType,
 		IFNULL((select
 		blacklist.temporaryInStatus
 		from blacklist where

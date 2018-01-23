@@ -13,6 +13,8 @@ public class BlackUnit {
 
     private Date addtime;
 
+    private String corporation;
+
     public Integer getBlackunitid() {
         return blackunitid;
     }
@@ -36,12 +38,21 @@ public class BlackUnit {
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
     }
-    @JSON(format="yyyy-MM-dd hh:mm:ss")
+    
+    @JSON(format="yyyy-MM-dd HH:mm:ss")
     public Date getAddtime() {
         return addtime;
     }
 
     public void setAddtime(Date addtime) {
         this.addtime = addtime;
+    }
+
+    public String getCorporation() {
+        return corporation;
+    }
+
+    public void setCorporation(String corporation) {
+        this.corporation = corporation == null ? null : corporation.trim();
     }
 }

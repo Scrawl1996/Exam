@@ -143,6 +143,7 @@ label.success {
 											<tr>
 												<th>序号</th>
 												<th>单位名称</th>
+												<th>单位法人</th>
 												<th>拉黑时间</th>
 												<th>拉黑原因</th>
 												<th width="120">操作</th>
@@ -192,6 +193,11 @@ label.success {
 													<span class="el_spans">拉黑原因：</span> <input type="text"
 														class="form-control addUnitInput"
 														name="description" id="projectnames" />
+												</div>
+												<div class="input-group el_modellist" role="toolbar">													
+													<span class="el_spans">单位法人：</span> <input type="text"
+														class="form-control addUnitInput"
+														name="corporation" id="corporation" />
 												</div>
 											</div>
 											<div class="modal-footer">
@@ -246,7 +252,13 @@ label.success {
 														class="form-control addUnitInput"
 														name="description" id="update_description" />
 												</div>
-
+												
+												<div class="input-group el_modellist" role="toolbar">													
+													<span class="el_spans">单位法人：</span> <input type="text"
+														class="form-control addUnitInput"
+														name="corporation" id="update_corporation" />
+												</div>
+												
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"

@@ -6,7 +6,8 @@
 	<!-- 查询黑名单单位信息分页显示 -->
 	<select id="getBlackUnitPage" parameterType="map" resultType="cn.xm.exam.bean.employee.out.BlackUnit">
 		SELECT * from black_unit 
-		<include refid="query_blackunit_limit"></include>
+		ORDER BY addTime DESC
+		<include refid="query_blackunit_limit"></include>		
 	</select>
 	<sql id="query_blackunit_limit">
 		<if test="index != null">

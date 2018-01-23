@@ -141,7 +141,9 @@
 													<td align="right">违章总积分:</td>
 													<td style="padding-left: 35px;" id="topBreakScoreSum">${sumBreakScore}</td>
 												</tr>
+												
 											</table>
+											
 										</div>
 									</div>
 
@@ -265,7 +267,9 @@
 												<!-- 职工id  6-->
 												<input id="upEmployee" type="hidden" value=""
 													name="emplyinBreakrules.empinemployeeid" />
-
+													
+												<!-- 隐藏当前员工的部门类型 -->
+												<input type="hidden" id="employeeDepartmentType" name="employeeDepartmentType" value="${employeeDepartmentType}"></input>
 
 												<div class="input-group el_modellist" role="toolbar">
 													<span class="el_spans">违章时间：</span> <input id="upBreakTime"
@@ -458,14 +462,17 @@
 											- parseInt(beforeBreakScore);
 									//alert("记分变化"+changeScore)
 									//修改前的违章总积分 用于累计总积分》=12的时候用于提示的 end
-
+									
+									//获取隐藏域中当前员工的部门类型
+									var employeeDepartmentType = $("#employeeDepartmentType").val();
+									
 									//如果修改前违章记分>=12，则不允许修改
 									if (beforeBreakScore >= 12) {
 										//不允许修改
 									} else {
 										//修改前违章记分<12，才允许修改
-										//当前记分大于等于12，就弹出警告模态框
-										if ((nowBrekScore) >= 12) {
+										//当前记分大于等于12，就弹出警告模态框 且部门类型为长委单位
+										if ((nowBrekScore) >= 12 && employeeDepartmentType==1) {
 											//当本次记分》=12分，弹出警告模态框
 											$("#modifyAlertModel2").modal();
 										} else {

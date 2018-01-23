@@ -116,6 +116,11 @@ hasOperatingEmpin = true;
 		<input id="detailemployeeId" name="detailemployeeId" type="hidden"
 			value="" /> <input id="detail_breakInfoType" name="empBreakInfoType"
 			type="hidden" value="0" />
+		<input id="detail_breakInfoType" name="empBreakInfoType"
+			type="hidden" value="0" />
+			
+		<!-- 隐藏员工的部门类型 -->
+		<input type="hidden" name="employeeDepartmentType" id="detail_employeeDepartType">
 	</form>
 
 	<!-- 隐藏域 start -->
@@ -475,10 +480,13 @@ hasOperatingEmpin = true;
 												<!-- 隐藏一个员工id -->
 												<input id="addEmpID" type="hidden"
 													name="emplyinBreakrules.empinemployeeid" value="" />
-
 												<!-- 隐藏一个身份证 -->
 												<input id="addIdCard" type="hidden" name="addIdCard"
 													value="" />
+												<!-- 隐藏一个部门类型-->
+												<input id="employeeDepartmentType" type="hidden" name="employeeDepartmentType"
+													 />
+													
 												<div class="input-group el_modellist" role="toolbar">
 													<span class="el_spans">违章时间：</span> <input type="text"
 														id="test41" class="workinput wicon form-control el_noVlaue"
