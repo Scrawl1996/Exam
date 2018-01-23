@@ -39,7 +39,7 @@
 		<where>
 			<include refid="query_Questionbank_where"></include>
 		</where>
-		ORDER BY createTime DESC
+		ORDER BY categoryNameId , createTime DESC
 		<!-- 分页 -->
 		<include refid="query_page_limit"></include>
 	</select>

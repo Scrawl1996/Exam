@@ -364,6 +364,76 @@ public class BlackUnitExample {
             addCriterion("addTime not between", value1, value2, "addtime");
             return (Criteria) this;
         }
+
+        public Criteria andCorporationIsNull() {
+            addCriterion("corporation is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorporationIsNotNull() {
+            addCriterion("corporation is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorporationEqualTo(String value) {
+            addCriterion("corporation =", value, "corporation");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorporationNotEqualTo(String value) {
+            addCriterion("corporation <>", value, "corporation");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorporationGreaterThan(String value) {
+            addCriterion("corporation >", value, "corporation");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorporationGreaterThanOrEqualTo(String value) {
+            addCriterion("corporation >=", value, "corporation");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorporationLessThan(String value) {
+            addCriterion("corporation <", value, "corporation");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorporationLessThanOrEqualTo(String value) {
+            addCriterion("corporation <=", value, "corporation");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorporationLike(String value) {
+            addCriterion("corporation like", value, "corporation");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorporationNotLike(String value) {
+            addCriterion("corporation not like", value, "corporation");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorporationIn(List<String> values) {
+            addCriterion("corporation in", values, "corporation");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorporationNotIn(List<String> values) {
+            addCriterion("corporation not in", values, "corporation");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorporationBetween(String value1, String value2) {
+            addCriterion("corporation between", value1, value2, "corporation");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorporationNotBetween(String value1, String value2) {
+            addCriterion("corporation not between", value1, value2, "corporation");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

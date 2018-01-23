@@ -6,6 +6,7 @@
     <result column="unitName" property="unitname" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="corporation" property="corporation" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    blackunitid, unitName, description, addTime
+    blackunitid, unitName, description, addTime, corporation
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.xm.exam.bean.employee.out.BlackUnitExample" >
     select
@@ -100,9 +101,9 @@
   </delete>
   <insert id="insert" parameterType="cn.xm.exam.bean.employee.out.BlackUnit" >
     insert into black_unit (blackunitid, unitName, description, 
-      addTime)
+      addTime, corporation)
     values (#{blackunitid,jdbcType=INTEGER}, #{unitname,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{addtime,jdbcType=TIMESTAMP})
+      #{addtime,jdbcType=TIMESTAMP}, #{corporation,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.xm.exam.bean.employee.out.BlackUnit" >
     insert into black_unit
@@ -119,6 +120,9 @@
       <if test="addtime != null" >
         addTime,
       </if>
+      <if test="corporation != null" >
+        corporation,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="blackunitid != null" >
@@ -132,6 +136,9 @@
       </if>
       <if test="addtime != null" >
         #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="corporation != null" >
+        #{corporation,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -156,6 +163,9 @@
       <if test="record.addtime != null" >
         addTime = #{record.addtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.corporation != null" >
+        corporation = #{record.corporation,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -166,7 +176,8 @@
     set blackunitid = #{record.blackunitid,jdbcType=INTEGER},
       unitName = #{record.unitname,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
-      addTime = #{record.addtime,jdbcType=TIMESTAMP}
+      addTime = #{record.addtime,jdbcType=TIMESTAMP},
+      corporation = #{record.corporation,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -183,6 +194,9 @@
       <if test="addtime != null" >
         addTime = #{addtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="corporation != null" >
+        corporation = #{corporation,jdbcType=VARCHAR},
+      </if>
     </set>
     where blackunitid = #{blackunitid,jdbcType=INTEGER}
   </update>
@@ -190,7 +204,8 @@
     update black_unit
     set unitName = #{unitname,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      addTime = #{addtime,jdbcType=TIMESTAMP}
+      addTime = #{addtime,jdbcType=TIMESTAMP},
+      corporation = #{corporation,jdbcType=VARCHAR}
     where blackunitid = #{blackunitid,jdbcType=INTEGER}
   </update>
 </mapper>

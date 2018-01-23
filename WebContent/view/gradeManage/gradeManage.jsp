@@ -153,9 +153,9 @@
                                         成绩分析
                                     </button>
                                     <select class="btn btn-primary" id="el_findExamGradeType" style="font-size: 13px;"
-														title="请选择">														
-														<option value="0">按考试查看成绩</option>
+														title="请选择">																												
 														<option value="1">按部门查看成绩</option>
+														<option value="0">按考试查看成绩</option>
 													</select>
                                 </div>
                             </div>
