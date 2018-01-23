@@ -61,13 +61,17 @@ function el_addBreakInfo() {
 		// 职工的身份证号码
 		var idcode = $('input[name="el_chooseBreakRules"]:checked').parents(
 				"tr").children('input[name="el_ycy"]').eq(3).val();
-
+		//职工的部门类型
+		var departMentType = $('input[name="el_chooseBreakRules"]:checked').parents(
+				"tr").find(".query_departmentType").val();
 		// 为员工id的隐藏域赋值
 		$("#addEmpID").val(empId);
 		// 为操作标记赋值
 		$("#allMark").val(allmark);
 		// 为身份证赋值
 		$("#addIdCard").val(idcode);
+		//为隐藏的部门类型赋值
+		$("#employeeDepartmentType").val(departMentType);
 		// 为隐藏域赋值
 		// 职工id
 
@@ -81,7 +85,7 @@ function el_addBreakInfo() {
 		$("#addBreakContent").val("");
 
 		if ($("#addIsBreak").text() == "是") {
-			alert("处于永久黑名状态的外来职工不能添加违章积分")
+			alert("处于永久黑名状态的长委职工不能添加违章积分！")
 		} else {
 			// 打开模态框
 			$("#el_addBreakInfo").modal();
@@ -280,7 +284,9 @@ function detailInBtn(obj) {
 			$(obj).parents('td').children('input').eq(5).html());// 部门名称
 
 	$("#detail_breakInfoType").val($("#el_breakType").val());// 违章类型
-
+	//员工部门类型
+	$("#detail_employeeDepartType").val($(obj).parents("tr").find(".query_departmentType").val());
+	
 	var unitName = $(obj).parents("tr").find("#yincangunitName").val();// 部门名称
 	$("#detailunitName").val(unitName);
 
@@ -455,7 +461,9 @@ function leftBtn() {
 								+ departmentid + ">";// 隐藏部门id
 						opStr += "<input name='el_ycy' type='hidden' value="
 								+ idCode + ">";// 隐藏身份证
-
+						opStr += "<input  type='hidden' class='query_departmentType' value="
+							+ data.empInMsgByDepIdLeft[i].departmentType + ">";// 隐藏部门类型
+						
 						opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="
 								+ employeeId + "></td>";
 						opStr += "<td>" + name + "</td>";// 姓名
@@ -663,7 +671,8 @@ function findSaveBtn() {
 								+ departmentid + ">";// 隐藏部门id
 						opStr += "<input name='el_ycy' type='hidden' value="
 								+ idCode + ">";// 隐藏身份证
-
+						opStr += "<input  type='hidden' class='query_departmentType' value="
+							+ data.empInMsgByDepIdLeft[i].departmentType + ">";// 隐藏部门类型
 						opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="
 								+ phone + "></td>";
 						opStr += "<td>" + name + "</td>";// 姓名
@@ -793,9 +802,12 @@ function clearBtn() {
 function addSaveBtn() {
 	// 添加前的违章总积分
 	var addBeforeBreakScore = $("#breakScoreSum").val();
+	
+	//员工的部门类型
+	var employeeDepartmentType = $("#employeeDepartmentType").val();
 	// alert(addBeforeBreakScore+"添加前")
 
-	if ($("#breakScoreID").val() >= 12) {
+	if ($("#breakScoreID").val() >= 12 && employeeDepartmentType == 1) {
 		// 弹出警告的模态框
 		$("#addyAlertModel2").modal();
 	} else {

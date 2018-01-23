@@ -90,7 +90,17 @@ public class EmployInBreakrulesAction extends ActionSupport {
 	private String empBreakInfoType;//员工违章记录类型
 	private String isOnlyManager;
 	
+	//员工部门类型
+	private String employeeDepartmentType;	
 		
+	public String getEmployeeDepartmentType() {
+		return employeeDepartmentType;
+	}
+
+	public void setEmployeeDepartmentType(String employeeDepartmentType) {
+		this.employeeDepartmentType = employeeDepartmentType;
+	}
+
 	public String getIsOnlyManager() {
 		return isOnlyManager;
 	}
@@ -365,7 +375,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 
 		// 如果添加前违章总积分<12,不在黑名单中
 		if (sumBreakScoreBefore < 12) {
-			if (emplyinBreakrules.getEmpinminusnum() >= 12) {// 本次记分》=12，加入黑名单，并且状态设置为永久状态
+			if (emplyinBreakrules.getEmpinminusnum() >= 12 && employeeDepartmentType.equals("1")) {// 本次记分》=12，加入黑名单，并且状态设置为永久状态
 				// 如果是一次的违章记分大于12分的，则标记为永久进入黑名单的1 内部员工0
 				Blacklist blacklist = new Blacklist();
 				blacklist.setEmployeeid(emplyinBreakrules.getEmpinemployeeid());// 员工id
@@ -376,12 +386,12 @@ public class EmployInBreakrulesAction extends ActionSupport {
 				blacklist.setTemporaryinstatus("1");// 永久进入黑名单
 				// 将黑名单信息添加到黑名单中
 				int result = employeeInBreakrulesService.addBlacklist(blacklist);
-			} else if (emplyinBreakrules.getEmpinminusnum() < 12) {// 本次记分小于12分
+			} else {// 本次记分小于12分
 				if (sumBreakScoreNow >= 12) {// 添加后总记分》=12，加入黑名单，记为临时状态
 					// 如果是一次的违章记分大于12分的，则标记为永久进入黑名单的1 内部员工0
 					Blacklist blacklist = new Blacklist();
 					blacklist.setEmployeeid(emplyinBreakrules.getEmpinemployeeid());// 员工id
-					blacklist.setDescription("该内部员工永久进入黑名单");
+					blacklist.setDescription("该内部员工临时进入黑名单");
 					blacklist.setBlackidcard(addIdCard);// 身份证
 					blacklist.setTime(new Date());//
 					blacklist.setEmployeestatus("0");// 内部员工
@@ -395,7 +405,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			}
 
 		} else if (sumBreakScoreBefore >= 12) {// 在黑名单中,状态为临时状态
-			if (emplyinBreakrules.getEmpinminusnum() >= 12) {// 本次记分》=12，将其状态设置为永久状态，只修改状态
+			if (emplyinBreakrules.getEmpinminusnum() >= 12 && employeeDepartmentType.equals("1")) {// 本次记分》=12，将其状态设置为永久状态，只修改状态
 				// 2.1将其在黑名单中的状态设置为永久状态
 				Blacklist blacklist = employeeInBreakrulesService
 						.getBlacklistByEmpInId(emplyinBreakrules.getEmpinemployeeid());
@@ -469,6 +479,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		request.setAttribute("sumBreakScore", sumBreakScore);// 违章总积分
 		request.setAttribute("blackStatus", blackStatus);// 黑名单状态
 		request.setAttribute("employeeIn", employeeIn);// 职工信息
+		request.setAttribute("employeeDepartmentType", employeeDepartmentType);//员工部门类型
 		request.setAttribute("emplyinBreakrulesList", emplyinBreakrulesList);// 该职工的违章信息
 
 		return "detailOp";// 视图的名称
@@ -540,7 +551,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		}
 
 		if (sumBreakScoreBefore >= 12) {// 黑名单中，临时状态
-			if (emplyinBreakrules.getEmpinminusnum() >= 12) {// 修改黑名单状态
+			if (emplyinBreakrules.getEmpinminusnum() >= 12 && employeeDepartmentType.equals("1")) {// 修改黑名单状态
 				// 2.2添加违章信息
 				int res = employeeInBreakrulesService.updateByPrimaryKeySelective(emplyinBreakrules);
 				// 2.1将其在黑名单中的状态设置为永久状态
@@ -550,7 +561,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 				int rs = employeeInBreakrulesService.updateBlacklist(blacklist);// 更新黑名单信息
 				map.put("result", "修改成功");
 				return "ok";
-			} else if (emplyinBreakrules.getEmpinminusnum() < 12) {// 如果修改后违章总积分<12,将该员工从黑名单删除
+			} else {// 如果修改后违章总积分<12,将该员工从黑名单删除
 				// 不操作黑名单,直接添加违章信息
 				int res = employeeInBreakrulesService.updateByPrimaryKeySelective(emplyinBreakrules);
 
@@ -571,7 +582,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 				return "ok";
 			}
 		} else if (sumBreakScoreBefore < 12) {// 不在黑名单中
-			if (emplyinBreakrules.getEmpinminusnum() >= 12) {// 本次违章记分>=12,添加到黑名单，永久状态
+			if (emplyinBreakrules.getEmpinminusnum() >= 12 && employeeDepartmentType.equals("1") ) {// 本次违章记分>=12,添加到黑名单，永久状态
 				// 2.2添加违章信息
 				int res = employeeInBreakrulesService.updateByPrimaryKeySelective(emplyinBreakrules);
 				// 2.1将其在黑名单中的状态设置为永久状态
@@ -591,7 +602,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 				int result = employeeInBreakrulesService.addBlacklist(blacklist);
 				map.put("result", "修改成功");
 				return "ok";
-			} else if (emplyinBreakrules.getEmpinminusnum() < 12) {// 修改后违章总积分>=12,添加到黑名单，临时状态；修改后违章总积分《12，不进入黑名单
+			} else {// 修改后违章总积分>=12,添加到黑名单，临时状态；修改后违章总积分《12，不进入黑名单
 
 				// 2.2添加违章信息
 				int res = employeeInBreakrulesService.updateByPrimaryKeySelective(emplyinBreakrules);
