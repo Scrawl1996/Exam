@@ -168,6 +168,9 @@ hasOperatingEmpout = true;
 										</select>
 										<button class="btn btn-primary" id="el_lookTrainDocument"
 											style="display: none" onclick="el_empTrainDoc()">分配员工</button>
+										<button class="btn btn-primary" id="lookTrainInfo"
+											 onclick="lookTrainInfo()">查看培训档案员工</button>
+											
 										<shiro:hasPermission name="grademanager:printcard">
 											<button style="display: none" id="generateWork"
 												class="btn btn-primary" onclick="el_empCardModel()">
@@ -183,6 +186,17 @@ hasOperatingEmpout = true;
 												class="btn btn-primary" onclick="el_empCardModel()">
 												重新发放工作证</button>
 										</shiro:hasPermission>
+										<shiro:hasPermission name="grademanager:redisdepart">
+										<button style="display: none" id="reDistributeDepart"
+											class="btn btn-primary" onclick="reDstributeDepart()">
+											二次分配</button>
+										</shiro:hasPermission>
+										<shiro:hasPermission name="grademanager:redistribute">
+										<button style="display: none" id="reDistributeUnit"
+											class="btn btn-primary" onclick="reDistributeUnit()">
+											重新分配单位</button>
+										</shiro:hasPermission>
+
 
 
 									</div>
@@ -212,6 +226,8 @@ hasOperatingEmpout = true;
 								</div>
 							</div>
 							<br /> <br /> <br /> <br /> <br /> <br />
+
+							<!-- 模态框分配员工 -->
 							<div class="modal fade" id="el_empTrainDoc" tabindex="-1"
 								role="dialog" aria-labelledby="myModalLabel23"
 								data-backdrop="static" data-keyboard="false" aria-hidden="true">
@@ -239,6 +255,100 @@ hasOperatingEmpout = true;
 													data-dismiss="modal">关闭</button>
 												<button type="button" class="btn btn-primary"
 													onclick="saveFenpei()">保存</button>
+											</div>
+										</form>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+
+
+							<!-- 模態框二次分配 -->
+							<div class="modal fade" id="reDistributeDepartModal"
+								tabindex="-1" role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog" style="width: 50%;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabel234">二次分配员工</h4>
+										</div>
+										<!--隱藏用于二次分配的表单  -->
+										<form id="reDistributeForm">
+											<!-- 隐藏再次分配的部门ID -->
+											<!-- <input type="hidden" id="reDistributeDepartmentId">	 -->
+										</form>
+
+										<form>
+											<!--树-->
+											<div class="el_leftTree">
+												<!--标题类，添加了一个颜色-->
+												<span class="el_treeTitle">部门</span>
+											</div>
+
+											<ul id="reDistribueTree" class="ztree"
+												style="width: auto !important; height: auto !important; border: none !important;"></ul>
+
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+												<button type="button" class="btn btn-primary"
+													onclick="saveReDis()">保存</button>
+											</div>
+										</form>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+
+
+
+							<!-- 模態框重新分配单位 -->
+							<div class="modal fade" id="reDistributeUnitModal" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog" style="width: 50%;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabel234">重新分配单位</h4>
+										</div>
+										<!--隱藏用于二次分配的表单  -->
+											<!-- 隐藏大修ID和 大修单位ID-->
+											<input type="hidden" id="reDisUnitBigId" /> <input
+												type="hidden" id="reDisUnitUnitId" />
+										<form id="reDistributeUnitForm">
+										</form>
+
+										<form>
+											<!--树-->
+											<div class="el_leftTree">
+												<!--标题类，添加了一个颜色-->
+												<span class="el_treeTitle">检修单位</span>
+											</div>
+
+											<ul id="departmentAndOverHaulTree_modal" class="ztree"
+												style="width: auto !important; height: auto !important; border: none !important;"></ul>
+
+
+											<div style="margin-left: 100px;margin-bottom:15px;">
+												<label>请选择要分配的单位：</label><input
+													placeholder="请点击单位树进行选择!" readonly id="input_reDisUnit" />
+											</div>
+
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+												<button type="button" class="btn btn-primary"
+													onclick="saveReDisUnit()">保存</button>
 											</div>
 										</form>
 									</div>
@@ -406,6 +516,72 @@ hasOperatingEmpout = true;
 								</div>
 								<!-- /.modal -->
 							</div>
+
+
+
+
+
+							<!-- 模态框 查看培训档案-->
+							<div class="modal fade" id="el_empTrainDoc_1" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog" style="width: 80%;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabel234">员工培训档案</h4>
+										</div>
+										<form>
+											<div class="modal-body" style="padding: 10px 30px 0 30px;">
+
+
+												<div  id="train_empPhoto" class="input-group el_empPhoto" role="toolbar"
+													style="height: 127px;">
+													<img id="myimg2" width="95" height="121">
+												</div>
+												<div>
+													<table
+														class="table table-bordered table-hover el_threeScoreListTable">
+														<thead>
+															<tr>
+																<th>序号</th>
+																<th>检修名称</th>
+																<th>工种</th>
+																<th>考试名称</th>
+																<th>考试级别</th>
+																<th>考试时间</th>
+																<th>试卷总分</th>
+																<th>获得成绩</th>
+																<th>是否通过</th>
+																<th>培训学时</th>
+																<th>培训内容</th>
+															</tr>
+														</thead>
+														<tbody id="employeeOutExamInfos">
+														</tbody>
+													</table>
+													<!--分页-->
+													<div id="paginationID2" class="paginationID"></div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+											</div>
+										</form>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+
+
+
+
+
 
 
 

@@ -2,37 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper
 	namespace="cn.xm.exam.mapper.employee.out.custom.EmpoutDistributeCustomMapper">
-	<!-- S查询分给给本单位的大修单位树 -->
+	<!-- S查询分给给本单位的大修单位与大修树 -->
 	<select id="getHaulunitTreeByDepartmentId" resultType="map"
 		parameterType="map">
-		SELECT * FROM overhaul_unit
-		<where>
-			<if test="markTrainType_In !=null">
-				and (id IN(SELECT
-				unitid
-				FROM
-				employeeoutdistribute WHERE
-				departmentId =
-				#{departmentId}) or upid='1')
-				and id IN
-				(#{regular_train},#{longterm_train})
-				or upid IN
-				(#{regular_train},#{longterm_train})
-			</if>
-			<!-- 外部培训 -->
-			<if test="markTrainType_Out !=null">
-				and (id IN(SELECT
-				unitid
-				FROM
-				employeeoutdistribute WHERE
-				departmentId =
-				#{departmentId}) or upid='1')
-				and id NOT IN
-				(#{regular_train},#{longterm_train})
-				and upid NOT IN
-				(#{regular_train},#{longterm_train})
-			</if>
-		</where>
+		SELECT *
+		FROM overhaul_unit
+		WHERE (id IN(SELECT
+		unitid
+		FROM
+		employeeoutdistribute
+		WHERE departmentId = #{departmentId})
+		AND upid
+		IN(SELECT
+		bigid
+		FROM employeeoutdistribute
+		WHERE departmentId =
+		#{departmentId}))
+		OR (upid = '1'
+		AND id IN(SELECT
+		bigid
+		FROM
+		employeeoutdistribute
+		WHERE departmentId = #{departmentId}))
+		<if test="markTrainType_In !=null">
+			and ( id IN (#{regular_train},#{longterm_train})
+			or upid IN (#{regular_train},#{longterm_train})
+			)
+		</if>
+		<!-- 外部培训 -->
+		<if test="markTrainType_Out !=null">
+			and id NOT IN
+			(#{regular_train},#{longterm_train})
+			and upid NOT IN
+			(#{regular_train},#{longterm_train})
+		</if>
 	</select>
 	<!-- E查询分给给本单位的大修单位树 -->
 	<!--S根据单位ID跟大修ID查询单位信息 -->
@@ -78,16 +81,17 @@
 		<if test="1==1">
 			and
 			distr.bigid =haul.bigId
-			and distr.haulempid =
-			haulemp.BigEmployeeoutId
+			and distr.haulempid
+			=haulemp.BigEmployeeoutId
 			AND distr.unitid = unit.unitId
-			and
-			distr.departmentId=#{departmentId}
+			and distr.departmentId = #{departmentId}
 			AND distr.empOutIdCard =emp.idCode
-			AND haulempid IN (SELECT haulempid
+			AND haulempid IN (SELECT distinct
+			haulempid
 			from employeeoutdistribute
 			WHERE
 			departmentId=#{departmentId})
+			<!-- departmentId like '${departmentId_query}%') -->
 		</if>
 		<!-- 增加标记条件判断应该显示的检修及员工信息 -->
 		<!-- 内部培训 -->
@@ -169,7 +173,7 @@
 	<select id="getEmpoutDistributeInfoCountByCondition" resultType="_int"
 		parameterType="map">
 		SELECT
-		COUNT(DISTINCT haulemp.BigEmployeeoutId)
+		COUNT(*)
 		FROM
 		employeeoutdistribute distr,
 		employee_out emp,
@@ -195,13 +199,16 @@
 		haul.bigName,
 		unit.name,
 		emp.sex,
+		emp.employeeid,
 		(SELECT
 		SUM(minusNum)
 		FROM breakrules
-		WHERE employeeId = (SELECT
+		WHERE
+		employeeId = (SELECT
 		employeeId
 		FROM employee_out
-		WHERE employee_out.idCode =
+		WHERE
+		employee_out.idCode =
 		distr.empOutIdCard)) AS minusNum,
 		haulemp.empType,
 		haulemp.trainStatus,

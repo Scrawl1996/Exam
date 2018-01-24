@@ -10,14 +10,17 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
+import cn.xm.exam.bean.common.Dictionary;
 import cn.xm.exam.bean.employee.out.Employeeoutdistribute;
+import cn.xm.exam.bean.haul.Haulemployeeout;
 import cn.xm.exam.bean.system.User;
+import cn.xm.exam.service.common.DictionaryService;
 import cn.xm.exam.service.employee.out.EmployeeOutService;
 import cn.xm.exam.service.employee.out.EmpoutDistributeService;
 import cn.xm.exam.utils.DefaultValue;
@@ -106,7 +109,8 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 	private String employeeOutName;
 	private String employeeOutIdCard;
 	private String employeeOutSex;
-
+	@Autowired
+	private DictionaryService dictionaryService;
 	/**
 	 * 分页查询分配信息
 	 * 
@@ -130,8 +134,21 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		Map<String, Object> condition = new HashMap<String, Object>();
 		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 		String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
+		//如果是具有厂级权限的部门来查看将部门ID设为01
 		if (ValidateCheck.isNotNull(departmentIdSession)) {
+			String departmentId_query = departmentIdSession;
+			String departmentId_cj = "";
+			try {
+				List<Dictionary> departmentIdAndNames = dictionaryService.getDictionarynamesByUpDicId("400");
+				departmentId_cj = departmentIdAndNames.get(0).getDiscription();//获取厂级权限部门
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			if(departmentIdSession.equals(departmentId_cj)){
+				departmentId_query = "01";
+			}
 			condition.put("departmentId", departmentIdSession);
+			condition.put("departmentId_query", departmentId_query);
 		}
 		if (ValidateCheck.isNotNull(distributeStatus)) {
 			condition.put("distributeStatus", distributeStatus);
@@ -245,7 +262,45 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		response.put("result", result);
 		return SUCCESS;
 	}
-
+	
+	
+	
+	
+	
+	private List<Haulemployeeout> haulemployeeouts;//二次分配的大修员工信息
+	public String reDistribute(){
+		response = new HashMap<String, Object>();
+		String result = "";
+		try {
+				result = empoutDistributeService.addSecondFenpeiInfoBatch(haulemployeeouts,employeeoutdistributes) ? "二次分配成功" : "二次分配失败";
+		} catch (SQLException e) {
+			result = "二次分配失败";
+			logger.error("二次分配失败", e);
+		}
+		response.put("result", result);
+		return SUCCESS;
+	}
+	
+	
+	/**
+	 * 重新分配检修单位
+	 * @return
+	 */
+	public String reDistributeUnit(){
+		response = new HashMap<String, Object>();
+		String result = "";
+		try {
+			result = empoutDistributeService.addSecondFenpeiUnitBatch(haulemployeeouts,employeeoutdistributes) ? "分配单位成功" : "二次分配失败";
+		} catch (SQLException e) {
+			result = "二次分配失败";
+			logger.error("二次分配失败", e);
+		}
+		response.put("result", result);
+		return SUCCESS;
+	}
+	
+	
+	
 	/**
 	 * 生成工作证的操作
 	 * 
@@ -421,5 +476,14 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 	public void setBigEmployeeOutIds(String bigEmployeeOutIds) {
 		this.bigEmployeeOutIds = bigEmployeeOutIds;
 	}
+
+	public List<Haulemployeeout> getHaulemployeeouts() {
+		return haulemployeeouts;
+	}
+
+	public void setHaulemployeeouts(List<Haulemployeeout> haulemployeeouts) {
+		this.haulemployeeouts = haulemployeeouts;
+	}
+	
 
 }

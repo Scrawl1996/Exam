@@ -193,7 +193,7 @@ label.success {
 													title="请选择">
 													<option value="">--请选择--</option>
 													<option value="未开始">未开始</option>
-													<option value="进行中">进行中</option>
+													<option value="进行中" selected="selected">进行中</option>
 													<option value="已结束">已结束</option>
 												</select>
 											</div>

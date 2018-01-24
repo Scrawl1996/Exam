@@ -67,7 +67,7 @@ function login() {
 	if ($("#el_userType").val() == "3") {
 		var username_q = $("#form_username").val();
 		var password_q = $("#form_password").val();
-		if (username_q == "学员1" && password_q == "123456") {
+		if (username_q == "学员" && password_q == "123456") {
 			$("#myModal").modal("hide");
 			$("#el_userType option[value='3']").remove();
 			$("#closeModal").css("display", "block");
