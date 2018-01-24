@@ -45,7 +45,8 @@ public interface UnitService {
 	 * @throws Exception
 	 */
 	public boolean addUnit(Unit unit, String bigId, Haulunit hulunit,String projectids) throws Exception;
-
+	
+	public boolean addUnit2(Unit unit, String bigId, Haulunit hulunit) throws Exception;
 	/**
 	 * 通大修ID与单位ID删除单位
 	 * 

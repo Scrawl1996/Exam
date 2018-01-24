@@ -130,7 +130,23 @@ public class AddUnitAction extends ActionSupport implements ModelDriven<Unit> {
 		response.put("addResult", addResult);
 		return SUCCESS;
 	}
-
+	
+	public String addUnit2(){
+		response = new HashMap();
+		String addResult = null;
+		// 传到Service进行保存
+		if (unit != null && ValidateCheck.isNotNull(bigid)) {
+			try {
+				addResult = unitService.addUnit2(unit, bigid,haulUnit) ? "添加成功!" : "添加失败!";
+			} catch (Exception e) {
+				logger.error("添加单位失败!", e);
+				addResult = "添加失败!";
+			}
+		}
+		response.put("addResult", addResult);
+		return SUCCESS;
+	}
+	
 	// get,set
 	public Map getResponse() {
 		return response;

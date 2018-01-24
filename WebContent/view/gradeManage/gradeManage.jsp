@@ -71,6 +71,12 @@
 			margin-left: 450px;
     	}
     	
+    	.prompt1{
+    		display:block;
+    		color: #888;
+			font-size: 12px;
+			margin-left: 650px;
+    	}
     </style>
     
 </head>
@@ -191,12 +197,11 @@
                             </tbody>
                         </table>
 						<!-- 分页 -->
-                        <div id="gradeManage_paginationIDU" class="paginationID"></div>						
-                    	<!-- <span class="glyphicon glyphicon-hand-right prompt">  如需导入成绩请将按钮切换到<strong style="font-weight:bolder">【按考试查看成绩】</strong>，选择自己创建的线下考试导入成绩。</span> -->
-                    	
+                        <div id="gradeManage_paginationIDU" class="paginationID"></div>						                    	                    	
                     </div>
                
-               			<span class="glyphicon glyphicon-hand-right prompt">  如需导入成绩请将按钮切换到<strong style="font-weight:bolder">【按考试查看成绩】</strong>，选择自己创建的线下考试导入成绩。</span>
+               			<span class="glyphicon glyphicon-hand-right prompt dept">  如需导入成绩请将按钮切换到<strong style="font-weight:bolder">【按考试查看成绩】</strong>，选择自己创建的线下考试导入成绩。</span>
+                		<span class="glyphicon glyphicon-hand-right prompt1 exam">  表格中灰色阴影的表示线下类型的考试。</span>
                 </div>
 
                 <!-- 模态框 成绩录入-->

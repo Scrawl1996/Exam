@@ -50,8 +50,8 @@ function showEmployeeBaseInfo(data) {
 	var showEmployeeOutBaseInfoList = '';
 	for (var i = 0; i < employeeOutBaseInfoList.length; i++) {
 		var index = i + 1;
-		showEmployeeOutBaseInfoList += "<tr><td><input type='radio' name='el_chooseEmp' class='el_checks' vaule='"
-				+ employeeOutBaseInfoList[i].idcard
+		showEmployeeOutBaseInfoList += "<tr><td><input type='radio' name='el_chooseEmp' class='el_checks' value='"
+				+ employeeOutBaseInfoList[i].idCard
 				+ "'/></td><td>"
 				+ (index + (data.pageBean.currentPage - 1) * 8)
 				+ "<input class='find_employeeOutBirthday' type='hidden' value='"
@@ -61,42 +61,31 @@ function showEmployeeBaseInfo(data) {
 				+ employeeOutBaseInfoList[i].photo
 				+ "'/>"
 				+ "<input class='find_employeeOutId' type='hidden' value='"
-				+ employeeOutBaseInfoList[i].employeeid
+				+ employeeOutBaseInfoList[i].employeeId
 				+ "'/>"
 				+ "<input class='find_bigEmployeeOutId' type='hidden' value='"
-				+ employeeOutBaseInfoList[i].bigemployeeoutid
+				+ employeeOutBaseInfoList[i].BigEmployeeoutId
 				+ "'/>"
 				+ "<input class='find_bigId' type='hidden' value='"
-				+ employeeOutBaseInfoList[i].bigid
+				+ employeeOutBaseInfoList[i].bigId
+				+ "'/>"
+				+ "<input class='find_idCard' type='hidden' value='"
+				+ employeeOutBaseInfoList[i].idCard
+				+ "'/>"
+				+ "<input class='find_address' type='hidden' value='"
+				+ employeeOutBaseInfoList[i].address
 				+ "'/>"
 				+ "</td><td>"
 				+ employeeOutBaseInfoList[i].name
 				+ "</td><td>"
 				+ (employeeOutBaseInfoList[i].sex > 1 ? '女' : '男')
 				+ "</td><td>"
-				+ employeeOutBaseInfoList[i].idcard
+				+ employeeOutBaseInfoList[i].birthday.substring(0,10)
 				+ "</td><td>"
-				+ employeeOutBaseInfoList[i].departmentname
+				+ employeeOutBaseInfoList[i].departmentName
 				+ "</td><td>"
-				+ employeeOutBaseInfoList[i].emptype
-				+ "</td><td onclick='el_breakRulesCase(this)' class='success'>"
-				+ employeeOutBaseInfoList[i].minusnum + "</td>";
-		if (employeeOutBaseInfoList[i].isblacklist == '是') {
-			showEmployeeOutBaseInfoList += "<td style='color:red;'>"
-					+ employeeOutBaseInfoList[i].isblacklist + "</td><td>";
-		} else if (employeeOutBaseInfoList[i].isinblacklist == '是') {
-			showEmployeeOutBaseInfoList += "<td style='color:blue;'>"
-					+ employeeOutBaseInfoList[i].isblacklist + "</td><td>";
-		} else {
-			showEmployeeOutBaseInfoList += "<td>"
-					+ employeeOutBaseInfoList[i].isblacklist + "</td><td>";
-		}
-		/*showEmployeeOutBaseInfoList += employeeOutBaseInfoList[i].trainstatus
-				.toString().replace("0", "未参加培训").replace("1", "通过一级考试")
-				.replace("2", "通过二级考试").replace("3", "通过三级考试")
-				+ "</td><td>"
-				+ "<a href='javascript:void(0)' onclick='allInfo(this)'>详细信息</a>&nbsp;";*/
-		//将培训情况字段内容注释掉
+				+ employeeOutBaseInfoList[i].empType
+				+ "</td><td>";				
 		showEmployeeOutBaseInfoList +="<a href='javascript:void(0)' onclick='allInfo(this)'>详细信息</a>&nbsp;";
 		if (employeeOutBaseInfoList[i].bigstatus != "已结束" && hasOperatingEmpout) {
 			showEmployeeOutBaseInfoList += "<a href='javascript:void(0)' onclick='el_modifyEmp(this)'>修改</a>&nbsp;"
@@ -457,7 +446,7 @@ function initEmployeeTypeDic_update(empType) {
 function el_modifyEmp(obj) {
 	var $tds = $(obj).parents("tr").children("td");
 	$("#update_employeeOutName").val($tds.eq(2).text());
-	$("#update_employeeOutIdCard").val($tds.eq(4).text());
+	$("#update_employeeOutIdCard").val($(obj).parents("tr").find(".find_idCard").val());
 	$("#update_departmentName").val($tds.eq(5).text());
 	$("#update_employeeOutSex").val($tds.eq(3).text());
 	var sex = $tds.eq(3).text();
@@ -479,7 +468,7 @@ function el_modifyEmp(obj) {
 	$("#update_employeeOutType").val($tds.eq(6).text());
 	initEmployeeTypeDic_update($tds.eq(6).text());
 	// 向修改表单的隐藏域中设置值
-	$("#updateAndDelete_employeeOutIdCard").val($tds.eq(4).text());
+	$("#updateAndDelete_employeeOutIdCard").val($(obj).parents("tr").find(".find_idCard").val());
 	$("#updateAndDelete_bigId").val(bigId);
 	//大修员工ID
 	var bigEmployeeOutId = $(obj).parents("tr").find(".find_bigEmployeeOutId").val();
@@ -586,17 +575,17 @@ function exportEmployeeOutInfo() {
 function el_empTrainDoc() {
 	if ($(".el_checks:checked").length == "0") {
 		alert("请选择要查看的员工！");
-	} else {
-
+	} else {				
 		var $tds = $(".el_checks:checked").parents("tr").children("td");
-		var showEmployeeOutTrainBaseInfo = "<tr><td>" + $tds.eq(2).text()
-				+ "</td><td>"
-				+ $tds.eq(3).text() + "</td><td>" + $tds.eq(5).text()
-				+ "</td><td>" + $tds.eq(7).text() + "</td>" +
-				"<td>" + $tds.eq(8).text() + "</td></tr>";
-		var employeeOutIdCard = $tds.eq(4).text()
-		$("#employeeOutTrainBaseInfo").empty();
-		$("#employeeOutTrainBaseInfo").append(showEmployeeOutTrainBaseInfo);
+		$("#trainName").text( $tds.eq(2).text());
+		$("#trainSex").text( $tds.eq(3).text());
+		$("#trainBirthday").text( $tds.eq(4).text());
+		$("#trainIdCard").text( $(".el_checks:checked").val());
+		var employeeOutPhoto = $(".el_checks:checked").parents("tr").find(".find_employeeOutPhoto")
+		.val();
+		$("#myimg2").prop("src",employeeOutPhoto);
+		
+		var employeeOutIdCard = $(".el_checks:checked").val();
 		// 分页显示员工的培训档案
 		showEmployeeOutExamsInfoList(employeeOutIdCard, 1, 8);
 	}
@@ -622,11 +611,7 @@ function showEmployeeOutExamsInfoList(employeeOutIdCard, currentPage,
 				var index = i + 1;
 				showExamInfoList = "<tr><td>"
 						+ (index + (data.pageBean.currentPage - 1) * 5)
-						+ "</td><td>"
-						+ examInfoList[i].bigName
-						+ "</td><td>"
-						+ examInfoList[i].employeeOutType
-						+ "</td><td>"
+						+ "</td><td>"					
 						+ examInfoList[i].examName
 						+ "</td><td>"
 						+ examInfoList[i].level.toString().replace("1", "厂级")
@@ -640,7 +625,10 @@ function showEmployeeOutExamsInfoList(employeeOutIdCard, currentPage,
 								" ").replace(/-/g, "/")), "yyyy-MM-dd HH:mm")
 						+ "</td><td>" + examInfoList[i].paperScore
 						+ "</td><td>" + examInfoList[i].grade + "</td><td>"
-						+ examInfoList[i].isPass + "</td></tr>";
+						+ examInfoList[i].isPass 
+						+ "</td><td>" + examInfoList[i].xueshi
+						+ "</td><td>" + examInfoList[i].traincontent
+						+ "</td></tr>";
 				$("#employeeOutExamInfos").append(showExamInfoList);
 			}
 			// 当前页
@@ -700,7 +688,7 @@ function showEmployeeOutExamsInfoAllList(employeeOutIdCard) {
 function delcfm(obj) {
 	var $tds = $(obj).parents("tr").children("td");
 	// 向修改表单的隐藏域中设置值
-	$("#updateAndDelete_employeeOutIdCard").val($tds.eq(4).text());
+	$("#updateAndDelete_employeeOutIdCard").val($(obj).parents("tr").find(".find_idCard").val());
 	var bigId = $(obj).parents("tr").find(".find_bigId").val();
 	$("#updateAndDelete_bigId").val(bigId);
 	//大修员工ID
@@ -732,8 +720,8 @@ function allInfo(obj) {
 	var $tds = $(obj).parents("tr").children("td");
 	$("#details_employeeOutName").text($tds.eq(2).text());
 	$("#details_employeeOutSex").text($tds.eq(3).text());
-	$("#details_employeeOutIdCard").text($tds.eq(4).text());
-	$("#details_employeeOutIsBlack").text($tds.eq(8).text());
+	$("#details_employeeOutIdCard").text($(obj).parents("tr").find(
+	".find_idCard").val());	
 	//$("#details_employeeOutTrainStatus").text($tds.eq(9).text());
 	$("#details_departmentName").text($tds.eq(5).text());
 	$("#details_employeeType").text($tds.eq(6).text());
@@ -793,7 +781,7 @@ function el_breakRulesCase(obj) {
 
 }
 
-/****************************************树的相关方法**************************************************************** */
+/****************************************树的相关方法******************************************************* */
 $(function() {
 	searchDepartmentAndOverHualTree();
 })
@@ -846,6 +834,9 @@ var clickBigAndDepTree = 0;
 var selectedDepartmentName;
 var selectedDepartmentID;
 var selectedOverHaulId;
+//选择一次检修添加部门
+var clickBig = 0;
+
 function onClick(event, treeId, treeNode) {
 	// 清空页号:
 	$("#currentPage").val("");
@@ -858,7 +849,8 @@ function onClick(event, treeId, treeNode) {
 		// 调用查询员工信息的方法
 		queryEmployeeOutBaseInfo();
 	}
-	// 如果树的等级是零则证明是部门，设置部门信息
+	
+	// 如果树的等级是1则证明是部门，设置部门信息
 	if (treeNode.level == 1) {
 		clickRes = 1;
 		// 设置部门名称
@@ -875,5 +867,133 @@ function onClick(event, treeId, treeNode) {
 		clickRes = 0;
 	}
 
+	//为添加单位服务，树的等级为0可以添加部门
+	if(treeNode.level == 0){
+		clickBig = 1;
+		$("#bigname").val(treeNode.name);
+		$("#bigid").val(treeNode.id);
+	}else{
+		clickBig = 0;
+	}
+	
 	return (treeNode.click != false);
 }
+
+/********添加单位*********/
+function el_addDepartment(){
+	if(clickBig==1){		
+		$("#myModal").modal();
+	}else{
+		alert("请选择一种培训类型！")
+	}
+}
+$(function(){
+//手机号码验证
+jQuery.validator
+		.addMethod(
+				"isMobile",
+				function(value, element) {
+					var length = value.length;
+					var mobile = /(^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$)|(^((\(\d{3}\))|(\d{3}\-))?(1[358]\d{9})$)/;
+					var tel = /^\d{3,4}-?\d{7,9}$/;
+					var tel2 = /^\d{7,9}$/;
+					return this.optional(element) || (tel.test(value))
+							|| (mobile.test(value) || (tel2.test(value)));
+
+				}, "请正确填写您的联系电话");
+});
+// 验证并且保存单位信息到数据库
+function saveUnit() {
+	var isNotNull = $("#addUnitForm").validate({
+        ignore : [],
+        rules : {
+            "name" : {
+            	required:true
+            	},// 发现日期
+            "haulUnit.manager" : {
+                required : true
+            },
+            "haulUnit.managerphone" : {
+            	"isMobile":true,
+                required : true
+            },
+            "haulUnit.secure":{
+            	required : true
+            },
+            "haulUnit.securephone" : {
+            	"isMobile":true,
+                required : true
+            },
+            "haulUnit.projectnames" : {
+            	required:true
+            }
+        },
+        messages : {
+            "name" : {
+            	required:"单位名称不能为空"
+            	},// 发现日期
+            "haulUnit.manager" : {
+                required : "项目经理不能为空"
+            },
+            "haulUnit.managerphone" : {
+            	"isMobile":"请输入合法的电话",
+                required : "电话不能为空"
+            },
+            "haulUnit.secure":{
+            	required : "安全员不能为空"
+            },
+            "haulUnit.securephone" : {
+            	"isMobile":"请输入合法的电话",
+                required : "安全员电话不能为空"
+            },
+            "haulUnit.projectnames" : {
+            	required:"工程名字不能为空"
+            }
+        }
+    });
+	
+	if(isNotNull.form()){	
+		// 验证检修下面是否已经存在对应的单位姓名，如果存在结束方法
+		if (!validateExistsUnit()) {
+			return;
+		}
+		if (confirm("确认保存单位信息?")) {
+			$.post(contextPath + "/addUnit_addUnit2.action",// url
+			$("#addUnitForm").serialize(), // data
+			function(response) {
+				if (response.addResult != null) {
+					alert(response.addResult);
+				}
+				// 添加成功之后重新加载页面
+				if (response.addResult != null && response.addResult == "添加成功!") {
+					window.location.reload();
+				}
+			}, 'json')
+		}
+	}
+}
+
+//根据输入的单位名字判断单位是否已经存在对应的检修下面
+function validateExistsUnit() {
+	$("#validateName").text("");
+	// 1.获取表单的值
+	var word = $("#addUnitname").val();
+	// 获取树对象
+	var treeObj = $.fn.zTree.getZTreeObj("departmentAndOverHaulTree");
+	/** 获取所有树节点 */
+	var nodes = treeObj.transformToArray(treeObj.getNodes());
+	// 遍历树节点设置树节点为选中
+	for (var k = 0, length_1 = nodes.length; k < length_1; k++) {
+		if ($("#bigid").val() == nodes[k].id) {// 定位到对应的树节点
+			var node = nodes[k];
+			for (var i = 0; node.children != null && i < node.children.length; i++) {
+				if (word == node.children[i].name) {
+					$("#validateName").text("该培训已经存在该部门!");
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+

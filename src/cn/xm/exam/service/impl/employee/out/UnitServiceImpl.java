@@ -108,7 +108,42 @@ public class UnitServiceImpl implements UnitService {
 
 		return haulunitMapper.insert(haulunit) > 0 ? true : false;
 	}
-
+	
+	@Override
+	public boolean addUnit2(Unit unit, String bigID, Haulunit haulunit) throws Exception {
+		// 1.根据单位姓名判断是否存在,如果存在加中间表，不存在加两个表
+		Unit unitByUnitName = this.getUnitByUnitName(unit.getName());
+		if (unitByUnitName != null) {// 存在修改信息
+			unit.setUnitid(unitByUnitName.getUnitid());// 设置ID
+			int updateRow = unitMapper.updateByPrimaryKeySelective(unit);// 修改信息
+			// 中间表添加数据
+			haulunit.setBigid(bigID);
+			haulunit.setUnitid(unitByUnitName.getUnitid());
+			haulunit.setUnitbigid(UUIDUtil.getUUID2());
+			haulunit.setUnitminismum(0);
+			haulunit.setIsnewbig("1");
+				
+			return haulunitMapper.insert(haulunit) > 0 ? true : false;
+		}
+		// 不存在证明是新的就添加两个表
+		// 1.添加单位基本信息
+		String unitId = UUIDUtil.getUUID2();// 产生一个单位ID
+		unit.setUnitid(unitId);
+		boolean addUnitResult = unitMapper.insert(unit) > 0 ? true : false;
+		if (!addUnitResult) {
+			throw new SQLException();
+		}
+		// 2.添加中间表
+		haulunit.setBigid(bigID);
+		haulunit.setUnitid(unitId);
+		String haulUnitId = UUIDUtil.getUUID2();
+		haulunit.setUnitbigid(haulUnitId);
+		haulunit.setUnitminismum(0);
+		haulunit.setIsnewbig("1");
+		
+		return haulunitMapper.insert(haulunit) > 0 ? true : false;
+	}
+	
 	@Override
 	public boolean deleteUnitByBigIdAndHaulId(Map bididAndUnitid) throws Exception {
 		// 1.查出所有的身份证号ID
