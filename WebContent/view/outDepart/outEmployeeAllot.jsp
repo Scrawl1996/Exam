@@ -184,8 +184,6 @@ hasOperatingEmpout = true;
 												class="btn btn-primary" onclick="el_empCardModel()">
 												重新发放工作证</button>
 										</shiro:hasPermission>
-
-
 									</div>
 									<table class="table table-hover table-bordered">
 										<thead>
