@@ -18,6 +18,10 @@
 				and id NOT IN (#{regular_train},#{longterm_train})
 				and upid NOT IN (#{regular_train},#{longterm_train})
 			</if>
+			<!-- 增加检修状态的判断 -->
+			<if test="bigStatus != null">
+				and bigStatus != #{bigStatus}
+			</if>
 		</where>
 	</select>
 
@@ -488,6 +492,11 @@
 			and haulemployeeout.bigId NOT IN (#{regular_train},#{longterm_train})
 		</if>
 		
+		<!-- 增加检修状态的判断 -->
+		<if test="bigStatus != null">
+			and haulinfo.bigStatus != #{bigStatus}
+		</if>
+		
 		<if test="minusNumLeft !=null and minusNumLeft !='' ">
 			and 
 			<include refid="sql_findSumbreak_ByConditionLeft"></include>
@@ -561,6 +570,11 @@
 		<if test="markTrainType_Out !=null">
 			and haulemployeeout.bigId NOT IN (#{regular_train},#{longterm_train})
 		</if>
+		<!-- 增加检修状态的判断 -->
+		<if test="bigStatus != null">
+			and haulinfo.bigStatus != #{bigStatus}
+		</if>
+		
 		
 		<if test="minusNumLeft !=null and minusNumLeft !='' ">
 			and 

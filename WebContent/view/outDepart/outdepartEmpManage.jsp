@@ -124,6 +124,16 @@
 	text-align: center;
 	border-left: 1px solid #ccc;
 }
+.mark-type{
+	 font-size: 10px;
+	 padding: 2px 2px;
+}
+.el_treeTitle{
+	display:inline;	
+    padding-right: 9px;	
+    padding-left: 9px;
+    
+}
 </style>
 
 
@@ -188,9 +198,15 @@
 
 						<!--树-->
 						<div class="el_leftTree">
+							<div  style="margin-top:20px;">
 							<!--标题类，添加了一个颜色-->
-							<span class="el_treeTitle">部门</span>
+							<span class="el_treeTitle">检修单位</span>
+							<select class="btn btn-default mark-type" id="el_bigStatusMark"	title="请选择" onchange="historyBigInfoFind()">
+															<option value="0">当前检修</option>
+															<option value="1">历史检修</option>
+							</select>
 							<ul id="departmentAndOverHaulTree" class="ztree"></ul>
+							</div>
 						</div>
 
 						<!--内容-->
@@ -311,6 +327,11 @@
 									<!-- 隐藏违章信息查询类型，默认查询当前年 -->
 									<input id="breakInfo_Type" type="hidden" value="0"
 										name="empBreakInfoType">
+										
+									<!-- 隐藏大修状态标记，默认查询当前未结束的-->
+									<input id="bigStatus_Mark" type="hidden" value="0"
+										name="bigStatusMark">
+									
 
 									<!--提交查询按钮-->
 									<button type="button"
