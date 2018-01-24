@@ -435,7 +435,7 @@ function page3(currentPage, totalCount, currentCount) {
 				"total" : totalCount,// 数字 当分页建立时设置记录的总数量 1
 				"pageSize" : currentCount,// 数字 每一页显示的数量 10
 				"pageNumber" : currentPage,// 数字 当分页建立时，显示的页数 1
-				"pageList" : [ 8 ],// 数组 用户可以修改每一页的大小，
+				"pageList" : [ 8 ,15 ,20 ],// 数组 用户可以修改每一页的大小，
 				// 功能
 				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
 						'last', 'links' ],
@@ -504,8 +504,8 @@ function page4(currentPage, totalCount, currentCount) {
 				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
 						'last', 'links' ],
 				"onSelectPage" : function(pageNumber, pageSize) {
-					$("#currentPage3").val(pageNumber);
-					$("#currentCount3").val(pageSize);
+					$("#currentPage4").val(pageNumber);
+					$("#currentCount4").val(pageSize);
 					// 查询大修
 					query_pernum();
 				}
@@ -553,6 +553,7 @@ function deleteBiaoduan(obj){
 			"projectId" : projectId,
 		}, function(response){
 			var result = response.result;
+			alert(result);
 			if(result=='删除成功!'){
 				queryBiaoduan($("#update_bigid").val());
 			}

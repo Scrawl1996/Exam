@@ -444,7 +444,7 @@ label.success {
 											<h4 class="modal-title" id="myModalLabel2">标段信息</h4>
 										</div>
 										<form id="query_biaoduan">
-										<input type='hidden' name='currentPage' id='currengPage3'/>
+										<input type='hidden' name='currentPage' id='currentPage3'/>
 										<input type='hidden' name='currentCount' id='currentCount3'/>
 										<input type='hidden' name='haulId' id='haulId_biaoduan'/>
 										</form>
@@ -495,7 +495,7 @@ label.success {
 											<h4 class="modal-title" id="myModalLabel2">单位人数信息</h4>
 										</div>
 										<form id="query_pernum">
-										<input type='hidden' name='currentPage' id='currengPage4'/>
+										<input type='hidden' name='currentPage' id='currentPage4'/>
 										<input type='hidden' name='currentCount' id='currentCount4'/>
 										<input type='hidden' name='haulId' id='haulId_pernum'/>
 										</form>

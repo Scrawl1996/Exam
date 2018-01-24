@@ -76,7 +76,7 @@
 		haulemployeeout.bigId
 		= haulunit.bigId
 		AND haulemployeeout.unitId =
-		haulunit.unitId) AS
+		haulunit.unitId and trainstatus='2') AS
 		personNum,
 		TRUNCATE(IFNULL(@b/@a,0),3) AS jiaquan
 		FROM haulunit,
@@ -156,6 +156,7 @@
 		AND bigId = #{bigId}
 		and
 		emplhaul.unitId=#{unitId}
+		and emplhaul.trainstatus='2'
 		<if test="index != null">
 			limit #{index},#{currentCount}
 		</if>
