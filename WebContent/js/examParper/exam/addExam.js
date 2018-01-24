@@ -835,8 +835,8 @@ var saveExam = function() {
 			"exam.examlevel" : "required",// 验证文本框的。前边是 name 属性
 			"exam.starttime" : "required",
 			"exam.endtime" : {
-				required : true,
-				compareDate : "#inpend0"
+				required : true/*,
+				compareDate : "#inpend0"*/
 			},
 			"exam.employeename" : {
 				required : true
@@ -868,8 +868,8 @@ var saveExam = function() {
 			"exam.address" : "考试地址不能为空",// 验证文本框的。前边是 name 属性
 			"exam.starttime" : "开始时间不能为空",
 			"exam.endtime" : {
-				required : "结束时间不能为空",
-				compareDate : "结束日期不能小于开始日期"
+				required : "结束时间不能为空"/*,
+				compareDate : "结束日期不能小于开始日期"*/
 			},
 			"exam.employeename" : {
 				required : "创建人不能为空"

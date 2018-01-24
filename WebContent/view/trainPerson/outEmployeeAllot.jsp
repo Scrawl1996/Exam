@@ -166,11 +166,10 @@ hasOperatingEmpout = true;
 											<option value="4">已生成工作证</option>
 											<option value="5">已回收工作证</option>
 										</select>
-										<button class="btn btn-primary" id="el_lookTrainDocument"
-											style="display: none" onclick="el_empTrainDoc()">分配员工</button>
 										<button class="btn btn-primary" id="lookTrainInfo"
 											 onclick="lookTrainInfo()">查看培训档案员工</button>
-											
+										<button class="btn btn-primary" id="el_lookTrainDocument"
+											style="display: none" onclick="el_empTrainDoc()">分配员工</button>
 										<shiro:hasPermission name="grademanager:printcard">
 											<button style="display: none" id="generateWork"
 												class="btn btn-primary" onclick="el_empCardModel()">
@@ -536,12 +535,6 @@ hasOperatingEmpout = true;
 										</div>
 										<form>
 											<div class="modal-body" style="padding: 10px 30px 0 30px;">
-
-
-												<div  id="train_empPhoto" class="input-group el_empPhoto" role="toolbar"
-													style="height: 127px;">
-													<img id="myimg2" width="95" height="121">
-												</div>
 												<div>
 													<table
 														class="table table-bordered table-hover el_threeScoreListTable">

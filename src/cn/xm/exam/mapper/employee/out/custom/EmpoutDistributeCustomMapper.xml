@@ -7,7 +7,7 @@
 		parameterType="map">
 		SELECT *
 		FROM overhaul_unit
-		WHERE (id IN(SELECT
+		WHERE ((id IN(SELECT
 		unitid
 		FROM
 		employeeoutdistribute
@@ -23,7 +23,7 @@
 		bigid
 		FROM
 		employeeoutdistribute
-		WHERE departmentId = #{departmentId}))
+		WHERE departmentId = #{departmentId})))
 		<if test="markTrainType_In !=null">
 			and ( id IN (#{regular_train},#{longterm_train})
 			or upid IN (#{regular_train},#{longterm_train})
@@ -91,7 +91,6 @@
 			from employeeoutdistribute
 			WHERE
 			departmentId=#{departmentId})
-			<!-- departmentId like '${departmentId_query}%') -->
 		</if>
 		<!-- 增加标记条件判断应该显示的检修及员工信息 -->
 		<!-- 内部培训 -->
