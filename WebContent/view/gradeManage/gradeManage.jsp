@@ -64,6 +64,13 @@
     		right:30px;
     		top:50px;
     	}
+    	.prompt{
+    		display:block;
+    		color: #888;
+			font-size: 12px;
+			margin-left: 450px;
+    	}
+    	
     </style>
     
 </head>
@@ -184,9 +191,12 @@
                             </tbody>
                         </table>
 						<!-- 分页 -->
-                        <div id="gradeManage_paginationIDU" class="paginationID"></div>
-						<!-- <span class="prompt">如需导入成绩请将按钮切换到按考试查看成绩，选择自己创建的线下考试导入成绩。</span> -->
+                        <div id="gradeManage_paginationIDU" class="paginationID"></div>						
+                    	<!-- <span class="glyphicon glyphicon-hand-right prompt">  如需导入成绩请将按钮切换到<strong style="font-weight:bolder">【按考试查看成绩】</strong>，选择自己创建的线下考试导入成绩。</span> -->
+                    	
                     </div>
+               
+               			<span class="glyphicon glyphicon-hand-right prompt">  如需导入成绩请将按钮切换到<strong style="font-weight:bolder">【按考试查看成绩】</strong>，选择自己创建的线下考试导入成绩。</span>
                 </div>
 
                 <!-- 模态框 成绩录入-->

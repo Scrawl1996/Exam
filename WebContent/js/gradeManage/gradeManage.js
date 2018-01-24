@@ -26,6 +26,7 @@ function searchExamGradeInfo(){
 function findExamGradeInfo(){
 	$("#operation").show();
 	$("#departmentName").hide();
+	$(".prompt").hide();
 	$.ajax({
 		url : 'examGrade_findExamGradesInfoWithCondition.action',
 		data : $("#form_findExamGradesInfo").serialize(),
@@ -434,6 +435,7 @@ $(function(){
 function findUnitExamGradeInfo(){
 	$("#departmentName").show();
 	$("#operation").hide();	
+	$(".prompt").show();
 	$.ajax({
 		url : basePathUrl+'/examGrade_getUnitExamGradesByCondition.action',
 		data : $("#form_findExamGradesInfo").serialize(),
@@ -473,7 +475,7 @@ function showUnitExamGradesInfo(data){
 								+"</td><td>"
 							    +examGradesInfoList[i].examname+"</td><td>"			
 				               	+examGradesInfoList[i].examlevel.toString().replace("1","厂级").replace("2","部门级").replace("3","班组级") +"</td><td>"								
-								+examGradesInfoList[i].unitname+"</td><td onclick='findEmployeeGradeInfo(this)' class='success'>"
+								+examGradesInfoList[i].unitname+"</td><td onclick='findEmployeeGradeInfo(this)' title='点击查看具体的考试人员信息' class='el_delButton' style='color:darkblue;'>"
 								+examGradesInfoList[i].joinexam+"</td><td>"
 								+examGradesInfoList[i].passexam+"</td><td>"	
 								+examGradesInfoList[i].status+"</td><td>"
