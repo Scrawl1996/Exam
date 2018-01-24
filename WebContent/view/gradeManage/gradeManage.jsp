@@ -185,7 +185,7 @@
                         </table>
 						<!-- 分页 -->
                         <div id="gradeManage_paginationIDU" class="paginationID"></div>
-
+						<!-- <span class="prompt">如需导入成绩请将按钮切换到按考试查看成绩，选择自己创建的线下考试导入成绩。</span> -->
                     </div>
                 </div>
 
