@@ -61,7 +61,7 @@
 						<ul class="nav navbar-nav navbar-right">
 							<li>
 								<!-- <a href="javascript:history.back(-1);"></a> -->
-								<button type="button" onclick="javascript:history.back(-1);" class="btn btn-block btn-default">返回</button>
+								<button type="button" onclick="javascript:history.back(-1);" class="btn btn-block btn-default btn-sm">返回</button>
 							</li>
 						</ul>
 					</div>

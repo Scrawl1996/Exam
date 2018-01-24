@@ -82,7 +82,10 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	private String markTrainType;
 	//家庭住址
 	private String address;
-	 
+	//大修状态标记 1表示查看所有检修
+	private String bigStatusMark;
+	
+	
 	//初始化大修部门树
 	public String getDepartmentAndOverHaulTree(){
 		Map<String,Object> condition = new HashMap<String,Object>();
@@ -330,6 +333,15 @@ public class EmployeeOutPersonAction extends ActionSupport{
 			condition.put("address", address);
 		}
 		
+		if(ValidateCheck.isNotNull(bigStatusMark)){
+			//1表示查询所有的检修
+			if(bigStatusMark.equals("1")){				
+				condition.put("bigStatus", null);
+			}else{
+				condition.put("bigStatus", "已结束");
+			}
+		}
+		
 		//培训类型标记
 		if(ValidateCheck.isNotNull(markTrainType)){
 			//判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
@@ -561,6 +573,15 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	public String getBigStatusMark() {
+		return bigStatusMark;
+	}
+
+	public void setBigStatusMark(String bigStatusMark) {
+		this.bigStatusMark = bigStatusMark;
+	}
+
 	
 	//lixianyuan end
 	

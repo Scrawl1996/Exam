@@ -788,16 +788,16 @@ function el_breakRulesCase(obj){
 /****************************************树的相关方法**************************************************************** */
 
 $(function() {
-	searchDepartmentAndOverHualTree();
+	searchDepartmentAndOverHualTree(0);
 })
 
 /***********************请求树信息**********************/
 
-function searchDepartmentAndOverHualTree() {
+function searchDepartmentAndOverHualTree(bigStatusMark) {
 	$.ajax({
 		type : "post",
 		target : "#departmentAndOverHaulTree",
-		data:{"markTrainType":"1"},
+		data:{"markTrainType":"1","bigStatusMark":bigStatusMark},
 		dataType : "json",
 		url : "employeeOutPerson_getDepartmentAndOverHaulTree.action",
 		success : getTree_1,
@@ -1077,4 +1077,14 @@ function queryEmployeeOutTrainInfo(){
 		//分页显示员工的培训档案
 		showEmployeeOutExamsInfoList(employeeOutIdCard, 1, 8);
 	}
+}
+
+//根据标记查询大修信息
+function historyBigInfoFind(){
+	//获取当前的大修标记状态
+	var mark = $("#el_bigStatusMark").val();
+	//设置到隐藏域中
+	$("#bigStatus_Mark").val(mark);
+	searchDepartmentAndOverHualTree(mark);
+	findEmployeeOutBaseInfo();
 }

@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>新员工员工管理</title>
+<title>新员工管理</title>
 
 <%@ include file="/public/cssJs.jsp"%>
 
@@ -116,7 +116,7 @@ hasOperatingEmpout = true;
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>内部员工管理</span><span>>新员工员工管理</span>
+						<span>内部员工管理</span><span>>新员工管理</span>
 					</div>
 					<div class="el_main">
 
@@ -594,7 +594,7 @@ hasOperatingEmpout = true;
 						<!-- 模态框单位添加-->
 							<div class="modal fade" id="myModal" role="dialog"
 								aria-labelledby="myModalLabel" aria-hidden="true">
-								<div class="modal-dialog">
+								<div class="modal-dialog" >
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal"
@@ -612,43 +612,31 @@ hasOperatingEmpout = true;
 														id="addUnitname" class="form-control addUnitInput"
 														name="name"/> <span
 														id="validateName" style="color: red"></span>
-													<div id="showDiv"
+													 <div id="showDiv"
 														style="margin: 25px 0px 0px 0px; position: absolute; width: 78%; z-index: 3000; background-color: white; border: 1px solid; display: none;"></div>
-												</div>
-
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">单位地址</span>-->
-													<span class="el_spans">项目经理：</span> <input type="text"
+												 </div>
+												<input type="hidden"
 														class="form-control addUnitInput" name="haulUnit.manager"
-														id="manager" />
-												</div>
-
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">联系人</span>-->
-													<span class="el_spans">经理电话：</span> <input type="text"
+														id="manager" value="项目经理"  />
+												<input type="hidden"
 														class="form-control addUnitInput" id="managerphone"
-														name="haulUnit.managerphone" />
-												</div>
-
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">联系方式</span>-->
-													<span class="el_spans">安&nbsp;全&nbsp;员&nbsp;：</span> <input
-														type="text" class="form-control addUnitInput"
-														name="haulUnit.secure" id="secure" />
-												</div>
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">联系方式</span>-->
-													<span class="el_spans">安全员电话：</span> <input type="text"
+														name="haulUnit.managerphone" value="1111111" />
+														<input
+														type="hidden" class="form-control addUnitInput"
+														name="haulUnit.secure" id="secure" value="安全员"/>
+														<input type="hidden"
 														class="form-control addUnitInput"
-														name="haulUnit.securephone" id="securephone" />
-												</div>
-
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">联系方式</span>-->
-													<span class="el_spans">参与工程：</span> <input type="text"
+														name="haulUnit.securephone" id="securephone" value="1111111"/>
+												
+													<input type="hidden"
 														class="form-control addUnitInput"
-														name="haulUnit.projectnames" id="projectnames" />
-												</div>
+														name="haulUnit.projectnames" id="projectnames" value="参与工程"/>
+												 <input type="hidden"
+														class="form-control el_modelinput el_chooseInput"
+														id="bigname" name="bigname" disabled /> <input
+														type="hidden"
+														class="form-control el_modelinput el_chooseInput"
+														id="bigid" name="bigid"/>
 
 												<!-- 												<div class="input-group el_modellist" role="toolbar">
 													<span class="input-group-addon">上级单位</span>
@@ -656,15 +644,7 @@ hasOperatingEmpout = true;
 														class="form-control el_modelinput el_chooseInput"
 														id="addDefaultDepart" name="" disabled />
 												</div> -->
-												<div class="input-group el_modellist" role="toolbar">
-													<!--<span class="input-group-addon">上级单位</span>-->
-													<span class="el_spans">所属检修：</span> <input type="text"
-														class="form-control el_modelinput el_chooseInput"
-														id="bigname" name="bigname" disabled /> <input
-														type="hidden"
-														class="form-control el_modelinput el_chooseInput"
-														id="bigid" name="bigid"/>
-												</div>
+												
 												<!--  -->
 
 											</div>
