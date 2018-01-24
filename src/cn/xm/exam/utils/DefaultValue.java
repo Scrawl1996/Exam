@@ -18,4 +18,5 @@ public class DefaultValue {
 	public static final String REGULAR_EMPLOYEE_TRAIN = "94572a6f9cca4c7388e37f25ff774687";
 	//长委新员工培训ID
 	public static final String LONGTERM_EMPLOYEE_TRAIN = "339bbb96d8e44bec8292232f95fe5d46";
+
 }

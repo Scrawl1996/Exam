@@ -478,6 +478,15 @@
 			and employee_out.address like "%${address}%"
 		</if>
 		
+		<!-- 增加标记条件判断应该显示的检修及员工信息 -->
+		<!-- 内部培训 -->
+		<if test="markTrainType_In !=null">
+			and haulemployeeout.bigId IN (#{regular_train},#{longterm_train})
+		</if>
+		<!-- 外部培训 -->
+		<if test="markTrainType_Out !=null">
+			and haulemployeeout.bigId NOT IN (#{regular_train},#{longterm_train})
+		</if>
 		
 		<if test="minusNumLeft !=null and minusNumLeft !='' ">
 			and 
@@ -542,6 +551,15 @@
 		<!-- 家庭住址 -->
 		<if test="address != null">
 			and employee_out.address like "%${address}%"
+		</if>
+		<!-- 增加标记条件判断应该显示的检修及员工信息 -->
+		<!-- 内部培训 -->
+		<if test="markTrainType_In !=null">
+			and haulemployeeout.bigId IN (#{regular_train},#{longterm_train})
+		</if>
+		<!-- 外部培训 -->
+		<if test="markTrainType_Out !=null">
+			and haulemployeeout.bigId NOT IN (#{regular_train},#{longterm_train})
 		</if>
 		
 		<if test="minusNumLeft !=null and minusNumLeft !='' ">

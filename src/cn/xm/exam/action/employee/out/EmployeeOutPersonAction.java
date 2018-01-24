@@ -88,7 +88,7 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		Map<String,Object> condition = new HashMap<String,Object>();
 		condition = generationCondition(condition);
 		result = new HashMap<String,Object>();
-		List<Map<String, Object>> departmentAndOverHaulTree = null ;
+		List<Map<String, Object>> departmentAndOverHaulTree = null ;				
 		try {
 			departmentAndOverHaulTree = employeeOutService.getDepartmentAndOverHaulTree(condition);
 		} catch (Exception e) {

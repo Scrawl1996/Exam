@@ -59,7 +59,7 @@ function showEmployeeBaseInfo(data) {
 		
 		var index = i + 1;
 		showEmployeeOutBaseInfoList += "<tr>" +
-				"<td><input type='radio' name='el_chooseEmp' class='el_checks' vaule='"+ employeeOutBaseInfoList[i].idcard+ "'/></td>" +
+				"<td><input type='radio' name='el_chooseEmp' class='el_checks' vaule='"+ employeeOutBaseInfoList[i].idCard+ "'/></td>" +
 				"<td>"+ (index + (data.pageBean.currentPage - 1) * 8)
 				+ "<input class='find_employeeOutBirthday' type='hidden' value='"
 				+ employeeOutBaseInfoList[i].birthday

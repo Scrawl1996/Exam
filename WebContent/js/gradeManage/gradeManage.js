@@ -26,7 +26,8 @@ function searchExamGradeInfo(){
 function findExamGradeInfo(){
 	$("#operation").show();
 	$("#departmentName").hide();
-	$(".prompt").hide();
+	$(".dept").hide();
+	$(".exam").show();
 	$.ajax({
 		url : 'examGrade_findExamGradesInfoWithCondition.action',
 		data : $("#form_findExamGradesInfo").serialize(),
@@ -435,7 +436,8 @@ $(function(){
 function findUnitExamGradeInfo(){
 	$("#departmentName").show();
 	$("#operation").hide();	
-	$(".prompt").show();
+	$(".dept").show();
+	$(".exam").hide();
 	$.ajax({
 		url : basePathUrl+'/examGrade_getUnitExamGradesByCondition.action',
 		data : $("#form_findExamGradesInfo").serialize(),
