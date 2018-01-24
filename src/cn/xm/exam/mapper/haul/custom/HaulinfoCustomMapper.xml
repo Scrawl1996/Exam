@@ -61,6 +61,14 @@
 		<if test="startMonth!=null">
 			and DATE_FORMAT(bigCreateDate,'%Y-%m')=#{startMonth}
 		</if>
+		<if test="markTrainType_In !=null">
+			and bigid IN (#{regular_train},#{longterm_train})
+		</if>
+		<!-- 外部培训 -->
+		<if test="markTrainType_Out !=null">
+			and bigid NOT IN
+			(#{regular_train},#{longterm_train})
+		</if>
 	</sql>
 	<!--E 组装查询条件 -->
 	<!--S 分页条件 -->

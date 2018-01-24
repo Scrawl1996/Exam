@@ -62,10 +62,9 @@ function geneDepartmentTree(departmentTrees) {
 		},
 		check : {
 			enable : true,
-			/*chkboxType : {
-				"Y" : "",
-				"N" : ""
-			}*/
+			/*
+			 * chkboxType : { "Y" : "", "N" : "" }
+			 */
 			chkStyle: "radio",
 			radioType: "all"
 		},
@@ -86,7 +85,8 @@ function geneDepartmentTree(departmentTrees) {
 		}
 	};
 	var treeNodes = departmentTrees;
-	$.fn.zTree.init($("#treeDemo_permission"), setting, treeNodes);
+	$.fn.zTree.init($("#treeDemo_permission"), setting, treeNodes);//生成分配树
+	$.fn.zTree.init($("#reDistribueTree"), setting, treeNodes);//生成二次分配树
 }
 // 鼠标点击树事件(打印点击的id与名字)
 function zTreeOnClick(event, treeId, treeNode) {
@@ -234,6 +234,8 @@ function showFenpeiTable(response) {
 				+ distributeinfos[i].bigid + '"/>'
 				+ '<input type="hidden" class="unitid" value="'
 				+ distributeinfos[i].unitid + '"/>'
+				+ '<input type="hidden" class="employeeid" value="'
+				+ distributeinfos[i].employeeid + '"/>'
 				+ '<input type="hidden" class="haulempid" value="'
 				+ distributeinfos[i].haulempid + '"/>';
 		str += '</td></tr>';
@@ -353,10 +355,9 @@ function geneDepartmentTree1(departmentTrees) {
 		},
 		check : {
 			enable : true,
-			/*chkboxType : {
-				"Y" : "",
-				"N" : ""
-			}*/
+			/*
+			 * chkboxType : { "Y" : "", "N" : "" }
+			 */
 			chkStyle: "radio",
 			radioType: "all"
 		},
@@ -480,8 +481,12 @@ function selectFenpeiInfo() {
 	// 动态显示与隐藏重新发放
 	if (distributeStatus == '5') {
 		$("#reGeberateWord").css("display", "");
+		$("#reDistributeDepart").css("display", "");
+		$("#reDistributeUnit").css("display", "");
 	} else {
 		$("#reGeberateWord").css("display", "none");
+		$("#reDistributeDepart").css("display", "none");
+		$("#reDistributeUnit").css("display", "none");
 	}
 	$("[name='distributeStatus']").val(distributeStatus);
 	queryDistributeInfo();
@@ -489,6 +494,12 @@ function selectFenpeiInfo() {
 
 /** ************清空的方法********** */
 function clearQueryInfo() {
+	// 判断当前是否有树选中
+	var value = $("#query_bigId").val();
+	// 清除选中的节点
+	if(value!=""){
+		$(".curSelectedNode").removeClass("curSelectedNode");
+	}
 	$(".clearInput").val("");
 }
 
@@ -558,7 +569,7 @@ function exportEmployeeOutInfo() {
 			function(response) {
 				alert(response.result);
 				if(response.result=="生成工作证成功!"){
-					//关闭模态框并查询
+					// 关闭模态框并查询
 					$("#el_empCardModel").modal("hide");
 					queryDistributeInfo();
 				}
@@ -622,7 +633,7 @@ function revokeEmployeeOutInfo() {
 			function(response) {
 				alert(response.result);
 				if(response.result=="回收工作证成功!"){
-					//关闭模态框并查询
+					// 关闭模态框并查询
 					$("#el_empCardModel1").modal("hide");
 					queryDistributeInfo();
 				}
@@ -631,3 +642,307 @@ function revokeEmployeeOutInfo() {
 	
 	
 }
+
+
+/** *************************S 二次分配相关操作**************************** */
+function reDstributeDepart(){
+	var chooseEmpNum = 0;// 判断是否有员工被选中
+	$(".el_checks").each(function() { // 获取选择的员工
+		if ($(this).prop("checked")) {// 如果选中。。。
+			chooseEmpNum++;
+		}
+	})
+
+	if (chooseEmpNum != 0) {
+		$("#reDistributeDepartModal").modal();
+
+	} else {
+		alert("请先选择员工！")
+	}
+}
+function saveReDis(){
+	// 1.根据树获取选中的节点的ID
+	var reDistributeDepartmentId="";
+    var treeObj = $.fn.zTree.getZTreeObj("reDistribueTree");
+    /** 获取所有树节点 */
+    var nodes = treeObj.transformToArray(treeObj.getNodes());
+    //获取选中的节点
+    for (var k = 0, length_3 = nodes.length; k < length_3; k++) {
+            if(nodes[k].checked==true){
+            	reDistributeDepartmentId = nodes[k].departmentId;
+            }
+    }
+	if(reDistributeDepartmentId == ""){
+		alert("分配部门不能为空!");
+		return ;
+	}
+	// 2.拼接表单
+	var checkedEmp = $("#employeeOutBaseInfoList").find(":checkBox:checked");
+	// 遍历选中的人添加到表单中
+	$("#reDistributeForm").html("");
+	checkedEmp.each(function(i) {
+
+		var outempname = $(this).parent().parent().children("td:eq(2)").html();// 姓名
+		var empoutidcard = $(this).parent().parent().children("td:eq(4)")
+				.html();// 身份证号
+		var emptype = $(this).parent().parent().children("td:eq(7)").html();// 员工工种
+		var hidden_input = $(this).parent().parent().children("td:eq(11)");
+		var bigid = hidden_input.find(".bigid").val();//大修ID
+		var unitid = hidden_input.find(".unitid").val();//单位ID
+		var empid = hidden_input.find(".employeeid").val();//员工ID
+		$("#reDistributeForm").append(
+//				拼接分配信息
+				'<input type="hidden" value="' + bigid+ '" name="employeeoutdistributes[' + i + '].bigid"/>'
+				+ '<input type="hidden" value="' + unitid+ '" name="employeeoutdistributes[' + i + '].unitid"/>'
+				+ '<input type="hidden" value="' + outempname+ '" name="employeeoutdistributes[' + i+ '].outempname"/>'
+				+ '<input type="hidden" value="'+ empoutidcard + '" name="employeeoutdistributes[' + i+ '].empoutidcard"/>' 
+				+ '<input type="hidden" value="'+ reDistributeDepartmentId + '" name="employeeoutdistributes[' + i	+ '].departmentid"/>'
+//				拼接大修员工信息
+				+ '<input type="hidden" value="'+ bigid + '" name="haulemployeeouts[' + i+ '].bigid"/>'
+				+ '<input type="hidden" value="'+ unitid + '" name="haulemployeeouts[' + i+ '].unitid"/>'
+				+ '<input type="hidden" value="'+ empid + '" name="haulemployeeouts[' + i+ '].employeeid"/>'
+				+ '<input type="hidden" value="'+ emptype + '" name="haulemployeeouts[' + i+ '].emptype"/>'
+				+ '<input type="hidden" value="'+ empoutidcard + '" name="haulemployeeouts[' + i+ '].empoutidcard"/>'
+		);
+
+	})
+	// 3.提交表单
+	$.post(baseurl + '/distribute_reDistribute.action', $("#reDistributeForm")
+			.serialize(), function(response) {
+		alert(response.result);
+		$("#reDistributeDepartModal").modal("hide");
+		if (response.result == "二次分配成功") {
+			queryDistributeInfo();
+		}
+	}, 'json')
+
+	
+}
+/** *************************E 二次分配相关操作**************************** */
+/****************************S        重新分配单位相关操作 ****/
+function reDistributeUnit(){
+	var chooseEmpNum = 0;// 判断是否有员工被选中
+	$(".el_checks").each(function() { // 获取选择的员工
+		if ($(this).prop("checked")) {// 如果选中。。。
+			chooseEmpNum++;
+		}
+	})
+
+	if (chooseEmpNum != 0) {
+		$("#reDistributeUnitModal").modal();
+
+	} else {
+		alert("请先选择员工！")
+	}
+}
+
+/*************树的相关方法******* */
+
+$(function() {
+	searchDepartmentAndOverHualTree_2();
+})
+
+/******请求树信息*******/
+
+function searchDepartmentAndOverHualTree_2() {
+	$.ajax({
+		type : "post",
+		data:{"markTrainType":"1"},
+		dataType : "json",
+		url : "employeeOutPerson_getDepartmentAndOverHaulTree.action",
+		success : getTree_2,
+		error : function() {
+			alert("请求树失败！");
+		}
+	});
+}
+
+/** **生成树信息** */
+function getTree_2(treeList2) {
+	var treeList3 = treeList2.departmentAndOverHaulTree;
+	var setting = {
+		data : {
+			simpleData : {
+				enable : true,
+				idKey : "id",
+				pIdKey : "upid",
+				rootPId : null,
+			},
+			key : {
+				name : "name",
+			}
+		},
+		callback : {
+			onClick : onClick_reDistributeTree
+		}
+	};
+	var zNodes = treeList3;
+	// 添加 树节点的 点击事件；
+	$.fn.zTree.init($("#departmentAndOverHaulTree_modal"), setting, zNodes);
+}
+
+function onClick_reDistributeTree(event, treeId, treeNode){
+	if(treeNode.level==1){
+		$("#input_reDisUnit").val(treeNode.name);
+		$("#input_reDisUnit").removeAttr("placeholder");
+		$("#reDisUnitUnitId").val(treeNode.id);
+		$("#reDisUnitBigId").val(treeNode.upid);
+	}
+}
+
+/**
+ * 保存二次分配单位信息
+ */
+function saveReDisUnit(){
+	// 1.根据树获取选中的节点的ID
+	var reDisUnitUnitId = $("#reDisUnitUnitId").val();
+	var reDisUnitBigId = $("#reDisUnitBigId").val();
+	if(reDisUnitUnitId==""||reDisUnitBigId==""){
+		alert("重新分配的单位不能为空!")
+		return;
+	}
+	
+	// 2.拼接表单
+	var checkedEmp = $("#employeeOutBaseInfoList").find(":checkBox:checked");
+	// 遍历选中的人添加到表单中
+	$("#reDistributeUnitForm").html("");
+	checkedEmp.each(function(i) {
+
+		var outempname = $(this).parent().parent().children("td:eq(2)").html();// 姓名
+		var empoutidcard = $(this).parent().parent().children("td:eq(4)")
+				.html();// 身份证号
+		var emptype = $(this).parent().parent().children("td:eq(7)").html();// 员工工种
+		var hidden_input = $(this).parent().parent().children("td:eq(11)");
+		var empid = hidden_input.find(".employeeid").val();//员工ID
+		$("#reDistributeUnitForm").append(
+//				拼接分配信息
+				'<input type="hidden" value="' + reDisUnitBigId+ '" name="employeeoutdistributes[' + i + '].bigid"/>'
+				+ '<input type="hidden" value="' + reDisUnitUnitId+ '" name="employeeoutdistributes[' + i + '].unitid"/>'
+				+ '<input type="hidden" value="' + outempname+ '" name="employeeoutdistributes[' + i+ '].outempname"/>'
+				+ '<input type="hidden" value="'+ empoutidcard + '" name="employeeoutdistributes[' + i+ '].empoutidcard"/>' 
+//				拼接大修员工信息
+				+ '<input type="hidden" value="'+ reDisUnitBigId + '" name="haulemployeeouts[' + i+ '].bigid"/>'
+				+ '<input type="hidden" value="'+ reDisUnitUnitId + '" name="haulemployeeouts[' + i+ '].unitid"/>'
+				+ '<input type="hidden" value="'+ empid + '" name="haulemployeeouts[' + i+ '].employeeid"/>'
+				+ '<input type="hidden" value="'+ emptype + '" name="haulemployeeouts[' + i+ '].emptype"/>'
+				+ '<input type="hidden" value="'+ empoutidcard + '" name="haulemployeeouts[' + i+ '].empoutidcard"/>'
+		);
+
+	})
+	// 3.提交表单
+	$.post(baseurl + '/distribute_reDistributeUnit.action', $("#reDistributeUnitForm")
+			.serialize(), function(response) {
+		alert(response.result);
+		$("#reDistributeUnitModal").modal("hide");
+		if (response.result == "分配单位成功") {
+			window.location.reload();
+		}
+	}, 'json')
+
+	
+}
+
+
+
+
+
+
+
+/****************************E       重新分配单位相关操作 ****/
+
+/** *********************外来单位的员工的培训档案********************* */
+function lookTrainInfo() {
+	if ($(".el_checks:checked").length == "0") {
+		alert("请选择要查看的员工！");
+		return;
+	} 
+	if($(".el_checks:checked").length > 1){
+		alert("请选择一个员工进行查看！");
+	}else {
+		var employeeOutIdCard = $(".el_checks:checked").parents("tr").children("td:eq(4)").text();
+		// 分页显示员工的培训档案
+		showEmployeeOutExamsInfoList(employeeOutIdCard, 1, 8);
+	}
+}
+
+// 员工培训档案分页显示
+function showEmployeeOutExamsInfoList(employeeOutIdCard, currentPage,
+		totalCount) {
+	$.ajax({
+		url : "employeeOutPerson_getExamsInfoByEmployeeOutIdCardLimit.action",
+		data : {
+			"employeeOutIdCard" : employeeOutIdCard,
+			"currentPage" : currentPage,
+			"currentCount" : totalCount
+		},
+		dataType : "json",
+		type : "post",
+		success : function(data) {
+			var examInfoList = data.pageBean.productList;
+			var showExamInfoList = "";
+			$("#employeeOutExamInfos").empty();
+			for (var i = 0; i < examInfoList.length; i++) {
+				var index = i + 1;
+				showExamInfoList = "<tr><td>"
+						+ (index + (data.pageBean.currentPage - 1) * 8)
+						+ "</td><td>"
+						+ examInfoList[i].bigName
+						+ "</td><td>"
+						+ examInfoList[i].employeeOutType
+						+ "</td><td>"
+						+ examInfoList[i].examName
+						+ "</td><td>"
+						+ examInfoList[i].level.toString().replace("1", "厂级")
+								.replace("2", "部门级").replace("3", "班组级")
+						+ "</td><td>"
+						+ Format(new Date(examInfoList[i].startTime.replace(
+								/T/g, " ").replace(/-/g, "/")),
+								"yyyy-MM-dd HH:mm")
+						+ "到"
+						+ Format(new Date(examInfoList[i].endTime.replace(/T/g,
+								" ").replace(/-/g, "/")), "yyyy-MM-dd HH:mm")
+						+ "</td><td>" + examInfoList[i].paperScore
+						+ "</td><td>" + examInfoList[i].grade 						
+						+ "</td><td>" + examInfoList[i].isPass 
+						+ "</td><td>" + examInfoList[i].xueshi
+						+ "</td><td>" + examInfoList[i].traincontent
+						+ "</td></tr>";
+				$("#employeeOutExamInfos").append(showExamInfoList);
+			}
+			// 当前页
+			var currentPage = data.pageBean.currentPage;
+			// 总条数
+			var totalCount = data.pageBean.totalCount;
+			// 调用分页函数
+			trainStatus_page(currentPage, totalCount, employeeOutIdCard);
+
+			$('#el_empTrainDoc_1').modal();
+		}
+	});
+}
+//培训档案的分页函数
+function trainStatus_page(currentPage, totalCount, employeeOutIdCard) {
+	$('#paginationID2').pagination(
+			{
+				// 组件属性
+				"total" : totalCount,// 数字 当分页建立时设置记录的总数量 1
+				"pageSize" : 8,// 数字 每一页显示的数量 10
+				"pageNumber" : currentPage,// 数字 当分页建立时，显示的页数 1
+				"pageList" : [ 8 ],// 数组 用户可以修改每一页的大小，
+				// 功能
+				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
+						'last', 'links' ],
+				"onSelectPage" : function(pageNumber, b) {
+					// 设置当前页，当前页显示条数
+					showEmployeeOutExamsInfoList(employeeOutIdCard, pageNumber,
+							b);
+				}
+			});
+}
+
+
+
+
+
+
+

@@ -177,7 +177,7 @@ function showHaulTable(response) {
 // 显示分页
 function page(currentPage, totalCount, currentCount) {
 	// 修改分页的基本属性
-	$('#paginationIDU3').pagination(
+	$('#paginationIDU').pagination(
 			{
 				// 组件属性
 				"total" : totalCount,// 数字 当分页建立时设置记录的总数量 1
@@ -519,7 +519,7 @@ function addOneBiaoduan() {
 	// 提示用户输入信息的框
 	var name = prompt("请输入标段名字");
 	var trs = $("#updatebiaoduanTbody").children("tr");
-	var canAdd= false ; 
+	var canAdd= trs.length == 0?true:false ; 
 	// 判断此标段名称是否在下面存在
 	for (var i = 0; i < trs.length; i++) {
 		if (name == $(trs[i]).children("td:eq(1)").text()) {

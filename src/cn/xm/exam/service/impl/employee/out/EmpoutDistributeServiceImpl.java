@@ -11,10 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.xm.exam.bean.employee.out.Employeeoutdistribute;
+import cn.xm.exam.bean.haul.Haulemployeeout;
 import cn.xm.exam.bean.system.User;
+import cn.xm.exam.mapper.employee.out.EmployeeoutdistributeMapper;
 import cn.xm.exam.mapper.employee.out.custom.EmpoutDistributeCustomMapper;
+import cn.xm.exam.mapper.haul.HaulemployeeoutMapper;
 import cn.xm.exam.service.employee.out.EmpoutDistributeService;
 import cn.xm.exam.utils.PageBean;
+import cn.xm.exam.utils.UUIDUtil;
 import cn.xm.exam.utils.ValidateCheck;
 
 @Service
@@ -108,6 +112,91 @@ public class EmpoutDistributeServiceImpl implements EmpoutDistributeService {
 			this.addFenpeiInfoBatch(fenpeis);
 		}
 		return true;
+	}
+	/**************二次分配信息***************/
+	@Autowired
+	private HaulemployeeoutMapper haulemployeeoutMapper;
+	@Autowired
+	private EmployeeoutdistributeMapper employeeoutdistributeMapper;
+	@Override
+	public boolean addSecondFenpeiInfoBatch(List<Haulemployeeout> haulemployeeouts,
+			List<Employeeoutdistribute> employeeoutdistributes) throws SQLException{
+		if(haulemployeeouts==null || employeeoutdistributes==null){
+			return false;
+		}
+		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
+		String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
+		Haulemployeeout haulemployeeout=null;
+		Employeeoutdistribute employeeoutdistribute=null;
+		String haulEmpId = null;
+		for(int i=0,length=haulemployeeouts.size();i<length;i++){
+			haulemployeeout = haulemployeeouts.get(i);
+			employeeoutdistribute=employeeoutdistributes.get(i);
+			haulEmpId = UUIDUtil.getUUID2();
+			haulemployeeout.setBigemployeeoutid(haulEmpId);
+			haulemployeeout.setTrainstatus("0");
+			
+			//1.插入大修员工信息
+			haulemployeeoutMapper.insert(haulemployeeout);
+			//2.插入分配信息
+			employeeoutdistribute.setHaulempid(haulEmpId);
+			//2.1判断分配的部门等级
+			//2.1.1如果是三级部门
+			if (employeeoutdistribute.getDepartmentid().length() == 8) {
+				//添加三级
+				employeeoutdistribute.setEmpoutexamstatus("0");
+				employeeoutdistribute.setEmpouttraingrade("3");
+				employeeoutdistributeMapper.insert(employeeoutdistribute);
+				//添加2级
+				employeeoutdistribute.setEmpoutexamstatus("1");
+				employeeoutdistribute.setEmpouttraingrade("2");
+				employeeoutdistribute.setDepartmentid(departmentIdSession);
+				employeeoutdistributeMapper.insert(employeeoutdistribute);
+			}
+			//2.1.2如果是二级部门
+			if (employeeoutdistribute.getDepartmentid().length() == 5 && !"01002".equals(employeeoutdistribute.getDepartmentid())) {
+				//添加2级
+				employeeoutdistribute.setEmpoutexamstatus("0");
+				employeeoutdistribute.setEmpouttraingrade("2");
+				employeeoutdistributeMapper.insert(employeeoutdistribute);
+			}
+			//添加1级
+			employeeoutdistribute.setEmpoutexamstatus("1");
+			employeeoutdistribute.setEmpouttraingrade("1");
+			employeeoutdistribute.setDepartmentid("01002");
+			employeeoutdistributeMapper.insert(employeeoutdistribute);
+		}
+		return  true;
+	}
+
+	
+	/*****二次分配班组信息*********/
+	@Override
+	public boolean addSecondFenpeiUnitBatch(List<Haulemployeeout> haulemployeeouts,
+			List<Employeeoutdistribute> employeeoutdistributes) throws SQLException {
+		if(haulemployeeouts==null || employeeoutdistributes==null){
+			return false;
+		}
+		Haulemployeeout haulemployeeout=null;
+		Employeeoutdistribute employeeoutdistribute=null;
+		String haulEmpId="";
+		for(int i=0,length=haulemployeeouts.size();i<length;i++){
+			haulemployeeout = haulemployeeouts.get(i);
+			employeeoutdistribute=employeeoutdistributes.get(i);
+			//1.向检修单位员工中添加一条记录
+			haulEmpId = UUIDUtil.getUUID2();
+			haulemployeeout.setBigemployeeoutid(haulEmpId);//设置大修员工ID
+			haulemployeeout.setTrainstatus("0");
+			haulemployeeoutMapper.insert(haulemployeeout);
+			//2.分配表中加一条记录
+			employeeoutdistribute.setHaulempid(haulEmpId);
+			employeeoutdistribute.setEmpoutexamstatus("1");
+			employeeoutdistribute.setEmpouttraingrade("1");
+			employeeoutdistribute.setDepartmentid("01002");
+			employeeoutdistributeMapper.insert(employeeoutdistribute);
+		}
+		return true;
+		
 	}
 
 }
