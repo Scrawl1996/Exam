@@ -141,7 +141,7 @@ public class EmpoutDistributeServiceImpl implements EmpoutDistributeService {
 			//2.插入分配信息
 			employeeoutdistribute.setHaulempid(haulEmpId);
 			//2.1判断分配的部门等级
-			//2.1.1如果是三级部门
+			//2.1.1如果充分的是三级部门
 			if (employeeoutdistribute.getDepartmentid().length() == 8) {
 				//添加三级
 				employeeoutdistribute.setEmpoutexamstatus("0");
@@ -154,7 +154,7 @@ public class EmpoutDistributeServiceImpl implements EmpoutDistributeService {
 				employeeoutdistributeMapper.insert(employeeoutdistribute);
 			}
 			//2.1.2如果是二级部门
-			if (employeeoutdistribute.getDepartmentid().length() == 5 && !"01002".equals(employeeoutdistribute.getDepartmentid())) {
+			if (departmentIdSession.length() == 5 && "01002".equals(departmentIdSession)) {
 				//添加2级
 				employeeoutdistribute.setEmpoutexamstatus("0");
 				employeeoutdistribute.setEmpouttraingrade("2");

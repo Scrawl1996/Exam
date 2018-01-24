@@ -188,6 +188,7 @@ function trainStatus_page(currentPage, totalCount, employeeOutIdCard) {
 
 /** *********************点击查询表单的清空按钮执行的操作********************* */
 function clearQueryInfo() {
+	$(".curSelectedNode").removeClass("curSelectedNode");
 	// 清空隐藏域中的大修和部门信息
 	$("#query_bigId").val('');
 	$("#query_unitId").val('');
