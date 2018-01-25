@@ -227,3 +227,94 @@ function deleteSubmit() {
 				}
 			}, 'json');
 }
+
+//ll
+/*****************黑名单员工管理*******************/
+
+$(function(){
+	findBlackListEmpInfo(1,8);
+});
+
+//查询黑名单员工信息
+function findBlackListEmpInfo(currentPage,currentCount){
+	$.ajax({
+		url:contextPath +"/blackListEmpOut_findBlackListEmpOutInfo.action",
+		dataType:"json",
+		type:"post",
+		data:{"currentPage":currentPage,
+			  "currentCount":currentCount
+		},
+		success:showBlackListInfo
+	})
+}
+
+function showBlackListInfo(data){
+	var result = data;
+	//当前页显示条数
+	var currentCount = result.pageBean.currentCount;
+	//当前页
+	var currentPage = result.pageBean.currentPage;
+	//从数据库中查询出来的数据集合
+	var blackListInfo = result.pageBean.productList;
+	var showBlackListInfoInfoStr = "";
+	if(blackListInfo != null){
+		for(var i=0;i<blackListInfo.length;i++){
+			var index = (currentPage - 1) * currentCount + i + 1;
+			showBlackListInfoInfoStr +="<tr><td>"										
+									    +index+"</td><td>"									
+										+blackListInfo[i].name+"</td><td>"
+										+(blackListInfo[i].sex>1?'女':'男')+"</td><td>"																		
+										+blackListInfo[i].time.substring(0,10)+"</td><td>"																									
+										+'<a href="javascript:void(0)" onclick="deleteBlackInfo('+blackListInfo[i].id+')" title="删除此单位"><span class="glyphicon glyphicon-trash"></span></a><br />'
+										+"</td></tr>";	
+				
+		}
+		//清空表格
+		$("#blackEmpInfolist").empty();
+		//添加信息
+		$("#blackEmpInfolist").append(showBlackListInfoInfoStr);
+		
+		
+		//总条数
+		var totalCount = result.pageBean.totalCount;
+		
+		//调用分页函数
+		fenye(currentPage,totalCount,currentCount);
+	}
+}
+
+/** *************************分页******************************* */
+function fenye(currentPage,totalCount,currentCount) {
+	$('#paginationID').pagination(
+			{
+				// 组件属性
+				"total" : totalCount,// 数字 当分页建立时设置记录的总数量 1
+				"pageSize" : currentCount,// 数字 每一页显示的数量 10
+				"pageNumber" : currentPage,// 数字 当分页建立时，显示的页数 1
+				"pageList" : [8],// 数组 用户可以修改每一页的大小，
+				// 功能
+				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
+						'last', 'links' ],
+				"onSelectPage" : function(currentPage, b) {					
+					findBlackListEmpInfo(currentPage,b);
+				}
+			});
+}
+
+//删除操作
+function deleteBlackInfo(blackId){
+	var isdelete = confirm("您确定要将这个员工从黑名单中删除掉吗？");
+	if(isdelete){
+		$.ajax({
+			url:contextPath +"/blackListEmpOut_deleteBlackListInfo.action",
+			dataType:"json",
+			type:"post",
+			data:{"blackId":blackId				  
+			},
+			success:function(data){
+				alert(data.result);
+				findBlackListEmpInfo(1,8);
+			}
+		})
+	}
+}

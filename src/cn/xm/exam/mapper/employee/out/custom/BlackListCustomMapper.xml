@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xm.exam.mapper.employee.out.custom.BlackListCustomMapper">
+
+
+	<!-- 查询黑名单单位信息分页显示 -->
+	<select id="getBlackEmployeeListInfo" parameterType="map" resultType="map">
+		SELECT
+			blacklist.*, (SELECT `name` FROM employee_out WHERE blackIdcard = idCode) AS `name`,
+			(SELECT `sex` FROM employee_out WHERE blackIdcard = idCode) AS `sex`
+		FROM
+			`blacklist`
+		<where>
+			<include refid="query_blackListInfo_where"></include>
+		</where>
+		ORDER BY time DESC
+		<include refid="query_blackList_limit"></include>		
+	</select>
+	
+	<!-- 查询条件 -->
+	<sql id="query_blackListInfo_where">
+		<if test="1==1">
+			and temporaryInStatus = 1
+			AND employeeStatus = 1
+		</if>
+	</sql>
+	<!-- 分页 -->
+	<sql id="query_blackList_limit">
+		<if test="index != null">
+			limit #{index},#{currentCount}
+		</if>
+	</sql>
+	
+	<!-- 根据员工ID删除当前年的违章信息 -->
+	<delete id="deleteBreakRulesInfo" parameterType="String">
+		DELETE FROM breakrules WHERE employeeid= #{value} AND breaktime LIKE CONCAT(YEAR(CURDATE()),'%')
+	</delete>
+	
+</mapper>

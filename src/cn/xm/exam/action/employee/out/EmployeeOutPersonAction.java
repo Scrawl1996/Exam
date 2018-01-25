@@ -84,6 +84,10 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	private String address;
 	//大修状态标记 1表示查看所有检修
 	private String bigStatusMark;
+	//年龄段左侧
+	private String ageLeft;
+	//年龄端右侧
+	private String ageRight;
 	
 	
 	//初始化大修部门树
@@ -333,6 +337,15 @@ public class EmployeeOutPersonAction extends ActionSupport{
 			condition.put("address", address);
 		}
 		
+		//年龄段左侧数据
+		if(ValidateCheck.isNotNull(ageLeft)){
+			condition.put("age_left", ageLeft);
+		}
+		//年龄段右侧数据
+		if(ValidateCheck.isNotNull(ageRight)){
+			condition.put("age_right", ageRight);
+		}
+		
 		if(ValidateCheck.isNotNull(bigStatusMark)){
 			//1表示查询所有的检修
 			if(bigStatusMark.equals("1")){				
@@ -580,6 +593,22 @@ public class EmployeeOutPersonAction extends ActionSupport{
 
 	public void setBigStatusMark(String bigStatusMark) {
 		this.bigStatusMark = bigStatusMark;
+	}
+
+	public String getAgeLeft() {
+		return ageLeft;
+	}
+
+	public void setAgeLeft(String ageLeft) {
+		this.ageLeft = ageLeft;
+	}
+
+	public String getAgeRight() {
+		return ageRight;
+	}
+
+	public void setAgeRight(String ageRight) {
+		this.ageRight = ageRight;
 	}
 
 	
