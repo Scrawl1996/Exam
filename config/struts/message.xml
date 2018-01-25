@@ -6,7 +6,7 @@
 	<package name="message" extends="json-default,struts-default" namespace="/">
 	
 		<action name="message_*" class="messageAction" method="{1}">
-			<result type="success">
+			<result type="json">
 				<param name="root">response</param>
 			</result>
 		</action>

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -16,6 +17,7 @@ import cn.xm.exam.service.common.MessageService;
 import cn.xm.exam.utils.ValidateCheck;
 
 @Controller
+@Scope("prototype")
 @SuppressWarnings("all")
 public class MessageAction extends ActionSupport {
 
@@ -29,7 +31,7 @@ public class MessageAction extends ActionSupport {
 	 * 查询未读的消息
 	 * @return
 	 */
-	private String getUnreadMessageByEmpType(){
+	public String getUnreadMessageByEmpType(){
 		response = new HashMap();
 		List<Message> messages = null;
 		try {
@@ -45,7 +47,7 @@ public class MessageAction extends ActionSupport {
 		return SUCCESS;
 		
 	}
-	private String updateMessageByMessageId(){
+	public String updateMessageByMessageId(){
 		response = new HashMap();
 		String result=null;
 		try {
