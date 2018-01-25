@@ -43,6 +43,8 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 	@Resource
 	private EmpoutDistributeService empoutDistributeService;
 	private String markTrainType;// 标记外来还是内部常委
+	//大修状态标记 1表示查看所有检修
+	private String bigStatusMark;
 
 	/**
 	 * 跟句当前用户的ID查询大修单位数
@@ -69,6 +71,14 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 				condition.put("regular_train", DefaultValue.REGULAR_EMPLOYEE_TRAIN);
 				// 长委新员工培训大修ID
 				condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
+			}
+			if(ValidateCheck.isNotNull(bigStatusMark)){
+				//1表示查询所有的检修
+				if(bigStatusMark.equals("1")){				
+					condition.put("bigStatus", null);
+				}else{
+					condition.put("bigStatus", "已结束");
+				}
 			}
 			haulunitTree = empoutDistributeService.getHaulunitTreeByDepartmentId(condition);
 		} catch (SQLException e) {
@@ -168,6 +178,14 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			condition.put("regular_train", DefaultValue.REGULAR_EMPLOYEE_TRAIN);
 			// 长委新员工培训大修ID
 			condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
+		}
+		if(ValidateCheck.isNotNull(bigStatusMark)){
+			//1表示查询所有的检修
+			if(bigStatusMark.equals("1")){				
+				condition.put("bigStatus", null);
+			}else{
+				condition.put("bigStatus", "已结束");
+			}
 		}
 		if (ValidateCheck.isNotNull(unitId)) {
 			condition.put("unitId", unitId);
@@ -483,6 +501,14 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 
 	public void setHaulemployeeouts(List<Haulemployeeout> haulemployeeouts) {
 		this.haulemployeeouts = haulemployeeouts;
+	}
+
+	public String getBigStatusMark() {
+		return bigStatusMark;
+	}
+
+	public void setBigStatusMark(String bigStatusMark) {
+		this.bigStatusMark = bigStatusMark;
 	}
 	
 

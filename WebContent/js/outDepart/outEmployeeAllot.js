@@ -1,5 +1,5 @@
 $(function() {
-	searchDepartmentAndOverHualTree();
+	searchDepartmentAndOverHualTree(0);
 	queryDistributeInfo();
 	// 树d信息
 	searchDepartmentTree();
@@ -105,13 +105,12 @@ function onCheck(event, treeId, treeNode) {
 
 /** *********************请求树信息********************* */
 
-function searchDepartmentAndOverHualTree() {
-	$
-			.ajax({
+function searchDepartmentAndOverHualTree(bigStatus) {
+	$.ajax({
 				type : "post",
 				target : "#departmentAndOverHaulTree",
 				dataType : "json",
-				url : "distribute_getHaulunitTreeByDepartmentId.action?markTrainType=1",
+				url : "distribute_getHaulunitTreeByDepartmentId.action?markTrainType=1&bigStatusMark="+bigStatus,
 				success : getTree_1,
 				error : function() {
 					alert("请求树失败！");
@@ -940,6 +939,16 @@ function trainStatus_page(currentPage, totalCount, employeeOutIdCard) {
 			});
 }
 
+/************************S   历史检修和当前检修*******************************/
+//根据标记查询大修信息
+function historyBigInfoFind(){
+	//获取当前的大修标记状态
+	var mark = $("#el_bigStatusMark").val();
+	//设置到隐藏域中
+	$("#bigStatus_Mark").val(mark);
+	searchDepartmentAndOverHualTree(mark);
+	queryDistributeInfo();
+}
 
 
 

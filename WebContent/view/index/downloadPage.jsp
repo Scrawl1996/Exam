@@ -163,9 +163,14 @@ body {
 			<nav class="cl-effect-2"> <a href="javascript:void(0)"
 				onclick="down(1)"><span data-hover="谷歌（Chrome）">谷歌（Chrome）</span></a>
 			<a href="javascript:void(0)" onclick="down(2)"><span
-				data-hover="火狐（Firefox）">火狐（Firefox）</span></a> <a
-				href="javascript:void(0)" onclick="down(3)"><span
-				data-hover="操作手册">操作手册</span></a> </nav>
+				data-hover="火狐（Firefox）">火狐（Firefox）</span></a>
+				 <a	href="javascript:void(0)" onclick="down(3)"><span data-hover="操作手册">操作手册</span></a> 
+				 <a	href="javascript:void(0)" onclick="down(4)"><span data-hover="格式化工厂">格式化工厂</span></a> 
+				 <a	href="javascript:void(0)" onclick="down(5)"><span data-hover="判卷机软件">判卷机软件</span></a> 
+				 <a	href="javascript:void(0)" onclick="down(6)"><span data-hover="视频转换软件">视频转换软件</span></a> 
+				
+				
+			</nav>
 		</div>
 	</div>
 

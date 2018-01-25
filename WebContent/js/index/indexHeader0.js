@@ -41,12 +41,10 @@ function initModal() {
 	// 判断是否是直接访问主页
 	var u = location.pathname;
 	u = u.substring(6, u.length);
-	if (!denglu && (u.length==29||u=="") ) {
-		if($("#el_userType").find("[value='3']").length==0){
+	if (!denglu && (u.length == 29 || u == "")) {
+		if ($("#el_userType").find("[value='3']").length == 0) {
 			$("#el_userType").append('<option value="3">学员</option>');
 		}
-		$("#closeModal").css("display","none");
-		$("#myModal").modal("show");
 	}
 }
 function Enter_login() {
@@ -67,62 +65,93 @@ function login() {
 	if ($("#el_userType").val() == "3") {
 		var username_q = $("#form_username").val();
 		var password_q = $("#form_password").val();
-		if (username_q == "学员" && password_q == "123456") {
-			$("#myModal").modal("hide");
-			$("#el_userType option[value='3']").remove();
-			$("#closeModal").css("display", "block");
-		} else {
-			alert("账号或者密码错误");
+		if (username_q == "" || password_q == "") {
+			alert("用户名或密码不能为空!")
+			return;
 		}
-		return;
-	}
-	var res = true;
-	if (login_number > 0) {
-		res = verifyCode.validate(document.getElementById("code_input").value);
-	}
-	if (res) {
+		// ajax从字典获取账号密码
 		$.ajax({
-			url : "/Exam/user_login.action",
-			data : $("#el_form").serialize(),
-			type : "POST",
-			dataType : "json",
-			success : function(data) {
-				var login_result = data.login_result;
-				var user_type = data.user_type;
-				var login_url;
-				if ('2' == user_type) {
-					login_url = data.login_url;
+			url : contextPath + '/dic_getDicNamesAndIdByUpid.action',
+			data : {
+				"upId" : "500"
+			},
+			type : "post",
+			success : function(response) {
+				var users = response.names;
+				if (users == null||users.length==0) {
+					alert("账号未开放，请联系管理员!");
+					return;
 				}
-				switch (login_result) {
-				case 'error001':
-					alert("该账号不存在");
-					login_error();
-					break;
-				case 'error002':
-					alert("密码错误");
-					login_error();
-					break;
-				case 'error003':
-					alert("该账号没有任何权限，不能使用该系统，请先分配角色");
-					login_error();
-					break;
-				case 'error':
-					alert("未知错误");
-					login_error();
-					break;
-				case 'success_employee':
-					window.location.href = baseUrlPath
-							+ "/view/lineExam/examInterface.jsp";
-					break;
-				case 'success_manager':
-					window.location.href = baseUrlPath + "/view/" + login_url;
-					break;
+				for (var i = 0, length_1 = users.length; i < length_1; i++) { // 登录成功
+					if (username_q == users[i].dictionaryname
+							&& password_q == users[i].discription) {
+						$("#myModal").modal("hide");
+						$("#el_userType option[value='3']").remove();
+						$("#closeModal").css("display", "block");
+						initKnowledgeType();
+						// 页面加载的时候初始化页面的数据
+						initPageData();
+						$(".el_navUL").css("display", "none");
+						$("#showMessage").css("display", "none");
+						return;
+					}
 				}
-			}
-		})
+				alert("账户或者密码错误!");
+			},
+			dataType : 'json'
+		});
+
 	} else {
-		alert("验证码错误")
-		$("#code_input").val('');
+		var res = true;
+		if (login_number > 0) {
+			res = verifyCode
+					.validate(document.getElementById("code_input").value);
+		}
+		if (res) {
+			$.ajax({
+				url : "/Exam/user_login.action",
+				data : $("#el_form").serialize(),
+				type : "POST",
+				dataType : "json",
+				success : function(data) {
+					var login_result = data.login_result;
+					var user_type = data.user_type;
+					var login_url;
+					if ('2' == user_type) {
+						login_url = data.login_url;
+					}
+					switch (login_result) {
+					case 'error001':
+						alert("该账号不存在");
+						login_error();
+						break;
+					case 'error002':
+						alert("密码错误");
+						login_error();
+						break;
+					case 'error003':
+						alert("该账号没有任何权限，不能使用该系统，请先分配角色");
+						login_error();
+						break;
+					case 'error':
+						alert("未知错误");
+						login_error();
+						break;
+					case 'success_employee':
+						window.location.href = baseUrlPath
+								+ "/view/lineExam/examInterface.jsp";
+						break;
+					case 'success_manager':
+						window.location.href = baseUrlPath + "/view/"
+								+ login_url;
+						break;
+					}
+				}
+			})
+		} else {
+			alert("验证码错误")
+			$("#code_input").val('');
+		}
 	}
 }
 

@@ -61,7 +61,7 @@
 </script>
 
 <shiro:hasPermission name="empin:operating">
-<script>
+	<script>
 hasOperatingEmpin = true;
 </script>
 </shiro:hasPermission>
@@ -83,8 +83,8 @@ hasOperatingEmpin = true;
     	//定义一个全局变量
     	var basePathUrl = "${pageContext.request.contextPath}";
     </script>
-    
-    
+
+
 <style>
 #el_breakTimeIndex input {
 	width: 33% !important;
@@ -99,8 +99,8 @@ hasOperatingEmpin = true;
 	font-size: 13px;
 }
 
-.el_topButton {  
-    margin-top: 10px;
+.el_topButton {
+	margin-top: 10px;
 }
 </style>
 </head>
@@ -115,12 +115,12 @@ hasOperatingEmpin = true;
 			id="detailunitName" name="detailunitName" type="hidden" value="" />
 		<input id="detailemployeeId" name="detailemployeeId" type="hidden"
 			value="" /> <input id="detail_breakInfoType" name="empBreakInfoType"
-			type="hidden" value="0" />
-		<input id="detail_breakInfoType" name="empBreakInfoType"
-			type="hidden" value="0" />
-			
+			type="hidden" value="0" /> <input id="detail_breakInfoType"
+			name="empBreakInfoType" type="hidden" value="0" />
+
 		<!-- 隐藏员工的部门类型 -->
-		<input type="hidden" name="employeeDepartmentType" id="detail_employeeDepartType">
+		<input type="hidden" name="employeeDepartmentType"
+			id="detail_employeeDepartType">
 	</form>
 
 	<!-- 隐藏域 start -->
@@ -195,18 +195,16 @@ hasOperatingEmpin = true;
 												<span class="el_spans">性别：</span> <label class="el_radioBox"><input
 													class="initsex" type="radio" name="fSex" value="1">
 													男</label> <label class="el_radioBox"><input class="initsex"
-													type="radio" name="fSex" value="2"> 女</label>
-													
-														<input
+													type="radio" name="fSex" value="2"> 女</label> <input
 													type="hidden" name="departmentid" id="queryDepartmentId" />
-												
+
 												<!-- 默认显示管理员 -->
 												<input type="hidden" name="isOnlyManager" value="false"
 													id="el_showManagerInput" />
 											</div>
 										</div>
-										
-											<div class="col-md-3 el_qlmQuery">
+
+										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" id="el_blackCheckbox" role="toolbar">
 												<span class="el_spans">黑名单：</span> <label
 													class="el_radioBox"><input class="initBlack"
@@ -215,8 +213,8 @@ hasOperatingEmpin = true;
 													type="radio" name="fIsBreak" value="否"> 否</label>
 											</div>
 										</div>
-										
-										
+
+
 									</div>
 
 									<div class="row el_queryBoxrow">
@@ -243,30 +241,29 @@ hasOperatingEmpin = true;
 													id="inpend2" placeholder="结束时间" name="fendtime" readonly>
 											</div>
 										</div>
-										 									
-																													
+
+
 
 									</div>
 									<div class="row el_queryBoxrow">
-										
+
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
-												<span class="el_spans">家庭住址：</span> 
-												<input class="form-control" name="address" type="text">
+												<span class="el_spans">家庭住址：</span> <input
+													class="form-control" name="address" type="text">
 											</div>
-										</div>	
-										
+										</div>
+
 										<div class="col-md-6" id="el_breakTimeIndex">
 											<div class="input-group" id="el_startEndTime" role="toolbar">
-												<span class="el_spans">年&nbsp;龄&nbsp;段：&nbsp;</span> <input type="text"
-													class=" form-control query_dep_starttime" name="ageLeft"
-													> <input
-													type="text" class="form-control query_dep_endtime"
-													 name="ageRight" >
+												<span class="el_spans">年&nbsp;龄&nbsp;段：&nbsp;</span> <input
+													type="text" class=" form-control query_dep_starttime"
+													name="ageLeft"> <input type="text"
+													class="form-control query_dep_endtime" name="ageRight">
 											</div>
 										</div>
 									</div>
-									
+
 									<!-- 当前页页号 -->
 									<input id="yeHao" type="hidden" name="fcurpage" value="1" />
 									<!-- 每页显示的记录数 -->
@@ -346,59 +343,59 @@ hasOperatingEmpin = true;
 										<div class="panel-body el_MainxiaoMain">
 
 											<div class="el_topButton">
-												<div >
-												
-												<!-- 员工按钮 -->
-												<!-- 按钮触发模态框1 -->
+												<div>
 
-												<!-- 在模态框中添加 -->
-												<shiro:hasPermission name="empin:add">
-													<a id="el_addUserA" onclick="el_addEmployeeIn()">
-														<button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>添加员工</button>
-													</a>
-												</shiro:hasPermission>
-												
-												
-												<shiro:hasPermission name="breakrules:add">
+													<!-- 员工按钮 -->
+													<!-- 按钮触发模态框1 -->
+
+													<!-- 在模态框中添加 -->
+													<shiro:hasPermission name="empin:add">
+														<a id="el_addUserA" onclick="el_addEmployeeIn()">
+															<button class="btn btn-primary">
+																<span class="glyphicon glyphicon-plus"></span>添加员工
+															</button>
+														</a>
+													</shiro:hasPermission>
+
+
+													<shiro:hasPermission name="breakrules:add">
 														<!-- 按钮触发模态框1 -->
 
 														<button id="el_addBreakRules" class="btn btn-primary"
 															onclick="el_addBreakInfo()">添加违章信息</button>
 
 
-												</shiro:hasPermission>
+													</shiro:hasPermission>
 
-												
-												<!-- <label id="el_showAllUser" title="选中将会显示该部门的管理人员"
+
+													<!-- <label id="el_showAllUser" title="选中将会显示该部门的管理人员"
 										class="btn btn-sm btn-primary"> <input
 										type="checkbox" onclick="isShowOnlyManager()"
 										id="el_showManager" class="checkbox-primary"> <span>&nbsp;管理人员</span>
 									</label> -->
 
-												<select class="btn btn-primary" id="el_showManager"
-													title="请选择" onchange="isShowOnlyManager()" name="examLevel">
-													<option value="false">全部员工</option>
-													<option value="true">管理人员</option>
-												</select>
-												
-												<!-- 违章按钮 -->
-													
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-													
-													<select class="btn btn-primary" id="el_breakType"
-														title="请选择" onchange="historyBreakInfoFind()">
+													<select class="btn btn-primary" id="el_showManager"
+														title="请选择" onchange="isShowOnlyManager()"
+														name="examLevel">
+														<option value="false">全部员工</option>
+														<option value="true">管理人员</option>
+													</select>
+
+													<!-- 违章按钮 -->
+
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select
+														class="btn btn-primary" id="el_breakType" title="请选择"
+														onchange="historyBreakInfoFind()">
 														<!-- <select class="btn btn-primary" id="el_breakType"
 													title="请选择" name="examLevel"> -->
 														<option value="0">当前违章</option>
 														<option value="1">历史违章</option>
-													</select>
-													
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+													</select> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 													<button class="btn btn-primary" data-toggle="modal"
-													onclick="el_empTrainDoc()">查看员工培训档案</button>
-													
-													
-													
+														onclick="el_empTrainDoc()">查看员工培训档案</button>
+
+
+
 												</div>
 											</div>
 
@@ -408,7 +405,7 @@ hasOperatingEmpin = true;
 									<!--表格    内容都提取到json里边             -->
 									<table class="table table-hover table-bordered">
 										<thead>
-											<tr>											
+											<tr>
 												<th>选择</th>
 												<th>姓名</th>
 												<th>性别</th>
@@ -481,12 +478,13 @@ hasOperatingEmpin = true;
 												<input id="addIdCard" type="hidden" name="addIdCard"
 													value="" />
 												<!-- 隐藏一个部门类型-->
-												<input id="employeeDepartmentType" type="hidden" name="employeeDepartmentType"
-													 />
-													
+												<input id="employeeDepartmentType" type="hidden"
+													name="employeeDepartmentType" />
+
 												<div class="input-group el_modellist" role="toolbar">
 													<span class="el_spans">违章时间：</span> <input type="text"
-														id="test41" class="workinput wicon form-control el_noVlaue"
+														id="test41"
+														class="workinput wicon form-control el_noVlaue"
 														name="emplyinBreakrules.empinbreaktime" readonly />
 												</div>
 
@@ -549,14 +547,14 @@ hasOperatingEmpin = true;
 							</div>
 							<!-- /.modal -->
 							<!-- 模态框，用于提示本次添加的 违章记分>=12分的情况  end-->
-							
-							
-							
-							
-							
+
+
+
+
+
 							<!-- zwy start -->
-							
-							
+
+
 							<!-- 模态框   员工信息删除确认 -->
 							<div class="modal fade" id="delcfmModel" data-backdrop="static"
 								data-keyboard="false">
@@ -585,7 +583,7 @@ hasOperatingEmpin = true;
 								<!-- /.modal-dialog -->
 							</div>
 							<!-- /.modal -->
-							
+
 							<!-- 模态框 员工详细信息-->
 							<div class="modal fade" id="allInfo" tabindex="-1" role="dialog"
 								aria-labelledby="myModalLabel" aria-hidden="true"
@@ -659,8 +657,8 @@ hasOperatingEmpin = true;
 								</div>
 								<!-- /.modal -->
 							</div>
-							
-							
+
+
 							<!-- 模态框  修改员工-->
 							<div class="modal fade" id="el_modifyEmp" tabindex="-1"
 								role="dialog" aria-labelledby="myModalLabel23"
@@ -743,8 +741,8 @@ hasOperatingEmpin = true;
 								</div>
 								<!-- /.modal -->
 							</div>
-							
-							
+
+
 							<!-- 模态框 添加员工-->
 							<div class="modal fade" id="el_addEmployeeIn" tabindex="-1"
 								role="dialog" aria-labelledby="myModalLabel23"
@@ -848,7 +846,7 @@ hasOperatingEmpin = true;
 												onclick="saveEmployeeAndHaulInfo()">保存</button>
 										</div>
 
-									
+
 
 									</div>
 
@@ -857,7 +855,7 @@ hasOperatingEmpin = true;
 								</div>
 								<!-- /.modal -->
 							</div>
-							
+
 							<!-- 模态框 查看培训档案-->
 							<div class="modal fade" id="el_empTrainDoc" tabindex="-1"
 								role="dialog" aria-labelledby="myModalLabel23"
@@ -942,11 +940,11 @@ hasOperatingEmpin = true;
 								</div>
 								<!-- /.modal -->
 							</div>
-							
-							
-							
-							
-							
+
+
+
+
+
 							<!-- zwy end -->
 
 							<!-- 隐藏域，隐藏一个添加前的违章总积分 -->
@@ -965,6 +963,18 @@ hasOperatingEmpin = true;
 			</div>
 
 
+		</div>
+	</div>
+
+	<div id="msg">
+		<a>X</a>
+		<center>
+			<p>请注意:以下内部员工年龄已超过五十五岁</p>
+		</center>
+		<div id="messageDiv">
+			<table class="table table-hover  table-bordered"
+				style="width: 95%; margin: 0 auto; font-size: 13px;" id="olderTable">
+			</table>
 		</div>
 	</div>
 
