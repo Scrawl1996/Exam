@@ -229,6 +229,11 @@ hasOperatingEmpout = true;
 
 									<!--分页-->
 									<div id="paginationIDU" class="paginationID"></div>
+									<br/>
+									<br/>
+									<br/>
+									<br/>
+									<br/>
 
 								</div>
 							</div>
@@ -617,20 +622,20 @@ hasOperatingEmpout = true;
 												 </div>
 												<input type="hidden"
 														class="form-control addUnitInput" name="haulUnit.manager"
-														id="manager" value="项目经理"  />
+														id="manager" value="无"  />
 												<input type="hidden"
 														class="form-control addUnitInput" id="managerphone"
-														name="haulUnit.managerphone" value="1111111" />
+														name="haulUnit.managerphone" value="无" />
 														<input
 														type="hidden" class="form-control addUnitInput"
-														name="haulUnit.secure" id="secure" value="安全员"/>
+														name="haulUnit.secure" id="secure" value="无"/>
 														<input type="hidden"
 														class="form-control addUnitInput"
-														name="haulUnit.securephone" id="securephone" value="1111111"/>
+														name="haulUnit.securephone" id="securephone" value="无"/>
 												
 													<input type="hidden"
 														class="form-control addUnitInput"
-														name="haulUnit.projectnames" id="projectnames" value="参与工程"/>
+														name="haulUnit.projectnames" id="projectnames" value="无"/>
 												 <input type="hidden"
 														class="form-control el_modelinput el_chooseInput"
 														id="bigname" name="bigname" disabled /> <input
