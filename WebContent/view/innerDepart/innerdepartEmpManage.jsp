@@ -243,33 +243,30 @@ hasOperatingEmpin = true;
 													id="inpend2" placeholder="结束时间" name="fendtime" readonly>
 											</div>
 										</div>
-										
-
-
-									<!-- 	<div class="col-md-3 el_qlmQuery">
-											<div class="input-group" id="el_blackCheckbox" role="toolbar">
-												<span class="el_spans">黑名单：</span> <label
-													class="el_radioBox"><input class="initBlack"
-													type="radio" name="fIsBreak" value="是"> 是</label> <label
-													class="el_radioBox"><input class="initBlack"
-													type="radio" name="fIsBreak" value="否"> 否</label>
-											</div>
-										</div> -->
-
+										 									
+																													
 
 									</div>
-
-									<!-- <div class="row el_queryBoxrow">
+									<div class="row el_queryBoxrow">
+										
+										<div class="col-md-3 el_qlmQuery">
+											<div class="input-group" role="toolbar">
+												<span class="el_spans">家庭住址：</span> 
+												<input class="form-control" name="address" type="text">
+											</div>
+										</div>	
+										
 										<div class="col-md-6" id="el_breakTimeIndex">
 											<div class="input-group" id="el_startEndTime" role="toolbar">
-												<span class="el_spans">违章时间：</span> <input type="text"
-													class=" form-control query_dep_starttime" name="fstarttime"
-													placeholder="开始时间" id="inpstart2" readonly> <input
+												<span class="el_spans">年&nbsp;龄&nbsp;段：&nbsp;</span> <input type="text"
+													class=" form-control query_dep_starttime" name="ageLeft"
+													> <input
 													type="text" class="form-control query_dep_endtime"
-													id="inpend2" placeholder="结束时间" name="fendtime" readonly>
+													 name="ageRight" >
 											</div>
 										</div>
-									</div> -->
+									</div>
+									
 									<!-- 当前页页号 -->
 									<input id="yeHao" type="hidden" name="fcurpage" value="1" />
 									<!-- 每页显示的记录数 -->
@@ -283,7 +280,7 @@ hasOperatingEmpin = true;
 									<!--提交查询按钮-->
 									<button type="button" onclick="clearPagenum()"
 										class="btn btn-primary el_queryButton btn-sm">查询</button>
-									<button type="button" onclick="clearBtn()"
+									<button type="reset" onclick="clearBtn()"
 										class="btn btn-default el_queryButton btn-sm"
 										style="right: 12px">清空</button>
 								</form>
@@ -642,6 +639,10 @@ hasOperatingEmpin = true;
 														<tr>
 															<td>职务：</td>
 															<td id="Infozhiwu"></td>
+														</tr>
+														<tr>
+															<td>家庭住址：</td>
+															<td id="InfoAddress"></td>
 														</tr>
 													</table>
 												</div>

@@ -92,7 +92,39 @@ public class EmployInBreakrulesAction extends ActionSupport {
 	
 	//员工部门类型
 	private String employeeDepartmentType;	
-		
+	//家庭住址
+	private String address;
+	//年龄段左侧数据
+	private String ageLeft;
+	//年龄段右侧数据
+	private String ageRight;
+	
+	
+	
+	public String getAgeLeft() {
+		return ageLeft;
+	}
+
+	public void setAgeLeft(String ageLeft) {
+		this.ageLeft = ageLeft;
+	}
+
+	public String getAgeRight() {
+		return ageRight;
+	}
+
+	public void setAgeRight(String ageRight) {
+		this.ageRight = ageRight;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public String getEmployeeDepartmentType() {
 		return employeeDepartmentType;
 	}
@@ -1045,6 +1077,21 @@ public class EmployInBreakrulesAction extends ActionSupport {
 				condition.put("current_Year", currentYear);
 			}
 		}
+		
+		//家庭住址
+		if(ValidateCheck.isNotNull(address)){
+			condition.put("address", address);
+		}
+		
+		//年龄段左侧数据
+		if(ValidateCheck.isNotNull(ageLeft)){
+			condition.put("age_left", ageLeft);
+		}
+		//年龄段右侧数据
+		if(ValidateCheck.isNotNull(ageRight)){
+			condition.put("age_right", ageRight);
+		}
+		
 		return condition;
 	}
 }
