@@ -463,6 +463,8 @@ function leftBtn() {
 								+ idCode + ">";// 隐藏身份证
 						opStr += "<input  type='hidden' class='query_departmentType' value="
 							+ data.empInMsgByDepIdLeft[i].departmentType + ">";// 隐藏部门类型
+						opStr += "<input  type='hidden' class='query_address' value="
+							+ data.empInMsgByDepIdLeft[i].address + ">";// 隐藏家庭住址
 						
 						opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="
 								+ employeeId + "></td>";
@@ -673,6 +675,8 @@ function findSaveBtn() {
 								+ idCode + ">";// 隐藏身份证
 						opStr += "<input  type='hidden' class='query_departmentType' value="
 							+ data.empInMsgByDepIdLeft[i].departmentType + ">";// 隐藏部门类型
+						opStr += "<input  type='hidden' class='query_address' value="
+							+ data.empInMsgByDepIdLeft[i].address + ">";// 隐藏家庭住址
 						opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="
 								+ phone + "></td>";
 						opStr += "<td>" + name + "</td>";// 姓名
@@ -986,6 +990,9 @@ function allInfo(obj) {
 	var zhiwu = $(obj).parents("tr").find("#zhiwu").val();
 	var idcode = $(obj).parents("tr").children('input[name="el_ycy"]').eq(3)
 			.val();
+	//家庭住址
+	var address = $(obj).parents("tr").find(".query_address").val();
+	$("#InfoAddress").text(address);
 	// 图片
 	// $("[href='default.htm']")contextPath+
 
