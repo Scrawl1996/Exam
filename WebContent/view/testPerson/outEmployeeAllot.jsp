@@ -26,6 +26,18 @@
 	//定义一个全局变量
 	var baseurl = "${pageContext.request.contextPath}";
 </script>
+<style>
+.mark-type{
+	 font-size: 10px;
+	 padding: 2px 2px;
+}
+.el_treeTitle{
+	display:inline;	
+    padding-right: 9px;	
+    padding-left: 9px;
+    
+}
+</style>
 <%-- <shiro:hasPermission name="empout:operating">
 <script>
 hasOperatingEmpout = true;
@@ -59,7 +71,11 @@ hasOperatingEmpout = true;
 						<!--树-->
 						<div class="el_leftTree">
 							<!--标题类，添加了一个颜色-->
-							<span class="el_treeTitle">部门</span>
+							<span class="el_treeTitle">检修单位</span>
+							<select class="btn btn-default mark-type" id="el_bigStatusMark"	title="请选择" onchange="historyBigInfoFind()">
+									<option value="0">当前检修</option>
+									<option value="1">历史检修</option>
+							</select>
 							<ul id="departmentAndOverHaulTree" class="ztree"></ul>
 						</div>
 
@@ -88,8 +104,8 @@ hasOperatingEmpout = true;
 												<span class="el_spans">性&nbsp;&nbsp;&nbsp;别：</span> <label
 													class="el_radioBox"><input type="radio"
 													name="employeeOutSex" value="1"> 男</label> <label
-													class="el_radioBox clearInput"><input type="radio"
-													class="clearInput" name="employeeOutSex" value="2">
+													class="el_radioBox"><input type="radio"
+													 name="employeeOutSex" value="2">
 													女</label>
 											</div>
 										</div>
@@ -102,8 +118,11 @@ hasOperatingEmpout = true;
 											</div>
 										</div>
 									</div>
-
-
+				
+									<!-- 隐藏大修状态标记，默认查询当前未结束的-->
+									<input id="bigStatus_Mark" type="hidden" value="0"
+										name="bigStatusMark">
+		
 									<!-- 隐藏部门ID和大修ID -->
 									<input type="hidden" name="unitId" id="query_unitId"
 										class="clearInput" /> <input type="hidden" name="bigId"

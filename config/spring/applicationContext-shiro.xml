@@ -100,6 +100,7 @@ xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://
 				/index.jsp = anon
 				/newsIP_**.action = anon
 				/train_**.action = anon
+				/dic_***.action = anon
 				/unauthorized.jsp = anon
 				/user_login.action = anon
 				/view/public/** = anon

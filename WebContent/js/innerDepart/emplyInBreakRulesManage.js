@@ -61,16 +61,16 @@ function el_addBreakInfo() {
 		// 职工的身份证号码
 		var idcode = $('input[name="el_chooseBreakRules"]:checked').parents(
 				"tr").children('input[name="el_ycy"]').eq(3).val();
-		//职工的部门类型
-		var departMentType = $('input[name="el_chooseBreakRules"]:checked').parents(
-				"tr").find(".query_departmentType").val();
+		// 职工的部门类型
+		var departMentType = $('input[name="el_chooseBreakRules"]:checked')
+				.parents("tr").find(".query_departmentType").val();
 		// 为员工id的隐藏域赋值
 		$("#addEmpID").val(empId);
 		// 为操作标记赋值
 		$("#allMark").val(allmark);
 		// 为身份证赋值
 		$("#addIdCard").val(idcode);
-		//为隐藏的部门类型赋值
+		// 为隐藏的部门类型赋值
 		$("#employeeDepartmentType").val(departMentType);
 		// 为隐藏域赋值
 		// 职工id
@@ -247,8 +247,8 @@ function beforeClick(treeId, treeNode, clickFlag) {
  * 姓名 opStr += "<td>" + sex + "</td>";// 性别 opStr += "<td>" + idCode + "</td>";//
  * 身份证 opStr += "<td>" + sumBreakScore + "</td>";// 违章记分 // 为隐藏职工id的隐藏域赋值 if
  * (blackStatus == "1") { opStr += "<td><font color='red'>" + "是" + "</font></td>"; }
- * else { if (sumBreakScore >= 12) { opStr += "<td><font color='#F9BA0F'>" + "否"+ "</font></td>"; }
- * else { opStr += "<td>" + "否" + "</td>"; } }
+ * else { if (sumBreakScore >= 12) { opStr += "<td><font color='#F9BA0F'>" +
+ * "否"+ "</font></td>"; } else { opStr += "<td>" + "否" + "</td>"; } }
  * 
  * opStr += "<td>" + unitName + "</td>";// 所属单位 opStr += " <th>" + duty + "</th>";//
  * 职务
@@ -284,9 +284,10 @@ function detailInBtn(obj) {
 			$(obj).parents('td').children('input').eq(5).html());// 部门名称
 
 	$("#detail_breakInfoType").val($("#el_breakType").val());// 违章类型
-	//员工部门类型
-	$("#detail_employeeDepartType").val($(obj).parents("tr").find(".query_departmentType").val());
-	
+	// 员工部门类型
+	$("#detail_employeeDepartType").val(
+			$(obj).parents("tr").find(".query_departmentType").val());
+
 	var unitName = $(obj).parents("tr").find("#yincangunitName").val();// 部门名称
 	$("#detailunitName").val(unitName);
 
@@ -462,10 +463,11 @@ function leftBtn() {
 						opStr += "<input name='el_ycy' type='hidden' value="
 								+ idCode + ">";// 隐藏身份证
 						opStr += "<input  type='hidden' class='query_departmentType' value="
-							+ data.empInMsgByDepIdLeft[i].departmentType + ">";// 隐藏部门类型
+								+ data.empInMsgByDepIdLeft[i].departmentType
+								+ ">";// 隐藏部门类型
 						opStr += "<input  type='hidden' class='query_address' value="
-							+ data.empInMsgByDepIdLeft[i].address + ">";// 隐藏家庭住址
-						
+								+ data.empInMsgByDepIdLeft[i].address + ">";// 隐藏家庭住址
+
 						opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="
 								+ employeeId + "></td>";
 						opStr += "<td>" + name + "</td>";// 姓名
@@ -539,7 +541,8 @@ function leftBtn() {
 						opStr += "<a onclick='allInfo(this)' title='查看详情' class='el_delButton'><span class='glyphicon glyphicon-search'></span></a>&nbsp;";
 						if (hasOperatingEmpin) {
 							opStr += "<a title='修改员工信息' href='/Exam/employeein_toUpdateEmployeeIn.action?method="
-									+ employeeId + "'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;";
+									+ employeeId
+									+ "'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;";
 						}
 						if (hasOperatingEmpin) {
 							opStr += "<a class='el_delButton' title='删除员工' onclick='deleteEmployeeIn(this)' ><span class='glyphicon glyphicon-trash'></span></a>";
@@ -674,9 +677,10 @@ function findSaveBtn() {
 						opStr += "<input name='el_ycy' type='hidden' value="
 								+ idCode + ">";// 隐藏身份证
 						opStr += "<input  type='hidden' class='query_departmentType' value="
-							+ data.empInMsgByDepIdLeft[i].departmentType + ">";// 隐藏部门类型
+								+ data.empInMsgByDepIdLeft[i].departmentType
+								+ ">";// 隐藏部门类型
 						opStr += "<input  type='hidden' class='query_address' value="
-							+ data.empInMsgByDepIdLeft[i].address + ">";// 隐藏家庭住址
+								+ data.empInMsgByDepIdLeft[i].address + ">";// 隐藏家庭住址
 						opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="
 								+ phone + "></td>";
 						opStr += "<td>" + name + "</td>";// 姓名
@@ -753,7 +757,8 @@ function findSaveBtn() {
 						opStr += "<a onclick='allInfo(this)' class='el_delButton' title='查看详情'><span class='glyphicon glyphicon-search'></span></a>&nbsp;";
 						if (hasOperatingEmpin) {
 							opStr += "<a title='修改员工信息' href='/Exam/employeein_toUpdateEmployeeIn.action?method="
-									+ employeeId + "'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;";
+									+ employeeId
+									+ "'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;";
 							opStr += "<a class='el_delButton' onclick='deleteEmployeeIn(this)' title='删除员工' ><span class='glyphicon glyphicon-trash'></span></a>";
 						}
 
@@ -807,8 +812,8 @@ function clearBtn() {
 function addSaveBtn() {
 	// 添加前的违章总积分
 	var addBeforeBreakScore = $("#breakScoreSum").val();
-	
-	//员工的部门类型
+
+	// 员工的部门类型
 	var employeeDepartmentType = $("#employeeDepartmentType").val();
 	// alert(addBeforeBreakScore+"添加前")
 
@@ -990,7 +995,7 @@ function allInfo(obj) {
 	var zhiwu = $(obj).parents("tr").find("#zhiwu").val();
 	var idcode = $(obj).parents("tr").children('input[name="el_ycy"]').eq(3)
 			.val();
-	//家庭住址
+	// 家庭住址
 	var address = $(obj).parents("tr").find(".query_address").val();
 	$("#InfoAddress").text(address);
 	// 图片
@@ -1595,3 +1600,69 @@ function isShowOnlyManager() {
 }
 
 /** *******************************zwy end********************** */
+/** ***************** S 消息框 QLQ********************* */
+$(function() {
+	showMessage();
+});
+function showMessage() {
+
+	var msg = document.getElementById("msg");
+	queryOlderPerson();
+	msg.firstElementChild.onclick = function() { // this->a
+		msg.style.bottom = "-300px";
+		setTimeout(function() {
+			queryOlderPerson();
+		}, 60*60*1000);
+	}
+}
+/**
+ * 查询内部超过55岁的人
+ */
+function queryOlderPerson() {
+	$.post(contextPath + '/message_getUnreadMessageByEmpType.action', {
+		"empType" : "1"
+	}, showOlderTable, 'json');
+}
+// 查询结果填入表格
+function showOlderTable(response) {
+	$("#olderTable").html("");
+	var msg = document.getElementById("msg");
+	var messages = response.messages;
+	if (messages == null) {
+		msg.style.bottom = "-300px";
+		return;
+	}
+	for (var i = 0, length_1 = messages.length; i < length_1; i++) {
+		$("#olderTable")
+				.append(
+						'<tr><td>'
+								+ messages[i].name
+								+ '<input type="hidden" class="messageid" value="'
+								+ messages[i].messageid
+								+ '">'
+								+ '</td><td>'
+								+ messages[i].idcode
+								+ '</td><td>'
+								+ messages[i].birthday
+								+ '</td><td><a class="button" href=javascript:void(0) onclick="readMessage(this)">删除消息</a></td></tr>');
+	}
+	if ($("#olderTable").find("tr").length > 0) {
+		msg.style.bottom = "0";
+	}
+}
+
+function readMessage(obj) {
+	var messageid = $(obj).parents("tr").children(":first").find(".messageid")
+			.val();// 消息ID
+	$.post(contextPath + '/message_updateMessageByMessageId.action', {
+		"messageid" : messageid
+	}, function(response) {
+		if (response.result == "读取成功") {
+			alert("已经成功处理！");
+			queryOlderPerson();
+		}
+	}, 'json')
+
+}
+
+/** *****************E 消息框 QLQ********************* */

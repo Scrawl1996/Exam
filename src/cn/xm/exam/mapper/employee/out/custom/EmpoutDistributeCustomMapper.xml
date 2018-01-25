@@ -36,6 +36,10 @@
 			and upid NOT IN
 			(#{regular_train},#{longterm_train})
 		</if>
+		<!-- 增加检修状态的判断 -->
+		<if test="bigStatus != null">
+			and bigStatus != #{bigStatus}
+		</if>
 	</select>
 	<!-- E查询分给给本单位的大修单位树 -->
 	<!--S根据单位ID跟大修ID查询单位信息 -->
@@ -101,6 +105,10 @@
 		<if test="markTrainType_Out !=null">
 			and distr.bigid NOT IN
 			(#{regular_train},#{longterm_train})
+		</if>
+		<!-- 增加检修状态的判断 -->
+		<if test="bigStatus != null">
+			and bigStatus != #{bigStatus}
 		</if>
 		<!-- 未参加本机培训 -->
 		<if test="distributeStatus != null and distributeStatus==0">

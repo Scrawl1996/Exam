@@ -28,10 +28,10 @@
 <script>
 	$(function() {
 		//页面加载的时候初始化左侧的菜单
-		initKnowledgeType();
+		/* initKnowledgeType(); */
 
 		//页面加载的时候初始化页面的数据
-		initPageData();
+		/* initPageData(); */
 
 	})//加载页面时初始化的方法的括号
 
@@ -353,7 +353,7 @@
 			</ul>
 		</div>
 
-
+		<center><h1 id="showMessage">请以学员身份登录查看视频!</h1></center>
 
 
 		<!--内容-->

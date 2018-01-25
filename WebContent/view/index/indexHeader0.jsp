@@ -13,7 +13,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>主页</title>
 <%-- <%@ include file="/public/indexCssJs.jsp"%> --%>
-
+<script type="text/javascript">
+	var contextPath = "${pageContext.request.contextPath}";
+</script>
     <!--输入验证-->
     <script src="<%=path %>/controls/validate/jquery.validate.js"></script>
     <script src="<%=path %>/controls/validate/messages_zh.js"></script>
@@ -109,7 +111,7 @@
     <div class="el_navLogin">
         <button class="btn btn-link" onclick='modal_login()'>
             <%-- <img src="<%=path%>/image/img/indexLoginButton.png" width="17"/>&nbsp;登 录 --%>
-            <img src="<%=path%>/image/img/asss.png" width="17"/>&nbsp;登录后台
+            <img src="<%=path%>/image/img/asss.png" width="17"/>&nbsp;登录
         </button>
     </div>
 </div>
