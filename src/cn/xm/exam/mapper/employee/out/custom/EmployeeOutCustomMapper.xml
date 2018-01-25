@@ -481,6 +481,15 @@
 		<if test="address != null">
 			and employee_out.address like "%${address}%"
 		</if>
+		<!-- 年龄段左侧参数 -->
+		<if test="age_left != null">
+			and TIMESTAMPDIFF(YEAR, employee_out.birthday, CURDATE()) >= #{age_left}
+		</if>
+		<!-- 年龄段右侧参数 -->
+		<if test="age_right != null">
+			and TIMESTAMPDIFF(YEAR, employee_out.birthday, CURDATE()) &lt;= #{age_right}
+		</if>
+		
 		
 		<!-- 增加标记条件判断应该显示的检修及员工信息 -->
 		<!-- 内部培训 -->
@@ -561,6 +570,16 @@
 		<if test="address != null">
 			and employee_out.address like "%${address}%"
 		</if>
+		
+		<!-- 年龄段左侧参数 -->
+		<if test="age_left != null">
+			and TIMESTAMPDIFF(YEAR, employee_out.birthday, CURDATE()) >= #{age_left}
+		</if>
+		<!-- 年龄段右侧参数 -->
+		<if test="age_right != null">
+			and TIMESTAMPDIFF(YEAR, employee_out.birthday, CURDATE()) &lt;= #{age_right}
+		</if>
+		
 		<!-- 增加标记条件判断应该显示的检修及员工信息 -->
 		<!-- 内部培训 -->
 		<if test="markTrainType_In !=null">

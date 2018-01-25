@@ -256,10 +256,12 @@ hasOperatingEmpin = true;
 
 										<div class="col-md-6" id="el_breakTimeIndex">
 											<div class="input-group" id="el_startEndTime" role="toolbar">
+
 												<span class="el_spans">年&nbsp;龄&nbsp;段：&nbsp;</span> <input
 													type="text" class=" form-control query_dep_starttime"
 													name="ageLeft"> <input type="text"
 													class="form-control query_dep_endtime" name="ageRight">
+                      
 											</div>
 										</div>
 									</div>

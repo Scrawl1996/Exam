@@ -315,6 +315,18 @@
 										
 										
 									</div>
+									<div class="row el_queryBoxrow">
+										<div class="col-md-6" id="el_breakTimeIndex" style="right: -9px;">
+											<div class="input-group" id="el_startEndTime" role="toolbar">
+												<span class="el_spans">年 &nbsp;龄&nbsp; 段：</span> <input type="text"
+													class=" form-control query_dep_starttime" name="ageLeft"
+													> <input
+													type="text" class="form-control query_dep_endtime"
+													 name="ageRight" >
+											</div>
+										</div>
+									</div>
+									
 									<!-- 隐藏部门ID和大修ID -->
 									<input type="hidden" name="unitId" id="query_unitId" /> <input
 										type="hidden" name="bigId" id="query_bigId" />

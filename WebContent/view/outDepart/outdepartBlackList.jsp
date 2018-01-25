@@ -17,7 +17,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>外来单位黑名单管理</title>
+<title>黑名单管理</title>
 
 <%@ include file="/public/cssJs.jsp"%>
 
@@ -110,56 +110,120 @@ label.success {
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>人员管理</span><span>>短委员工管理</span><span>>黑名单单位管理</span>
+						<span>人员管理</span><span>>短委员工管理</span><span>>黑名单管理</span>
 					</div>
 
 					<div class="el_main">
 						
 						<!--内容-->
 						<div class="el_qlmContent" style="width: 100%">
-
-							<!--显示内容-->
-							<h4 class="el_mainHead">外来单位黑名单信息</h4>
+							
 							<div class="panel panel-default el_Mainmain">
+					<br><br>
+				<!--     kaishi        -->
+							<!--标签栏-->
+								<div class="el_navButton">
+									<a href="#profile" aria-controls="profile" role="tab"
+										data-toggle="tab"> <span
+										class="btn btn-primary btn-default el_createButton btn-sm">黑名单单位管理</span>
+									</a> <a href="#home" aria-controls="home" role="tab"
+										data-toggle="tab"> <span
+										class="btn btn-default el_createButton btn-sm">黑名单人员管理</span>
+									</a>
+								</div>
 
-								<!--按钮面板-->
-								<div class="panel-body">
+								<!-- Tab panes -->
+								<div class="tab-content">
 
-									<div class="panel panel-default">
-										<div class="panel-body el_MainxiaoMain">
+									<!-- 黑名单人员管理 -->
+									<div role="tabpanel" class="tab-pane col-md-12" id="home">
 
-											<div class="el_topButton">
-												<shiro:hasPermission name="blackunit:add">
-													<button class="btn btn-primary" data-toggle="modal" data-target="#myModal" >
-														<span class="glyphicon glyphicon-plus"></span>添加单位</button>
-												</shiro:hasPermission>
+										
+										<!--显示内容-->
+										<h4 class="el_mainHead">黑名单人员信息</h4>
+										<div class="panel panel-default el_Mainmain">
+
+											<!--按钮面板-->
+											<div class="panel-body">
+
+												<!--表格
+                                		  	    	  内容都提取到json里边
+                                  		  		-->
+												<table class="table table-hover table-bordered">
+													<thead>
+														<tr>
+															<th>序号</th>
+															<th>姓名</th>
+															<th>性别</th>
+															<th>拉黑时间</th>																										
+															<th width="15%">操作</th>
+														</tr>
+													</thead>
+													<tbody id="blackEmpInfolist">
+													</tbody>
+												</table>
+												<!--分页插件  -->
+												<div id="paginationID"></div>
+												<!--隐藏分页用的信息  -->
+												<input type="hidden" name="currentPage" id="currentPage">
+												<input type="hidden" name="currentCount" id="currentCount">
 											</div>
-
 										</div>
+
 									</div>
 
-									<table class="table table-hover table-bordered">
-										<thead>
-											<tr>
-												<th>序号</th>
-												<th>单位名称</th>
-												<th>单位法人</th>
-												<th>拉黑时间</th>
-												<th>拉黑原因</th>
-												<th width="120">操作</th>
-											</tr>
-										</thead>
-										<tbody id="blackUnitListInfo">
-										</tbody>
-										<!-- <tbody id="haunUnitTbody"> -->
-										</tbody>
-									</table>
-
-									<!--分页-->
-									<div id="paginationIDU" class="paginationID"></div>
-
-								</div>
-							</div>
+									<!--黑名单单位-->
+									<div role="tabpanel" class="tab-pane active" id="profile">
+											
+											<!--显示内容-->
+										<h4 class="el_mainHead">黑名单单位信息</h4>
+											
+										<!--按钮面板-->
+											<div class="panel-body" style="margin-top:20px;">
+			
+												<div class="panel panel-default">
+													<div class="panel-body el_MainxiaoMain">
+			
+														<div class="el_topButton">
+															<shiro:hasPermission name="blackunit:add">
+																<button class="btn btn-primary" data-toggle="modal" data-target="#myModal" >
+																	<span class="glyphicon glyphicon-plus"></span>添加单位</button>
+															</shiro:hasPermission>
+														</div>
+			
+													</div>
+												</div>
+			
+												<table class="table table-hover table-bordered">
+													<thead>
+														<tr>
+															<th>序号</th>
+															<th>单位名称</th>
+															<th>单位法人</th>
+															<th>拉黑时间</th>
+															<th>拉黑原因</th>
+															<th width="120">操作</th>
+														</tr>
+													</thead>
+													<tbody id="blackUnitListInfo">
+													</tbody>
+													
+												</table>
+			
+												<!--分页-->
+												<div id="paginationIDU" class="paginationID"></div>
+			
+											</div>
+								   </div>
+			
+							 </div>
+									
+						
+				
+				<!-- jieshu  -->
+				
+				
+								
 
 							<!-- 模态框黑名单单位添加-->
 							<div class="modal fade" id="myModal" role="dialog"

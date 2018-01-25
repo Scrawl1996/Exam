@@ -19,7 +19,7 @@
 	<include file="struts/grade.xml"></include>
 	<include file="struts/onlineExam.xml"></include>
 	<include file="struts/employeeOutPerson.xml"></include>
-
+	<include file="struts/blackListEmpInfo.xml"></include>
 
 	<!-- 乔利强引入的 -->
 	<include file="struts/ExamPaper.xml"></include>
