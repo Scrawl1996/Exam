@@ -28,6 +28,7 @@
 	<include file="struts/Unit.xml"></include>
 	<include file="struts/Distribute.xml"></include> 
 	<include file="struts/blackUnit.xml"></include> 
+	<include file="struts/message.xml"></include> 
 
 
 

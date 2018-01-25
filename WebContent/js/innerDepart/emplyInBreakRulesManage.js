@@ -793,6 +793,7 @@ function clearBtn() {
 
 	//
 	$("#departmentidTree").val("");
+	$(".curSelectedNode").removeClass("curSelectedNode");
 }
 
 /**
