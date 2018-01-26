@@ -62,9 +62,14 @@ public class BlackListEmpOutServiceImpl implements BlackListEmpOutService {
 	public boolean deleteBlackListInfoById(String id) throws SQLException {
 		Blacklist blackListInfo = blackListMapper.selectByPrimaryKey(Integer.valueOf(id));
 		String employeeid = blackListInfo.getEmployeeid();
-		//删除当年的违章信息
-		blackListCustomMapper.deleteBreakRulesInfo(employeeid);
 		
+		if(blackListInfo.getEmployeestatus().equals("1")){			
+			//短委 删除当年的违章信息
+			blackListCustomMapper.deleteBreakRulesInfo(employeeid);
+		}else{
+			//长委 删除当年的违章信息
+			blackListCustomMapper.deleteEmpInBreakRulesInfo(employeeid);
+		}		
 		return blackListMapper.deleteByPrimaryKey(Integer.valueOf(id))>0?true:false;
 	}
 
