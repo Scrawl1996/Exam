@@ -39,9 +39,7 @@ public class FindHaulAction extends ActionSupport {
 	private String bigStatus;// 大修状态
 	private String startMonth;// 创建月份
 	private String haulId;// 大修ID，用于查询大修信息
-	
-	
-	
+
 	/**
 	 * 分页查询biaoduan
 	 * 
@@ -60,10 +58,11 @@ public class FindHaulAction extends ActionSupport {
 		}
 		return condition;
 	}
+
 	public String queryBiaoDuan() {
 		response = new HashMap<String, Object>();
 		Map<String, Object> condition = generateCondition1();
-		if(ValidateCheck.isNotNull(haulId)){
+		if (ValidateCheck.isNotNull(haulId)) {
 			condition.put("bigId", haulId);
 		}
 		PageBean<Map<String, Object>> pageBean = null;
@@ -78,10 +77,11 @@ public class FindHaulAction extends ActionSupport {
 		response.put("pageBean", pageBean);
 		return SUCCESS;
 	}
+
 	public String queryUnitBiaoduanPerNum() {
 		response = new HashMap<String, Object>();
 		Map<String, Object> condition = generateCondition1();
-		if(ValidateCheck.isNotNull(haulId)){
+		if (ValidateCheck.isNotNull(haulId)) {
 			condition.put("bigId", haulId);
 		}
 		PageBean<Map<String, Object>> pageBean = null;
@@ -96,13 +96,6 @@ public class FindHaulAction extends ActionSupport {
 		response.put("pageBean", pageBean);
 		return SUCCESS;
 	}
-
-
-
-
-
-
-
 
 	/**
 	 * 查询大修部门树
@@ -208,6 +201,30 @@ public class FindHaulAction extends ActionSupport {
 			condition.put("startMonth", startMonth);
 		}
 		return condition;
+	}
+
+	/**
+	 * 统计检修信息
+	 * 
+	 * @return
+	 */
+	public String getAllhaulinfo() {
+		response = new HashMap<String, Object>();
+		Map condition = new HashMap();
+		// 培训类型标记
+		// 正式新员工培训大修ID
+		condition.put("regular_train", DefaultValue.REGULAR_EMPLOYEE_TRAIN);
+		// 长委新员工培训大修ID
+		condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
+		Map allHaulInfo = null;
+		try {
+			allHaulInfo = haulinfoService.getAllHaulInfo(condition);
+		} catch (SQLException e) {
+			logger.error("统计检修信息失败", e);
+			e.printStackTrace();
+		}
+		response.put("allHaulInfo", allHaulInfo);
+		return SUCCESS;
 	}
 
 	// get set

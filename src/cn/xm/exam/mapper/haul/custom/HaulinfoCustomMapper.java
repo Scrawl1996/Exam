@@ -96,4 +96,12 @@ public interface HaulinfoCustomMapper {
 	 */
 	public int getCountProjectUnitPerNumInfoByBigId(String bigId)throws SQLException;
 	/*********E  查询标段单位人数信息****************/
+	/**
+	 * 获取所有正在进行的检修的统计信息
+	 * @param condition	过滤掉的检修ID，一个是内部员工培训，一个是常委培训
+	 * @return
+	 * @throws SQLException
+	 */
+	public Map getAllHaulInfo(Map condition)throws SQLException;
+	
 }

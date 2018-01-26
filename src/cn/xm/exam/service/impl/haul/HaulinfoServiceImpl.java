@@ -257,4 +257,9 @@ public class HaulinfoServiceImpl implements HaulinfoService {
 		}
 	}
 
+	@Override
+	public Map getAllHaulInfo(Map condition) throws SQLException {
+		return haulinfoCustomMapper.getAllHaulInfo(condition);
+	}
+
 }

@@ -18,9 +18,11 @@
 		SELECT haulinfo.*,(select count(haulprojectid) from haulproject where
 		bigid=haulinfo.bigId) as biaoduan,
 		(select count(BigEmployeeoutId) from
-		haulemployeeout where bigid=haulinfo.bigId and trainstatus='2') as perNum,
+		haulemployeeout where bigid=haulinfo.bigId and trainstatus='2') as
+		perNum,
 		(select
-		count(unitBigId) from haulunit where bigid=haulinfo.bigId) as unitNum
+		count(unitBigId) from haulunit where
+		bigid=haulinfo.bigId) as unitNum
 		FROM haulinfo
 		<where>
 			<include refid="queryHaulWhere"></include>
@@ -121,15 +123,17 @@
 		haulproject.projectId
 		FROM haulproject
 		WHERE bigid = #{bigId})
-		limit #{index},#{currentCount}
+		limit
+		#{index},#{currentCount}
 	</select>
 	<!-- E查询标段信息 -->
 	<!-- S查询标段单位人数信息 -->
-	<select id="getCountProjectUnitPerNumInfoByBigId" parameterType="string" resultType="int">
-	SELECT COUNT(unitBigId) FROM haulunit WHERE bigId =#{value}
+	<select id="getCountProjectUnitPerNumInfoByBigId" parameterType="string"
+		resultType="int">
+		SELECT COUNT(unitBigId) FROM haulunit WHERE bigId =#{value}
 	</select>
-	
-	
+
+
 	<select id="getProjectUnitPerNumInfoByBigId" parameterType="map"
 		resultType="map">
 		SELECT
@@ -155,4 +159,41 @@
 		limit #{index},#{currentCount}
 	</select>
 	<!-- E查询标段单位人数信息 -->
+	<!--S 查询检修统计信息 -->
+	<select id="getAllHaulInfo" parameterType="map" resultType="map">
+		SELECT
+		COUNT(bigId) AS haulnum,
+		(SELECT
+		COUNT(unitBigId)
+		FROM haulunit,
+		haulinfo haul
+		WHERE haul.bigId = haulunit.bigId
+		AND haul.bigStatus = '进行中'
+		AND haulunit.bigId NOT
+		IN(#{regular_train},#{longterm_train}))
+		AS unitNnm,
+		(SELECT
+		COUNT(BigEmployeeoutId)
+		FROM haulemployeeout,
+		haulinfo haul
+		WHERE haul.bigId = haulemployeeout.bigId
+		AND haul.bigStatus = '进行中'
+		AND haul.bigId NOT
+		IN(#{regular_train},#{longterm_train})
+		AND haulemployeeout.trainStatus = '2') AS perNum,
+		(SELECT
+		COUNT(haulprojectid)
+		FROM haulproject,
+		haulinfo haul
+		WHERE haul.bigId = haulproject.bigId
+		AND haul.bigStatus = '进行中'
+		AND haul.bigId NOT
+		IN(#{regular_train},#{longterm_train}))
+		AS biaoduanNum
+		FROM haulinfo
+		WHERE haulinfo.bigStatus = '进行中'
+		AND haulinfo.bigId NOT
+		IN(#{regular_train},#{longterm_train})
+	</select>
+	<!--E 查询检修统计信息 -->
 </mapper>

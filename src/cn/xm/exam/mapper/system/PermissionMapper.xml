@@ -90,7 +90,7 @@
   
   <!-- 获取顶级菜单的id，name --> 
   <select id="getMenutop" resultType="map">
-  	select permissionid,name,parentid from permission where type in('menutop','menutoptop')
+  	select permissionid,name,parentid,type from permission where type in('menutop','menutoptop','menu')
   	ORDER BY -sortNo DESC
   </select>
   
@@ -147,4 +147,18 @@
 		</where>
 		ORDER BY -sortNo DESC
 	</select>
+	
+	<update id="updatePermissionsStatus">
+		update permission
+		<set>
+	  		status=#{status}
+	  	</set>
+	  	<where>
+	  		permissionid in (
+			<foreach collection="permissionids" item="permissionid" separator=",">
+				#{permissionid}
+			</foreach>
+			)
+	  	</where>
+	</update>
 </mapper>

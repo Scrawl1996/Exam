@@ -72,9 +72,4 @@ public interface EmpoutDistributeCustomMapper {
 	 */
 	public int deleteFenpeiInfoByHaulempIdAndDepartmentLevel(Map condition)throws SQLException;
 	
-	
-	
-	
-	
-	
 }
