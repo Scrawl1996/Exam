@@ -143,8 +143,7 @@
 										<div class="panel-body el_MainxiaoMain">
 
 											<div class="el_topButton">
-												<!-- 按钮触发模态框1 -->
-												<div class="col-md-5">
+												<!-- 按钮触发模态框1 -->												
 													<shiro:hasPermission name="department:add">
 														<button class="btn btn-primary"
 															onclick="el_addDepartment()"><span class="glyphicon glyphicon-plus"></span>添加部门</button>
@@ -154,12 +153,12 @@
 				                                        <option value="1">长期外来单位</option>
 				                                        <option value="" selected="selected">全部单位</option>
 				                                    </select>
-				                                    &nbsp;
+				                                     &nbsp;
 				                                    <button class="btn btn-primary"
 															onclick="el_departmentCount()"><span class="glyphicon glyphicon-search"></span>部门统计</button>
-													
-												</div>
+																									
 											</div>
+										
 										</div>
 									</div>
 
