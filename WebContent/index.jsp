@@ -14,7 +14,7 @@
 <title>主页</title>
 <!-- 转发到另一个首页 -->
 <%
-	request.getRequestDispatcher("http://192.168.4.29").forward(request,response);
+	request.getRequestDispatcher("/view/index/studyMainpage2.jsp").forward(request,response);
 %>
 
 
