@@ -220,9 +220,15 @@ function showEmployeeTypeDic_add(response) {
 		var names = response.names;// 获取字段返回的值
 		$("#add_employeeOutType").append("<option value='0'>--请选择--</option>")
 		for (var i = 0; i < names.length; i++) {
-			$("#add_employeeOutType").append(
-					'<option value="' + names[i] + '">' + names[i]
-							+ '</option>')
+			if(names[i]=='普工'){
+				$("#add_employeeOutType").append(
+						'<option selected value="' + names[i] + '">' + names[i]
+						+ '</option>')
+			}else{				
+				$("#add_employeeOutType").append(
+						'<option value="' + names[i] + '">' + names[i]
+						+ '</option>')
+			}
 		}
 	}
 }
@@ -236,7 +242,7 @@ function el_addEmp() {
 		}, showAddunitModal, 'json');
 	}
 }
-// 根据查询的结果判断大修是否已经节结束
+// 根据查询的结果判断大修是否已经结束
 function showAddunitModal(response) {
 	if (response != null && response.haulinfo != null) {
 		var haulinfo = response.haulinfo;
@@ -284,11 +290,7 @@ function addEmployeeOutInfo() {
 		alert("该员工年龄大于55岁！");
 		aged = false;
 	}
-	
-	/**
-	 *	如果年龄符合，即aged为true ，则执行下边内容。
-	 */
-	//if(aged){
+		
 		// 判断该身份证是否已经添加
 		for (var i = 0; i < idCardArrays.length; i++) {
 			if (idCardArrays[i] == idCard) {
@@ -327,9 +329,9 @@ function addEmployeeOutInfo() {
 							// 若该员工没进入黑名单执行的操作
 							if (data.status == 3) {
 								alert("该员工已进入黑名单，不能添加！")
-							} else if (data.status == 4) {
+							} /*else if (data.status == 4) {
 								alert("该员工已经添加到这次大修的该单位中，不能添加！")
-							} else if (data.status == 5) {
+							}*/ else if (data.status == 5) {
 								alert("该员工违章已经累计超过12分，积分周期内不能添加！")
 							} else {
 								// 若尚未添加将员工信息保存到数组中
@@ -392,12 +394,13 @@ function addEmployeeOutInfo() {
 									employeeOutSeq = employeeOutSeq + 1;
 								}
 							}
-							$("#add_employeeOutType option:selected").removeAttr(
-									"selected");
+							/*$("#add_employeeOutType option:selected").removeAttr(
+									"selected");*/							
+							initEmployeeTypeDic_add();
 						}
 					});
 		}
-	//}
+	
 }
 
 // 点击添加员工的模态框的删除按钮执行的操作
