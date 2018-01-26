@@ -234,10 +234,10 @@ label.success {
 
 									<!-- 表格 内容都提取到json里边 -->
 									<span style="float: right" id="countSpan">
-										<b>检修数量:</b><u></u>&nbsp;&nbsp;
-										<b>标段数量:</b><u></u>&nbsp;&nbsp;
-										<b>单位数量:</b><u></u>&nbsp;&nbsp;
-										<b>员工数量:</b><u></u>&nbsp;&nbsp;&nbsp;&nbsp;
+										<b>检修:&nbsp;</b><u></u>&nbsp;&nbsp;&nbsp;
+										<b>标段:&nbsp;</b><u></u>&nbsp;&nbsp;&nbsp;
+										<b>单位:&nbsp;</b><u></u>&nbsp;&nbsp;&nbsp;
+										<b>员工:&nbsp;</b><u></u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									</span>
 									<table class="table table-hover table-bordered" id="newsTable">
 										<thead>

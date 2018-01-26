@@ -64,7 +64,7 @@ hasOperatingEmpout = true;
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>培训管理</span><span>>新来员工培训</span>
+						<span>培训管理</span><span>>员工培训</span><span>>短委员工培训</span>
 					</div>
 					<div class="el_main">
 
