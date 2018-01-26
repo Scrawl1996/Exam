@@ -133,3 +133,24 @@
  	overflow-y:auto !important;
  	overflow-x:auto;
  }
+ 
+ /****消息提示框***********/
+    #msg {
+        width:500px;
+        height:300px;
+        position:fixed;
+        right:15px;
+        bottom:-300px;
+        background-color:#D1EEEE;
+        transition:all 2s linear;
+        box-shadow: 10px 10px 5px grey;//阴影
+        filter:alpha(Opacity=90);-moz-opacity:0.9;opacity: 0.9;color:#000000 ;
+    }
+    #msg>a {
+        float:right;
+        padding:5px 10px;
+        color:#000000;
+        border:1px solid black;
+        cursor:pointer;
+    }
+ 
