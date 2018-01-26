@@ -62,8 +62,8 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			Map condition = new HashMap();
 			// 获取用户信息
 			Subject currentUser = SecurityUtils.getSubject();
-			boolean permitted = currentUser.isPermitted("trainStatus:manager");// 判断是否有查看所有人培训信息权限
-			String departmentId = permitted ? departmentIdSession :"01002" ;//有权限将01002设为当前部门
+			boolean permitted = currentUser.isPermitted("trainStatus:factory");// 判断是否有查看所有人培训信息权限
+			String departmentId = permitted ? "01002" :departmentIdSession ;//有权限将01002设为当前部门
 			condition.put("departmentId", departmentId);
 			// 培训类型标记
 			if (ValidateCheck.isNotNull(markTrainType)) {
@@ -150,21 +150,13 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		Map<String, Object> condition = new HashMap<String, Object>();
 		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 		String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
+		// 获取用户信息
+		Subject currentUser = SecurityUtils.getSubject();
+		boolean permitted = currentUser.isPermitted("trainStatus:factory");// 判断是否有查看所有人培训信息权限
+		String departmentId = permitted ? "01002" :departmentIdSession ;//有权限将01002设为当前部门
 		//如果是具有厂级权限的部门来查看将部门ID设为01
 		if (ValidateCheck.isNotNull(departmentIdSession)) {
-			String departmentId_query = departmentIdSession;
-			String departmentId_cj = "";
-			try {
-				List<Dictionary> departmentIdAndNames = dictionaryService.getDictionarynamesByUpDicId("400");
-				departmentId_cj = departmentIdAndNames.get(0).getDiscription();//获取厂级权限部门
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			if(departmentIdSession.equals(departmentId_cj)){
-				departmentId_query = "01";
-			}
-			condition.put("departmentId", departmentIdSession);
-			condition.put("departmentId_query", departmentId_query);
+			condition.put("departmentId", departmentId);
 		}
 		if (ValidateCheck.isNotNull(distributeStatus)) {
 			condition.put("distributeStatus", distributeStatus);
