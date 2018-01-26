@@ -143,19 +143,22 @@
 										<div class="panel-body el_MainxiaoMain">
 
 											<div class="el_topButton">
-												<!-- 按钮触发模态框1 -->												
-													<shiro:hasPermission name="department:add">
-														<button class="btn btn-primary"
-															onclick="el_addDepartment()"><span class="glyphicon glyphicon-plus"></span>添加部门</button>
-													</shiro:hasPermission>
+												<!-- 按钮触发模态框1 -->			
+												
+												  
+				                                    <button class="btn btn-primary"
+															onclick="el_departmentCount()"><span class="glyphicon glyphicon-search"></span>部门统计</button>
+															
 													<select class="btn btn-primary" id="el_departType" title="请选择" onchange="queryDepartIn()">
 				                                        <option value="0">内部部门</option>
 				                                        <option value="1">长期外来单位</option>
 				                                        <option value="" selected="selected">全部单位</option>
-				                                    </select>
-				                                     &nbsp;
-				                                    <button class="btn btn-primary"
-															onclick="el_departmentCount()"><span class="glyphicon glyphicon-search"></span>部门统计</button>
+				                                    </select>	
+				                                    &nbsp;				
+													<shiro:hasPermission name="department:add">
+														<button class="btn btn-primary"
+															onclick="el_addDepartment()"><span class="glyphicon glyphicon-plus"></span>添加部门</button>
+													</shiro:hasPermission>
 																									
 											</div>
 										

@@ -14,8 +14,6 @@
     <title>权限管理</title>
 <%@ include file="/public/cssJs.jsp"%>
 
-    <!--分页-->
-    <script src="<%=path %>/js/public/page.js"></script>
 
     <script src="<%=path %>/js/system/treeSys.js"></script><!--菜单树-->
 
@@ -99,32 +97,11 @@
                                 <th>序号</th>
                                 <th>权限名称</th>
                                 <th>权限状态</th>
-         
                                 <th>权限描述</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody id='table_permissioninfo'>
-                            <tr>
-                                <td>1</td>
-                                <td>上传资料人员</td>
-                                <td>启用</td>
-                                <td>2</td>
-                                <td>上传本部门的所有培训资料</td>
-                                <td>
-                                    <a href="" data-toggle="modal" data-target="#modifyUserInfo">修改</a>&nbsp;
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>上传资料人员</td>
-                                <td class="danger">禁用</td>
-                                <td>2</td>
-                                <td>上传本部门的所有培训资料</td>
-                                <td>
-                                    <a href="" data-toggle="modal" data-target="#modifyUserInfo">修改</a>&nbsp;
-                                </td>
-                            </tr>
                             </tbody>
                         </table>
 

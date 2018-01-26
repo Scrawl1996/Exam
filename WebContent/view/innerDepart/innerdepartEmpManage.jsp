@@ -334,7 +334,7 @@ hasOperatingEmpin = true;
 
 
 							<!--显示内容-->
-							<h3 class="el_mainHead">员工违章信息</h3>
+							<h3 class="el_mainHead">员工信息</h3>
 							<div class="panel panel-default el_Mainmain">
 
 								<!--按钮面板-->
@@ -345,35 +345,8 @@ hasOperatingEmpin = true;
 
 											<div class="el_topButton">
 												<div>
-
-													<!-- 员工按钮 -->
-													<!-- 按钮触发模态框1 -->
-
-													<!-- 在模态框中添加 -->
-													<shiro:hasPermission name="empin:add">
-														<a id="el_addUserA" onclick="el_addEmployeeIn()">
-															<button class="btn btn-primary">
-																<span class="glyphicon glyphicon-plus"></span>添加员工
-															</button>
-														</a>
-													</shiro:hasPermission>
-
-
-													<shiro:hasPermission name="breakrules:add">
-														<!-- 按钮触发模态框1 -->
-
-														<button id="el_addBreakRules" class="btn btn-primary"
-															onclick="el_addBreakInfo()">添加违章信息</button>
-
-
-													</shiro:hasPermission>
-
-
-													<!-- <label id="el_showAllUser" title="选中将会显示该部门的管理人员"
-										class="btn btn-sm btn-primary"> <input
-										type="checkbox" onclick="isShowOnlyManager()"
-										id="el_showManager" class="checkbox-primary"> <span>&nbsp;管理人员</span>
-									</label> -->
+													<button class="btn btn-primary" data-toggle="modal"
+														onclick="el_empTrainDoc()">查看员工培训档案</button>
 
 													<select class="btn btn-primary" id="el_showManager"
 														title="请选择" onchange="isShowOnlyManager()"
@@ -381,9 +354,8 @@ hasOperatingEmpin = true;
 														<option value="false">全部员工</option>
 														<option value="true">管理人员</option>
 													</select>
-
-													<!-- 违章按钮 -->
-
+													<!-- 员工按钮 -->
+																										<!-- 违章按钮 -->
 													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select
 														class="btn btn-primary" id="el_breakType" title="请选择"
 														onchange="historyBreakInfoFind()">
@@ -392,10 +364,21 @@ hasOperatingEmpin = true;
 														<option value="0">当前违章</option>
 														<option value="1">历史违章</option>
 													</select> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-													<button class="btn btn-primary" data-toggle="modal"
-														onclick="el_empTrainDoc()">查看员工培训档案</button>
+													<!-- 按钮触发模态框1 -->
 
-
+													<shiro:hasPermission name="breakrules:add">
+														<!-- 按钮触发模态框1 -->
+														<button id="el_addBreakRules" class="btn btn-primary"
+															onclick="el_addBreakInfo()"><span class="glyphicon glyphicon-plus"></span>添加违章信息</button>
+													</shiro:hasPermission>
+													<!-- 在模态框中添加 -->
+													<shiro:hasPermission name="empin:add">
+														<a id="el_addUserA" onclick="el_addEmployeeIn()">
+															<button class="btn btn-primary">
+																<span class="glyphicon glyphicon-plus"></span>添加员工
+															</button>
+														</a>
+													</shiro:hasPermission>
 
 												</div>
 											</div>

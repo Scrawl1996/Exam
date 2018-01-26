@@ -358,7 +358,7 @@
 							<!--结束 查询表单提交-->
 
 							<!--显示内容-->
-							<h3 class="el_mainHead">外来单位员工信息</h3>
+							<h3 class="el_mainHead">短委员工信息</h3>
 
 							<div class="panel panel-default el_Mainmain">
 
@@ -379,7 +379,6 @@
 															<button class="btn btn-primary" onclick="el_addEmp()">
 																<span class="glyphicon glyphicon-plus"></span>添加员工</button>
 														</shiro:hasPermission>
-
 
 														<button class="btn btn-primary" id="el_lookTrainDocument"
 															onclick="el_empTrainDoc()">查看员工培训档案</button>
