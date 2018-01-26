@@ -3,9 +3,12 @@
  * 页面初始化函数
  */
 var biaoduan_open = false, pernum_open = false;// 用于记录两个模态框是否打开
+var updateBiaoDuan = false;// 用于标记是否修改标段
 $(function() {
 	// 页面初始化查询大修信息
 	queryHaulFun();
+//	查询统计信息
+	queryAllhaulinfo();
 	// 查询的点击事件
 	$("#haulQueryButton").click(function() {
 		$("#currentPage").val("");// 清空页数
@@ -28,6 +31,13 @@ $(function() {
 	// 外部模态框关闭的时候将标志字段设为false
 	$('#pernum_modal').on('hidden.bs.modal', function() {
 		pernum_open = false;
+	});
+
+	// 修改模态框关闭的时候根据是否修改标段判断是否需要二次查询
+	$('#el_modifyOverhaul').on('hidden.bs.modal', function() {
+		if (updateBiaoDuan) {
+			queryHaulFun();
+		}
 	});
 
 });
@@ -140,7 +150,8 @@ function showHaulTable(response) {
 	var totalCount = response.pageBean.totalCount;// 页总数
 	var currentPage = response.pageBean.currentPage;// 当前页
 	for (var i = 0, length_1 = haulinfos.length; i < length_1; i++) {
-		var tr = '<tr><td>' + '<input type="hidden" value="'
+		var tr = '<tr><td>'
+				+ '<input type="hidden" value="'
 				+ haulinfos[i].bigId
 				+ '"/>'
 				+ +(parseInt(currentCount) * parseInt(currentPage - 1) + (i + 1))
@@ -155,7 +166,10 @@ function showHaulTable(response) {
 				+ haulinfos[i].bigStatus + '</td><td>'
 				+ '<a href=javascript:void(0) onclick="selectBiaoduan(this)">'
 				+ haulinfos[i].biaoduan + '</a>' + '</td><td>'
-				+ haulinfos[i].unitNum + '</td><td>'
+				+'<a  title="查看具体的检修单位信息" href="' + contextPath
+				+ '/view/overhaul/overhaulInfo.jsp?haulId='
+				+ haulinfos[i].bigId + '">' + haulinfos[i].unitNum + '</a>'
+				+ '</td><td>'
 				+ '<a href=javascript:void(0) onclick="selectPernum(this)">'
 				+ haulinfos[i].perNum + '</a>' + '</td><td>';
 
@@ -214,7 +228,9 @@ function el_modifyOverhaul(obj) {
 
 	/*
 	 * $("#update_desc").val(up_desc);// 设置描述
-	 */$("#el_modifyOverhaul").modal({
+	 */
+	updateBiaoDuan = false;//是否修改标记标为否
+	$("#el_modifyOverhaul").modal({
 		backdrop : 'static',
 		keyboard : false
 	});
@@ -435,7 +451,7 @@ function page3(currentPage, totalCount, currentCount) {
 				"total" : totalCount,// 数字 当分页建立时设置记录的总数量 1
 				"pageSize" : currentCount,// 数字 每一页显示的数量 10
 				"pageNumber" : currentPage,// 数字 当分页建立时，显示的页数 1
-				"pageList" : [ 8 ,15 ,20 ],// 数组 用户可以修改每一页的大小，
+				"pageList" : [ 8, 15, 20 ],// 数组 用户可以修改每一页的大小，
 				// 功能
 				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
 						'last', 'links' ],
@@ -514,22 +530,22 @@ function page4(currentPage, totalCount, currentCount) {
 /** *E 点击标段数量*** */
 
 /** **S 修改检修的操作************** */
-//增加标段
+// 增加标段
 function addOneBiaoduan() {
 	// 提示用户输入信息的框
 	var name = prompt("请输入标段名字");
 	var trs = $("#updatebiaoduanTbody").children("tr");
-	var canAdd= trs.length == 0?true:false ; 
+	var canAdd = trs.length == 0 ? true : false;
 	// 判断此标段名称是否在下面存在
 	for (var i = 0; i < trs.length; i++) {
 		if (name == $(trs[i]).children("td:eq(1)").text()) {
 			alert("不能重复添加标段");
 			return;
 		} else {
-			canAdd = true ;
+			canAdd = true;
 		}
 	}
-	if(canAdd){
+	if (canAdd) {
 		$.post(contextPath + "/upHaul_addOneBiaoduan.action", {
 			"bigId" : $("#update_bigid").val(),
 			"name" : name
@@ -539,41 +555,50 @@ function addOneBiaoduan() {
 
 function showResult(response) {
 	var result = response.result;
-	if(result=='添加成功!'){
+	if (result == '添加成功!') {
+		if (updateBiaoDuan == false) {
+			updateBiaoDuan = true;
+		}
 		queryBiaoduan($("#update_bigid").val());
 	}
-	
+
 }
 
-//删除标段:
-function deleteBiaoduan(obj){
-	var projectId=$(obj).parent().parent().children("td:eq(0)").find("input").val();//要删除的ID
-	if(confirm("您确认删除该标段信息?")){
+// 删除标段:
+function deleteBiaoduan(obj) {
+	var projectId = $(obj).parent().parent().children("td:eq(0)").find("input")
+			.val();// 要删除的ID
+	if ($("#updatebiaoduanTbody").find("tr").length == 1) {
+		alert("最少保留一个标段");
+		return;
+	}
+	if (confirm("您确认删除该标段信息?")) {
 		$.post(contextPath + "/upHaul_deleteOneBiaoduan.action", {
 			"projectId" : projectId,
-		}, function(response){
+		}, function(response) {
 			var result = response.result;
 			alert(result);
-			if(result=='删除成功!'){
+			if (result == '删除成功!') {
+				if (updateBiaoDuan == false) {
+					updateBiaoDuan = true;
+				}
 				queryBiaoduan($("#update_bigid").val());
 			}
 		}, 'json')
 	}
 }
 
-
-
-
-//修改标段:
-function updateBiaoduan(obj){
-	var projectName=$(obj).parent().parent().children("td:eq(1)").text();
-	var projectId=$(obj).parent().parent().children("td:eq(0)").find("input").val();//要修改的ID
-	var name = prompt("请输入标段名字",projectName);
-	if(name!=null){//点击确定
+// 修改标段:
+function updateBiaoduan(obj) {
+	var projectName = $(obj).parent().parent().children("td:eq(1)").text();
+	var projectId = $(obj).parent().parent().children("td:eq(0)").find("input")
+			.val();// 要修改的ID
+	var name = prompt("请输入标段名字", projectName);
+	if (name != null) {// 点击确定
 		$.post(contextPath + "/upHaul_updateOneBiaoduan.action", {
 			"projectId" : projectId,
-			"name":name
-		}, function(response){
+			"name" : name
+		}, function(response) {
 			var result = response.result;
 			alert(result);
 			queryBiaoduan($("#update_bigid").val());
@@ -581,5 +606,26 @@ function updateBiaoduan(obj){
 	}
 }
 
+/****************************查询统计信息**********************************/
+function queryAllhaulinfo(){
+	$.post(contextPath+'/haul_getAllhaulinfo.action',function(response){
+		var haulnum = response.allHaulInfo.haulnum;
+		var biaoduanNum = response.allHaulInfo.biaoduanNum;
+		var perNum = response.allHaulInfo.perNum;
+		var unitNnm = response.allHaulInfo.unitNnm;
+		var span = $("#countSpan");
+		span.children("u:eq(0)").html(haulnum);
+		span.children("u:eq(1)").html(biaoduanNum);
+		span.children("u:eq(2)").html(unitNnm);
+		span.children("u:eq(3)").html(perNum);
+	},'json');
+}
 
-
+/*****************检修状态改变的时候显示与隐藏统计信息*******************************/
+function changeCountInfo(){
+	if($("[name='bigStatus']").val()!="进行中"){
+		$("#countSpan").css("display","none");
+	}else{
+		$("#countSpan").css("display","block");
+	}
+}

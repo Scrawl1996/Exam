@@ -189,7 +189,7 @@ label.success {
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
 												<span class="el_spans">检修状态：</span> <select
-													class="selectpicker form-control" name="bigStatus"
+													class="selectpicker form-control" name="bigStatus" onchange="changeCountInfo()"
 													title="请选择">
 													<option value="">--请选择--</option>
 													<option value="未开始">未开始</option>
@@ -233,6 +233,12 @@ label.success {
 									</div>
 
 									<!-- 表格 内容都提取到json里边 -->
+									<span style="float: right" id="countSpan">
+										<b>检修数量:</b><u></u>&nbsp;&nbsp;
+										<b>标段数量:</b><u></u>&nbsp;&nbsp;
+										<b>单位数量:</b><u></u>&nbsp;&nbsp;
+										<b>员工数量:</b><u></u>&nbsp;&nbsp;&nbsp;&nbsp;
+									</span>
 									<table class="table table-hover table-bordered" id="newsTable">
 										<thead>
 											<tr>
@@ -287,8 +293,9 @@ label.success {
 												</div>
 												<div class="input-group el_modellist" role="toolbar">
 													<span class="el_spans">标段名称：</span> <input name="XXXXXX"
-														class="form-control el_modelinput clearAdd add_biaoduan" style="width:90%;"/> <a
-														href=javascript:void(0) onclick="addBiaoduan()"><span
+														class="form-control el_modelinput clearAdd add_biaoduan"
+														style="width: 90%;" /> <a href=javascript:void(0)
+														onclick="addBiaoduan()"><span
 														class="glyphicon glyphicon-plus-sign"
 														style="color: rgb(221, 221, 221)" title="添加标段"></span></a>
 												</div>
@@ -308,7 +315,7 @@ label.success {
 														</thead>
 														<!-- 存放标段信息 -->
 														<tbody id="biaoduanTbody">
-															
+
 														</tbody>
 													</table>
 												</div>
@@ -348,8 +355,8 @@ label.success {
 													<span class="el_spans">检修名称：</span> <input type="text"
 														class="form-control el_modelinput" id="update_haulName"
 														name="bigname" />
-														
-														
+
+
 												</div>
 												<div class="input-group el_modellist" role="toolbar">
 													<span class="el_spans">检修时间：</span> <input type="text"
@@ -360,29 +367,28 @@ label.success {
 														class="workinput el_noVlaue form-control wicon"
 														id="inpend1" readonly>
 												</div>
-												
+
 												<button type="button" id="update_haul_btn"
 													class="btn btn-primary">修改基本信息</button>
-												<button type="button" class="btn btn-primary" onclick="addOneBiaoduan()">添加标段</button>
-												<hr/>
-													<table class="table table-hover table-bordered">
-														<thead>
-															<tr>
-																<th>序号</th>
-																<th>标段名称</th>
-																<th>操作</th>
-															</tr>
-														</thead>
-														<!-- 存放标段信息 -->
-														<tbody id="updatebiaoduanTbody">
+												<button type="button" class="btn btn-primary"
+													onclick="addOneBiaoduan()">添加标段</button>
+												<hr />
+												<table class="table table-hover table-bordered">
+													<thead>
+														<tr>
+															<th>序号</th>
+															<th>标段名称</th>
+															<th>操作</th>
+														</tr>
+													</thead>
+													<!-- 存放标段信息 -->
+													<tbody id="updatebiaoduanTbody">
 
-														</tbody>
-													</table>
-												</div>
-												
-											<div>	
-												
+													</tbody>
+												</table>
 											</div>
+
+											<div></div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"
 													data-dismiss="modal">关闭</button>
@@ -428,122 +434,122 @@ label.success {
 
 
 						</div>
-						
-						
-						
-							<!-- 模态框 点击标段数量-->
-							<div class="modal fade" id="biaoduan_modal" tabindex="-1"
-								role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
-											<!--关闭符号-->
-											<!--标题-->
-											<h4 class="modal-title" id="myModalLabel2">标段信息</h4>
+
+
+
+						<!-- 模态框 点击标段数量-->
+						<div class="modal fade" id="biaoduan_modal" tabindex="-1"
+							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">&times;</button>
+										<!--关闭符号-->
+										<!--标题-->
+										<h4 class="modal-title" id="myModalLabel2">标段信息</h4>
+									</div>
+									<form id="query_biaoduan">
+										<input type='hidden' name='currentPage' id='currentPage3' /> <input
+											type='hidden' name='currentCount' id='currentCount3' /> <input
+											type='hidden' name='haulId' id='haulId_biaoduan' />
+									</form>
+									<div class="modal-body">
+										<div>
+											<table class="table table-hover table-bordered">
+												<thead>
+													<tr>
+														<th>序号</th>
+														<th>标段名称</th>
+														<th>人数</th>
+													</tr>
+												</thead>
+												<!-- 存放标段信息 -->
+												<tbody id="biaoduan_click_tbody">
+
+												</tbody>
+											</table>
+											<!--分页-->
+											<div id="paginationIDU3" class="paginationID"></div>
 										</div>
-										<form id="query_biaoduan">
-										<input type='hidden' name='currentPage' id='currentPage3'/>
-										<input type='hidden' name='currentCount' id='currentCount3'/>
-										<input type='hidden' name='haulId' id='haulId_biaoduan'/>
-										</form>
-											<div class="modal-body">
-												<div>
-													<table class="table table-hover table-bordered">
-														<thead>
-															<tr>
-																<th>序号</th>
-																<th>标段名称</th>
-																<th>人数</th>
-															</tr>
-														</thead>
-														<!-- 存放标段信息 -->
-														<tbody id="biaoduan_click_tbody">
-
-														</tbody>
-													</table>
-													<!--分页-->
-                                   					 <div id="paginationIDU3" class="paginationID"></div>
-												</div>
-
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
-											</div>
 
 									</div>
-									<!-- /.modal-content -->
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">关闭</button>
+									</div>
+
 								</div>
-								<!-- /.modal -->
+								<!-- /.modal-content -->
 							</div>
-							
-							
-							
-							
-							<!-- 模态框 点击标段数量-->
-							<div class="modal fade" id="pernum_modal" tabindex="-1"
-								role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
-											<!--关闭符号-->
-											<!--标题-->
-											<h4 class="modal-title" id="myModalLabel2">单位人数信息</h4>
+							<!-- /.modal -->
+						</div>
+
+
+
+
+						<!-- 模态框 点击标段数量-->
+						<div class="modal fade" id="pernum_modal" tabindex="-1"
+							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">&times;</button>
+										<!--关闭符号-->
+										<!--标题-->
+										<h4 class="modal-title" id="myModalLabel2">单位人数信息</h4>
+									</div>
+									<form id="query_pernum">
+										<input type='hidden' name='currentPage' id='currentPage4' /> <input
+											type='hidden' name='currentCount' id='currentCount4' /> <input
+											type='hidden' name='haulId' id='haulId_pernum' />
+									</form>
+									<div class="modal-body">
+										<div>
+											<table class="table table-hover table-bordered">
+												<thead>
+													<tr>
+														<th>序号</th>
+														<th>标段名称</th>
+														<th>单位名称</th>
+														<th>人数</th>
+													</tr>
+												</thead>
+												<!-- 存放标段信息 -->
+												<tbody id="pernum_click_tbody">
+
+												</tbody>
+											</table>
+											<!--分页-->
+											<div id="paginationIDU4" class="paginationID"></div>
 										</div>
-										<form id="query_pernum">
-										<input type='hidden' name='currentPage' id='currentPage4'/>
-										<input type='hidden' name='currentCount' id='currentCount4'/>
-										<input type='hidden' name='haulId' id='haulId_pernum'/>
-										</form>
-											<div class="modal-body">
-												<div>
-													<table class="table table-hover table-bordered">
-														<thead>
-															<tr>
-																<th>序号</th>
-																<th>标段名称</th>
-																<th>单位名称</th>
-																<th>人数</th>
-															</tr>
-														</thead>
-														<!-- 存放标段信息 -->
-														<tbody id="pernum_click_tbody">
-
-														</tbody>
-													</table>
-													<!--分页-->
-                                   					 <div id="paginationIDU4" class="paginationID"></div>
-												</div>
-
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
-											</div>
 
 									</div>
-									<!-- /.modal-content -->
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">关闭</button>
+									</div>
+
 								</div>
-								<!-- /.modal -->
+								<!-- /.modal-content -->
 							</div>
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
+							<!-- /.modal -->
+						</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 					</div>
 
