@@ -1006,6 +1006,22 @@
 
 		</div>
 	</div>
+	
+	<!-- 超过55岁的年龄超时提醒 -->
+	<div id="msg">
+		<a>X</a>
+		<center>
+			<p>请注意:以下短委员工年龄已超过五十五岁</p>
+		</center>
+		<div id="messageDiv">
+			<table class="table table-hover  table-bordered"
+				style="width: 95%; margin: 0 auto; font-size: 13px;" id="olderTable">
+			</table>
+		</div>
+	</div>
+	
+	
+	
 
 	<!--放脚-->
 	<jsp:include page="/view/public/footer.jsp"></jsp:include>

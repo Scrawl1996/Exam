@@ -1088,3 +1088,75 @@ function historyBigInfoFind(){
 	searchDepartmentAndOverHualTree(mark);
 	findEmployeeOutBaseInfo();
 }
+
+
+
+
+/** ***************** S 消息框 QLQ********************* */
+$(function() {
+	showMessage();
+});
+function showMessage() {
+
+	var msg = document.getElementById("msg");
+	queryOlderPerson();
+	msg.firstElementChild.onclick = function() { // this->a
+		msg.style.bottom = "-300px";
+		setTimeout(function() {
+			queryOlderPerson();
+		}, 60*60*1000);
+	}
+}
+/**
+ * 查询内部超过55岁的人
+ */
+function queryOlderPerson() {
+	$.post(contextPath + '/message_getUnreadMessageByEmpType.action', {
+		"empType" : "0"
+	}, showOlderTable, 'json');
+}
+// 查询结果填入表格
+function showOlderTable(response) {
+	$("#olderTable").html("");
+	var msg = document.getElementById("msg");
+	var messages = response.messages;
+	if (messages == null) {
+		msg.style.bottom = "-300px";
+		return;
+	}
+	for (var i = 0, length_1 = messages.length; i < length_1; i++) {
+		$("#olderTable")
+				.append(
+						'<tr><td>'
+								+ messages[i].name
+								+ '<input type="hidden" class="messageid" value="'
+								+ messages[i].messageid
+								+ '">'
+								+ '</td><td>'
+								+ messages[i].idcode
+								+ '</td><td>'
+								+ messages[i].birthday
+								+ '</td><td><a class="button" href=javascript:void(0) onclick="readMessage(this)">删除消息</a></td></tr>');
+	}
+	if ($("#olderTable").find("tr").length > 0) {
+		msg.style.bottom = "0";
+	}
+}
+
+function readMessage(obj) {
+	var messageid = $(obj).parents("tr").children(":first").find(".messageid")
+			.val();// 消息ID
+	$.post(contextPath + '/message_updateMessageByMessageId.action', {
+		"messageid" : messageid
+	}, function(response) {
+		if (response.result == "读取成功") {
+			alert("已经成功处理！");
+			queryOlderPerson();
+		}
+	}, 'json')
+
+}
+
+/** *****************E 消息框 QLQ********************* */
+
+
