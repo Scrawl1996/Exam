@@ -53,6 +53,7 @@
 	font-size: 16px;
 	color: white;
 	text-align: center;
+	text-shadow:0px 1px 0px #000;
 }
 #el_headerLeftLogo2 a {
 	display: block;

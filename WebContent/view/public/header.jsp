@@ -18,18 +18,24 @@
 
 <!--时钟 要改成获取服务器时间-->
 <script type="text/javascript" src="<%=path%>/js/home/header.js"></script>
+
 </head>
 <body>
 
 	<!--头-->
 	<div id="el_header">
-		<div id="el_headerLeftLogo">
+	   <%-- <div id="el_headerLeftLogo">
 			<img src="<%=path%>/image/logo.png" width="36" /> 
-			<a href="<%=path%>/view/index/studyMainpage2.jsp">阳城国际发电有限责任公司 大唐阳城发电有限责任公司 </a>
+			<a href="<%=path%>/view/index/studyMainpage2.jsp"> 阳城国际发电有限责任公司 大唐阳城发电有限责任公司 </a>
 		</div>
 		<div id="el_headerLeftLogo1">
 			<a href="<%=path%>/view/index/studyMainpage2.jsp">安全培训管理系统 </a>
+		</div>  --%>
+		 
+		<div id="el_headerLeftLogo">
+			<img src="<%=path%>/image/backgroundlogo.png" width="500px" height="47px"  style="margin-top:-8px"/> 			
 		</div>
+		
 		<div id="el_headerRightinfo">
 			<div id="el_systemTime">
 				<P id="time" style="font-size: 12px;"></P>
