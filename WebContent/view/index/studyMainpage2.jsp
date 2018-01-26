@@ -220,6 +220,8 @@
 		$(obj).text();
 		//级别
 		var thisBank = "一级";
+		$("#currentPage").val("1");
+		$("#resultCount").val("8");//每页显示的记录数
 		//alert($(obj).text()+" "+thisBank)
 		//为知识点和资料等级的隐藏域赋值
 		$("#selknow").val($(obj).text());//知识点
@@ -231,6 +233,8 @@
 		//知识点
 		$(obj).text();
 		//级别
+		$("#currentPage").val("1");//当前页页号
+		$("#resultCount").val("8");//每页显示的记录数
 		var thisBank = "二级";
 		//alert($(obj).text()+" "+thisBank)
 		$("#selknow").val($(obj).text());//知识点
@@ -242,6 +246,8 @@
 		//知识点
 		$(obj).text();
 		//级别
+		$("#currentPage").val("1");//当前页页号
+		$("#resultCount").val("8");//每页显示的记录数
 		var thisBank = "三级";
 		//alert($(obj).text()+" "+thisBank)
 		$("#selknow").val($(obj).text());//知识点
@@ -253,6 +259,8 @@
 	function el_query51(obj) {
 		//知识点
 		$(obj).text();
+		$("#currentPage").val("1");//当前页页号
+		$("#resultCount").val("8");//每页显示的记录数
 		//级别
 		var thisBank = "一级";
 		//alert($(obj).text()+" "+thisBank)
@@ -263,6 +271,8 @@
 
 	//二级 全部
 	function el_query52(obj) {
+		$("#currentPage").val("1");//当前页页号
+		$("#resultCount").val("8");//每页显示的记录数
 		//知识点
 		$(obj).text();
 		//级别
@@ -276,6 +286,8 @@
 	//三级 全部
 	function el_query53(obj) {
 		//知识点
+		$("#currentPage").val("1");//当前页页号
+		$("#resultCount").val("8");//每页显示的记录数
 		$(obj).text();
 		//级别
 		var thisBank = "三级";

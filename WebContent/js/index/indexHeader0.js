@@ -88,9 +88,11 @@ function login() {
 						$("#myModal").modal("hide");
 						$("#el_userType option[value='3']").remove();
 						$("#closeModal").css("display", "block");
+						
 						initKnowledgeType();
 						// 页面加载的时候初始化页面的数据
 						initPageData();
+						
 						$(".el_navUL").css("display", "none");
 						$("#showMessage").css("display", "none");
 						return;
