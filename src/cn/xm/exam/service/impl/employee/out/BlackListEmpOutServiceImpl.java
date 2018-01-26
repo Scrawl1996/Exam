@@ -9,9 +9,15 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import cn.xm.exam.bean.employee.in.EmplyinBreakrules;
+import cn.xm.exam.bean.employee.in.EmplyinBreakrulesExample;
 import cn.xm.exam.bean.employee.out.Blacklist;
 import cn.xm.exam.bean.employee.out.BlacklistExample;
+import cn.xm.exam.bean.employee.out.Breakrules;
+import cn.xm.exam.bean.employee.out.BreakrulesExample;
+import cn.xm.exam.mapper.employee.in.EmplyinBreakrulesMapper;
 import cn.xm.exam.mapper.employee.out.BlacklistMapper;
+import cn.xm.exam.mapper.employee.out.BreakrulesMapper;
 import cn.xm.exam.mapper.employee.out.custom.BlackListCustomMapper;
 import cn.xm.exam.service.employee.out.BlackListEmpOutService;
 import cn.xm.exam.utils.PageBean;
@@ -32,6 +38,11 @@ public class BlackListEmpOutServiceImpl implements BlackListEmpOutService {
 	private BlacklistMapper blackListMapper;
 	@Resource
 	private BlackListCustomMapper blackListCustomMapper;
+	@Resource
+	private BreakrulesMapper breakRulesMapper;
+	@Resource
+	private EmplyinBreakrulesMapper emplyInBreakRulesMapper;
+	
 	
 	@Override
 	public PageBean<Map<String, Object>> getBlackEmployeePage(int currentPage, int currentCount) throws SQLException {
@@ -71,6 +82,34 @@ public class BlackListEmpOutServiceImpl implements BlackListEmpOutService {
 			blackListCustomMapper.deleteEmpInBreakRulesInfo(employeeid);
 		}		
 		return blackListMapper.deleteByPrimaryKey(Integer.valueOf(id))>0?true:false;
+	}
+
+	@Override
+	public Map<String, Object> getBreakRulesInfoList(String employeeId, String employeeType) throws SQLException {
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+			
+		if(employeeType.equals("0")){
+			/*
+			EmplyinBreakrulesExample emplyinBreakrules = new EmplyinBreakrulesExample();
+			EmplyinBreakrulesExample.Criteria emplyInCriteria = emplyinBreakrules.createCriteria();
+			emplyInCriteria.andEmpinemployeeidEqualTo(employeeId);			
+			List<EmplyinBreakrules> list = emplyInBreakRulesMapper.selectByExample(emplyinBreakrules);*/
+			List<EmplyinBreakrules> list = blackListCustomMapper.getEmplyInBreakrulesById(employeeId);
+			
+			map.put("list", list);
+			return map;
+		}else{
+			/*BreakrulesExample breakRulesExample = new BreakrulesExample();
+			BreakrulesExample.Criteria emplyOutCriteria = breakRulesExample.createCriteria();
+			emplyOutCriteria.andEmployeeidEqualTo(employeeId);
+			List<Breakrules> list = breakRulesMapper.selectByExample(breakRulesExample);
+			*/
+			List<Breakrules> list = blackListCustomMapper.getEmplyOutBreakrulesById(employeeId);
+			map.put("list", list);
+			return map;
+		}
+						
 	}
 
 }

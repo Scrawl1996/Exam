@@ -285,7 +285,7 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 
 	/**
 	 * 根据身份证号查询该员工的状态
-	 * 返回：1、表示没有来过   2、表示来过 3、表示进入黑名单 4、表示已经添加到这次大修的其他部门中,5表示临时进入黑名单
+	 * 返回：1、表示没有来过   2、表示来过 3、表示进入黑名单 4、表示已经添加到这次大修的这个单位中,5表示临时进入黑名单
 	 * @param idCard
 	 * @return
 	 * @throws Exception

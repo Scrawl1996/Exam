@@ -30,7 +30,10 @@ public class BlackListAction extends ActionSupport{
 	private Map<String,Object> result;
 	//黑名单ID
 	private String blackId;
-	
+	//员工ID
+	private String employeeId;
+	//员工类型
+	private String employeeType;
 	/**
 	 * 查询黑名单员工信息
 	 * @return
@@ -72,6 +75,18 @@ public class BlackListAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
+	
+	//查询违章详情
+	public String selectBreakRulesInfo(){
+		result = new HashMap<String,Object>();
+		try {
+			Map<String, Object> map = blackListEmpOutService.getBreakRulesInfoList(employeeId, employeeType);
+			result.put("breakListInfo", map);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
 
 	public String getCurrentPage() {
 		return currentPage;
@@ -108,6 +123,22 @@ public class BlackListAction extends ActionSupport{
 
 	public void setBlackId(String blackId) {
 		this.blackId = blackId;
+	}
+
+	public String getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public String getEmployeeType() {
+		return employeeType;
+	}
+
+	public void setEmployeeType(String employeeType) {
+		this.employeeType = employeeType;
 	}
 	
 	

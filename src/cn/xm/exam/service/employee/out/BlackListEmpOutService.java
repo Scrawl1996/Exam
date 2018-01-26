@@ -1,6 +1,7 @@
 package cn.xm.exam.service.employee.out;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import cn.xm.exam.utils.PageBean;
@@ -29,4 +30,13 @@ public interface BlackListEmpOutService {
 	 * @throws SQLException
 	 */
 	public  boolean deleteBlackListInfoById(String id) throws SQLException;
+	
+	/**
+	 * 根据员工ID和员工类型查询违章信息
+	 * @param employeeId
+	 * @param employeeType
+	 * @return
+	 * @throws SQLException
+	 */
+	public Map<String,Object> getBreakRulesInfoList(String employeeId,String employeeType) throws SQLException;
 }

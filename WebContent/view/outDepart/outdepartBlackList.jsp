@@ -373,7 +373,52 @@ label.success {
 								<!-- /.modal-dialog -->
 							</div>
 							<!-- /.modal -->
-
+							
+							
+							<!-- 模态框 查看违章积分详情-->
+							<div class="modal fade" id="el_empTrainDoc_1" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabel234">员工违章积分</h4>
+										</div>
+										<form>
+											<div class="modal-body" style="padding: 10px 30px 0 30px;">
+												<div>
+													<table
+														class="table table-bordered table-hover el_threeScoreListTable">
+														<thead>
+															<tr>
+																<th>序号</th>
+																<th>违章时间</th>
+																<th>积分</th>
+																<th>违章内容</th>																													
+															</tr>
+														</thead>
+														<tbody id="employeeBreakRulesInfo">
+														</tbody>
+													</table>													
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+											</div>
+										</form>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+							<!-- 结束模态框 -->
+							
+							
 						</div>
 
 					</div>

@@ -3,7 +3,7 @@
 <mapper namespace="cn.xm.exam.mapper.employee.out.custom.BlackListCustomMapper">
 
 
-	<!-- 查询黑名单单位信息分页显示 -->
+	<!-- 查询黑名单员工信息分页显示 -->
 	<select id="getBlackEmployeeListInfo" parameterType="map" resultType="map">
 		SELECT
 				blacklist.*, CASE employeeStatus = '1'
@@ -72,5 +72,19 @@
 		DELETE FROM emplyin_breakrules WHERE empInemployeeId = #{value} 
 			AND empinbreaktime LIKE CONCAT(YEAR(CURDATE()),'%')
 	</delete>
+	
+	<!-- 短委员工 查询违章记录 -->
+	<select id="getEmplyOutBreakrulesById" parameterType="String" resultType="cn.xm.exam.bean.employee.out.Breakrules">
+		SELECT * FROM breakrules where employeeId = #{value}
+			AND breakTime LIKE CONCAT(YEAR(CURDATE()),'%')
+			ORDER BY breakTime DESC
+	</select>
+	
+	<!-- 长委员工 查询违章记录 -->
+	<select id="getEmplyInBreakrulesById" parameterType="String" resultType="cn.xm.exam.bean.employee.in.EmplyinBreakrules">
+		SELECT * FROM emplyin_breakrules where empInEmployeeId = #{value}
+			AND empInBreakTime LIKE CONCAT(YEAR(CURDATE()),'%')
+			ORDER BY empInBreakTime DESC
+	</select>
 	
 </mapper>

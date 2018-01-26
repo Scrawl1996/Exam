@@ -269,11 +269,14 @@ function showBlackListInfo(data){
 		for(var i=0;i<blackListInfo.length;i++){
 			var index = (currentPage - 1) * currentCount + i + 1;
 			showBlackListInfoInfoStr +="<tr><td>"										
-									    +index+"</td><td>"									
+									    +index
+									    +"<input type='hidden' class='query_employeeId' value='"+blackListInfo[i].employeeId+"'>"
+									    +"<input type='hidden' class='query_employeeType' value='"+blackListInfo[i].employeeStatus+"'>"
+									    +"</td><td>"									
 										+blackListInfo[i].name+"</td><td>"
 										+(blackListInfo[i].sex>1?'女':'男')+"</td><td>"
 										+(blackListInfo[i].employeeStatus>0?'短委':'长委')+"</td><td>"
-										+blackListInfo[i].time.substring(0,10)+"</td><td>"
+										+blackListInfo[i].time.substring(0,10)+"</td><td onclick='findBreakRulesInfo(this)' title='点击查看具体的违章记录' class='el_delButton' style='color:darkblue;'>"
 										+blackListInfo[i].minusnum+"</td><td>"
 										+blackListInfo[i].blackIdcard+"</td><td>"
 										+'<a href="javascript:void(0)" onclick="deleteBlackInfo('+blackListInfo[i].id+')" title="删除此单位"><span class="glyphicon glyphicon-trash"></span></a><br />'
@@ -327,5 +330,53 @@ function deleteBlackInfo(blackId){
 				findBlackListEmpInfo(1,8);
 			}
 		})
+	}
+}
+
+//违章详情查看
+function findBreakRulesInfo(obj){
+	var employeeType = $(obj).parents("tr").find(".query_employeeType").val();
+	var employeeId = $(obj).parents("tr").find(".query_employeeId").val();
+	$.ajax({
+		url:contextPath +"/blackListEmpOut_selectBreakRulesInfo.action",
+		dataType:"json",
+		data:{"employeeType":employeeType,"employeeId":employeeId},
+		type:"post",		
+		success:function(data){
+			showBreakRulesInfo(data,employeeType);
+		}
+	})
+}
+
+function showBreakRulesInfo(data,employeeType){
+	var result = data;	
+	//从数据库中查询出来的数据集合
+	var breakRulesListInfo = result.breakListInfo.list;
+	var showBreakRulesInfoStr = "";
+	if(breakRulesListInfo != null){
+		if(employeeType==1){			
+			for(var i=0;i<breakRulesListInfo.length;i++){
+				var index = i + 1;
+				showBreakRulesInfoStr +="<tr><td>"										
+					+index+"</td><td>"																			
+					+breakRulesListInfo[i].breaktime.substring(0,10)+"</td><td>"
+					+breakRulesListInfo[i].minusnum+"</td><td>"
+					+breakRulesListInfo[i].breakcontent+"</td></tr>";					
+			}
+		}else{
+			for(var i=0;i<breakRulesListInfo.length;i++){
+				var index = i + 1;
+				showBreakRulesInfoStr +="<tr><td>"										
+					+index+"</td><td>"																			
+					+breakRulesListInfo[i].empinbreaktime.substring(0,10)+"</td><td>"
+					+breakRulesListInfo[i].empinminusnum+"</td><td>"
+					+breakRulesListInfo[i].empinbreakcontent+"</td></tr>";					
+			}
+		}
+		//清空表格
+		$("#employeeBreakRulesInfo").empty();
+		//添加信息
+		$("#employeeBreakRulesInfo").append(showBreakRulesInfoStr);
+		$("#el_empTrainDoc_1").modal();
 	}
 }
