@@ -115,8 +115,7 @@ hasOperatingEmpin = true;
 			id="detailunitName" name="detailunitName" type="hidden" value="" />
 		<input id="detailemployeeId" name="detailemployeeId" type="hidden"
 			value="" /> <input id="detail_breakInfoType" name="empBreakInfoType"
-			type="hidden" value="0" /> <input id="detail_breakInfoType"
-			name="empBreakInfoType" type="hidden" value="0" />
+			type="hidden" value="0" /> 
 
 		<!-- 隐藏员工的部门类型 -->
 		<input type="hidden" name="employeeDepartmentType"

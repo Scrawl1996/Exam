@@ -155,8 +155,11 @@ label.success {
 															<th>序号</th>
 															<th>姓名</th>
 															<th>性别</th>
-															<th>拉黑时间</th>																										
-															<th width="15%">操作</th>
+															<th>员工类型</th>
+															<th>拉黑时间</th>																
+															<th>违章积分</th>		
+															<th>身份证号</th>																							
+															<th>操作</th>
 														</tr>
 													</thead>
 													<tbody id="blackEmpInfolist">

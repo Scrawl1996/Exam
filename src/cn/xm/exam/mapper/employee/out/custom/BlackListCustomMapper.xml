@@ -6,10 +6,42 @@
 	<!-- 查询黑名单单位信息分页显示 -->
 	<select id="getBlackEmployeeListInfo" parameterType="map" resultType="map">
 		SELECT
-			blacklist.*, (SELECT `name` FROM employee_out WHERE blackIdcard = idCode) AS `name`,
-			(SELECT `sex` FROM employee_out WHERE blackIdcard = idCode) AS `sex`
-		FROM
-			`blacklist`
+				blacklist.*, CASE employeeStatus = '1'
+			WHEN TRUE THEN
+				(SELECT `name` FROM employee_out WHERE blackIdcard = idCode)
+			ELSE
+				(SELECT `name` FROM employee_in WHERE blackIdcard = idCode)
+			END AS `name`,
+			 CASE employeeStatus = '1'
+			WHEN TRUE THEN
+				(SELECT `sex` FROM employee_out WHERE blackIdcard = idCode)
+			ELSE
+				(SELECT `sex` FROM employee_in WHERE blackIdcard = idCode)
+			END AS `sex`,
+			 CASE employeeStatus = '1'
+			WHEN TRUE THEN
+				(
+					SELECT
+						SUM(minusnum)
+					FROM
+						breakrules
+					WHERE
+						employeeId = blacklist.employeeId
+					AND breaktime LIKE CONCAT(YEAR(CURDATE()), '%')
+				)
+			ELSE
+				(
+					SELECT
+						SUM(empInMinusNum)
+					FROM
+						emplyin_breakrules
+					WHERE
+						empInEmployeeId = blacklist.employeeId
+					AND empInBreakTime LIKE CONCAT(YEAR(CURDATE()), '%')
+				)
+			END AS minusnum
+			FROM
+				`blacklist`
 		<where>
 			<include refid="query_blackListInfo_where"></include>
 		</where>
@@ -21,7 +53,6 @@
 	<sql id="query_blackListInfo_where">
 		<if test="1==1">
 			and temporaryInStatus = 1
-			AND employeeStatus = 1
 		</if>
 	</sql>
 	<!-- 分页 -->
@@ -31,9 +62,15 @@
 		</if>
 	</sql>
 	
-	<!-- 根据员工ID删除当前年的违章信息 -->
+	<!-- 短委员工 根据员工ID删除当前年的违章信息 -->
 	<delete id="deleteBreakRulesInfo" parameterType="String">
 		DELETE FROM breakrules WHERE employeeid= #{value} AND breaktime LIKE CONCAT(YEAR(CURDATE()),'%')
+	</delete>
+	
+	<!-- 长委员工  根据员工ID删除当前年的违章信息 -->
+	<delete id="deleteEmpInBreakRulesInfo" parameterType="String">
+		DELETE FROM emplyin_breakrules WHERE empInemployeeId = #{value} 
+			AND empinbreaktime LIKE CONCAT(YEAR(CURDATE()),'%')
 	</delete>
 	
 </mapper>

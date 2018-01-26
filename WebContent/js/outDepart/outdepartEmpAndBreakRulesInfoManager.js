@@ -2,6 +2,15 @@
 
 $(function() {
 	initEmployeeTypeDic();
+	//获取当前的大修标记状态
+	var mark = $("#el_bigStatusMark").val();
+	//设置到隐藏域中
+	$("#bigStatus_Mark").val(mark);
+	//违章类型
+	var type = $("#el_breakType").val();
+	//设置到隐藏域中
+	$("#breakInfo_Type").val(type);
+	searchDepartmentAndOverHualTree(mark);
 	findEmployeeOutBaseInfo();
 	
 	// 用于验证数字
@@ -788,7 +797,7 @@ function el_breakRulesCase(obj){
 /****************************************树的相关方法**************************************************************** */
 
 $(function() {
-	searchDepartmentAndOverHualTree(0);
+	//searchDepartmentAndOverHualTree(0);
 })
 
 /***********************请求树信息**********************/

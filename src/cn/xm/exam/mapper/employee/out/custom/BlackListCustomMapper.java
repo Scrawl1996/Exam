@@ -15,10 +15,21 @@ public interface BlackListCustomMapper {
 	public List<Map<String,Object>> getBlackEmployeeListInfo(Map<String,Object> condition) throws SQLException;
 	
 	/**
+	 * 短委员工
 	 * 根据员工ID删除当前年的违章信息
 	 * @param employeeId
 	 * @return
 	 * @throws SQLException
 	 */
 	public int deleteBreakRulesInfo(String employeeId) throws SQLException;
+	
+	/**
+	 * 长委员工
+	 * 根据员工ID删除当前年的违章信息
+	 * @param employeeId
+	 * @return
+	 * @throws SQLException
+	 */
+	public int deleteEmpInBreakRulesInfo(String employeeId) throws SQLException;
+	
 }

@@ -233,6 +233,14 @@ function deleteSubmit() {
 
 $(function(){
 	findBlackListEmpInfo(1,8);
+	
+	// 创建方式按钮效果
+	$(".el_createButton").click(function() {
+		$(".el_createButton").removeClass("btn-default");
+		$(".el_createButton").removeClass("btn-primary");
+		$(".el_createButton").addClass("btn-default");
+		$(this).addClass("btn-primary");
+	})
 });
 
 //查询黑名单员工信息
@@ -263,8 +271,11 @@ function showBlackListInfo(data){
 			showBlackListInfoInfoStr +="<tr><td>"										
 									    +index+"</td><td>"									
 										+blackListInfo[i].name+"</td><td>"
-										+(blackListInfo[i].sex>1?'女':'男')+"</td><td>"																		
-										+blackListInfo[i].time.substring(0,10)+"</td><td>"																									
+										+(blackListInfo[i].sex>1?'女':'男')+"</td><td>"
+										+(blackListInfo[i].employeeStatus>0?'短委':'长委')+"</td><td>"
+										+blackListInfo[i].time.substring(0,10)+"</td><td>"
+										+blackListInfo[i].minusnum+"</td><td>"
+										+blackListInfo[i].blackIdcard+"</td><td>"
 										+'<a href="javascript:void(0)" onclick="deleteBlackInfo('+blackListInfo[i].id+')" title="删除此单位"><span class="glyphicon glyphicon-trash"></span></a><br />'
 										+"</td></tr>";	
 				
