@@ -97,10 +97,10 @@ function showEmployeeBaseInfo(data) {
 				+ "</td><td>"
 				+ "<a href='javascript:void(0)' onclick='allInfo(this)'>详细信息</a>&nbsp;";*/
 		//将培训情况字段内容注释掉
-		showEmployeeOutBaseInfoList +="<a href='javascript:void(0)' onclick='allInfo(this)'>详细信息</a>&nbsp;";
+		showEmployeeOutBaseInfoList +="<a href='javascript:void(0)' title='查看详情' onclick='allInfo(this)'><span class='glyphicon glyphicon-search'></span></a>&nbsp;";
 		if (employeeOutBaseInfoList[i].bigstatus != "已结束" && hasOperatingEmpout) {
-			showEmployeeOutBaseInfoList += "<a href='javascript:void(0)' onclick='el_modifyEmp(this)'>修改</a>&nbsp;"
-					+ "<a class='el_delButton' onClick='delcfm(this)'>删除</a><br />"
+			showEmployeeOutBaseInfoList += "<a href='javascript:void(0)' title='修改员工信息' onclick='el_modifyEmp(this)'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;"
+					+ "<a class='el_delButton' title='删除员工' onClick='delcfm(this)'><span class='glyphicon glyphicon-trash'></span></a><br />"
 					+ "</td></tr>";
 		} else {
 			showEmployeeOutBaseInfoList += "</td></tr>";
