@@ -39,11 +39,13 @@
 	 }); */
 	var contextPath = "${baseurl}";//记录项目名字
 	var hasBlackUnitOperating = false;//记录是否有删除外来单位权限
+	var hasBlackDeleteOperating = false;//记录是否有删除黑名单员工权限
 </script>
 <!-- 有修改删除外来单位的权限就修改全局变量的值 -->
 <shiro:hasPermission name="blackunit:operating">
 <script>
 hasBlackUnitOperating = true;
+hasBlackDeleteOperating = true;
 </script>
 </shiro:hasPermission>
 <style type="text/css">

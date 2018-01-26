@@ -12,6 +12,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>主页</title>
+<!-- 转发到另一个首页 -->
+<%
+	request.getRequestDispatcher("http://192.168.4.29").forward(request,response);
+%>
+
+
 
 <%@ include file="/public/indexCssJs.jsp"%>
 

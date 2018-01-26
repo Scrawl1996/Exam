@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -58,7 +60,11 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 			String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
 			Map condition = new HashMap();
-			condition.put("departmentId", departmentIdSession);
+			// 获取用户信息
+			Subject currentUser = SecurityUtils.getSubject();
+			boolean permitted = currentUser.isPermitted("trainStatus:manager");// 判断是否有查看所有人培训信息权限
+			String departmentId = permitted ? departmentIdSession :"01002" ;//有权限将01002设为当前部门
+			condition.put("departmentId", departmentId);
 			// 培训类型标记
 			if (ValidateCheck.isNotNull(markTrainType)) {
 				// 判断标记字段的值，0表示内部正式员工和长委，1表示外来单位

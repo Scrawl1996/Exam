@@ -456,7 +456,9 @@
 
 										<div class="el_qlmQuery2">
 											<div class="input-group" role="toolbar">
-												<span class="el_spans">试题类型</span> <select
+												<br />
+												<span class="el_spans">试题类型</span>
+												<br /> <select
 													class="form-control" name="type">
 													<option value="">--请选择--</option>
 													<option value="单选题">单选题</option>
