@@ -86,10 +86,10 @@ function showEmployeeBaseInfo(data) {
 				+ "</td><td>"
 				+ employeeOutBaseInfoList[i].empType
 				+ "</td><td>";				
-		showEmployeeOutBaseInfoList +="<a href='javascript:void(0)' onclick='allInfo(this)'>详细信息</a>&nbsp;";
-		if (employeeOutBaseInfoList[i].bigstatus != "已结束" && hasOperatingEmpout) {
-			showEmployeeOutBaseInfoList += "<a href='javascript:void(0)' onclick='el_modifyEmp(this)'>修改</a>&nbsp;"
-					+ "<a class='el_delButton' onClick='delcfm(this)'>删除</a><br />"
+		showEmployeeOutBaseInfoList +="<a href='javascript:void(0)' onclick='allInfo(this)' title='查看详情'><span class='glyphicon glyphicon-search'></span></a>&nbsp;";
+		if (employeeOutBaseInfoList[i].bigStatus != "已结束" && hasOperatingEmpout) {
+			showEmployeeOutBaseInfoList += "<a href='javascript:void(0)' onclick='el_modifyEmp(this)' title='修改'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;"
+					+ "<a class='el_delButton' onClick='delcfm(this)' title='删除'><span class='glyphicon glyphicon-trash'></span></a><br />"
 					+ "</td></tr>";
 		} else {
 			showEmployeeOutBaseInfoList += "</td></tr>";
