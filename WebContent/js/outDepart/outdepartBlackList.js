@@ -279,8 +279,13 @@ function showBlackListInfo(data){
 										+blackListInfo[i].time.substring(0,10)+"</td><td onclick='findBreakRulesInfo(this)' title='点击查看具体的违章记录' class='el_delButton' style='color:darkblue;'>"
 										+blackListInfo[i].minusnum+"</td><td>"
 										+blackListInfo[i].blackIdcard+"</td><td>"
-										+'<a href="javascript:void(0)" onclick="deleteBlackInfo('+blackListInfo[i].id+')" title="删除此单位"><span class="glyphicon glyphicon-trash"></span></a><br />'
-										+"</td></tr>";	
+										// 有删除修改权限就显示连接
+										if (hasBlackDeleteOperating) {
+											showBlackListInfoInfoStr += '<a href="javascript:void(0)" onclick="deleteBlackInfo('+blackListInfo[i].id+')" title="删除此单位"><span class="glyphicon glyphicon-trash"></span></a><br />';
+										} else {
+											showBlackListInfoInfoStr += "--";
+										}
+			showBlackListInfoInfoStr+="</td></tr>";	
 				
 		}
 		//清空表格
