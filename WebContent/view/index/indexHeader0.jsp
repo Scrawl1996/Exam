@@ -141,9 +141,9 @@
                     </li>
                     <li>
                         <label>用户类型：</label>
-                        <select class="form-control" name="user_type" id="el_userType">
-                            <option value="1">员工</option>
+                        <select class="form-control" name="user_type" id="el_userType">                           
                             <option value="2">管理员</option>
+                            <option value="1">员工</option>
                             <!-- <option value="3">学员</option> -->
                         </select>
                         <!--<span class="tips" id="divpassword2"></span>-->
