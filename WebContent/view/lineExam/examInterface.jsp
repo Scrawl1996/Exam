@@ -153,7 +153,7 @@
                                 </div>
                             </div>
 
-                            <div class="el_qlmQuery">
+                            <div class="el_qlmQuery" style="margin-left: 80px;">
                                 <div class="input-group" role="toolbar">
                                     <span class="el_spans">考试级别：</span>
                                     <select class="selectpicker form-control" title="请选择" name="examLevel">
@@ -165,29 +165,23 @@
                                 </div>
                             </div>
 
-                            <div class="el_qlmQuery" style="width:260px;">
-                                <div class="input-group" role="toolbar">
-                                    <span class="el_spans">考试状态：</span>
-                                    <!-- <select class="selectpicker form-control" title="请选择" name="examStatus">
-                                        <option value="">--请选择--</option>
-                                        <option value="未开始">未开始</option>
-                                        <option value="正在答题">正在答题</option>                                        
-                                        <option value="已交卷">已交卷</option>
-                                        <option value="已结束">已结束</option>
-                                    </select> -->
-                                    <label class="el_radioBox">
-                                    <input type="radio" name="examStatus" value="未开始"> 未开始</label>&nbsp;
-                                    <label class="el_radioBox"><input type="radio" name="examStatus" value="已结束"> 已结束</label>
-                              </div>
-                            </div>
+                            
                         </div>
 
                         <div class="row el_queryBoxrow">
-                            <div class="el_qlmQuery">
+                            <div class="el_qlmQuery" style="padding-top: 5px;">
                                 <div class="input-group" role="toolbar">
                                     <span class="el_spans">考试时间：</span>
                                     <input type="text" id="test" class="wicon el_noVlaue form-control" readonly name="examTime"/>
                                 </div>
+                            </div>
+                            <div class="el_qlmQuery" style="margin-left: 80px;">
+                                <div class="input-group" role="toolbar">
+                                    <span class="el_spans">考试状态：</span>                                    
+                                    <label class="el_radioBox">
+                                    <input type="radio" name="examStatus" value="未开始"> 未开始</label>&nbsp;
+                                    <label class="el_radioBox" style="margin-right: 16px;"><input type="radio" name="examStatus" value="已结束"> 已结束</label>
+                              </div>
                             </div>
                         </div>
                                  	              
