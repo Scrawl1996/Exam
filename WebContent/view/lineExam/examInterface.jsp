@@ -178,9 +178,9 @@
                             <div class="el_qlmQuery" style="margin-left: 80px;">
                                 <div class="input-group" role="toolbar">
                                     <span class="el_spans">考试状态：</span>                                    
-                                    <label class="el_radioBox">
+                                    <label class="el_radioBox" style="margin-right: 0px;">
                                     <input type="radio" name="examStatus" value="未开始"> 未开始</label>&nbsp;
-                                    <label class="el_radioBox" style="margin-right: 16px;"><input type="radio" name="examStatus" value="已结束"> 已结束</label>
+                                    <label class="el_radioBox" style="margin-right: 0px;"><input type="radio" name="examStatus" value="已结束"> 已结束</label>
                               </div>
                             </div>
                         </div>
