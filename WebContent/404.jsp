@@ -19,11 +19,11 @@
 <body>
 	<!-- 代码 开始 -->
 	<div id="container">
-		<img class="png" src="${baseurl }/image/404.png" /> <img class="png msg"
-			src="image/404_msg.png" />
+		<img class="png" src="${baseurl}/image/404.png" /> <img class="png msg"
+			src="${baseurl}/image/404_msg.png" />
 		<p>
 			<a href="index.jsp"><img class="png"
-				src="${baseurl }/image/404_to_index.png" /></a>
+				src="${baseurl}/image/404_to_index.png" /></a>
 		</p>
 	</div>
 	<div id="cloud" class="png"></div>

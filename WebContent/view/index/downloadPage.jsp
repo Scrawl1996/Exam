@@ -148,6 +148,21 @@ body {
 				window.location.href = "export_execute.action?name=SystemOperating.pdf"
 			}
 		}
+		if (flag == 4) {
+			if (confirm("确定下载格式工厂?")) {
+				window.location.href = "export_execute.action?name=FormatFactory.rar"
+			}
+		}
+		if (flag == 5) {
+			if (confirm("确定下载判卷机软件?")) {
+				window.location.href = "export_execute.action?name=panjuanji.rar"
+			}
+		}
+		if (flag == 6) {
+			if (confirm("确定下载pdf转换ppt软件?")) {
+				window.location.href = "export_execute.action?name=AnyBizSoftPDFConverter.rar"
+			}
+		}
 	}
 </script>
 </head>
@@ -167,7 +182,7 @@ body {
 				 <a	href="javascript:void(0)" onclick="down(3)"><span data-hover="操作手册">操作手册</span></a> 
 				 <a	href="javascript:void(0)" onclick="down(4)"><span data-hover="格式化工厂">格式化工厂</span></a> 
 				 <a	href="javascript:void(0)" onclick="down(5)"><span data-hover="判卷机软件">判卷机软件</span></a> 
-				 <a	href="javascript:void(0)" onclick="down(6)"><span data-hover="视频转换软件">视频转换软件</span></a> 
+				 <a	href="javascript:void(0)" onclick="down(6)"><span data-hover="视频转换软件">pdf转ppt软件</span></a> 
 				
 				
 			</nav>

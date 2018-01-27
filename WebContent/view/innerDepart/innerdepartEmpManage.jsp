@@ -163,7 +163,7 @@ hasOperatingEmpin = true;
 						<div class="el_qlmContent">
 
 							<!--索引-->
-							<div class="row el_queryBox">
+							<div class="row el_queryBox" id="queryDiv">
 								<form id="findForm">
 									<div class="row el_queryBoxrow">
 										<div class="col-md-3 el_qlmQuery">
@@ -334,7 +334,13 @@ hasOperatingEmpin = true;
 
 
 							<!--显示内容-->
-							<h3 class="el_mainHead">员工信息</h3>
+							<h3 class="el_mainHead">
+								内部员工信息
+								<a href=javascript:void(0) onclick="toggleQueryDiv()">
+									<span style="margin-right:50px;float:right;color:rgb(221,221,221);" title="点击隐藏查询条件" class="glyphicon glyphicon-chevron-up"></span>
+								</a>
+							
+							</h3>
 							<div class="panel panel-default el_Mainmain">
 
 								<!--按钮面板-->
