@@ -14,7 +14,7 @@
     <title>角色管理</title>
 <%@ include file="/public/cssJs.jsp"%>
     <!--分页-->
-    <script src="<%=path %>/js/public/page.js"></script>
+<%--     <script src="<%=path %>/js/public/page.js"></script> --%>
 	<script src="<%=path %>/js/home/header.js"></script>
 	
 	<!--验证-->

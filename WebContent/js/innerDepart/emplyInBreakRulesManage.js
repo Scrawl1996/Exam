@@ -1666,3 +1666,27 @@ function readMessage(obj) {
 }
 
 /** *****************E 消息框 QLQ********************* */
+/** *****************S QLQ 显示与隐藏查询条件******************** */
+function toggleQueryDiv() {
+	// 点击显示查询条件与分割符
+	if ($("#queryDiv").css("display") == "none") {
+		$("#queryDiv").show(
+				"slow",
+				function() {
+					// 删除class属性(切换上下箭头)
+					$(".glyphicon-chevron-down").removeClass().addClass(
+							"glyphicon glyphicon-chevron-up").prop("title",
+							"点击隐藏查询条件");
+				});
+	} else {//隱藏条件与分割符
+		$("#queryDiv").hide(
+				"slow",
+				function() {
+					//删除class属性(切换上下箭头)
+					$(".glyphicon-chevron-up").removeClass().addClass(
+							"glyphicon glyphicon-chevron-down").prop("title",
+							"点击显示查询条件");
+				});
+	}
+}
+/*******************E QLQ 显示与隐藏查询条件*********************/

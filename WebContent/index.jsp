@@ -14,7 +14,7 @@
 <title>主页</title>
 <!-- 转发到另一个首页 -->
 <%
-	response.sendRedirect("${baseurl}/view/index/studyMainpage2.jsp");
+	response.sendRedirect("view/index/studyMainpage2.jsp");
 %>
 
 
