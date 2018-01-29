@@ -98,8 +98,10 @@
 	<!--E 根据试卷ID查询状态为未考试但是使用试卷的总数，判断试卷能否修改 -->
 
 	<!-- S 根据关键字模糊查询考试名称和级别 -->
-	<select id="getExamNameAndLevelByName" parameterType="string" resultType="map">
-		SELECT DISTINCT examName,examlevel,traincontent,xueshi FROM exam WHERE examName LIKE
+	<select id="getExamNameAndLevelByName" parameterType="string"
+		resultType="map">
+		SELECT DISTINCT examName,examlevel,traincontent,xueshi FROM
+		exam WHERE examName LIKE
 		'%${value}%' limit 0,5
 	</select>
 	<!-- E 根据关键字模糊查询考试名称和级别 -->

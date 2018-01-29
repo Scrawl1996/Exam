@@ -561,7 +561,8 @@ function searchPaper() {
 			'currentPage' : $("#currentPage").val(),
 			'currentCount' : $("#currentCount").val(),
 			'title' : $("#title").val(),
-			'level' : $("#paper_level").val()
+			'level' : $("#paper_level").val(),
+			'paperStatus' : $("#paperStatus option:selected").val()
 		},
 		type : 'POST',
 		async : true,
@@ -1098,4 +1099,5 @@ function clickFn(obj) {
 	$("[name='exam.xueshi']").val(xueshi);
 
 	$("#showDiv").css("display", "none");
+	queryPaper($("#exam_level"));
 }

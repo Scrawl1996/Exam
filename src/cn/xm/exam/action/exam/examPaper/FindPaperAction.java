@@ -35,6 +35,7 @@ public class FindPaperAction extends ActionSupport {
 	private String title;
 	private String level;
 	private String paperId;
+	private String paperStatus;
 
 	/**
 	 * 分页查询试卷(ajax查询)
@@ -97,6 +98,9 @@ public class FindPaperAction extends ActionSupport {
 		if (ValidateCheck.isNotNull(level)) {
 			condition.put("level", Integer.valueOf(level));
 		}
+		if (ValidateCheck.isNotNull(paperStatus)) {
+			condition.put("paperStatus", Integer.valueOf(paperStatus));
+		}
 		return condition;
 	}
 
@@ -147,6 +151,14 @@ public class FindPaperAction extends ActionSupport {
 
 	public void setPaperId(String paperId) {
 		this.paperId = paperId;
+	}
+
+	public String getPaperStatus() {
+		return paperStatus;
+	}
+
+	public void setPaperStatus(String paperStatus) {
+		this.paperStatus = paperStatus;
 	}
 
 }

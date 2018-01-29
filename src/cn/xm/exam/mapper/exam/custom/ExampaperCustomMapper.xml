@@ -34,6 +34,10 @@
 		<if test="level!=null">
 			and level=#{level}
 		</if>
+		<!--  试卷答案代表试卷状态-->
+		<if test="paperStatus!=null">
+			and paperanswer=#{paperStatus}
+		</if>
 	</sql>
 	<!--分页条件 -->
 	<sql id="query_paper_limit">
@@ -121,5 +125,10 @@
 		paperId=#{value}
 	</update>
 	<!-- E 根据试卷ID减少试卷的使用次数 -->
+		<!-- S动态修改试卷的状态 (归档与未归档)-->
+	<update id="updateExampaperPaperanswer">
+		UPDATE `exampaper` SET `paperAnswer`=#{paperStatus} WHERE `paperId`=#{paperId}
+	</update>
+	<!-- E动态修改试卷的状态 -->
 
 </mapper>

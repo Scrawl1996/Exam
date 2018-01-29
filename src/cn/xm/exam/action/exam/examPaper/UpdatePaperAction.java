@@ -100,6 +100,19 @@ public class UpdatePaperAction extends ActionSupport {
 		return "update";
 	}
 
+	private String paperStatus;// 试卷存档状态
+
+	public String updatePaperanswer() {
+		try {
+			updateResult = examPaperService.updateExampaperPaperanswer(paperId, paperStatus) ? "试卷归档成功!"
+					: "试卷修改失败，系统出错了！";
+		} catch (Exception e) {
+			logger.error("试卷归档失败", e);
+			updateResult = "试卷归档错了！！！";
+		}
+		return "update";
+	}
+
 	public String getPaperId() {
 		return paperId;
 	}
@@ -154,6 +167,14 @@ public class UpdatePaperAction extends ActionSupport {
 
 	public void setSureResult(String sureResult) {
 		this.sureResult = sureResult;
+	}
+
+	public String getPaperStatus() {
+		return paperStatus;
+	}
+
+	public void setPaperStatus(String paperStatus) {
+		this.paperStatus = paperStatus;
 	}
 
 }
