@@ -472,7 +472,7 @@
 
 														<div class="input-group el_modellist" role="toolbar">
 															<span class="el_spans">违章时间：</span> <input type="text"
-																id="test4" class="wicon form-control el_noVlaue"
+																id="test4" class="wicon form-control"
 																name="breakrules.breaktime" readonly />
 														</div>
 
