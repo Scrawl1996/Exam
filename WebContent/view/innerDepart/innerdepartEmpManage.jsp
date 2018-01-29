@@ -474,7 +474,7 @@ hasOperatingEmpin = true;
 												<div class="input-group el_modellist" role="toolbar">
 													<span class="el_spans">违章时间：</span> <input type="text"
 														id="test41"
-														class="workinput wicon form-control el_noVlaue"
+														class="workinput wicon form-control"
 														name="emplyinBreakrules.empinbreaktime" readonly />
 												</div>
 
