@@ -111,7 +111,7 @@ label.success {
 				<div class="panel panel-default">
 					<!--菜单连接标题-->
 					<div class="panel-heading">
-						<span>新员工入厂培训</span><span>>新员工单位管理</span>
+						<span>新员工管理</span><span>>新员工单位管理</span>
 					</div>
 
 					<div class="el_main">
@@ -218,10 +218,8 @@ label.success {
 												<th>经理电话</th>
 												<th>安全员</th>
 												<th>安全员电话</th>
-												<th>参与项目</th>
-												<th>违章积分</th>
-												<th>单位人数</th>
-												<th>加权积分</th>
+												<th>参与项目</th>											
+												<th>单位人数</th>								
 												<th width="120">操作</th>
 											</tr>
 										</thead>
