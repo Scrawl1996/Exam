@@ -73,6 +73,10 @@ public class ExamPaperServiceImpl implements ExamPaperService {
 			examPaper.setPaperid(paperId);
 			examPaper.setUsetimes(0);// 第一次增加的时候将试卷使用次数设置为0
 		}
+		// 修改试卷的答案，用来存放试卷的归档与否:0代表未归档，1代表归档
+		if(ValidateCheck.isNull(examPaper.getPaperanswer())){
+			examPaper.setPaperanswer("0");
+		}
 		// 如果部门的ID为空的话就设置部门ID
 		if (ValidateCheck.isNull(examPaper.getDepartmentid())) {
 			User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
@@ -309,6 +313,13 @@ public class ExamPaperServiceImpl implements ExamPaperService {
 	public List<Map<String, Object>> getExamPaperAnswer(String papaerId) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	
+	@Override
+	public boolean updateExampaperPaperanswer(String paperId, String paperStatus) throws SQLException {
+		// TODO Auto-generated method stub
+		return exampaperCustomMapper.updateExampaperPaperanswer(paperId, paperStatus)>0?true:false;
 	}
 
 }

@@ -112,7 +112,8 @@ function searchPaper() {
 			'currentPage' : $("#currentPage").val(),
 			'currentCount' : $("#currentCount").val(),
 			'title' : $("#title").val(),
-			'level' : $("#level option:selected").val()
+			'level' : $("#level option:selected").val(),
+			'paperStatus' : $("#paperStatus option:selected").val()
 		},
 		type : 'POST',
 		async : true,

@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.xm.exam.bean.exam.Exampaper;
 import cn.xm.exam.utils.PageBean;
 
@@ -163,4 +165,14 @@ public interface ExamPaperService {
 	public List<Map<String, Object>> getExamPaperAnswer(String papaerId) throws SQLException;
 
 	// 复制试卷
+	
+	
+	/**
+	 * 动态修改试卷的状态(归档与未归档)
+	 * @param paperId	试卷编号
+	 * @param paperStatus	要修改的状态
+	 * @return	
+	 * @throws SQLException
+	 */
+	public boolean updateExampaperPaperanswer(String paperId,String paperStatus) throws SQLException;
 }

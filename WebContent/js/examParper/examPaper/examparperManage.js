@@ -33,7 +33,8 @@ function searchPaper() {
 			'currentPage' : $("#currentPage").val(),
 			'currentCount' : $("#currentCount").val(),
 			'title' : $("#title").val(),
-			'level' : $("#level option:selected").val()
+			'level' : $("#level option:selected").val(),
+			'paperStatus' : $("#paperStatus option:selected").val(),
 		},
 		type : 'POST',
 		async : true,
@@ -54,33 +55,46 @@ function showTable(data) {
 	var papers = result.pageBean.productList;
 	for (var i = 0, length = papers.length; i < length; i++) {
 		var index = (currentPage - 1) * currentCount + i + 1;
-		$("#paperTableBody")
-				.append(
-						"<tr><td>"
-								+ index
-								+ "</td><td>"
-								+ papers[i].title
-								+ "</td><td>"
-								+ replaceLevel(papers[i].level)
-								+ "</td><td>"
-								+ papers[i].paperscore
-								+ "</td><td>"
-								+ papers[i].usetimes
-								+ "</td><td>"
-								+ papers[i].description
-								+ "</td><td>"
-								+ papers[i].employeename
-								+ "</td><td>"
-								+ papers[i].maketime
-								+ "</td><td>"+
-								"<a title='预览试卷' href='"+ contextPath+ "/findPaper_findPaperAllInfoById.action?paperId="
-									+ papers[i].paperid + "'><span class='glyphicon glyphicon-search'></span></a>"
-								+ "<a title='修改试卷' href='javascript:void(0)' onclick='updatePaper(\""
-								+ papers[i].paperid
-								+ "\")'><span class='glyphicon glyphicon-pencil'></span></a><a title='删除试卷' href='javascript:void(0)' onclick='deletePaper(\""
-								+ papers[i].paperid
-								+ "\")'><span class='glyphicon glyphicon-trash'></span></a>"
-								+ "</td></tr>");
+		var str = "<tr><td>"
+			+ index
+			+ "</td><td>"
+			+ papers[i].title
+			+ "</td><td>"
+			+ replaceLevel(papers[i].level)
+			+ "</td><td>"
+			+ papers[i].paperscore
+			+ "</td><td>"
+			+ papers[i].usetimes
+			+ "</td><td>"
+			+ papers[i].description
+			+ "</td><td>"
+			+ papers[i].employeename
+			+ "</td><td>"
+			+ papers[i].maketime
+			+ "</td><td>"+
+			"<a title='预览试卷' href='"+ contextPath+ "/findPaper_findPaperAllInfoById.action?paperId="
+				+ papers[i].paperid + "'><span class='glyphicon glyphicon-search'></span></a>";
+		//使用次数大于0的不能修改和删除
+		if(papers[i].usetimes=='0'){
+			str	+= "<a title='修改试卷' href='javascript:void(0)' onclick='updatePaper(\""
+			+ papers[i].paperid
+			+ "\")'><span class='glyphicon glyphicon-pencil'></span></a><a title='删除试卷' href='javascript:void(0)' onclick='deletePaper(\""
+			+ papers[i].paperid
+			+ "\")'><span class='glyphicon glyphicon-trash'></span></a>";
+			
+		}
+		//未归档的需要归档
+		if(papers[i].paperanswer=="0"){
+			str +="<a title='归档试卷' href='javascript:void(0)' onclick='archivePaper(\""
+				+ papers[i].paperid
+				+ "\")'><span class='glyphicon glyphicon-log-in'></span></a>";
+		}else{
+			str +="<a title='撤销试卷归档' href='javascript:void(0)' onclick='noArchivePaper(\""
+				+ papers[i].paperid
+				+ "\")'><span class='glyphicon glyphicon-log-out'></span></a>";
+		}
+		str +="</td></tr>";
+		$("#paperTableBody").append(str);
 	}
 	/**
 	 * 显示分页
@@ -165,3 +179,31 @@ function replaceLevel(level) {
 		return "班组级";
 	}
 }
+
+/***************S   试卷归档，撤销归档操作***************/
+//归档
+function archivePaper(paperId){
+	if(confirm("您确认归档?")){
+		$.post(contextPath+"/update_updatePaperanswer.action",
+				{"paperId":paperId,
+			"paperStatus":"1"},
+			function(data){
+				alert(data);
+				searchPaper();
+			}
+			,'json')
+	}
+}
+function noArchivePaper(paperId){
+	if(confirm("您确认取消归档?")){
+		$.post(contextPath+"/update_updatePaperanswer.action",
+				{"paperId":paperId,
+			"paperStatus":"0"},
+			function(data){
+				alert(data);
+				searchPaper();
+			}
+		,'json')
+	}
+}
+/***************E   试卷归档操作***************/
