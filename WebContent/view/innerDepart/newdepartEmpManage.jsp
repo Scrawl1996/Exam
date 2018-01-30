@@ -202,7 +202,7 @@ hasOperatingEmpout = true;
 												<button class="btn btn-primary" id="el_addDep"
 													onclick="el_addDepartment()">添加单位</button>
 												<button class="btn btn-primary"
-													onclick="javascript:location.href='${baseurl}/view/newPeopleTrain/newdepartManage.jsp'">单位详情</button>
+													onclick="javascript:location.href='${baseurl}/view/innerDepart/newdepartManage.jsp'">单位详情</button>
 											</div>
 										</div>
 									</div>

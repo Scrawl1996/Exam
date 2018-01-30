@@ -95,20 +95,20 @@
 									<div class="col-md-3 el_qlmQuery">
 										<div class="input-group" role="toolbar">
 											<span class="el_spans">部门名称：</span> <input type="text"
-												class="form-control" name="departmentname" id="departname" />
+												class="form-control clearCon" name="departmentname" id="departname" />
 
 											<input type="hidden" name="currentPage" id="currentPage" />
 											<input type="hidden" name="currentCount" id="currentCount" />
 											<input type="hidden" name="updepartmentid"
-												id="queryUpDepartmentId" />
+												id="queryUpDepartmentId" class="clearCon" />
 										</div>
 									</div>
 									<div class="col-md-6" id="el_breakTimeIndex">
 										<div class="input-group" id="el_startEndTime" role="toolbar">
 											<span class="el_spans">违章时间：</span> <input type="text"
-												class=" form-control query_dep_starttime" name="fstarttime"
+												class=" form-control query_dep_starttime clearCon" name="fstarttime"
 												id="inpstart2" placeholder="开始时间" readonly> <input
-												type="text" class=" form-control query_dep_endtime"
+												type="text" class=" form-control query_dep_endtime clearCon"
 												id="inpend2" name="fendtime" placeholder="结束时间" readonly>
 										</div>
 									</div>
@@ -116,9 +116,9 @@
 
 									<!--清空按钮-->
 
-									<button type="reset"
+									<button type="button"
 										class="btn btn-default el_queryButton0 btn-sm"
-										style="padding-bottom: 5px; border-bottom-width: 1px; margin-bottom: 7px;">清空</button>
+										style="padding-bottom: 5px; border-bottom-width: 1px; margin-bottom: 7px;" onclick="clearCondition()">清空</button>
 
 
 

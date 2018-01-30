@@ -425,6 +425,7 @@
 		unit u
 		WHERE exam.examId =
 		employeeexam.examId
+		AND employeeexam.bigemployeeoutid = haulemployeeout.BigEmployeeoutId
 		AND employeeexam.employeeId =
 		haulemployeeout.empoutIdcard
 		AND
