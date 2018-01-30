@@ -177,7 +177,7 @@ public class TraincontentAction extends ActionSupport {
 		boolean permitted = currentUser.isPermitted("trainmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 		String departmentId = permitted ? null : departmentIdSession;
 		// 将部门树的所有信息查询出来
-		List<Map<String, Object>> departmentTree = departmentCustomMapper.getDepartmentTreeForExam(departmentId);
+		List<Map<String, Object>> departmentTree = departmentCustomMapper.getDepartmentTreeCommon(departmentId);
 		// struts2自动将map集合转成json
 		map.put("departmentTree", departmentTree);
 

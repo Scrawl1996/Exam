@@ -494,5 +494,14 @@
 			) q
 	</select>
 	<!-- E leilong -->
+	
+	<!-- 公共树的查询 -->
+	<select id="getDepartmentTreeCommon" parameterType="String" resultType="map">
+		select departmentid,
+		updepartmentid,departmentname FROM department
+		<if test="value != null">
+			where departmentId like '${value}%'
+		</if>
+	</select>
 
 </mapper>
