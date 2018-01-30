@@ -44,7 +44,7 @@ public class DepartmentAction extends ActionSupport {
 		String departmentIdSession = user.getDepartmentid();// 获取部门ID
 		boolean permitted = currentUser.isPermitted("departmentmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 		String departmentId = permitted ? null : departmentIdSession;
-		List<Map<String, Object>> treeList = departmentService.getDepartmentTree(departmentId);
+		List<Map<String, Object>> treeList = departmentService.getDepartmentTreeCommon(departmentId);
 
 		result.put("treeList", treeList);
 		return SUCCESS;

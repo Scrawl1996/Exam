@@ -495,10 +495,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 	/**** E zwy *****/
 	/**** S QLQ *****/
 
-	@Override
+	/*@Override
 	public List<Map<String, Object>> getDepartmentTreeForExam(String departmentId) throws SQLException {
 		return departmentCustomMapper.getDepartmentTreeForExam(departmentId);
-	}
+	}*/
 	/**** E QLQ *****/
 	
 	/** S ll *********/
@@ -550,6 +550,20 @@ public class DepartmentServiceImpl implements DepartmentService {
 		pageBean.setProductList(list);		
 		return pageBean;
 	}
+	
+	
+	/**
+	 * 公共树的查询
+	 * @param departmentId
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public List<Map<String, Object>> getDepartmentTreeCommon(String departmentId) throws SQLException {
+		
+		return departmentCustomMapper.getDepartmentTreeCommon(departmentId);
+	}
+	
 	/** E ll *********/
 
 		
@@ -564,4 +578,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 		
 		return departmentCustomMapper.getToDoDepartmentAndEmpNum();
 	}
+
+	
 }

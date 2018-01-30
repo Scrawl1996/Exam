@@ -154,7 +154,7 @@ public interface DepartmentService {
 	 * @return 一个map包含部门的部门id，上级id，部门名称
 	 * @throws SQLException
 	 */
-	public List<Map<String, Object>> getDepartmentTreeForExam(String departmentId) throws SQLException;
+	//public List<Map<String, Object>> getDepartmentTreeForExam(String departmentId) throws SQLException;
 	/** E qlq *********/
 	
 	/** S ll *********/
@@ -188,5 +188,15 @@ public interface DepartmentService {
 	 * @throws Exception
 	 */
 	public Map<String,Object> getToDoDepartmentAndEmpNum() throws Exception;
+	
+	
+	/**
+	 * 公共树的查询
+	 * @param departmentId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> getDepartmentTreeCommon(String departmentId) throws SQLException;
+	
 	/** E ll *********/
 }

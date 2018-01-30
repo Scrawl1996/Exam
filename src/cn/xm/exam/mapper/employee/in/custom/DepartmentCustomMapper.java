@@ -143,6 +143,16 @@ public interface DepartmentCustomMapper {
 	 * @throws SQLException
 	 */
 	public Map<String,Object> getToDoDepartmentAndEmpNum() throws SQLException;
+	
+	
+	/**
+	 * 公共树的查询
+	 * @param departmentId
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String, Object>> getDepartmentTreeCommon(String departmentId) throws SQLException;
+	
 	/****** E leilong **********/
 
 }
