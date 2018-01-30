@@ -12,7 +12,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.io.FileUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -27,6 +26,7 @@ import cn.xm.exam.bean.system.User;
 import cn.xm.exam.bean.trainContent.Traincontent;
 import cn.xm.exam.mapper.employee.in.custom.DepartmentCustomMapper;
 import cn.xm.exam.service.common.DictionaryService;
+import cn.xm.exam.service.employee.in.DepartmentService;
 import cn.xm.exam.service.trainContent.TraincontentService;
 import cn.xm.exam.utils.UUIDUtil;
 
@@ -42,6 +42,8 @@ public class TraincontentAction extends ActionSupport {
 	private TraincontentService traincontentService;
 	@Resource
 	private DictionaryService dictionaryService;
+	@Resource
+	private DepartmentService departmentService;
 
 	@Resource
 	private DepartmentCustomMapper departmentCustomMapper;
@@ -177,7 +179,9 @@ public class TraincontentAction extends ActionSupport {
 		boolean permitted = currentUser.isPermitted("trainmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 		String departmentId = permitted ? null : departmentIdSession;
 		// 将部门树的所有信息查询出来
-		List<Map<String, Object>> departmentTree = departmentCustomMapper.getDepartmentTreeCommon(departmentId);
+		//List<Map<String, Object>> departmentTree = departmentCustomMapper.getDepartmentTreeCommon(departmentId);
+		List<Map<String, Object>> departmentTree = departmentService.getDepartmentTreeCommon(departmentId);
+		
 		// struts2自动将map集合转成json
 		map.put("departmentTree", departmentTree);
 
