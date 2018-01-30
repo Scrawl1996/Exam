@@ -765,8 +765,9 @@ function notrain(){
 function notrain_post(){
 	var checkedPerson = $(".el_checks:checked");
 	var username = checkedPerson.parent().parent().children("td:eq(2)").text();
+	var empType = checkedPerson.parent().parent().children("td:eq(7)").text();
 	var  distributeId= checkedPerson.parent().parent().find(".distributeId").val();
-	if(confirm("您确认  "+username+"  免考本级考试?")){
+	if(confirm("您确认  "+username+"【"+empType+"】  免考本级考试?\n\n确认之后不可修改!!!")){
 		$.post(contextPath+"/distribute_updateDistributeForMiankao.action",
 				{"distributeId":distributeId},
 				function(response){
