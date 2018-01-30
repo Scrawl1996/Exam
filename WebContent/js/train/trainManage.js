@@ -203,12 +203,12 @@ function getTree_2(treeList2) {
 			data : {
 				simpleData : {
 					enable : true,
-					idKey: "departmentId",
-					pIdKey: "upDepartmentId",
+					idKey: "departmentid",
+					pIdKey: "updepartmentid",
 					rootPId : null,
 				},
 				key : {
-					name : "departmentName",
+					name : "departmentname",
 				}
 			},
 			callback : {
@@ -230,13 +230,13 @@ function getTree_2(treeList2) {
 var el_chooseDepart, className10 = "dark", el_id;
 function beforeClick2(treeId, treeNode, clickFlag) {
     className10 = (className10 === "dark" ? "" : "dark");
-    el_id = treeNode.departmentId;
+    el_id = treeNode.departmentid;
     //判断点击的节点是否被选中，返回false 和 true
     if (!treeNode.checked) {//选中
-        showLog10(treeNode.departmentName);
+        showLog10(treeNode.departmentname);
         
     } else {                //未选中
-        noshowLog10(treeNode.departmentName);
+        noshowLog10(treeNode.departmentname);
     }
     return (treeNode.doCheck !== false);
 }
