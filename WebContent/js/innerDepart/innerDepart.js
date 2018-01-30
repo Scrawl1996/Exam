@@ -929,5 +929,10 @@ function el_departmentCount(){
 }
 
 
+/********清空查询条件************/
+function clearCondition(){
+	$(".clearCon").val("");
+	$(".curSelectedNode").removeClass("curSelectedNode");
+}
 
 
