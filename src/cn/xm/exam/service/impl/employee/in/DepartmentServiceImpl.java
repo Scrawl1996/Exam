@@ -244,6 +244,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 					EmployeeexamExample employeeexamExample = new EmployeeexamExample();
 					EmployeeexamExample.Criteria criteria = employeeexamExample.createCriteria();
 					criteria.andEmployeeidEqualTo(idCode);
+					criteria.andEmployeetypeEqualTo("0");//删除内部考试的信息，保留(短委培训时的信息)
 					employeeexamMapper.deleteByExample(employeeexamExample);
 					// 2 在线考试信息 在线考试详细信息表 在线答题信息
 					// 2.1删除在线答题信息
