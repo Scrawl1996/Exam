@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v8.32 
-MySQL - 5.5.40 : Database - exam
+MySQL - 5.7.10-log : Database - exam9
 *********************************************************************
 */
 
@@ -15,69 +15,66 @@ MySQL - 5.5.40 : Database - exam
 /*Table structure for table `bigquestion` */
 
 CREATE TABLE `bigquestion` (
-  `bigQuertionId` varchar(40) NOT NULL,
-  `paperId` varchar(40) DEFAULT NULL,
-  `bigQuestionName` varchar(2000) DEFAULT NULL,
-  `bigQuestionSequence` int(11) DEFAULT NULL,
+  `bigQuertionId` varchar(40) NOT NULL COMMENT '编号',
+  `paperId` varchar(40) DEFAULT NULL COMMENT '试卷编号',
+  `bigQuestionName` varchar(2000) DEFAULT NULL COMMENT '大题题干',
+  `bigQuestionSequence` int(11) DEFAULT NULL COMMENT '大题顺序',
   PRIMARY KEY (`bigQuertionId`),
   KEY `FK_Reference_51` (`paperId`),
   CONSTRAINT `FK_Reference_51` FOREIGN KEY (`paperId`) REFERENCES `exampaper` (`paperId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='���Դ��Ᵽ���';
 
+/*Table structure for table `black_unit` */
+
+CREATE TABLE `black_unit` (
+  `blackunitid` int(11) NOT NULL AUTO_INCREMENT COMMENT '黑名单单位编号',
+  `unitName` varchar(100) DEFAULT NULL COMMENT '单位名称',
+  `description` varchar(1000) DEFAULT NULL COMMENT '拉黑原因',
+  `addTime` datetime DEFAULT NULL COMMENT '拉黑时间',
+  `corporation` varchar(40) DEFAULT NULL COMMENT '公司法人',
+  PRIMARY KEY (`blackunitid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `blacklist` */
 
 CREATE TABLE `blacklist` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `employeeId` varchar(40) DEFAULT NULL,
-  `time` date DEFAULT NULL,
-  `description` varchar(200) DEFAULT NULL,
-  `blackIdcard` varchar(18) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `employeeId` varchar(40) DEFAULT NULL COMMENT '员工编号',
+  `time` date DEFAULT NULL COMMENT '拉黑时间',
+  `description` varchar(200) DEFAULT NULL COMMENT '描述',
+  `blackIdcard` varchar(18) DEFAULT NULL COMMENT '身份证号',
   `temporaryInStatus` varchar(2) DEFAULT NULL COMMENT '是否是临时进入黑名单字段',
   `employeeStatus` varchar(2) DEFAULT NULL COMMENT '员工状态是否是内部员工表中的员工',
   PRIMARY KEY (`id`),
   KEY `FK_Reference_28` (`employeeId`),
   KEY `blackIdcard` (`blackIdcard`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='黑名单表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='黑名单表';
 
 /*Table structure for table `breakrules` */
 
 CREATE TABLE `breakrules` (
-  `breakId` int(11) NOT NULL AUTO_INCREMENT,
-  `employeeId` varchar(40) DEFAULT NULL,
-  `BigEmployeeoutId` varchar(40) DEFAULT NULL,
-  `breakContent` varchar(200) DEFAULT NULL,
-  `breakTime` datetime DEFAULT NULL,
-  `minusNum` int(11) DEFAULT NULL,
+  `breakId` int(11) NOT NULL AUTO_INCREMENT COMMENT '外部员工违章编号',
+  `employeeId` varchar(40) DEFAULT NULL COMMENT '员工编号',
+  `BigEmployeeoutId` varchar(40) DEFAULT NULL COMMENT '大修员工编号',
+  `breakContent` varchar(200) DEFAULT NULL COMMENT '违章内容',
+  `breakTime` datetime DEFAULT NULL COMMENT '违章时间',
+  `minusNum` int(11) DEFAULT NULL COMMENT '减分',
   PRIMARY KEY (`breakId`),
   KEY `FK_Reference_27` (`employeeId`),
   KEY `FK_Reference_57` (`BigEmployeeoutId`),
-  CONSTRAINT `FK_Reference_27` FOREIGN KEY (`employeeId`) REFERENCES `employee_out` (`employeeId`),
-  CONSTRAINT `FK_Reference_57` FOREIGN KEY (`BigEmployeeoutId`) REFERENCES `haulemployeeout` (`BigEmployeeoutId`)
+  CONSTRAINT `FK_Reference_27` FOREIGN KEY (`employeeId`) REFERENCES `employee_out` (`employeeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='违章记录表';
-
-/*Table structure for table `checkrecord` */
-
-CREATE TABLE `checkrecord` (
-  `checkId` varchar(40) NOT NULL,
-  `questionId` varchar(40) DEFAULT NULL,
-  `employeeName` varchar(40) DEFAULT NULL,
-  `checkDate` datetime DEFAULT NULL,
-  `checkStatus` varchar(40) DEFAULT NULL,
-  PRIMARY KEY (`checkId`),
-  KEY `FK_Reference_32` (`questionId`),
-  CONSTRAINT `FK_Reference_32` FOREIGN KEY (`questionId`) REFERENCES `questions` (`questionId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='��˼�¼��';
 
 /*Table structure for table `department` */
 
 CREATE TABLE `department` (
-  `departmentId` varchar(40) NOT NULL,
-  `upDepartmentId` varchar(40) DEFAULT NULL,
-  `departmentName` varchar(40) NOT NULL,
-  `employeeName` varchar(40) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `description` varchar(150) DEFAULT NULL,
-  `sort` varchar(100) DEFAULT NULL,
+  `departmentId` varchar(40) NOT NULL COMMENT '部门编号(UUID生成)',
+  `upDepartmentId` varchar(40) DEFAULT NULL COMMENT '上级编号',
+  `departmentName` varchar(40) NOT NULL COMMENT '部门名称',
+  `employeeName` varchar(40) DEFAULT NULL COMMENT '负责人姓名',
+  `phone` varchar(20) DEFAULT NULL COMMENT '负责人电话',
+  `description` varchar(150) DEFAULT NULL COMMENT '描述',
+  `sort` varchar(100) DEFAULT NULL COMMENT '排序用的(日期的字符串形式)',
   `departProjectNames` varchar(1000) DEFAULT NULL COMMENT '长期外来单位的工程信息',
   `departmentType` varchar(2) DEFAULT NULL COMMENT '部门类型0代表内部部门，1代表长期外来部门',
   PRIMARY KEY (`departmentId`),
@@ -87,11 +84,11 @@ CREATE TABLE `department` (
 /*Table structure for table `dictionary` */
 
 CREATE TABLE `dictionary` (
-  `dictionaryId` varchar(40) NOT NULL,
-  `dictionaryName` varchar(50) NOT NULL,
-  `upDictionaryId` varchar(40) DEFAULT NULL,
-  `isUse` varchar(2) NOT NULL,
-  `discription` varchar(200) DEFAULT '无',
+  `dictionaryId` varchar(40) NOT NULL COMMENT '字典编号',
+  `dictionaryName` varchar(50) NOT NULL COMMENT '字典名称',
+  `upDictionaryId` varchar(40) DEFAULT NULL COMMENT '上级字典编号',
+  `isUse` varchar(2) NOT NULL COMMENT '是否启用',
+  `discription` varchar(200) DEFAULT '无' COMMENT '描述',
   PRIMARY KEY (`dictionaryId`),
   KEY `FK_Reference_49` (`upDictionaryId`),
   CONSTRAINT `FK_Reference_49` FOREIGN KEY (`upDictionaryId`) REFERENCES `dictionary` (`dictionaryId`)
@@ -100,22 +97,22 @@ CREATE TABLE `dictionary` (
 /*Table structure for table `employee_in` */
 
 CREATE TABLE `employee_in` (
-  `employeeId` varchar(40) NOT NULL,
-  `employeeNumber` varchar(40) NOT NULL,
-  `name` varchar(40) NOT NULL,
-  `idCode` char(18) NOT NULL,
-  `sex` varchar(2) DEFAULT NULL,
-  `birthday` date DEFAULT NULL,
-  `photo` varchar(200) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT '''无''',
-  `email` varchar(50) DEFAULT NULL,
-  `address` varchar(50) DEFAULT NULL,
-  `duty` varchar(20) DEFAULT NULL,
-  `departmentId` varchar(40) DEFAULT NULL,
-  `finger` varchar(200) DEFAULT NULL,
-  `isDelete` varchar(2) DEFAULT NULL,
-  `trainStatus` int(11) DEFAULT NULL COMMENT '����ͨ�������\n            1����Ҫ����1������\n            2����Ҫ����2������\n            3����Ҫ����3������\n            4����ͨ���볡��ѵ����',
-  `sort` varchar(100) DEFAULT NULL,
+  `employeeId` varchar(40) NOT NULL COMMENT '编号',
+  `employeeNumber` varchar(40) NOT NULL COMMENT '员工号(没用上)',
+  `name` varchar(40) NOT NULL COMMENT '姓名',
+  `idCode` char(18) NOT NULL COMMENT '身份证号',
+  `sex` varchar(2) DEFAULT NULL COMMENT '性别',
+  `birthday` date DEFAULT NULL COMMENT '生日',
+  `photo` varchar(200) DEFAULT NULL COMMENT '图片(存放路径)',
+  `phone` varchar(20) DEFAULT '''无''' COMMENT '电话',
+  `email` varchar(50) DEFAULT NULL COMMENT '邮箱(没用)',
+  `address` varchar(50) DEFAULT NULL COMMENT '住址',
+  `duty` varchar(20) DEFAULT NULL COMMENT '职务',
+  `departmentId` varchar(40) DEFAULT NULL COMMENT '部门编号',
+  `finger` varchar(200) DEFAULT NULL COMMENT '指纹',
+  `isDelete` varchar(2) DEFAULT NULL COMMENT '是否删除',
+  `trainStatus` int(11) DEFAULT NULL COMMENT '培训状态',
+  `sort` varchar(100) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`employeeId`),
   KEY `FK_Reference_9` (`departmentId`),
   KEY `idCode` (`idCode`)
@@ -153,7 +150,7 @@ CREATE TABLE `employeeexam` (
   PRIMARY KEY (`gradeId`),
   KEY `FK_Reference_53` (`examId`),
   KEY `employeeId` (`employeeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8 COMMENT='Ա�����Ա�';
+) ENGINE=InnoDB AUTO_INCREMENT=500 DEFAULT CHARSET=utf8 COMMENT='Ա�����Ա�';
 
 /*Table structure for table `employeeoutdistribute` */
 
@@ -168,7 +165,7 @@ CREATE TABLE `employeeoutdistribute` (
   `empOutexamStatus` varchar(4) DEFAULT NULL COMMENT '考试状态',
   `empOutTrainGrade` varchar(2) DEFAULT NULL COMMENT '培训等级',
   PRIMARY KEY (`distributeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=380 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `emplyin_breakrules` */
 
@@ -180,7 +177,7 @@ CREATE TABLE `emplyin_breakrules` (
   `empInMinusNum` int(11) DEFAULT NULL,
   PRIMARY KEY (`empInBreakId`),
   KEY `FK_Reference_27` (`empInEmployeeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='违章记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='违章记录表';
 
 /*Table structure for table `exam` */
 
@@ -214,7 +211,7 @@ CREATE TABLE `exampaper` (
   `level` varchar(10) DEFAULT NULL,
   `employeeName` varchar(40) DEFAULT NULL,
   `title` varchar(100) DEFAULT NULL,
-  `paperAnswer` varchar(300) DEFAULT NULL,
+  `paperAnswer` varchar(2) DEFAULT NULL,
   `useTimes` int(11) DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL,
   `departmentId` varchar(40) DEFAULT NULL COMMENT '部门ID',
@@ -233,7 +230,7 @@ CREATE TABLE `exampaperoption` (
   PRIMARY KEY (`optionId`),
   KEY `FK_Reference_45` (`questionId`),
   CONSTRAINT `FK_Reference_45` FOREIGN KEY (`questionId`) REFERENCES `exampaperquestion` (`questionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3507 DEFAULT CHARSET=utf8 COMMENT='��ʷ�Ծ�ѡ���';
+) ENGINE=InnoDB AUTO_INCREMENT=15235 DEFAULT CHARSET=utf8 COMMENT='��ʷ�Ծ�ѡ���';
 
 /*Table structure for table `exampaperquestion` */
 
@@ -286,6 +283,15 @@ CREATE TABLE `haulinfo` (
   PRIMARY KEY (`bigId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `haulproject` */
+
+CREATE TABLE `haulproject` (
+  `haulprojectid` int(11) NOT NULL AUTO_INCREMENT,
+  `bigid` varchar(40) DEFAULT NULL,
+  `projectId` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`haulprojectid`)
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `haulunit` */
 
 CREATE TABLE `haulunit` (
@@ -302,6 +308,29 @@ CREATE TABLE `haulunit` (
   PRIMARY KEY (`unitBigId`),
   KEY `FK_Reference_61` (`bigId`),
   CONSTRAINT `FK_Reference_61` FOREIGN KEY (`bigId`) REFERENCES `haulinfo` (`bigId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `haulunitproject` */
+
+CREATE TABLE `haulunitproject` (
+  `haulunitprojectid` int(11) NOT NULL AUTO_INCREMENT,
+  `bigid` varchar(40) DEFAULT NULL COMMENT '大修ID',
+  `unitid` varchar(40) DEFAULT NULL COMMENT '单位ID',
+  `projectId` varchar(40) DEFAULT NULL COMMENT '工程编号',
+  PRIMARY KEY (`haulunitprojectid`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `message` */
+
+CREATE TABLE `message` (
+  `messageid` varchar(40) NOT NULL COMMENT '编号',
+  `name` varchar(40) DEFAULT NULL COMMENT '姓名',
+  `idCode` char(18) DEFAULT NULL COMMENT '身份证号',
+  `sex` varchar(2) DEFAULT NULL COMMENT '性别',
+  `birthday` date DEFAULT NULL COMMENT '生日',
+  `empType` varchar(2) DEFAULT NULL COMMENT '员工类型(0:短委,1:内部)',
+  `isDispose` varchar(4) DEFAULT NULL COMMENT '是否处理(0未处理，1处理)',
+  PRIMARY KEY (`messageid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `news` */
@@ -399,6 +428,14 @@ CREATE TABLE `pictureindex` (
   PRIMARY KEY (`pictureId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ͼƬ��';
 
+/*Table structure for table `project` */
+
+CREATE TABLE `project` (
+  `projectid` varchar(40) NOT NULL,
+  `projectname` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`projectid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `questionbank` */
 
 CREATE TABLE `questionbank` (
@@ -478,7 +515,7 @@ CREATE TABLE `traincontent` (
   `browseTimes` int(11) DEFAULT NULL,
   PRIMARY KEY (`documentId`),
   KEY `FK_Reference_59` (`departmentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COMMENT='��ѵ���ϱ�';
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COMMENT='��ѵ���ϱ�';
 
 /*Table structure for table `unit` */
 
@@ -523,12 +560,12 @@ CREATE TABLE `userrole` (
 
 DELIMITER $$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `add_unit_after_add_break` AFTER INSERT ON `breakrules` FOR EACH ROW BEGIN
-DECLARE big_id VARCHAR(40);
-DECLARE unit_id VARCHAR(40);
-SET big_id=(SELECT bigId FROM haulemployeeout WHERE BigEmployeeoutId=new.BigEmployeeoutId);
-SET unit_id=(SELECT unitId FROM haulemployeeout WHERE BigEmployeeoutId=new.BigEmployeeoutId);
-UPDATE haulunit SET unitMinisMum=unitMinisMum+new.minusNum WHERE unitId=unit_id AND bigId=big_id;
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `add_unit_after_add_break` AFTER INSERT ON `breakrules` FOR EACH ROW BEGIN
+DECLARE big_id VARCHAR(40);
+DECLARE unit_id VARCHAR(40);
+SET big_id=(SELECT bigId FROM haulemployeeout WHERE BigEmployeeoutId=new.BigEmployeeoutId);
+SET unit_id=(SELECT unitId FROM haulemployeeout WHERE BigEmployeeoutId=new.BigEmployeeoutId);
+UPDATE haulunit SET unitMinisMum=unitMinisMum+new.minusNum WHERE unitId=unit_id AND bigId=big_id;
 END */$$
 
 
@@ -538,14 +575,14 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `update_unit_after_update_break` AFTER UPDATE ON `breakrules` FOR EACH ROW BEGIN
-DECLARE minus_Num int;
-DECLARE big_id VARCHAR(40);
-DECLARE unit_id VARCHAR(40);
-SET big_id=(SELECT bigId FROM haulemployeeout WHERE BigEmployeeoutId=new.BigEmployeeoutId);
-SET unit_id=(SELECT unitId FROM haulemployeeout WHERE BigEmployeeoutId=new.BigEmployeeoutId);
-SET minus_Num = (SELECT new.minusNum-old.minusNum);
-UPDATE haulunit SET unitMinisMum=unitMinisMum+minus_Num WHERE unitId=unit_id AND bigId=big_id;
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `update_unit_after_update_break` AFTER UPDATE ON `breakrules` FOR EACH ROW BEGIN
+DECLARE minus_Num int;
+DECLARE big_id VARCHAR(40);
+DECLARE unit_id VARCHAR(40);
+SET big_id=(SELECT bigId FROM haulemployeeout WHERE BigEmployeeoutId=new.BigEmployeeoutId);
+SET unit_id=(SELECT unitId FROM haulemployeeout WHERE BigEmployeeoutId=new.BigEmployeeoutId);
+SET minus_Num = (SELECT new.minusNum-old.minusNum);
+UPDATE haulunit SET unitMinisMum=unitMinisMum+minus_Num WHERE unitId=unit_id AND bigId=big_id;
 END */$$
 
 
@@ -555,12 +592,12 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `minus_unit_after_delete_haulemp` AFTER DELETE ON `breakrules` FOR EACH ROW BEGIN
-DECLARE big_id VARCHAR(40);
-DECLARE unit_id VARCHAR(40);
-SET big_id=(SELECT bigId FROM haulemployeeout WHERE BigEmployeeoutId=old.BigEmployeeoutId);
-SET unit_id=(SELECT unitId FROM haulemployeeout WHERE BigEmployeeoutId=old.BigEmployeeoutId);
-UPDATE haulunit SET unitMinisMum=unitMinisMum-old.minusNum WHERE unitId=unit_id AND bigId=big_id;
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `minus_unit_after_delete_haulemp` AFTER DELETE ON `breakrules` FOR EACH ROW BEGIN
+DECLARE big_id VARCHAR(40);
+DECLARE unit_id VARCHAR(40);
+SET big_id=(SELECT bigId FROM haulemployeeout WHERE BigEmployeeoutId=old.BigEmployeeoutId);
+SET unit_id=(SELECT unitId FROM haulemployeeout WHERE BigEmployeeoutId=old.BigEmployeeoutId);
+UPDATE haulunit SET unitMinisMum=unitMinisMum-old.minusNum WHERE unitId=unit_id AND bigId=big_id;
 END */$$
 
 
@@ -570,8 +607,8 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `minus_empnum_after_delete_employee` AFTER DELETE ON `employeeexam` FOR EACH ROW BEGIN
-UPDATE exam SET employeeNum=employeeNum-1 WHERE exam.examId=old.examId;
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `minus_empnum_after_delete_employee` AFTER DELETE ON `employeeexam` FOR EACH ROW BEGIN
+UPDATE exam SET employeeNum=employeeNum-1 WHERE exam.examId=old.examId;
 END */$$
 
 
@@ -593,13 +630,20 @@ DELIMITER $$
 /*!50106 CREATE DEFINER=`root`@`localhost` EVENT `eventUpdateStatus` ON SCHEDULE EVERY 1 SECOND STARTS '2017-11-21 00:12:44' ON COMPLETION PRESERVE ENABLE DO call updateStatus() */$$
 DELIMITER ;
 
+/* Event structure for event `queryOlderPer` */
+
+DELIMITER $$
+
+/*!50106 CREATE DEFINER=`root`@`%` EVENT `queryOlderPer` ON SCHEDULE EVERY 1 MINUTE STARTS '2018-01-25 15:54:33' ON COMPLETION NOT PRESERVE ENABLE DO CALL queryOlderPerson() */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `clearEmInBreakInfo` */
 
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `clearEmInBreakInfo`()
-BEGIN
-	DELETE FROM blacklist WHERE temporaryInStatus = '0';
+BEGIN
+	DELETE FROM blacklist WHERE temporaryInStatus = '0';
 END */$$
 DELIMITER ;
 
@@ -608,11 +652,67 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `clearEmploutBlack`()
-BEGIN
-
-delete from blacklist where temporaryInStatus='0' and employeeStatus='1' and TIMESTAMPDIFF(YEAR,time,NOW())=1;
-
+BEGIN
+delete from blacklist where temporaryInStatus='0' and employeeStatus='1' and TIMESTAMPDIFF(YEAR,time,NOW())=1;
 END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `queryOlderPerson` */
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `queryOlderPerson`()
+BEGIN
+/*将外部55岁以上插入消息表*/
+INSERT INTO message
+            (messageid,
+             NAME,
+             idCode,
+             sex,
+             birthday,
+             empType,
+             isDispose)
+SELECT DISTINCT
+  emp.employeeId,
+  emp.name,
+  emp.idCode,
+  emp.sex,
+  emp.birthday,
+  '0',
+  '0'
+FROM employee_out emp,
+  haulemployeeout haulemp,
+  haulinfo haul
+WHERE emp.idCode = haulemp.empoutIdcard
+    AND haulemp.bigid = haul.bigid
+    AND haul.bigstatus = '进行中'
+    AND emp.employeeId NOT IN(SELECT
+                                messageid
+                              FROM message)
+    AND TIMESTAMPDIFF(YEAR,emp.birthday,NOW()) > 54;
+    /*将内部55岁以上插入消息表*/
+INSERT INTO message
+            (messageid,
+             NAME,
+             idCode,
+             sex,
+             birthday,
+             empType,
+             isDispose)
+SELECT DISTINCT
+  emp.employeeId,
+  emp.name,
+  emp.idCode,
+  emp.sex,
+  emp.birthday,
+  '1',
+  '0'
+FROM employee_in emp
+WHERE  emp.employeeId NOT IN(SELECT
+                                messageid
+                              FROM message)
+    AND TIMESTAMPDIFF(YEAR,emp.birthday,NOW()) > 54;
+  END */$$
 DELIMITER ;
 
 /* Procedure structure for procedure `updateDepartmentIds` */
@@ -620,15 +720,15 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateDepartmentIds`(IN oldDepartmentId VARCHAR(40),IN upDepartmentIdNew VARCHAR(40))
-BEGIN	
-			UPDATE department SET departmentId= REPLACE(departmentId,oldDepartmentId ,upDepartmentIdNew  ),updepartmentId= REPLACE(updepartmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%') AND departmentId != oldDepartmentId;
-			UPDATE employee_in SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
-			UPDATE exam SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
-			UPDATE exampaper SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
-			UPDATE questionbank SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
-			UPDATE traincontent SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
-			UPDATE `user` SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ),departmentName = (SELECT departmentName FROM department WHERE departmentId = `user`.departmentId) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
-			UPDATE role SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
+BEGIN	
+			UPDATE department SET departmentId= REPLACE(departmentId,oldDepartmentId ,upDepartmentIdNew  ),updepartmentId= REPLACE(updepartmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%') AND departmentId != oldDepartmentId;
+			UPDATE employee_in SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
+			UPDATE exam SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
+			UPDATE exampaper SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
+			UPDATE questionbank SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
+			UPDATE traincontent SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
+			UPDATE `user` SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ),departmentName = (SELECT departmentName FROM department WHERE departmentId = `user`.departmentId) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
+			UPDATE role SET departmentId = REPLACE(departmentId,oldDepartmentId,upDepartmentIdNew  ) WHERE departmentid LIKE CONCAT(oldDepartmentId,'%');
 		END */$$
 DELIMITER ;
 
@@ -727,7 +827,7 @@ DROP TABLE IF EXISTS `exam_employeeexam_exampaper`;
  `bigStatus` varchar(5) ,
  `departmentId` varchar(40) ,
  `examType` varchar(8) ,
- `paperanswer` varchar(300) ,
+ `paperanswer` varchar(2) ,
  `description` varchar(200) ,
  `createPaperName` varchar(40) ,
  `level` varchar(10) ,
@@ -736,7 +836,8 @@ DROP TABLE IF EXISTS `exam_employeeexam_exampaper`;
  `title` varchar(100) ,
  `useTimes` int(11) ,
  `sumPerson` bigint(21) ,
- `countPassPerson` bigint(21) 
+ `countPassPerson` bigint(21) ,
+ `exammethod` varchar(2) 
 )*/;
 
 /*Table structure for table `online_exam_employee_info` */
@@ -783,7 +884,8 @@ DROP TABLE IF EXISTS `overhaul_unit`;
  `id` varchar(40) ,
  `upid` varchar(40) ,
  `name` varchar(40) ,
- `bigCreateDate` datetime 
+ `bigCreateDate` datetime ,
+ `bigStatus` varchar(4) 
 )*/;
 
 /*Table structure for table `questionbank_questions_department` */
@@ -821,7 +923,7 @@ DROP TABLE IF EXISTS `questionbank_questions_department`;
 /*View structure for view exam_employeeexam_exampaper */
 
 /*!50001 DROP TABLE IF EXISTS `exam_employeeexam_exampaper` */;
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `exam_employeeexam_exampaper` AS select `exam`.`examId` AS `examId`,`exam`.`examName` AS `examName`,`exam`.`paperId` AS `paperId`,`exam`.`startTime` AS `startTime`,`exam`.`endTime` AS `endTime`,`exam`.`traincontent` AS `traincontent`,`exam`.`status` AS `status`,`exam`.`xueshi` AS `xueshi`,`exam`.`employeeName` AS `employeeName`,`exam`.`bigStatus` AS `bigStatus`,`exam`.`departmentId` AS `departmentId`,`exam`.`examType` AS `examType`,`exampaper`.`paperAnswer` AS `paperanswer`,`exampaper`.`description` AS `description`,`exampaper`.`employeeName` AS `createPaperName`,`exampaper`.`level` AS `level`,`exampaper`.`makeTime` AS `makeTime`,`exampaper`.`paperScore` AS `paperScore`,`exampaper`.`title` AS `title`,`exampaper`.`useTimes` AS `useTimes`,(select count(`employeeexam`.`employeeId`) from `employeeexam` where (`exam`.`examId` = `employeeexam`.`examId`)) AS `sumPerson`,(select count(`employeeexam`.`employeeId`) from `employeeexam` where ((`exam`.`examId` = `employeeexam`.`examId`) and (`employeeexam`.`grade` >= (`exampaper`.`paperScore` * 0.9)))) AS `countPassPerson` from (`exam` join `exampaper`) where (`exam`.`paperId` = `exampaper`.`paperId`) */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `exam_employeeexam_exampaper` AS select `exam`.`examId` AS `examId`,`exam`.`examName` AS `examName`,`exam`.`paperId` AS `paperId`,`exam`.`startTime` AS `startTime`,`exam`.`endTime` AS `endTime`,`exam`.`traincontent` AS `traincontent`,`exam`.`status` AS `status`,`exam`.`xueshi` AS `xueshi`,`exam`.`employeeName` AS `employeeName`,`exam`.`bigStatus` AS `bigStatus`,`exam`.`departmentId` AS `departmentId`,`exam`.`examType` AS `examType`,`exampaper`.`paperAnswer` AS `paperanswer`,`exampaper`.`description` AS `description`,`exampaper`.`employeeName` AS `createPaperName`,`exampaper`.`level` AS `level`,`exampaper`.`makeTime` AS `makeTime`,`exampaper`.`paperScore` AS `paperScore`,`exampaper`.`title` AS `title`,`exampaper`.`useTimes` AS `useTimes`,(select count(`employeeexam`.`employeeId`) from `employeeexam` where (`exam`.`examId` = `employeeexam`.`examId`)) AS `sumPerson`,(select count(`employeeexam`.`employeeId`) from `employeeexam` where ((`exam`.`examId` = `employeeexam`.`examId`) and (`employeeexam`.`grade` >= (`exampaper`.`paperScore` * 0.9)))) AS `countPassPerson`,(case ((select count(0) from `employeeexam` where ((`exam`.`examId` = `employeeexam`.`examId`) and (`employeeexam`.`examMethod` = '线下'))) = 0) when 1 then '线上' else '线下' end) AS `exammethod` from (`exam` join `exampaper`) where (`exam`.`paperId` = `exampaper`.`paperId`) */;
 
 /*View structure for view online_exam_employee_info */
 
@@ -831,7 +933,7 @@ DROP TABLE IF EXISTS `questionbank_questions_department`;
 /*View structure for view overhaul_unit */
 
 /*!50001 DROP TABLE IF EXISTS `overhaul_unit` */;
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `overhaul_unit` AS select `haulinfo`.`bigId` AS `id`,(case when 1 then 1 else 1 end) AS `upid`,`haulinfo`.`bigName` AS `name`,`haulinfo`.`bigCreateDate` AS `bigCreateDate` from `haulinfo` union select `haulunit`.`unitId` AS `id`,`haulunit`.`bigId` AS `upid`,(select `unit`.`name` from `unit` where (`unit`.`unitId` = `haulunit`.`unitId`)) AS `name`,(select `haulinfo`.`bigCreateDate` from `haulinfo` where (`haulinfo`.`bigId` = `haulunit`.`bigId`)) AS `bigCreateDate` from `haulunit` order by `bigCreateDate` desc */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `overhaul_unit` AS select `haulinfo`.`bigId` AS `id`,(case when 1 then 1 else 2 end) AS `upid`,`haulinfo`.`bigName` AS `name`,`haulinfo`.`bigCreateDate` AS `bigCreateDate`,`haulinfo`.`bigStatus` AS `bigStatus` from `haulinfo` union select `haulunit`.`unitId` AS `id`,`haulunit`.`bigId` AS `upid`,(select `unit`.`name` from `unit` where (`unit`.`unitId` = `haulunit`.`unitId`)) AS `name`,(select `haulinfo`.`bigCreateDate` from `haulinfo` where (`haulinfo`.`bigId` = `haulunit`.`bigId`)) AS `bigCreateDate`,(select `haulinfo`.`bigStatus` from `haulinfo` where (`haulinfo`.`bigId` = `haulunit`.`bigId`)) AS `bigStatus` from `haulunit` order by `bigCreateDate` desc */;
 
 /*View structure for view questionbank_questions_department */
 
