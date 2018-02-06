@@ -350,7 +350,7 @@ function questions_page(currentPage, totalCount, currentCount) {
 				"total" : totalCount,// 数字 当分页建立时设置记录的总数量
 				"pageSize" : currentCount,// 数字 每一页显示的数量 10
 				"pageNumber" : currentPage,// 数字 当分页建立时，显示的页数 1
-				"pageList" : [ 8, 15, 20 ],// 数组 用户可以修改每一页的大小，
+				"pageList" : [ 8, 15, 50],// 数组 用户可以修改每一页的大小，
 				// 功能
 				"layout" : [ 'list', 'sep', 'first', 'prev', 'manual', 'next',
 						'last', 'links' ],
