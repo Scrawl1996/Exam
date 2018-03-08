@@ -79,11 +79,11 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 				condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
 			}
 			if(ValidateCheck.isNotNull(bigStatusMark)){
-				//1表示查询所有的检修
+				//1表示查询已结束的检修，0代表查询进行中的检修
 				if(bigStatusMark.equals("1")){				
-					condition.put("bigStatus", null);
-				}else{
 					condition.put("bigStatus", "已结束");
+				}else{
+					condition.put("bigStatus", "进行中");
 				}
 			}
 			haulunitTree = empoutDistributeService.getHaulunitTreeByDepartmentId(condition);
@@ -178,11 +178,11 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
 		}
 		if(ValidateCheck.isNotNull(bigStatusMark)){
-			//1表示查询所有的检修
+			//1表示查询已结束的检修，0代表查询进行中的检修
 			if(bigStatusMark.equals("1")){				
-				condition.put("bigStatus", null);
-			}else{
 				condition.put("bigStatus", "已结束");
+			}else{
+				condition.put("bigStatus", "进行中");
 			}
 		}
 		if (ValidateCheck.isNotNull(unitId)) {
