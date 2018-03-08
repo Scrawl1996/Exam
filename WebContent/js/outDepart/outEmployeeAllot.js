@@ -487,9 +487,9 @@ function selectFenpeiInfo() {
 	}
 	// 动态显示与隐藏重新发放
 	if (distributeStatus == '5') {
-		$("#reGeberateWord").css("display", "");
-		$("#reDistributeDepart").css("display", "");
-		$("#reDistributeUnit").css("display", "");
+		$("#reGeberateWord").css("display", "inline");
+		$("#reDistributeDepart").css("display", "inline");
+		$("#reDistributeUnit").css("display", "inline");
 	} else {
 		$("#reGeberateWord").css("display", "none");
 		$("#reDistributeDepart").css("display", "none");
@@ -955,6 +955,7 @@ function historyBigInfoFind(){
 	// 设置到隐藏域中
 	$("#bigStatus_Mark").val(mark);
 	searchDepartmentAndOverHualTree(mark);
+	$("#currentPage").val("");
 	queryDistributeInfo();
 }
 

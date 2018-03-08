@@ -129,7 +129,7 @@ hasOperatingEmpout = true;
 										id="query_bigId" class="clearInput" />
 									<!-- 隐藏当前页和显示条数 -->
 									<input type="hidden" name="currentPage" id="currentPage" /> <input
-										type="hidden" name="currentCount" id="currentCount" />
+										type="hidden" name="currentCount" id="currentCount" value="8"/>
 									<!--提交查询按钮-->
 									<button type="button"
 										class="btn btn-primary el_queryButton btn-sm"

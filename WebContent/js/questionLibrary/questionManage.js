@@ -133,12 +133,14 @@ function showQuestionsInfo(data) {
 					+ Format(new Date(questionsListInfo[i].uploadtime.replace(
 							/T/g, " ").replace(/-/g, "/")),
 							"yyyy-MM-dd HH:mm:ss")
-					+ "</td><td>"
-					+ "<a href='questions_modifyQuestionInfoById.action?questionId="
+					+ "</td><td>";
+			if(hasQuestionbankManager){
+				showQuestionListInfo += "<a href='questions_modifyQuestionInfoById.action?questionId="
 					+ questionsListInfo[i].questionid
 					+ "'>修改</a>&nbsp;&nbsp;"
 					+ "<a href='javascript:void(0)' class='el_delButton' onClick='delcfm(this)'>删除</a>&nbsp;&nbsp;"
-					+ "<a href='javascript:void(0)' onClick='el_questionInfo(this)'>预览</a>"
+			}
+			showQuestionListInfo += "<a href='javascript:void(0)' onClick='el_questionInfo(this)'>预览</a>"
 					+ "</td></tr>";
 		}
 	}
