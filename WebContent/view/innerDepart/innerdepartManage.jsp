@@ -159,6 +159,11 @@
 														<button class="btn btn-primary"
 															onclick="el_addDepartment()"><span class="glyphicon glyphicon-plus"></span>添加部门</button>
 													</shiro:hasPermission>
+													<!-- 删除长委单位功能 -->
+													<shiro:hasPermission name="cwdepartment:delete">
+														<button class="btn btn-primary"
+															onclick="delete_cwdw()">删除长委单位</button>
+													</shiro:hasPermission>
 																									
 											</div>
 										
@@ -542,6 +547,53 @@
 								</div>
 								<!-- /.modal -->
 							</div>
+							
+							
+							
+							
+							 <!-- 模态框（Modal） -->
+							<div class="modal fade" id="sccw" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							    <div class="modal-dialog">
+							        <div class="modal-content">
+							            <div class="modal-header">
+							                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							                    &times;
+							                </button>
+							                <h4 class="modal-title" id="myModalLabel">
+							                    	删除长委单位
+							                </h4>
+							            </div>
+							                <div class="modal-body" >
+							                	<table class="table table-bordered">
+							                		<thead>
+							                			<tr>
+							                				<th>序号</th>
+							                				<th>单位名称</th>
+							                				<th>操作</th>
+							                			</tr>
+							                		</thead>
+							                		<tbody id="cwdwTbody">
+							                		<!-- 数据 -->
+							                		</tbody>
+							                	</table>
+							                	
+            	                              <!--分页-->
+                                 			   <div id="paginationQ" class="paginationID"></div>
+                                 			   <!-- 隐藏分页信息 -->
+                                 			   <input type="hidden" id="currentPageQ" value="1"> 
+                                 			   <input type="hidden" id="currentCountQ" value="8">
+							                </div>
+							                <div class="modal-footer">
+							                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+							                    </button>
+							                    <button type="submit" class="btn btn-primary" onclick="xg()">
+							                        确认
+							                    </button>
+							                </div>
+							        </div><!-- /.modal-content -->
+							    </div><!-- /.modal -->
+							</div>
+							
 
 
 

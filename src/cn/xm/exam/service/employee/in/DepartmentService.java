@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.xm.exam.bean.employee.in.Department;
 import cn.xm.exam.utils.PageBean;
 
@@ -155,6 +157,7 @@ public interface DepartmentService {
 	 * @throws SQLException
 	 */
 	//public List<Map<String, Object>> getDepartmentTreeForExam(String departmentId) throws SQLException;
+	public List<String> getChangWeiDepartment(String depNameWords) throws SQLException;
 	/** E qlq *********/
 	
 	/** S ll *********/
@@ -199,4 +202,11 @@ public interface DepartmentService {
 	public List<Map<String, Object>> getDepartmentTreeCommon(String departmentId) throws SQLException;
 	
 	/** E ll *********/
+	/**
+	 * 根据长委单位名称删除长委单位
+	 * @param name
+	 * @return
+	 * @throws SQLException
+	 */
+	public String deleteCWDepartmentById(String name)throws Exception;
 }
