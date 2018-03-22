@@ -214,8 +214,8 @@
 												<a href='javascript:void(0)' class='bigss'><span
 													title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 												<a href='javascript:void(0)' class='bigsy'>上移</a> <a
-													href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
-													href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a>
+													href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <!-- <a
+													href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a> -->
 											</div>
 
 											<!-- 小题 -->
@@ -262,8 +262,8 @@
 												<a href='javascript:void(0)' class='bigss'><span
 													title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 												<a href='javascript:void(0)' class='bigsy'>上移</a> <a
-													href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
-													href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a>
+													href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <!-- <a
+													href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a> -->
 											</div>
 
 											<!-- 小题 -->
@@ -310,8 +310,8 @@
 												<a href='javascript:void(0)' class='bigss'><span
 													title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 												<a href='javascript:void(0)' class='bigsy'>上移</a> <a
-													href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
-													href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a>
+													href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <!-- <a
+													href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a> -->
 											</div>
 
 											<!-- 小题 -->

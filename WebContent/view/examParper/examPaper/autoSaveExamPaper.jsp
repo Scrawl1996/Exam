@@ -206,8 +206,8 @@
 									<a href='javascript:void(0)' class='bigss'><span  title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 									<a href='javascript:void(0)' class='bigsy'>上移</a>
 									 <a
-										href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
-										href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a>
+										href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <!-- <a
+										href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a> -->
 								</div>
 
 								<div class="yd_box el_danxuan">
@@ -251,7 +251,7 @@
 											<input type="text" class="el_modifiedGrade"
 											value="${duonxuan_score }" onchange="updateTotalScore(this)"
 											onblur="updateInputEveryQuesScore(this)">
-										</span><span>分;共</span><span class="numTotal">${danxuan_score*fn:length(result.duoxuan_list)}分/</span><span
+										</span><span>分;共</span><span class="numTotal">${duonxuan_score*fn:length(result.duoxuan_list)}分/</span><span
 											class="numQues">${fn:length(result.duoxuan_list)}题)</span>
 									</h4>
 								</div>
@@ -259,8 +259,8 @@
 								<div class="el_tiBoxMainDelBox">
 									<a href='javascript:void(0)' class='bigss'><span  title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 									<a href='javascript:void(0)' class='bigsy'>上移</a> <a
-										href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
-										href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a>
+										href='javascript:void(0)' class='bigxy'>下移</a>&nbsp;<!--  <a
+										href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a> -->
 								</div>
 
 								<div class="yd_box el_duoxuan">
@@ -306,8 +306,8 @@
 								<div class="el_tiBoxMainDelBox">
 									<a href='javascript:void(0)' class='bigss'><span  title='点击收起题目' class='glyphicon glyphicon-chevron-up'></span></a>
 									<a href='javascript:void(0)' class='bigsy'>上移</a> <a
-										href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <a
-										href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a>
+										href='javascript:void(0)' class='bigxy'>下移</a>&nbsp; <!-- <a
+										href="javascript:void(0)" class="el_tiBoxMainDel">删除所有</a> -->
 								</div>
 
 								<div class="yd_box el_panduan">
