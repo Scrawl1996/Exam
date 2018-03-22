@@ -35,8 +35,8 @@
 			and CASE examMethod="线上" WHEN TRUE THEN 1=1 ELSE `status`="已结束" END
 			AND CASE bigStatus="已结束" WHEN TRUE THEN 1 ELSE 0 END
 			= 0
-			and
-			answerstatus = "已交卷"
+			<!-- 去掉线上考试交卷看成绩的限制 -->
+			<!-- and answerstatus = "已交卷" -->
 			<include refid="query_ExamGradesInfo_where"></include>
 		</where>
 		ORDER BY startTime DESC , grade DESC
@@ -50,8 +50,8 @@
 			and CASE examMethod="线上" WHEN TRUE THEN 1=1 ELSE `status`="已结束" END
 			AND CASE bigStatus="已结束" WHEN TRUE THEN 1 ELSE 0 END
 			= 0
-			and
-			answerstatus = "已交卷"
+			<!-- 去掉线上考试交卷看成绩的限制 -->
+			<!-- and answerstatus = "已交卷" -->
 			<include refid="query_ExamGradesInfo_where"></include>
 		</where>
 	</select>
@@ -64,8 +64,8 @@
 			and CASE examMethod="线上" WHEN TRUE THEN 1=1 ELSE `status`="已结束" END
 			AND CASE bigStatus="已结束" WHEN TRUE THEN 1 ELSE 0 END
 			= 0
-			and
-			answerstatus = "已交卷"
+			<!-- 去掉线上考试交卷看成绩的限制 -->
+			<!-- and answerstatus = "已交卷" -->
 			<include refid="query_ExamGradesInfo_where"></include>
 		</where>
 		ORDER BY startTime DESC , grade DESC
