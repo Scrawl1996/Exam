@@ -10,7 +10,7 @@ import cn.xm.exam.utils.PageBean;
 /**
  * 大修基本信息的service
  * 
- * @author QiaoLiQiang
+ * @author Leilong
  * @time 2017年11月9日下午10:08:40
  */
 public interface HaulinfoService {

@@ -134,7 +134,7 @@ function timer() {
 	} else {
 		var ts = (new Date(examInfo.endTime.time)) - (getServerDate());//计算剩余的毫秒数
 	}
-	var hh = parseInt(ts / 1000 / 60 / 60, 10);//计算剩余的小时数      
+	var hh = parseInt(ts / 1000 / 60 / 60 % 24, 10);//计算剩余的小时数      
 	var mm = parseInt(ts / 1000 / 60 % 60, 10);//计算剩余的分钟数      
 	var ss = parseInt(ts / 1000 % 60, 10);//计算剩余的秒数     
 	hh = checkTime(hh);
@@ -236,6 +236,7 @@ function getOnlineExamStartAnswerTime() {
 		},
 		type : "post",
 		dataType : "json",
+		async:false,
 		success : function(data) {
 			lengthAnswerTime = new Date(
 					data.onlineExamStartAnswerInfo.startanswertime.replace(/T/g, " ").replace(/-/g, "/")).getTime()+ examInfo.AnswerTime * 60 * 1000;

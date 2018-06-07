@@ -206,7 +206,7 @@ public class EmployeeExamAction extends ActionSupport{
 			Map<String,Object> condition = new HashMap<String,Object>();
 			condition.put("idCard", employeeIdCard);
 			condition.put("examId", examId);
-			OnlineExamEmployeeInfo onlineExamEmployeeInAllInfo = employeeExamService.getExamGardeByEmployeeIdAndExamId(condition);
+			OnlineExamEmployeeInfo onlineExamEmployeeInAllInfo = employeeExamService.getOnlineDetailInfoByCondition(condition);
 			result = new HashMap<String,Object>();
 			result.put("onlineExamEmployeeInAllInfo", onlineExamEmployeeInAllInfo);
 		} catch (Exception e) {

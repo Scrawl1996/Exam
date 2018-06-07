@@ -32,9 +32,12 @@ import net.sf.json.JSONObject;
 
 /**
  * 
- * 项目名称：Exam 类名称：OnlineExamAction 类描述： 在线考试的action 创建人：Leilong 创建时间：2017年10月28日
+ * 项目名称：Exam 
+ * 类名称：OnlineExamAction 
+ * 类描述： 在线考试的action 
+ * 创建人：Leilong 
+ * 创建时间：2017年10月28日
  * 下午5:24:28
- * 
  * @version
  * 
  */
@@ -206,7 +209,7 @@ public class OnlineExamAction extends ActionSupport {
 			Map<String, Object> condition = new HashMap<String, Object>();
 			condition = generationCondition(condition);
 			OnlineExamEmployeeInfo onlineExamEmployeeGrade = employeeExamService
-					.getExamGardeByEmployeeIdAndExamId(condition);
+					.getExamGardeByIdCardAndExamId(condition);
 			result = new HashMap<String, Object>();
 			result.put("onlineExamEmployeeGrade", onlineExamEmployeeGrade);
 		} catch (Exception e) {

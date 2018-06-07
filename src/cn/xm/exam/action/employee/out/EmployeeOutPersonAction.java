@@ -88,6 +88,8 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	private String ageLeft;
 	//年龄端右侧
 	private String ageRight;
+	private String breakrulesLeft;// 违章的起始值
+	private String breakrulesRight;// 违章的结束值
 	
 	
 	//初始化大修部门树
@@ -294,7 +296,7 @@ public class EmployeeOutPersonAction extends ActionSupport{
 			condition.put("employeeOutIdCard", employeeOutIdCard);
 		}
 		
-		if(ValidateCheck.isNotNull(minusNum)){
+/*		if(ValidateCheck.isNotNull(minusNum)){
 			String[] points = minusNum.split(",");
 			if(points.length>1){				
 				condition.put("minusNumLeft", points[0]);
@@ -303,7 +305,13 @@ public class EmployeeOutPersonAction extends ActionSupport{
 				condition.put("minusNumLeft", points[0]);
 			}
 		}
-		
+		*/
+		if(ValidateCheck.isNotNull(breakrulesLeft)){
+			condition.put("minusNumLeft", breakrulesLeft);
+		}
+		if(ValidateCheck.isNotNull(breakrulesRight)){
+			condition.put("minusNumRight", breakrulesRight);
+		}
 		if(ValidateCheck.isNotNull(blackListInfo)){
 			condition.put("blackListInfo", blackListInfo);
 		}
@@ -609,6 +617,22 @@ public class EmployeeOutPersonAction extends ActionSupport{
 
 	public void setAgeRight(String ageRight) {
 		this.ageRight = ageRight;
+	}
+
+	public String getBreakrulesLeft() {
+		return breakrulesLeft;
+	}
+
+	public void setBreakrulesLeft(String breakrulesLeft) {
+		this.breakrulesLeft = breakrulesLeft;
+	}
+
+	public String getBreakrulesRight() {
+		return breakrulesRight;
+	}
+
+	public void setBreakrulesRight(String breakrulesRight) {
+		this.breakrulesRight = breakrulesRight;
 	}
 
 	

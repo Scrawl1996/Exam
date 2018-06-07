@@ -178,7 +178,7 @@ hasOperatingEmpout = true;
 										<shiro:hasPermission name="trainmanager:notrain">
 											<button style="display: none" id="notrainbtn"
 												class="btn btn-primary" onclick="notrain()">
-												技术服务</button>
+												免考试</button>
 										</shiro:hasPermission>
 										<!--S 免培训  -->
 										<shiro:hasPermission name="grademanager:redisdepart">

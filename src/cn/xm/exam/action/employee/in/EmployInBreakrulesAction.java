@@ -89,6 +89,8 @@ public class EmployInBreakrulesAction extends ActionSupport {
 	private String fcurtotal;// 每页显示的记录数
 	private String fstarttime;// 违章时间段的开始时间
 	private String fendtime;// 违章时间段的结束时间
+	private String breakrulesLeft;// 违章的起始值
+	private String breakrulesRight;// 违章的结束值
 	private String empBreakInfoType;//员工违章记录类型
 	private String isOnlyManager;
 	
@@ -737,6 +739,14 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		String blackStatus = "";// 用于标记黑名单状态是否被选中
 
 		// 接收穿过来的数据
+		String startBreak = breakrulesLeft;
+		String endBreak = breakrulesRight;
+		if(ValidateCheck.isNull(startBreak)){
+			startBreak = "0";
+		}
+		if(ValidateCheck.isNull(endBreak)){
+			endBreak = "10000";
+		}
 		
 		
 		String isManager = isOnlyManager;//是否是管理员
@@ -777,9 +787,8 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		 * if(isBreak==null){ blackStatus = "无"; }
 		 */
 
-		String[] split = str.split(",");
-		int startminusNum = Integer.parseInt(split[0]);
-		int endminusNum = Integer.parseInt(split[1]);
+		int startminusNum = Integer.parseInt(startBreak);
+		int endminusNum = Integer.parseInt(endBreak);
 
 		int curPage = (Integer.parseInt(curpage) - 1) * (Integer.parseInt(curtotal));// （当前页页号-1）*每页显示的记录数
 		int curTotal = Integer.parseInt(curtotal);
@@ -1000,6 +1009,7 @@ public class EmployInBreakrulesAction extends ActionSupport {
 			mapLeftAndConditionNoBlackCount.put("name", name);// 姓名
 			mapLeftAndConditionNoBlackCount.put("idcode", idcode);// 身份证
 			mapLeftAndConditionNoBlackCount.put("sex", sex);// 性别
+			
 			// 是否选中黑名单状态的标记
 			mapLeftAndConditionNoBlackCount.put("blackstatus", "1");
 			mapLeftAndConditionNoBlackCount.put("departmentid", departmentid);// 部门id
@@ -1097,6 +1107,23 @@ public class EmployInBreakrulesAction extends ActionSupport {
 		
 		return condition;
 	}
+
+	public String getBreakrulesLeft() {
+		return breakrulesLeft;
+	}
+
+	public void setBreakrulesLeft(String breakrulesLeft) {
+		this.breakrulesLeft = breakrulesLeft;
+	}
+
+	public String getBreakrulesRight() {
+		return breakrulesRight;
+	}
+
+	public void setBreakrulesRight(String breakrulesRight) {
+		this.breakrulesRight = breakrulesRight;
+	}
+	
 }
 
 

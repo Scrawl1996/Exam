@@ -244,7 +244,7 @@
 									</div>
 
 									<div class="row el_queryBoxrow">
-										<div class="col-md-3 el_qlmQuery">
+										<!-- <div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
 												<span class="el_spans">违章积分：</span> <select
 													class="selectpicker form-control" title="请选择"
@@ -256,6 +256,12 @@
 													<option value="9,11">9-11分</option>
 													<option value="12">12分及以上</option>
 												</select>
+											</div>
+										</div> -->
+										
+										<div class="col-md-3 el_qlmQuery">
+											<div class="input-group" role="toolbar">
+												<span class="el_spans">家庭住址：</span> <input class="form-control" name="address" type="text">
 											</div>
 										</div>
 
@@ -307,12 +313,14 @@
 											</div>
 										</div>
 										
-										<div class="col-md-4 el_qlmQuery" style="right: -39px;">
-											<div class="input-group" role="toolbar">
-												<span class="el_spans">家庭住址：</span> <input class="form-control" name="address" type="text">
+										<div class="col-md-5" id="el_breakTimeIndex">
+											<div class="input-group" id="el_startEndTime" role="toolbar">
+												<span class="el_spans">积&nbsp;分&nbsp;段：&nbsp;</span> <input
+													type="text" class=" form-control query_dep_starttime" placeholder="起始值"
+													name="breakrulesLeft"> <input type="text"	placeholder="结束值"
+													class="form-control query_dep_endtime" name="breakrulesRight">
 											</div>
 										</div>
-										
 										
 									</div>
 									<div class="row el_queryBoxrow">

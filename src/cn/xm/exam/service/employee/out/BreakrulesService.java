@@ -12,7 +12,7 @@ import cn.xm.exam.bean.haul.Haulunit;
 /**
  * 黑名单Service
  * 
- * @author QizoLiQiang
+ * @author Leilong
  * @time 2017年9月18日上午8:17:19
  */
 public interface BreakrulesService {

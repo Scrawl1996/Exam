@@ -11,7 +11,7 @@ import cn.xm.exam.utils.PageBean;
 /**
  * 培训资料Servicre接口
  * 
- * @author QizoLiQiang
+ * @author Leilong
  * @time 2017年8月9日上午10:19:42
  */
 public interface TraincontentService {

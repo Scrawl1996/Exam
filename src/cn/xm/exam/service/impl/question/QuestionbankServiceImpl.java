@@ -101,6 +101,7 @@ public class QuestionbankServiceImpl implements QuestionbankService {
 				return false;
 			}		
 		}
+		//int i = 4/0;
 		//删除题库信息
 		int isDeleteQuestionBank = questionBankMapper.deleteByPrimaryKey(id);
 		if(isDeleteQuestionBank>0){
