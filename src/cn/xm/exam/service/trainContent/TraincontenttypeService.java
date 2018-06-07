@@ -8,7 +8,7 @@ import cn.xm.exam.bean.trainContent.Traincontenttype;
 
 /**
  * 培训内容类别service
- * @author QiaoLiQiang
+ * @author Leilong
  * @time 2018年3月6日下午8:11:49
  */
 public interface TraincontenttypeService {

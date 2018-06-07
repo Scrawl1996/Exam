@@ -199,6 +199,28 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 	public OnlineExamEmployeeInfo getExamGardeByEmployeeIdAndExamId(Map<String, Object> condition) throws Exception {
 		return employeeexamCustomMapper.getExamGardeByEmployeeIdAndExamId(condition);
 	}
+	
+	/**
+	 * 根据考试编号与身份证号查询在线考试员工成绩详情
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public OnlineExamEmployeeInfo getOnlineDetailInfoByCondition(Map<String, Object> condition) throws Exception {
+		return employeeexamCustomMapper.getOnlineDetailInfoByCondition(condition);
+	}
+	
+	/**
+	 * 根据考试编号和身份证号查询在线考试交卷得分信息
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public OnlineExamEmployeeInfo getExamGardeByIdCardAndExamId(Map<String, Object> condition) throws Exception {
+		return employeeexamCustomMapper.getExamGardeByIdCardAndExamId(condition);
+	}
 
 	/**
 	 * 组合条件查询 根据考试名称，考试级别，考试时间查询考试的相关信息
@@ -368,8 +390,6 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 		return null;
 	}
 	/********* E qlq *************/
-	
-	
-	
+
 	
 }

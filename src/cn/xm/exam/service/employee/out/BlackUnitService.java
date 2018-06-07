@@ -7,7 +7,7 @@ import cn.xm.exam.utils.PageBean;
 
 /**
  * 单位黑名单Service
- * @author QiaoLiQiang
+ * @author Leilong
  * @time 2018年1月10日下午2:14:15
  */
 public interface BlackUnitService {

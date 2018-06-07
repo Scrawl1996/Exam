@@ -16,7 +16,7 @@ import cn.xm.exam.vo.question.QuestionsQueryVo;
 /**
  * 试题service接口
  * 
- * @author QizoLiQiang
+ * @author Leilong
  * @time 2017年8月9日上午11:30:41
  */
 public interface QuestionsService {

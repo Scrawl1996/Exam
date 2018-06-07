@@ -97,12 +97,30 @@ public interface EmployeeExamService {
 
 		
 		/**
-		 * 根据考试编号与员工Id查询在线考试员工的成绩信息
+		 * 根据考试编号与身份证号查询在线考试员工答题情况
 		 * @param condition
 		 * @return
 		 * @throws Exception
 		 */
 		public OnlineExamEmployeeInfo getExamGardeByEmployeeIdAndExamId(Map<String,Object> condition) throws Exception;
+		
+		/**
+		 * 根据考试编号与身份证号查询在线考试员工成绩详情
+		 * @param condition
+		 * @return
+		 * @throws Exception
+		 */
+		public OnlineExamEmployeeInfo getOnlineDetailInfoByCondition(Map<String,Object> condition) throws Exception;
+		
+		/**
+		 * 根据考试编号和身份证号查询在线考试交卷得分信息
+		 * @param condition
+		 * @return
+		 * @throws Exception
+		 */
+		public OnlineExamEmployeeInfo getExamGardeByIdCardAndExamId(Map<String,Object> condition) throws Exception;
+		
+		
 		
 		/******************************************leilong添加的***********************************************/
 		/**
@@ -176,8 +194,7 @@ public interface EmployeeExamService {
 		 */
 		public List<Employeeexam> getEmployeeGradeInfosByIds(Map<String,Object> condition) throws Exception;
 	
-	
-	
+		
 	
 	/*********** S qlq **********/
 	/**

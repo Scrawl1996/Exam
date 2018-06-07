@@ -14,7 +14,7 @@ import cn.xm.exam.utils.PageBean;
 /**
  * 内部部门service层接口
  * 
- * @author QiaoLiQiang
+ * @author Leilong
  * @time 2017年8月9日上午9:45:31
  */
 public interface DepartmentService {

@@ -11,7 +11,7 @@ import cn.xm.exam.vo.question.QuestionbankQuestionsDepartment;
 /**
  * 试题库service层接口
  * 
- * @author QizoLiQiang
+ * @author Leilong
  * @time 2017年8月9日上午11:08:39
  */
 public interface QuestionbankService {

@@ -53,8 +53,16 @@
 		employeeexam.employeeId,
 		employeeexam.employeeName,employeeexam.employeeType,
 		employeeexam.examMethod,employeeexam.grade,
-		CASE
-		employeeexam.grade>=exampaper.paperScore*0.9 when true then "是" ELSE
+		CASE (
+			(
+				(timestampdiff(MINUTE, '2018-06-04', `exam`.`startTime`) >= 0)
+				AND (`employeeexam`.`grade` = `exampaper`.`paperScore`)
+			)
+			OR (
+				(timestampdiff(MINUTE, '2018-06-04', `exam`.`startTime`) &lt; 0)
+				AND (`employeeexam`.`grade` >=(`exampaper`.`paperScore` * 0.9))
+			)
+		) when true then "是" ELSE
 		"否" END isPass,
 		(SELECT emptype FROM haulemployeeout WHERE bigemployeeoutid=employeeexam.bigemployeeoutid)
 		employeeOutType,

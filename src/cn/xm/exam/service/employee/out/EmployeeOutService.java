@@ -16,7 +16,7 @@ import cn.xm.exam.vo.employee.out.EmployeeOutBaseInfo;
 /**
  * 外来员工管理接口
  * 
- * @author QizoLiQiang
+ * @author Leilong
  * @time 2017年8月8日上午8:43:08
  */
 public interface EmployeeOutService {

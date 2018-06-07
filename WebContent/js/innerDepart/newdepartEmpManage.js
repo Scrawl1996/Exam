@@ -243,7 +243,7 @@ function addEmployeeOutInfo() {
 	/**
 	 *	如果年龄符合，即aged为true ，则执行下边内容。
 	 */
-	if(aged){
+//	if(aged){
 		// 判断该身份证是否已经添加
 		for (var i = 0; i < idCardArrays.length; i++) {
 			if (idCardArrays[i] == idCard) {
@@ -352,7 +352,7 @@ function addEmployeeOutInfo() {
 						}
 					});
 		}
-	}
+//	}
 }
 
 // 点击添加员工的模态框的删除按钮执行的操作

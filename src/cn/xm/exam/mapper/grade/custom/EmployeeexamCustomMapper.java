@@ -11,7 +11,7 @@ import cn.xm.exam.vo.grade.OnlineExamEmployeeInfo;
 /**
  * 员工成绩mapper
  * 
- * @author QiaoLiQiang
+ * @author Leilong
  * @time 2017年10月22日下午10:03:44
  */
 public interface EmployeeexamCustomMapper {
@@ -108,14 +108,30 @@ public interface EmployeeexamCustomMapper {
 	public int updateEmployeeInScoreByIdCard(Map<String, Object> condition) throws SQLException;
 
 	/**
-	 * 根据考试编号和身份证号查询在线考试员工成绩
-	 * 
+	 * 根据考试编号与身份证号查询在线考试员工答题情况
 	 * @param condition
 	 * @return
 	 * @throws SQLException
 	 */
 	public OnlineExamEmployeeInfo getExamGardeByEmployeeIdAndExamId(Map<String, Object> condition) throws SQLException;
-
+	
+	/**
+	 * 根据考试编号与身份证号查询在线考试员工成绩详情
+	 * @param condition
+	 * @return
+	 * @throws SQLException
+	 */
+	public OnlineExamEmployeeInfo getOnlineDetailInfoByCondition(Map<String, Object> condition) throws SQLException;
+	
+	/**
+	 * 根据考试编号和身份证号查询在线考试交卷得分信息
+	 * @param condition
+	 * @return
+	 * @throws SQLException
+	 */
+	public OnlineExamEmployeeInfo getExamGardeByIdCardAndExamId(Map<String, Object> condition) throws SQLException;
+	
+	
 	/**
 	 * 根据考试编号查询导入的成绩中通过这次考试的员工身份证号集合以及大修ID用于批量设置员工的培训状态
 	 * 

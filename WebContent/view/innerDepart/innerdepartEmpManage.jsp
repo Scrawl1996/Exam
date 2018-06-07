@@ -218,19 +218,28 @@ hasOperatingEmpin = true;
 
 									<div class="row el_queryBoxrow">
 
+<!-- 										<div class="col-md-3 el_qlmQuery">
+											<div class="input-group" role="toolbar">
+												<span class="el_spans">违章积分：</span> 
+													<select
+														class="selectpicker form-control" id="el_breakSelect"
+														name="fBreakScore" title="请选择">
+														<option value="0,100">--请选择--</option>
+														<option value="0,3">3分以下</option>
+														<option value="4,6">4-6</option>
+														<option value="7,11">7-11</option>
+														<option value="12,1000">12分及以上</option>
+													</select>
+											</div>
+										</div> -->
+										
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
-												<span class="el_spans">违章积分：</span> <select
-													class="selectpicker form-control" id="el_breakSelect"
-													name="fBreakScore" title="请选择">
-													<option value="0,100">--请选择--</option>
-													<option value="0,3">3分以下</option>
-													<option value="4,6">4-6</option>
-													<option value="7,11">7-11</option>
-													<option value="12,1000">12分及以上</option>
-												</select>
+												<span class="el_spans">家庭住址：</span> <input
+													class="form-control" name="address" type="text">
 											</div>
 										</div>
+										
 										<div class="col-md-6" id="el_breakTimeIndex">
 											<div class="input-group" id="el_startEndTime" role="toolbar">
 												<span class="el_spans">违章时间：</span> <input type="text"
@@ -245,24 +254,35 @@ hasOperatingEmpin = true;
 
 									</div>
 									<div class="row el_queryBoxrow">
-
+<!-- 
 										<div class="col-md-3 el_qlmQuery">
 											<div class="input-group" role="toolbar">
 												<span class="el_spans">家庭住址：</span> <input
 													class="form-control" name="address" type="text">
 											</div>
-										</div>
+										</div> -->
 
-										<div class="col-md-6" id="el_breakTimeIndex">
+										<div class="col-md-5" id="el_breakTimeIndex">
+											<div class="input-group" id="el_startEndTime" role="toolbar">
+												<span class="el_spans">积&nbsp;分&nbsp;段：&nbsp;</span> <input
+													type="text" class=" form-control query_dep_starttime"
+													name="breakrulesLeft"> <input type="text"
+													class="form-control query_dep_endtime" name="breakrulesRight">
+											</div>
+										</div>
+										
+										
+										<div class="col-md-5" id="el_breakTimeIndex">
 											<div class="input-group" id="el_startEndTime" role="toolbar">
 
 												<span class="el_spans">年&nbsp;龄&nbsp;段：&nbsp;</span> <input
 													type="text" class=" form-control query_dep_starttime"
 													name="ageLeft"> <input type="text"
 													class="form-control query_dep_endtime" name="ageRight">
-                      
 											</div>
 										</div>
+										
+										
 									</div>
 
 									<!-- 当前页页号 -->
@@ -292,8 +312,7 @@ hasOperatingEmpin = true;
 							</script>
 							<!-- 解决违章记分和黑名单冲突 -->
 							<script>
-								$(
-										function() {
+								$(function() {
 											$("#el_breakSelect")
 													.change(
 															function() {

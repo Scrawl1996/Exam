@@ -101,6 +101,10 @@ public interface EmployeeInService {
 	public PageBean<EmployeeIn> findEmployeeInWithCondition(Map<String, Object> condition) throws Exception;
 
 	public boolean batchImportEmployeeIn(List<EmployeeIn> list);
+	
+	
+	public List<EmployeeIn> getUniqueEmployeeInInfo(List<EmployeeIn> list);
+	
 
 	public List<String> getALLEmployeeInByDepartmentId(String departmentid);
 	

@@ -4,6 +4,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
 import cn.xm.exam.bean.employee.in.EmployeeIn;
 import cn.xm.exam.bean.employee.in.EmployeeInInfo;
 import cn.xm.exam.vo.exam.ExamEmployeeInQueryVo;
@@ -61,6 +64,9 @@ public interface EmployeeInCustomMapper {
 	public EmployeeIn getEmployeeInByIdcode(String idcode);
 
 	public void deleteBlackrulesById(String idCode);
+
+	@Select("SELECT COUNT(employeeId) FROM employee_in where idCode = #{idCode}")
+	public int selectCountByIdcode(@Param("idCode")String idcode);
 
 	/**************** E zhangwenyi **********************/
 }

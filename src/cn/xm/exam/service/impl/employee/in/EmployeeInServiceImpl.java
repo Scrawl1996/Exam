@@ -296,6 +296,8 @@ public class EmployeeInServiceImpl implements EmployeeInService {
 		return pageBean;
 	}
 
+
+
 	@Override
 	public boolean batchImportEmployeeIn(List<EmployeeIn> list) {
 		System.out.println("调用service的方法");
@@ -312,6 +314,8 @@ public class EmployeeInServiceImpl implements EmployeeInService {
 		}
 		return true;
 	}
+	
+	
 
 	public List<String> getALLEmployeeInByDepartmentId(String departmentid) {
 		List<String> employeeInList = null;
@@ -337,6 +341,39 @@ public class EmployeeInServiceImpl implements EmployeeInService {
 		return true;
 
 	}
+	
+	@Override
+	public List<EmployeeIn> getUniqueEmployeeInInfo(List<EmployeeIn> list) {
+		//先判断在数据库中是否存在对应的身份证号，如果存在剔除数据
+		List<EmployeeIn> tmpList= new ArrayList<EmployeeIn>();//临时集合，存放剔除数据之后的员工信息，用于最终添加数据库
+		if(list != null && list.size() > 0){
+			//对employerInList集合进行处理，先判断在数据库中是否存在对应的身份证号，如果存在剔除数据
+			EmployeeIn emp = null;
+			EmployeeIn tmpEmp = null;
+			String idcode=null;
+			first:for(int i=0,size=list.size();i<size;i++){
+				emp = list.get(i);
+				if(ValidateCheck.isNull(emp.getIdcode())){
+					continue first;
+				}
+				idcode = emp.getIdcode();//获取身份证号
+				//1.根据身份证号判断是否存在临时表，如果存在就不添加到临时集合
+				second:for(int j=0,size_1=tmpList.size();j<size_1;j++){
+					tmpEmp = tmpList.get(j);
+					if(idcode.equals(tmpEmp.getIdcode())){//如果存在临时集合，就结束本次循环
+						continue first;
+					}
+				}
+				//2.根据身份证号判断是否存在数据库，如果存在就不添加到临时集合
+				if(employeeInCustomMapper.selectCountByIdcode(idcode)>0){
+					continue first;
+				}
+				tmpList.add(emp);
+			}
+		}
+		return tmpList;
+	}
+
 
 	@Override
 	public boolean addEmployeeInBatch(List<EmployeeIn> employeeInList) throws Exception {
@@ -344,6 +381,11 @@ public class EmployeeInServiceImpl implements EmployeeInService {
 		//员工编号集合
 				List<String> employeeInIds = new ArrayList<String>();
 				int flag = 0;
+				if(employeeInList != null && employeeInList.size() > 0){
+					//对employerInList集合进行处理，先判断在数据库中是否存在对应的身份证号，如果存在剔除数据
+					employeeInList = this.getUniqueEmployeeInInfo(employeeInList);
+				}
+				
 				if (employeeInList != null && employeeInList.size() > 0) {
 
 					for (EmployeeIn employeein : employeeInList) {
@@ -389,6 +431,10 @@ public class EmployeeInServiceImpl implements EmployeeInService {
 					return false;
 				}
 	}
+	
+	
+	
+	
 
 	@Override
 	public String isBlackList(String idcode) {
