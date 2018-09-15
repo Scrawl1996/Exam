@@ -98,6 +98,7 @@ xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://
 				<!-- 对静态资源设置匿名访问 -->
 				/ = anon <!-- 不拦截首页的地址 -->
 				/index.jsp = anon
+				/WS/** = anon
 				/newsIP_**.action = anon
 				/train_**.action = anon
 				/dic_***.action = anon
