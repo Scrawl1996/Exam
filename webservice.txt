@@ -3,7 +3,20 @@
 2.在shiro中要去掉拦截webservice请求，否则访问不成功。
 3.测试webservice是否发布成功可以启动服务之后访问:http://localhost/Exam/WS/userServiceWS?wsdl或者访问:http://localhost/Exam/WS/
 4.客户端访问webservice可以用一下三种方式:
-	(1)生成本地代码
+	(1)利用jdk自带的wsimport生成本地代码:(不依赖CXF框架)
+		  wsimport http://localhost/Exam/WS/userServiceWS?wsdl
+	将导出的代码打包放进项目中，测试代码如下:
+		UserWebServiceImplService userServiceImplService = new UserWebServiceImplService();
+		UserWebService userWebServiceImplPort = userServiceImplService.getUserWebServiceImplPort();
+		try {
+			User user = userWebServiceImplPort.getUserByUseridcard("140581197705070518");
+			System.out.println(user.getDepartmentname());
+		} catch (Exception_Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	
 	(2)利用静态代理
 	(3)利用动态代理，如下代码:(推荐这种)
 	
