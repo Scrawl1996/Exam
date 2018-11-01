@@ -8,7 +8,7 @@
 	<!-- 上传文件存放的目录 -->
 	<!-- <constant name="struts.multipart.saveDir" value="E:\a"></constant> -->
 
-	<package name="newsPackage" extends="json-default,struts-default" namespace="/">
+	<package name="newsPackage" extends="interceptPackage" namespace="/">
 		<action name="news_*" class="newsAction" method="{1}">
 			<!-- 这个用于将map转成json -->
 			<result type="json">

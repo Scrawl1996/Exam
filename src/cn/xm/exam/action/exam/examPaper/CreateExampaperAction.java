@@ -6,8 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ import cn.xm.exam.utils.ValidateCheck;
  * @time 2017年9月26日下午9:54:58
  */
 public class CreateExampaperAction extends ActionSupport {
-	private Logger logger = Logger.getLogger(CreateExampaperAction.class);// 日志记录器
+	private static final Logger log = LoggerFactory.getLogger(CreateExampaperAction.class);
 	// private
 	private Map<String, Object> result;// 用于存放结果的map
 	@Autowired
@@ -253,7 +254,7 @@ public class CreateExampaperAction extends ActionSupport {
 		try {
 			questions = questionsService.getQuestionsForBankGeneExamPaper(condition);
 		} catch (SQLException e) {
-			logger.error("根据题库生成试卷出错", e);
+			log.error("根据题库生成试卷出错", e);
 		}
 		return "bankGenePaperWithQues";
 	}

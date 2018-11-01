@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ import cn.xm.exam.utils.ValidateCheck;
 public class AddHaulAction extends ActionSupport implements ModelDriven<Haulinfo> {
 	private Haulinfo haulinfo = new Haulinfo();// 模型驱动对象
 	private Map<String, Object> response;// 作为结果返回的map
-	private Logger logger = Logger.getLogger(AddHaulAction.class);// 日志记录器
+	private static final Logger log = LoggerFactory.getLogger(AddHaulAction.class);
 	@Autowired // 自动装配
 	private HaulinfoService haulinfoService;
 
@@ -48,7 +49,7 @@ public class AddHaulAction extends ActionSupport implements ModelDriven<Haulinfo
 			}
 			result = haulinfoService.addHaulinfo(haulinfo,list) ? "添加成功!" : "添加失败!";
 		} catch (SQLException e) {
-			logger.error("添加大修出错", e);
+			log.error("添加大修出错", e);
 		}
 		response.put("result", result);
 		return SUCCESS;

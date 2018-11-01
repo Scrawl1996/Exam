@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.pagehelper.PageHelper;
@@ -33,6 +35,8 @@ import cn.xm.exam.utils.ValidateCheck;
 @SuppressWarnings("all")
 public class DepartmentAction extends ActionSupport {
 
+	private static final Logger log = LoggerFactory.getLogger(DepartmentAction.class);
+
 	/*
 	 * 查询部门树结构
 	 */
@@ -44,7 +48,12 @@ public class DepartmentAction extends ActionSupport {
 		String departmentIdSession = user.getDepartmentid();// 获取部门ID
 		boolean permitted = currentUser.isPermitted("departmentmanager:factory");// 判断是否有全厂管理的权限,有就不添加部门ID，没有就设为当前Session中的部门ID
 		String departmentId = permitted ? null : departmentIdSession;
-		List<Map<String, Object>> treeList = departmentService.getDepartmentTreeCommon(departmentId);
+		List<Map<String, Object>> treeList = null;
+		try {
+			treeList = departmentService.getDepartmentTreeCommon(departmentId);
+		} catch (Exception e) {
+			log.error("getDepartmentTree error",e);
+		}
 
 		result.put("treeList", treeList);
 		return SUCCESS;
@@ -453,9 +462,10 @@ public class DepartmentAction extends ActionSupport {
 	 * 
 	 * @return
 	 */
-	private String deleteName;//要删除的长委单位的名字
+	private String deleteName;// 要删除的长委单位的名字
+
 	public String deleteCWByName() throws Exception {
-		//1.根据名称查出所有的部门编号集合
+		// 1.根据名称查出所有的部门编号集合
 		result = new HashMap<String, Object>();
 		String message = departmentService.deleteCWDepartmentById(deleteName);
 

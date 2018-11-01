@@ -6,7 +6,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ import cn.xm.exam.utils.ValidateCheck;
 @Scope("prototype")
 @SuppressWarnings("all")
 public class UpdatePaperAction extends ActionSupport {
-	private Logger logger = Logger.getLogger(UpdatePaperAction.class);
+	private static final Logger log = LoggerFactory.getLogger(UpdatePaperAction.class);
 	@Autowired
 	private ExamPaperService examPaperService;// 试卷服务
 	@Resource
@@ -51,7 +52,7 @@ public class UpdatePaperAction extends ActionSupport {
 		try {
 			exampaper = examPaperService.getPaperAllInfoByPaperId(paperId);
 		} catch (SQLException e) {
-			logger.error("查询试卷所有信息出错！！！", e);
+			log.error("查询试卷所有信息出错！！！", e);
 		}
 		return "findPaperAllInfo";
 	}
@@ -68,7 +69,7 @@ public class UpdatePaperAction extends ActionSupport {
 				sureResult = examService.getExamCountByPaperIdAndStatus(paperId) > 0 ? "0" : "1";
 			}
 		} catch (SQLException e) {
-			logger.error("查询试卷能否修改状态！！！", e);
+			log.error("查询试卷能否修改状态！！！", e);
 		}
 		return "surerResult";
 	}
@@ -94,7 +95,7 @@ public class UpdatePaperAction extends ActionSupport {
 			updateResult = examPaperService.updateExamPaperAllInfoById(exampaper, bigQues) ? "试卷修改成功!"
 					: "试卷修改失败，系统出错了！";
 		} catch (Exception e) {
-			logger.error("保存试卷失败", e);
+			log.error("保存试卷失败", e);
 			updateResult = "试卷修改失败，系统出错了！！！";
 		}
 		return "update";
@@ -107,7 +108,7 @@ public class UpdatePaperAction extends ActionSupport {
 			updateResult = examPaperService.updateExampaperPaperanswer(paperId, paperStatus) ? "试卷归档成功!"
 					: "试卷修改失败，系统出错了！";
 		} catch (Exception e) {
-			logger.error("试卷归档失败", e);
+			log.error("试卷归档失败", e);
 			updateResult = "试卷归档错了！！！";
 		}
 		return "update";

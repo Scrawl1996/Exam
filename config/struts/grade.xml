@@ -3,7 +3,7 @@
 	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-	<package name="grade" extends="json-default,struts-default" namespace="/">
+	<package name="grade" extends="interceptPackage" namespace="/">
 	
 		<action name="examGrade_*" class="employeeExamAction" method="{1}">
 			<result type="json">

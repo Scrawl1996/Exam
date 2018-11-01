@@ -7,8 +7,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -31,7 +32,7 @@ import cn.xm.exam.utils.ValidateCheck;
 @SuppressWarnings("all")
 public class FindUnitAction extends ActionSupport {
 	private Map response;
-	private Logger logger = Logger.getLogger(FindUnitAction.class);
+	private static final Logger log = LoggerFactory.getLogger(FindUnitAction.class);
 	@Resource
 	private UnitService unitService;
 	private String currentPage;
@@ -43,7 +44,7 @@ public class FindUnitAction extends ActionSupport {
 	private String fendtime;// 结束时间
 	private String bigId;// 大修ID
 	private String unitId;// 单位ID
-	private String markTrainType;//培训类型标记
+	private String markTrainType;// 培训类型标记
 
 	public String getHaulUnitPage() {
 		response = new HashMap();
@@ -53,15 +54,15 @@ public class FindUnitAction extends ActionSupport {
 			pageBean = unitService.findUnitsWithCondition(Integer.valueOf(currentPage), Integer.valueOf(currentCount),
 					condition);
 		} catch (NumberFormatException e) {
-			logger.error("数字转换异常", e);
+			log.error("数字转换异常", e);
 		} catch (Exception e) {
-			logger.error("查询大修单位异常", e);
+			log.error("查询大修单位异常", e);
 		}
 		response.put("pageBean", pageBean);
 		return SUCCESS;
 	}
-	
-	//查询长委和正式工培训单位信息分页显示
+
+	// 查询长委和正式工培训单位信息分页显示
 	public String getHaulUnitPage2() {
 		response = new HashMap();
 		PageBean<Map<String, Object>> pageBean = null;
@@ -70,9 +71,9 @@ public class FindUnitAction extends ActionSupport {
 			pageBean = unitService.findUnitsWithCondition2(Integer.valueOf(currentPage), Integer.valueOf(currentCount),
 					condition);
 		} catch (NumberFormatException e) {
-			logger.error("数字转换异常", e);
+			log.error("数字转换异常", e);
 		} catch (Exception e) {
-			logger.error("查询大修单位异常", e);
+			log.error("查询大修单位异常", e);
 		}
 		response.put("pageBean", pageBean);
 		return SUCCESS;
@@ -98,18 +99,18 @@ public class FindUnitAction extends ActionSupport {
 		if (ValidateCheck.isNotNull(unitId)) {
 			condition.put("unitId", unitId);
 		}
-		
+
 		PageBean<Map<String, Object>> pageBean = null;
 		try {
 			pageBean = unitService.getEmployeeOutsByUaulIdAndUnitId(Integer.valueOf(currentPage),
-					Integer.valueOf(currentCount),condition);
+					Integer.valueOf(currentCount), condition);
 		} catch (SQLException e) {
-			logger.error("查询大修单位员工异常", e);
+			log.error("查询大修单位员工异常", e);
 		}
 		response.put("pageBean", pageBean);
 		return SUCCESS;
 	}
-	
+
 	/**
 	 * 根据大修ID与单位ID查询内部新员工培训的员工信息
 	 * 
@@ -130,13 +131,13 @@ public class FindUnitAction extends ActionSupport {
 		if (ValidateCheck.isNotNull(unitId)) {
 			condition.put("unitId", unitId);
 		}
-		
+
 		PageBean<Map<String, Object>> pageBean = null;
 		try {
 			pageBean = unitService.getEmployeeOutsByUaulIdAndUnitId2(Integer.valueOf(currentPage),
-					Integer.valueOf(currentCount),condition);
+					Integer.valueOf(currentCount), condition);
 		} catch (SQLException e) {
-			logger.error("查询大修单位员工异常", e);
+			log.error("查询大修单位员工异常", e);
 		}
 		response.put("pageBean", pageBean);
 		return SUCCESS;
@@ -177,9 +178,8 @@ public class FindUnitAction extends ActionSupport {
 		try {
 			pageBean = unitService.getEmployeeOutsBreakrulesByUaulIdAndUnitId(Integer.valueOf(currentPage),
 					Integer.valueOf(currentCount), condition);
-		}
-		catch (SQLException e) {
-			logger.error("查询大修单位的员工违章信息异常", e);
+		} catch (SQLException e) {
+			log.error("查询大修单位的员工违章信息异常", e);
 		}
 		response.put("pageBean", pageBean);
 		return SUCCESS;
@@ -197,9 +197,9 @@ public class FindUnitAction extends ActionSupport {
 			try {
 				User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 				String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
-				unitidsAndNames = unitService.getUnitidsAndNamesByHaulId(bigId,departmentIdSession);
+				unitidsAndNames = unitService.getUnitidsAndNamesByHaulId(bigId, departmentIdSession);
 			} catch (SQLException e) {
-				logger.error("查询单位姓名和ID错误", e);
+				log.error("查询单位姓名和ID错误", e);
 			}
 		}
 		if (unitidsAndNames != null) {
@@ -236,21 +236,21 @@ public class FindUnitAction extends ActionSupport {
 			condition.put("minMinus", Float.valueOf(minus[0]));
 			condition.put("maxMinus", Float.valueOf(minus[1]));
 		}
-		
-		//培训类型标记
-		if(ValidateCheck.isNotNull(markTrainType)){
-			//判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
-			if(markTrainType.equals("0")){
-				condition.put("markTrainType_In", markTrainType);				
-			}else{
+
+		// 培训类型标记
+		if (ValidateCheck.isNotNull(markTrainType)) {
+			// 判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
+			if (markTrainType.equals("0")) {
+				condition.put("markTrainType_In", markTrainType);
+			} else {
 				condition.put("markTrainType_Out", markTrainType);
 			}
-			//正式新员工培训大修ID
+			// 正式新员工培训大修ID
 			condition.put("regular_train", DefaultValue.REGULAR_EMPLOYEE_TRAIN);
-			//长委新员工培训大修ID
+			// 长委新员工培训大修ID
 			condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
 		}
-		
+
 		return condition;
 	}
 
@@ -342,6 +342,5 @@ public class FindUnitAction extends ActionSupport {
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
-	
-	
+
 }

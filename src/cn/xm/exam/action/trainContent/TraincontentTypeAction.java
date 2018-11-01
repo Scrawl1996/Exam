@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ import cn.xm.exam.utils.ValidateCheck;
 @Scope("prototype") // 多例模式
 @SuppressWarnings("all") // 压制所有警告
 public class TraincontentTypeAction extends ActionSupport {
-	private Logger logger = Logger.getLogger(TraincontentTypeAction.class);// 日志记录器
+	private static final Logger log = LoggerFactory.getLogger(TraincontentTypeAction.class);
 	@Autowired
 	private TraincontenttypeService traincontenttypeService;
 
@@ -37,7 +38,7 @@ public class TraincontentTypeAction extends ActionSupport {
 		try {
 			traincontenttypeTree = traincontenttypeService.getTraincontenttypeTree();
 		} catch (SQLException e) {
-			logger.error("查询培训内容类别出错", e);
+			log.error("查询培训内容类别出错", e);
 		}
 		if (traincontenttypeTree != null) {
 			response.put("traincontenttypeTree", traincontenttypeTree);
@@ -58,7 +59,7 @@ public class TraincontentTypeAction extends ActionSupport {
 		try {
 			result = traincontenttypeService.addTraincontenttype(traincontenttype);
 		} catch (SQLException e) {
-			logger.error("增加培训内容类别出错", e);
+			log.error("增加培训内容类别出错", e);
 		}
 		if (result) {
 			response.put("result", "添加成功");
@@ -80,7 +81,7 @@ public class TraincontentTypeAction extends ActionSupport {
 		try {
 			result = traincontenttypeService.updateTraincontenttypeById(traincontenttype);
 		} catch (SQLException e) {
-			logger.error("修改培训内容类别出错", e);
+			log.error("修改培训内容类别出错", e);
 		}
 		if (result) {
 			response.put("result", "修改成功");
@@ -100,7 +101,7 @@ public class TraincontentTypeAction extends ActionSupport {
 			try {
 				traincontenttype = traincontenttypeService.getTraincontenttypeById(typeId);
 			} catch (SQLException e) {
-				logger.error("查询培训内容类别出错", e);
+				log.error("查询培训内容类别出错", e);
 			}
 		}
 		return "toAdd";
@@ -113,7 +114,7 @@ public class TraincontentTypeAction extends ActionSupport {
 			try {
 				result = traincontenttypeService.deleteTraincontenttypeById(typeId);
 			} catch (SQLException e) {
-				logger.error("删除培训内容类别出错",e);
+				log.error("删除培训内容类别出错",e);
 			}
 		}
 		if(result){

@@ -8,17 +8,17 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import cn.xm.exam.bean.common.Dictionary;
 import cn.xm.exam.bean.employee.out.Employeeoutdistribute;
 import cn.xm.exam.bean.haul.Haulemployeeout;
 import cn.xm.exam.bean.system.User;
@@ -40,7 +40,8 @@ import cn.xm.exam.utils.ValidateCheck;
 @SuppressWarnings("all")
 public class EmpOutDistrubuteAction extends ActionSupport {
 
-	private Logger logger = Logger.getLogger(EmpOutDistrubuteAction.class);// 日志记录器
+	private static final Logger log = LoggerFactory.getLogger(EmpOutDistrubuteAction.class);
+	
 	private Map<String, Object> response;
 	@Resource
 	private EmpoutDistributeService empoutDistributeService;
@@ -88,7 +89,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			}
 			haulunitTree = empoutDistributeService.getHaulunitTreeByDepartmentId(condition);
 		} catch (SQLException e) {
-			logger.error("查询分配单位大修树出错", e);
+			log.error("查询分配单位大修树出错", e);
 		}
 		if (haulunitTree != null) {
 			response.put("haulunitTree", haulunitTree);
@@ -111,7 +112,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		try {
 			unitInfo = empoutDistributeService.getUintInfoByHaulIdAndUnitId(bigId, unitId);
 		} catch (SQLException e) {
-			logger.error("根据大修ID和单位ID查询单位信息失败", e);
+			log.error("根据大修ID和单位ID查询单位信息失败", e);
 		}
 		if (unitInfo != null) {
 			response.put("unitInfo", unitInfo);
@@ -140,7 +141,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			pageBean = empoutDistributeService.getDistributeInfoWithCondition(Integer.parseInt(currentPage),
 					Integer.parseInt(currentCount), condition);
 		} catch (NumberFormatException | SQLException e) {
-			logger.error("查询员工分配信息出错", e);
+			log.error("查询员工分配信息出错", e);
 		}
 		response.put("pageBean", pageBean);
 		return SUCCESS;
@@ -221,7 +222,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		try {
 			departmentTree = empoutDistributeService.getDepartmentTreeForFenpei(departmentId);
 		} catch (SQLException e) {
-			logger.error("查询分配树出错", e);
+			log.error("查询分配树出错", e);
 		}
 		if (departmentTree != null) {
 			response.put("departmentTree", departmentTree);
@@ -253,7 +254,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			}
 		} catch (SQLException e) {
 			result = "添加失败";
-			logger.error("添加分配信息失败", e);
+			log.error("添加分配信息失败", e);
 		}
 		response.put("result", result);
 		return SUCCESS;
@@ -273,7 +274,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			result = empoutDistributeService.updateFenpeiInfo(departmentids, employeeoutdistribute) ? "修改成功" : "修改失败";
 		} catch (SQLException e) {
 			result = "修改失败";
-			logger.error("修改分配信息失败", e);
+			log.error("修改分配信息失败", e);
 		}
 		response.put("result", result);
 		return SUCCESS;
@@ -291,7 +292,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 				result = empoutDistributeService.addSecondFenpeiInfoBatch(haulemployeeouts,employeeoutdistributes) ? "二次分配成功" : "二次分配失败";
 		} catch (SQLException e) {
 			result = "二次分配失败";
-			logger.error("二次分配失败", e);
+			log.error("二次分配失败", e);
 		}
 		response.put("result", result);
 		return SUCCESS;
@@ -309,7 +310,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			result = empoutDistributeService.addSecondFenpeiUnitBatch(haulemployeeouts,employeeoutdistributes) ? "分配单位成功" : "二次分配失败";
 		} catch (SQLException e) {
 			result = "二次分配失败";
-			logger.error("二次分配失败", e);
+			log.error("二次分配失败", e);
 		}
 		response.put("result", result);
 		return SUCCESS;
@@ -345,7 +346,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			result = employeeOutService.updateHaulEmployeeOutTrainStatusByCondition(condition) > 0 ? "生成工作证成功!"
 					: "生成工作证失败!";
 		} catch (Exception e) {
-			logger.error("生成工作证出错！！！", e);
+			log.error("生成工作证出错！！！", e);
 			result = "生成工作证出错！！！";
 		}
 		response.put("result", result);
@@ -373,7 +374,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			result = employeeOutService.updateHaulEmployeeOutTrainStatusByCondition(condition) > 0 ? "回收工作证成功!"
 					: "回收工作证失败!";
 		} catch (Exception e) {
-			logger.error("回收工作证出错！！！", e);
+			log.error("回收工作证出错！！！", e);
 			result = "回收工作证出错！！！";
 		}
 		response.put("result", result);
@@ -389,7 +390,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			try {
 				result = empoutDistributeService.updateDistributeForMiankao(distributeId)? "免培训成功，请到待分配下将该员工分配到下级":"免培训失败";
 			} catch (SQLException e) {
-				logger.error("免培训失败!", e);
+				log.error("免培训失败!", e);
 				e.printStackTrace();
 			}
 		}

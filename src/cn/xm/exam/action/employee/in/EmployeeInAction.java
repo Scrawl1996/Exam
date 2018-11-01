@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -35,6 +37,8 @@ import cn.xm.exam.utils.ValidateCheck;
 
 @SuppressWarnings("all")
 public class EmployeeInAction extends ActionSupport {
+	
+	private static final Logger log = LoggerFactory.getLogger(DepartmentCountAction.class);
 
 	private File fileName;
 	private String fileNameContentType;

@@ -1,10 +1,10 @@
 package cn.xm.exam.action.employee.out;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -28,12 +28,13 @@ import cn.xm.exam.utils.ValidateCheck;
 @SuppressWarnings("all")
 public class UpdateUnitAction extends ActionSupport implements ModelDriven<Unit> {
 	private Map response;// 用于返回结果的map
-	private Logger logger = Logger.getLogger(UpdateUnitAction.class);// 日志记录器
+	private static final Logger log = LoggerFactory.getLogger(UpdateUnitAction.class);
 	@Autowired
 	private UnitService unitService;// 外来单位服务
 	private Unit unit = new Unit();// 模型驱动的单位
 	private Haulunit haulUnit;
-	private  String projectids;
+	private String projectids;
+
 	/**
 	 * 修改单位信息到数据库
 	 * 
@@ -43,18 +44,18 @@ public class UpdateUnitAction extends ActionSupport implements ModelDriven<Unit>
 		response = new HashMap();
 		String updateResult = null;
 		try {
-			if (unit != null && haulUnit !=null &&ValidateCheck.isNotNull(projectids)) {
-				updateResult = unitService.updateUnit(unit,haulUnit,projectids) ? "修改成功!" : "修改失败!";
+			if (unit != null && haulUnit != null && ValidateCheck.isNotNull(projectids)) {
+				updateResult = unitService.updateUnit(unit, haulUnit, projectids) ? "修改成功!" : "修改失败!";
 			}
 		} catch (Exception e) {
-			logger.error("修改单位信息失败!",e);
+			log.error("修改单位信息失败!", e);
 			updateResult = "修改失败!";
 		}
 		// 传到Service进行保存
 		response.put("updateResult", updateResult);
 		return SUCCESS;
 	}
-	
+
 	/**
 	 * 修改培训单位信息到数据库
 	 * 
@@ -64,11 +65,11 @@ public class UpdateUnitAction extends ActionSupport implements ModelDriven<Unit>
 		response = new HashMap();
 		String updateResult = null;
 		try {
-			if (unit != null && haulUnit !=null) {
-				updateResult = unitService.updateUnit(unit,haulUnit) ? "修改成功!" : "修改失败!";
+			if (unit != null && haulUnit != null) {
+				updateResult = unitService.updateUnit(unit, haulUnit) ? "修改成功!" : "修改失败!";
 			}
 		} catch (Exception e) {
-			logger.error("修改单位信息失败!",e);
+			log.error("修改单位信息失败!", e);
 			updateResult = "修改失败!";
 		}
 		// 传到Service进行保存

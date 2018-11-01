@@ -7,10 +7,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -33,8 +34,7 @@ import cn.xm.exam.utils.ValidateCheck;
 @Scope("prototype")
 @SuppressWarnings("all")
 public class FindExamAction extends ActionSupport {
-
-	private Logger logger = Logger.getLogger(FindExamAction.class);
+	private static final Logger log = LoggerFactory.getLogger(FindExamAction.class);
 	private String currentPage;
 	private String currentCount;
 	private String examName;// 考试名称
@@ -57,9 +57,9 @@ public class FindExamAction extends ActionSupport {
 			pageBean = examService.findExamsWithCondition(Integer.valueOf(currentPage), Integer.valueOf(currentCount),
 					condition);
 		} catch (NumberFormatException e) {
-			logger.error("转换数字异常", e);
+			log.error("转换数字异常", e);
 		} catch (Exception e) {
-			logger.error("查询考试异常", e);
+			log.error("查询考试异常", e);
 		}
 		response.put("pageBean", pageBean);
 		return SUCCESS;
@@ -119,7 +119,7 @@ public class FindExamAction extends ActionSupport {
 		try {
 			employees = employeeExamService.getEmployeeexamsByExamId(examId);
 		} catch (SQLException e) {
-			logger.error("查询考试人员异常", e);
+			log.error("查询考试人员异常", e);
 		}
 		response.put("employees", employees);
 		return SUCCESS;

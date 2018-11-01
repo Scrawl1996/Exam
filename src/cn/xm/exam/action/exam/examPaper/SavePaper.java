@@ -3,7 +3,8 @@ package cn.xm.exam.action.exam.examPaper;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,7 @@ import cn.xm.exam.service.exam.examPaper.ExamPaperService;
 @Scope("prototype") // 多例模式
 @SuppressWarnings("all") // 压制警告
 public class SavePaper extends ActionSupport {
-	private Logger logger = Logger.getLogger(SavePaper.class);// 日志记录器
+	private static final Logger log = LoggerFactory.getLogger(SavePaper.class);
 	@Autowired
 	private ExamPaperService examPaperService;// 试卷服务用于添加试题
 	private Exampaper exampaper;// 考试试卷的基本信息
@@ -52,7 +53,7 @@ public class SavePaper extends ActionSupport {
 		try {
 			saveResult = examPaperService.addExamPaper(exampaper, bigQues) ? "试卷保存成功！" : "试卷保存失败，系统出错了！";
 		} catch (Exception e) {
-			logger.error("保存试卷失败", e);
+			log.error("保存试卷失败", e);
 			saveResult = "试卷保存失败，系统出错了！！！";
 		}
 		return "add";

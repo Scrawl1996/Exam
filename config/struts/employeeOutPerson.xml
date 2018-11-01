@@ -3,7 +3,7 @@
 	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-	<package name="employeeOutPerson" extends="json-default,struts-default" namespace="/">
+	<package name="employeeOutPerson" extends="interceptPackage" namespace="/">
 		
 		<!-- 外来单位员工管理action -->
 		<action name="employeeOutPerson_*" class="employeeOutPersonAction" method="{1}">

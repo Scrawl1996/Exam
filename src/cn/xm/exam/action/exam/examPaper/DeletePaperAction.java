@@ -4,7 +4,8 @@ import java.sql.SQLException;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -22,7 +23,7 @@ import cn.xm.exam.service.exam.examPaper.ExamPaperService;
 @Controller
 @Scope("prototype")
 public class DeletePaperAction extends ActionSupport {
-	private Logger logger = Logger.getLogger(DeletePaperAction.class);
+	private static final Logger log = LoggerFactory.getLogger(DeletePaperAction.class);
 	@Resource
 	private ExamPaperService examPaperService;
 	@Resource
@@ -38,7 +39,7 @@ public class DeletePaperAction extends ActionSupport {
 		try {
 			useTime = examService.getPaperUseTimesByPaperId(paperId);
 		} catch (SQLException e1) {
-			logger.error("查询试卷使用次数出错", e1);
+			log.error("查询试卷使用次数出错", e1);
 		}
 		// 试卷使用次数大于0的时候提醒用户已经有考试使用试卷
 		if (useTime > 0) {
@@ -48,7 +49,7 @@ public class DeletePaperAction extends ActionSupport {
 		try {
 			deleteResult = examPaperService.deleteExamPaperAllInfoByPaperId(paperId) ? "删除成功！" : "删除失败！！！";
 		} catch (SQLException e) {
-			logger.error("删除试卷出错", e);
+			log.error("删除试卷出错", e);
 			deleteResult = "删除失败！！！";
 		}
 		return SUCCESS;

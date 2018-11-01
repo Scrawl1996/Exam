@@ -6,7 +6,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -27,7 +28,7 @@ import cn.xm.exam.utils.ValidateCheck;
 @Scope("prototype")
 @SuppressWarnings("all")
 public class UpdateHaulAction extends ActionSupport implements ModelDriven<Haulinfo> {
-	private Logger logger = Logger.getLogger(UpdateHaulAction.class);// 日志记录器
+	private static final Logger log = LoggerFactory.getLogger(UpdateHaulAction.class);
 	private Haulinfo haulinfo = new Haulinfo();
 	@Resource
 	private HaulinfoService haulinfoService;
@@ -40,7 +41,7 @@ public class UpdateHaulAction extends ActionSupport implements ModelDriven<Hauli
 			update_result = haulinfoService.updateHaulinfoById(haulinfo);
 		} catch (SQLException e) {
 			response.put("result", "修改失败!");
-			logger.error("修改大修基本信息出错!", e);
+			log.error("修改大修基本信息出错!", e);
 		}
 		result = update_result ? "修改成功!" : "修改失败!";
 		response.put("result", result);
@@ -62,7 +63,7 @@ public class UpdateHaulAction extends ActionSupport implements ModelDriven<Hauli
 			}
 		} catch (SQLException e) {
 			response.put("result", "修改失败!");
-			logger.error("修改大修基本信息出错!", e);
+			log.error("修改大修基本信息出错!", e);
 		}
 		response.put("result", result);
 		return SUCCESS;
@@ -104,7 +105,7 @@ public class UpdateHaulAction extends ActionSupport implements ModelDriven<Hauli
 			}
 		} catch (SQLException e) {
 			response.put("result", "修改失败!");
-			logger.error("修改大修标段出错!", e);
+			log.error("修改大修标段出错!", e);
 		}
 		response.put("result", result);
 		return SUCCESS;
@@ -119,7 +120,7 @@ public class UpdateHaulAction extends ActionSupport implements ModelDriven<Hauli
 			}
 		} catch (SQLException e) {
 			response.put("result", "删除失败!");
-			logger.error("删除大修标段出错!", e);
+			log.error("删除大修标段出错!", e);
 		}
 		response.put("result", result);
 		return SUCCESS;

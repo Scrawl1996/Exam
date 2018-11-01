@@ -3,7 +3,8 @@ package cn.xm.exam.action.employee.out;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,8 @@ import cn.xm.exam.utils.ValidateCheck;
 @SuppressWarnings("all")
 public class DeleteUnitAction extends ActionSupport {
 
-	private Logger logger = Logger.getLogger(DeleteUnitAction.class);
+	private static final Logger log = LoggerFactory.getLogger(DeleteUnitAction.class);
+
 	@Autowired
 	private UnitService unitService;// 单位服务
 	private Map response;// 用于包装回显结果的map
@@ -44,7 +46,7 @@ public class DeleteUnitAction extends ActionSupport {
 		try {
 			deleteResult = unitService.deleteUnitByBigIdAndHaulId(condition) ? "删除成功!" : "删除失败!";
 		} catch (Exception e) {
-			logger.error("删除单位出错!", e);
+			log.error("删除单位出错!", e);
 			deleteResult = "删除失败!";
 		}
 		response.put("deleteResult", deleteResult);

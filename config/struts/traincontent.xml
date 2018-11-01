@@ -5,7 +5,7 @@
 
 <!-- lixianyuan  -->
 <struts>
-	<package name="lxyPackage" extends="json-default" namespace="/">
+	<package name="lxyPackage" extends="interceptPackage" namespace="/">
 		
 		<!-- S   QLQ 增加的培训类别管理 -->
 		<global-results>

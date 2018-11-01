@@ -12,7 +12,22 @@
 	<!-- 与spring整合 -->
 	<constant name="struts.objectFactory" value="spring"></constant>
 
-
+	<package name="interceptPackage" extends="json-default">
+		<!-- 拦截器 -->
+		<interceptors>
+			<!-- 定义刚才的拦截器 -->
+			<interceptor name="exceptionInterceptor"
+				class="cn.xm.exam.interceptor.ExceptionInterception"></interceptor>
+			<!-- 定义拦截器栈 -->
+			<interceptor-stack name="myStack">
+				<!-- 拦截器栈里面可以引用另外一个拦截器，也可以引用另外一个拦截器栈 -->
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="exceptionInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!-- 这句是设置所有Action自动调用的拦截器堆栈 -->
+		<default-interceptor-ref name="myStack" />
+	</package>
 
 	<!-- leilong -->
 	<include file="struts/question.xml"></include>
@@ -26,9 +41,11 @@
 	<include file="struts/Exam.xml"></include>
 	<include file="struts/Haul.xml"></include>
 	<include file="struts/Unit.xml"></include>
-	<include file="struts/Distribute.xml"></include> 
-	<include file="struts/blackUnit.xml"></include> 
-	<include file="struts/message.xml"></include> 
+	<include file="struts/Distribute.xml"></include>
+	<include file="struts/blackUnit.xml"></include>
+	<include file="struts/message.xml"></include>
+	<!-- 2018-11-11引入的二开action -->
+	<include file="struts/safeHat.xml"></include>
 
 
 

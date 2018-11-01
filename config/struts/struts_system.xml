@@ -6,7 +6,7 @@
 
    
   
-	<package name="system" extends="json-default,struts-default" namespace="/">
+	<package name="system" extends="interceptPackage" namespace="/">
 	
       
         <global-results>

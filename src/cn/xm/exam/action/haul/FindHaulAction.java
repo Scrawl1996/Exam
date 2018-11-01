@@ -7,8 +7,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -31,7 +32,7 @@ import cn.xm.exam.utils.ValidateCheck;
 @Scope("prototype")
 @SuppressWarnings("all")
 public class FindHaulAction extends ActionSupport {
-	private Logger logger = Logger.getLogger(FindHaulAction.class);// 日志记录器
+	private static final Logger log = LoggerFactory.getLogger(FindHaulAction.class);
 	private Map<String, Object> response;// 用于包装返回结果的map
 	@Resource
 	private HaulinfoService haulinfoService;
@@ -72,9 +73,9 @@ public class FindHaulAction extends ActionSupport {
 			pageBean = haulinfoService.getProjectInfoByBigId(Integer.valueOf(currentPage),
 					Integer.valueOf(currentCount), condition);
 		} catch (NumberFormatException e) {
-			logger.error("数字格式化异常", e);
+			log.error("数字格式化异常", e);
 		} catch (SQLException e) {
-			logger.error("查询标段信息L异常", e);
+			log.error("查询标段信息L异常", e);
 		}
 		response.put("pageBean", pageBean);
 		return SUCCESS;
@@ -91,9 +92,9 @@ public class FindHaulAction extends ActionSupport {
 			pageBean = haulinfoService.getProjectUnitPerNumInfoByBigId(Integer.valueOf(currentPage),
 					Integer.valueOf(currentCount), condition);
 		} catch (NumberFormatException e) {
-			logger.error("数字格式化异常", e);
+			log.error("数字格式化异常", e);
 		} catch (SQLException e) {
-			logger.error("查询标段信息L异常", e);
+			log.error("查询标段信息L异常", e);
 		}
 		response.put("pageBean", pageBean);
 		return SUCCESS;
@@ -110,7 +111,7 @@ public class FindHaulAction extends ActionSupport {
 		try {
 			departmentAndOverHaulTree = haulinfoService.getDepartmentAndOverHaulTree();
 		} catch (SQLException e) {
-			logger.warn("查询大修部门树出出错!", e);
+			log.warn("查询大修部门树出出错!", e);
 		}
 		response.put("departmentAndOverHaulTree", departmentAndOverHaulTree);
 		return SUCCESS;
@@ -129,9 +130,9 @@ public class FindHaulAction extends ActionSupport {
 			pageBean = haulinfoService.getHaulinfoPageByCondition(Integer.valueOf(currentPage),
 					Integer.valueOf(currentCount), condition);
 		} catch (NumberFormatException e) {
-			logger.error("数字格式化异常", e);
+			log.error("数字格式化异常", e);
 		} catch (SQLException e) {
-			logger.error("查询大修SQL异常", e);
+			log.error("查询大修SQL异常", e);
 		}
 		response.put("pageBean", pageBean);
 		return SUCCESS;
@@ -150,7 +151,7 @@ public class FindHaulAction extends ActionSupport {
 				haulinfo = haulinfoService.getHaulinfoByHaulId(haulId);
 			}
 		} catch (SQLException e) {
-			logger.error("查询大修基本信息SQL异常", e);
+			log.error("查询大修基本信息SQL异常", e);
 		}
 		response.put("haulinfo", haulinfo);
 		return SUCCESS;
@@ -171,7 +172,7 @@ public class FindHaulAction extends ActionSupport {
 		try {
 			haulNameAndIds = haulinfoService.getHaulNameAndIdsForExam(departmentIdSession);
 		} catch (SQLException e) {
-			logger.error("查修大修名字与ID的时候错误", e);
+			log.error("查修大修名字与ID的时候错误", e);
 		}
 		response.put("haulNameAndIds", haulNameAndIds);
 		return SUCCESS;
@@ -225,7 +226,7 @@ public class FindHaulAction extends ActionSupport {
 		try {
 			allHaulInfo = haulinfoService.getAllHaulInfo(condition);
 		} catch (SQLException e) {
-			logger.error("统计检修信息失败", e);
+			log.error("统计检修信息失败", e);
 			e.printStackTrace();
 		}
 		response.put("allHaulInfo", allHaulInfo);

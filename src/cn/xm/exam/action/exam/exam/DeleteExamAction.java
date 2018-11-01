@@ -5,7 +5,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -23,7 +24,7 @@ import cn.xm.exam.service.exam.exam.ExamService;
 @Scope("prototype")
 @SuppressWarnings("all")
 public class DeleteExamAction extends ActionSupport {
-	private Logger logger = Logger.getLogger(FindExamAction.class);
+	private static final Logger log = LoggerFactory.getLogger(DeleteExamAction.class);
 	private Map response;// 用于包装所有回传的ajax数据
 	@Resource
 	private ExamService examService;
@@ -37,7 +38,7 @@ public class DeleteExamAction extends ActionSupport {
 			result = examService.deleteExamById(examId) ? "删除成功!" : "删除失败!";
 		} catch (Exception e) {
 			result = "删除失败!";
-			logger.error("删除考试出错", e);
+			log.error("删除考试出错", e);
 		}
 		response.put("result", result);
 		return SUCCESS;
@@ -58,5 +59,5 @@ public class DeleteExamAction extends ActionSupport {
 	public void setExamId(String examId) {
 		this.examId = examId;
 	}
-	
+
 }

@@ -6,7 +6,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -30,7 +31,7 @@ import cn.xm.exam.utils.ValidateCheck;
 @SuppressWarnings("all")
 // 模型驱动
 public class UpdateExamAction extends ActionSupport implements ModelDriven<Exam> {
-	private Logger logger = Logger.getLogger(UpdateExamAction.class);
+	private static final Logger log = LoggerFactory.getLogger(UpdateExamAction.class);
 	@Resource
 	private ExamService examService;
 	@Resource
@@ -54,7 +55,7 @@ public class UpdateExamAction extends ActionSupport implements ModelDriven<Exam>
 				employees = employeeExamService.getEmployeeexamsByExamId(examId);// 考试参考员工信息
 			}
 		} catch (Exception e) {
-			logger.error("查询考试基本信息出错!", e);
+			log.error("查询考试基本信息出错!", e);
 		}
 		response.put("examBaseInfo", examBaseInfo);
 		response.put("employees", employees);
@@ -74,7 +75,7 @@ public class UpdateExamAction extends ActionSupport implements ModelDriven<Exam>
 			updateResult = examService.updateExamById(exam,examMethod) ? "修改成功!" : "修改失败";
 		} catch (Exception e) {
 			updateResult = "修改失败";
-			logger.error("修改考试失败!", e);
+			log.error("修改考试失败!", e);
 		}
 		response.put("updateResult", updateResult);
 		return SUCCESS;

@@ -7,7 +7,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -23,8 +24,7 @@ import cn.xm.exam.utils.ValidateCheck;
 @Scope("prototype")
 @SuppressWarnings("all")
 public class IndexNewsAction extends ActionSupport {
-
-	private Logger log = Logger.getLogger(getClass());
+	private static final Logger log = LoggerFactory.getLogger(IndexNewsAction.class);
 	private String newsType;// 新闻种类 0 消息 1 通知
 	// 查详细信息的
 	private String newsId;

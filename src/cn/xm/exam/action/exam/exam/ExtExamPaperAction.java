@@ -1,21 +1,14 @@
 package cn.xm.exam.action.exam.exam;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.net.URLEncoder;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -26,9 +19,6 @@ import cn.xm.exam.bean.exam.Exampaper;
 import cn.xm.exam.service.exam.examPaper.ExamPaperService;
 import cn.xm.exam.utils.ExportPaperPdfUtil;
 import cn.xm.exam.utils.RemoveHtmlTag;
-import cn.xm.exam.utils.Word2PdfUtil;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 /**
  * 导出试卷 1.查出数据 2.Word 3.打开流，提供下载
@@ -40,7 +30,7 @@ import freemarker.template.Template;
 @Scope("prototype")
 @SuppressWarnings("all")
 public class ExtExamPaperAction extends ActionSupport {
-	private Logger logger = Logger.getLogger(FindExamAction.class);
+	private static final Logger log = LoggerFactory.getLogger(ExtExamPaperAction.class);
 	private String fileName;// 导出的Excel名称
 	@Autowired
 	private ExamPaperService examPaperService;
@@ -52,7 +42,7 @@ public class ExtExamPaperAction extends ActionSupport {
 		try {
 			paper = RemoveHtmlTag.removePaperTag(examPaperService.getPaperAllInfoByPaperId(paperId));
 		} catch (SQLException e) {
-			logger.error("查询试卷所有信息出错！！！", e);
+			log.error("查询试卷所有信息出错！！！", e);
 		}
 		return paper;
 	}
@@ -80,7 +70,7 @@ public class ExtExamPaperAction extends ActionSupport {
 			// 调用工具类写到pdf
 			ExportPaperPdfUtil.writeExampaperPdf(paper, filePath);
 		} catch (Exception e) {
-			logger.error("试卷写入pdf出错", e);
+			log.error("试卷写入pdf出错", e);
 		}
 	}
 

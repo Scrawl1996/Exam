@@ -3,7 +3,7 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-	<package name="employeein" extends="json-default" namespace="/">
+	<package name="employeein" extends="interceptPackage" namespace="/">
 		
 		<action name="employeein_*" class="cn.xm.exam.action.employee.in.EmployeeInAction"
 		method="{1}">

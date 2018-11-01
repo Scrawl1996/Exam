@@ -6,10 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -24,8 +25,6 @@ import cn.xm.exam.service.employee.out.EmployeeOutService;
 import cn.xm.exam.service.employee.out.UnitService;
 import cn.xm.exam.service.exam.exam.ExamService;
 import cn.xm.exam.utils.ValidateCheck;
-import cn.xm.exam.vo.exam.ExamEmployeeInQueryVo;
-import cn.xm.exam.vo.exam.ExamEmployeeOutQueryVo;
 import cn.xm.exam.vo.exam.QueryInnerEmployeesCondition;
 import cn.xm.exam.vo.exam.QueryOuterEmployeesCondition;
 
@@ -39,7 +38,7 @@ import cn.xm.exam.vo.exam.QueryOuterEmployeesCondition;
 @Scope("prototype")
 @SuppressWarnings("all")
 public class AddExamAction extends ActionSupport {
-	private Logger logger = Logger.getLogger(AddExamAction.class);
+	private static final Logger log = LoggerFactory.getLogger(AddExamAction.class);
 	@Autowired
 	private DepartmentService departmentService;// 内部部门服务(用于生成部门树)
 	@Autowired
@@ -71,7 +70,7 @@ public class AddExamAction extends ActionSupport {
 		try {
 			departmentTrees = departmentService.getDepartmentTreeCommon(departmentId);
 		} catch (SQLException e) {
-			logger.error("查询内部部门树出错！", e);
+			log.error("查询内部部门树出错！", e);
 		}
 		response.put("departmentTrees", departmentTrees);
 		return SUCCESS;
@@ -88,7 +87,7 @@ public class AddExamAction extends ActionSupport {
 		try {
 			unitTrees = unitService.getUnitTreeForExam();
 		} catch (SQLException e) {
-			logger.error("查询外部部门树出错！", e);
+			log.error("查询外部部门树出错！", e);
 		}
 		response.put("unitTrees", unitTrees);
 		return SUCCESS;
@@ -103,13 +102,13 @@ public class AddExamAction extends ActionSupport {
 
 	public String getEmployeeIns4Exam() {
 		response = new HashMap();
-		List<Map<String,Object>> examEmployeeIns = null;
+		List<Map<String, Object>> examEmployeeIns = null;
 		Map condition = new HashMap();
 		condition = generateInnerCondition(condition);
 		try {
 			examEmployeeIns = employeeInService.getExamEmployeeIns(condition);
 		} catch (SQLException e) {
-			logger.error("查询内部部门员工出错！", e);
+			log.error("查询内部部门员工出错！", e);
 		}
 		response.put("examEmployeeIns", examEmployeeIns);
 		return SUCCESS;
@@ -157,7 +156,7 @@ public class AddExamAction extends ActionSupport {
 		try {
 			examEmployeeOuts = employeeOutService.getExamEmployeeOuts(condition);
 		} catch (SQLException e) {
-			logger.error("查询外部部门员工出错！", e);
+			log.error("查询外部部门员工出错！", e);
 		}
 		response.put("examEmployeeOuts", examEmployeeOuts);
 		return SUCCESS;
@@ -216,7 +215,7 @@ public class AddExamAction extends ActionSupport {
 		try {
 			nameAndLevel = examService.getExamNameAndLevelByName(nameWord);
 		} catch (Exception e) {
-			logger.error("查询考试名称和级别信息失败", e);
+			log.error("查询考试名称和级别信息失败", e);
 		}
 		response.put("nameAndLevel", nameAndLevel);
 		return SUCCESS;
@@ -237,7 +236,7 @@ public class AddExamAction extends ActionSupport {
 		try {
 			result = examService.addExam(exam, examMethod) ? "添加成功！" : "添加失败!";
 		} catch (Exception e) {
-			logger.error("添加考试信息失败", e);
+			log.error("添加考试信息失败", e);
 			result = "添加失败!";
 		}
 		response.put("result", result);
@@ -267,14 +266,6 @@ public class AddExamAction extends ActionSupport {
 
 	public void setQueryOuterEmployeesCondition(QueryOuterEmployeesCondition queryOuterEmployeesCondition) {
 		this.queryOuterEmployeesCondition = queryOuterEmployeesCondition;
-	}
-
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
 	}
 
 	public DepartmentService getDepartmentService() {

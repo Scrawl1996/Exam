@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -21,6 +19,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -39,7 +39,7 @@ import cn.xm.exam.service.exam.examPaper.ExamPaperQuestionService;
 @Scope("prototype")
 @SuppressWarnings("all")
 public class ExtPaperAnswerAction extends ActionSupport {
-	private Logger logger = Logger.getLogger(FindExamAction.class);
+	private static final Logger log = LoggerFactory.getLogger(ExtPaperAnswerAction.class);
 	private String fileName;// 导出的Excel名称
 	private String paperId;// 导出答案的试卷ID
 	@Resource
@@ -53,7 +53,7 @@ public class ExtPaperAnswerAction extends ActionSupport {
 		try {
 			answers = examPaperQuestionService.getPaperAnswerAndScoreByPaerId(paperId);
 		} catch (SQLException e) {
-			logger.error("导出考试试卷的答案异常", e);
+			log.error("导出考试试卷的答案异常", e);
 		}
 		return answers;
 	}

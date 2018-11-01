@@ -5,7 +5,7 @@
 
 <struts>
 	<package name="createExampaper" namespace="/"
-		extends="json-default,struts-default">
+		extends="interceptPackage">
 
 		<global-results>
 			<result name="success"></result>

@@ -5,8 +5,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
-import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -22,8 +22,7 @@ import cn.xm.exam.utils.ValidateCheck;
 @Scope("prototype")
 public class NewsAction extends ActionSupport {
 
-	private Logger logger = Logger.getLogger(NewsAction.class);
-	private String currentPage;
+	private static final Logger log = LoggerFactory.getLogger(NewsAction.class);	private String currentPage;
 	private String currentCount;
 	private String newsTitle; // 新闻标题
 	private String newsType; // 新闻类型
@@ -199,9 +198,9 @@ public class NewsAction extends ActionSupport {
 		try {
 			pageBean = newsService.getNews(Integer.valueOf(currentPage), Integer.valueOf(currentCount), map);
 		} catch (NumberFormatException e) {
-			logger.error("转换数字异常", e);
+			log.error("转换数字异常", e);
 		} catch (Exception e) {
-			logger.error("查询新闻异常", e);
+			log.error("查询新闻异常", e);
 		}
 
 		// news.get

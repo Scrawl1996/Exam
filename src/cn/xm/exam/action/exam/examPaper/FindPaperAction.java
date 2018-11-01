@@ -4,10 +4,11 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ import cn.xm.exam.utils.ValidateCheck;
 @Scope("prototype")
 @SuppressWarnings("all")
 public class FindPaperAction extends ActionSupport {
-	private Logger logger = Logger.getLogger(FindPaperAction.class);
+	private static final Logger log = LoggerFactory.getLogger(FindPaperAction.class);
 	@Autowired
 	private ExamPaperService examPaperService;
 	private Map<String, Object> result;
@@ -51,10 +52,10 @@ public class FindPaperAction extends ActionSupport {
 			pageBean = examPaperService.findExampapersWithCondition(Integer.valueOf(currentPage),
 					Integer.valueOf(currentCount), condition);
 		} catch (SQLException e) {
-			logger.error("分页查询试卷出错！！！", e);
+			log.error("分页查询试卷出错！！！", e);
 		}
 		result.put("pageBean", pageBean);
-		logger.info("查询成功！！！");
+		log.info("查询成功！！！");
 		return SUCCESS;
 	}
 
@@ -64,7 +65,7 @@ public class FindPaperAction extends ActionSupport {
 		try {
 			paper = RemoveHtmlTag.removePaperTag(examPaperService.getPaperAllInfoByPaperId(paperId));
 		} catch (SQLException e) {
-			logger.error("查询试卷所有信息出错！！！", e);
+			log.error("查询试卷所有信息出错！！！", e);
 		}
 		result.put("paper", paper);
 		return "findPaperAllInfo";

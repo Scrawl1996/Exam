@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -21,12 +19,13 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import cn.xm.exam.MyElFunction.MyElFunction;
 import cn.xm.exam.service.exam.exam.ExamService;
 import cn.xm.exam.service.grade.EmployeeExamService;
 
@@ -40,7 +39,7 @@ import cn.xm.exam.service.grade.EmployeeExamService;
 @Scope("prototype")
 @SuppressWarnings("all")
 public class ExtExamEmployeesAction extends ActionSupport {
-	private Logger logger = Logger.getLogger(FindExamAction.class);
+	private static final Logger log = LoggerFactory.getLogger(ExtExamEmployeesAction.class);
 	private String fileName;// 导出的Excel名称
 	@Resource
 	private ExamService examService;// 考试service
@@ -55,7 +54,7 @@ public class ExtExamEmployeesAction extends ActionSupport {
 		try {
 			employees = employeeExamService.getEmployeeexamsByExamId(examId);
 		} catch (SQLException e) {
-			logger.error("导出考试人员异常", e);
+			log.error("导出考试人员异常", e);
 		}
 		return employees;
 	}

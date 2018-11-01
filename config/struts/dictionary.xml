@@ -4,7 +4,7 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-	<package name="dicPackage" extends="json-default" namespace="/" abstract="false" >
+	<package name="dicPackage" extends="interceptPackage" namespace="/" abstract="false" >
 		<action name="dic_*" class="dictionaryAction" method="{1}">
 			<!-- 要转成json的map -->
 			<result name="ok" type="json">
