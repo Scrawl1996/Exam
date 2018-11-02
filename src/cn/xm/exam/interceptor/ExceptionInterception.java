@@ -32,7 +32,7 @@ public class ExceptionInterception implements Interceptor {
 			log.info("result -> {}", result);
 		} catch (Throwable e) {
 			log.error("未处理的异常在拦截器被拦截,class:{}", arg0.getAction().getClass(), e);
-			throw new Exception(e);
+			return "interceptorError";
 		}
 		log.debug("exit ExceptionInterception intercept ... ");
 		return result;

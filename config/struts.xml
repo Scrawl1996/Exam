@@ -12,6 +12,7 @@
 	<!-- 与spring整合 -->
 	<constant name="struts.objectFactory" value="spring"></constant>
 
+
 	<package name="interceptPackage" extends="json-default">
 		<!-- 拦截器 -->
 		<interceptors>
@@ -27,6 +28,11 @@
 		</interceptors>
 		<!-- 这句是设置所有Action自动调用的拦截器堆栈 -->
 		<default-interceptor-ref name="myStack" />
+
+		<!-- 拦截器拦截的全局异常 -->
+		<global-results>
+			<result name="interceptorError">/interceptorError.jsp</result>
+		</global-results>
 	</package>
 
 	<!-- leilong -->
