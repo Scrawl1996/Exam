@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
 
+import cn.xm.exam.exception.NoPermissionException;
+
 public class ExceptionInterception implements Interceptor {
 	private static final Logger log = LoggerFactory.getLogger(ExceptionInterception.class);
 	/**
@@ -30,6 +32,9 @@ public class ExceptionInterception implements Interceptor {
 		try {
 			result = arg0.invoke();
 			log.info("result -> {}", result);
+		} catch (NoPermissionException e) {
+			log.error("no permission", e);
+			return "noPermissionError";
 		} catch (Throwable e) {
 			log.error("未处理的异常在拦截器被拦截,class:{}", arg0.getAction().getClass(), e);
 			return "interceptorError";

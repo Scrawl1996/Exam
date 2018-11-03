@@ -32,6 +32,7 @@
 		<!-- 拦截器拦截的全局异常 -->
 		<global-results>
 			<result name="interceptorError">/interceptorError.jsp</result>
+			<result name="noPermissionError">/noPermissionError.jsp</result>
 		</global-results>
 	</package>
 

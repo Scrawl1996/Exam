@@ -1,14 +1,23 @@
 package cn.xm.exam.utils;
 
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Set;
+
+import javax.annotation.Resource;
 
 /**
  * 资源文件读取工具类
@@ -27,6 +36,7 @@ public class ResourcesUtil implements Serializable {
 	 * 系统国家环境，默认为中国CN
 	 */
 	public static final String COUNTRY = "CN";
+
 	private static Locale getLocale() {
 		Locale locale = new Locale(LANGUAGE, COUNTRY);
 		return locale;
@@ -74,7 +84,7 @@ public class ResourcesUtil implements Serializable {
 	 * @return 索引对应的内容
 	 */
 	public static String getValue(String fileName, String key) {
-		String value = getProperties(fileName,key);
+		String value = getProperties(fileName, key);
 		return value;
 	}
 
@@ -86,7 +96,7 @@ public class ResourcesUtil implements Serializable {
 
 		Set<String> keyset = rb.keySet();
 		for (Iterator<String> it = keyset.iterator(); it.hasNext();) {
-			String lkey = (String)it.next();
+			String lkey = (String) it.next();
 			reslist.add(lkey);
 		}
 
@@ -114,24 +124,34 @@ public class ResourcesUtil implements Serializable {
 		return value;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(getValue("resources.messages", "101",new Object[]{100,200}));
-		
-		
-		//根据操作系统环境获取语言环境
-		/*Locale locale = Locale.getDefault();
-		System.out.println(locale.getCountry());//输出国家代码
-		System.out.println(locale.getLanguage());//输出语言代码s
-		
-		//加载国际化资源（classpath下resources目录下的messages.properties，如果是中文环境会优先找messages_zh_CN.properties）
-		ResourceBundle rb = ResourceBundle.getBundle("resources.messages", locale);
-		String retValue = rb.getString("101");//101是messages.properties文件中的key
-		System.out.println(retValue);
-		
-		//信息格式化，如果资源中有{}的参数则需要使用MessageFormat格式化，Object[]为传递的参数，数量根据资源文件中的{}个数决定
-		String value = MessageFormat.format(retValue, new Object[]{100,200});
-		System.out.println(value);
-*/
+	public static boolean setValue(String fileName, String key, String value) {
+		Properties properties = new Properties();
+		InputStream inputStream;
+		OutputStream outputStream;
+		try {
+			String path = ResourcesUtil.class.getClassLoader().getResource(fileName).getPath();
+			System.out.println(path);
+			inputStream = new FileInputStream(new File(path));
+			properties.load(inputStream);
+			properties.setProperty(key, value);
 
+			// 保存到文件中
+			outputStream = new FileOutputStream(new File(path));
+			properties.store(outputStream, "");
+
+			outputStream.close();
+			inputStream.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public static void main(String[] args) {
+		ResourcesUtil.getValue("settings", "a");
 	}
 }
