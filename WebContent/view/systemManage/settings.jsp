@@ -63,7 +63,11 @@
 					<div id="myTabContent" class="tab-content">
 						<!-- 安全帽设置 -->
 						<div class="tab-pane fade in active" id="home">
-							安全帽编号长度:<input type="text"/>
+							<form action="${baseurl}/view/settingAction_settings.do" method="post">
+								安全帽编号长度:<input type="text" name="safeHatNumLength" value="${safeHatNumLength}"/>
+								<br/>
+								<input type="submit" value="保存"/>
+							</form>
 						</div>
 						<div class="tab-pane fade" id="ios">
 							<p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple 
