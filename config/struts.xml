@@ -11,6 +11,8 @@
 	<constant name="struts.action.extension" value="action,do" />
 	<!-- 与spring整合 -->
 	<constant name="struts.objectFactory" value="spring"></constant>
+	<!-- 开发者模式 -->
+	<constant name="struts.devMode" value="true"></constant>
 
 
 	<package name="interceptPackage" extends="json-default">
@@ -33,6 +35,9 @@
 		<global-results>
 			<result name="interceptorError">/interceptorError.jsp</result>
 			<result name="noPermissionError">/noPermissionError.jsp</result>
+			<result name="json" type="json">
+				<param name="root">responseMap</param>
+			</result>
 		</global-results>
 	</package>
 

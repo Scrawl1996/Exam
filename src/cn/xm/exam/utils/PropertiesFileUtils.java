@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -70,16 +69,14 @@ public class PropertiesFileUtils {
 	public static String getPropertyValue(String fileName, String key) {
 		Properties properties = new Properties();
 		InputStream inputStream;
+		String value = "";
 		try {
 			String path = PropertiesFileUtils.class.getClassLoader().getResource(fileName).getPath();
 			log.info("path -> {}", path);
 			inputStream = new FileInputStream(new File(path));
 			properties.load(inputStream);
 
-			for (Entry<Object, Object> entry : properties.entrySet()) {
-				log.info("key -> {}， value -> {}", entry.getKey(), entry.getValue());
-			}
-
+			value = properties.getProperty(key);
 			// 保存到文件中(如果有的话会自动更新，没有会创建)
 			inputStream.close();
 		} catch (FileNotFoundException e) {
@@ -87,7 +84,7 @@ public class PropertiesFileUtils {
 		} catch (IOException e) {
 			log.error("saveOrUpdateProperty error", e);
 		}
-		return "";
+		return value;
 	}
 
 	/**
@@ -149,6 +146,126 @@ public class PropertiesFileUtils {
 		return properties;
 	}
 
+	/**
+	 * 保存或更新properties文件中的key
+	 * 
+	 * @param path
+	 *            文件全路径
+	 * @param key
+	 * @param value
+	 */
+	public static void saveOrUpdatePropertyByFilePath(String path, String key, String value) {
+		Properties properties = new Properties();
+		InputStream inputStream;
+		OutputStream outputStream;
+		try {
+			log.debug("path -> {}", path);
+			inputStream = new FileInputStream(new File(path));
+			properties.load(inputStream);
+			properties.setProperty(key, value);
+
+			// 保存到文件中(如果有的话会自动更新，没有会创建)
+			outputStream = new FileOutputStream(new File(path));
+			properties.store(outputStream, "");
+
+			outputStream.close();
+			inputStream.close();
+		} catch (FileNotFoundException e) {
+			log.error("saveOrUpdateProperty error", e);
+		} catch (IOException e) {
+			log.error("saveOrUpdateProperty error", e);
+		}
+	}
+
+	/**
+	 * 获取Properties
+	 * 
+	 * @param path
+	 *            文件全路径
+	 * @param key
+	 * @return
+	 */
+	public static String getPropertyValueByFilePath(String path, String key) {
+		Properties properties = new Properties();
+		InputStream inputStream;
+		String value = "";
+		try {
+			log.info("path -> {}", path);
+			inputStream = new FileInputStream(new File(path));
+			properties.load(inputStream);
+
+			value = properties.getProperty(key);
+			// 保存到文件中(如果有的话会自动更新，没有会创建)
+			inputStream.close();
+		} catch (FileNotFoundException e) {
+			log.error("saveOrUpdateProperty error", e);
+		} catch (IOException e) {
+			log.error("saveOrUpdateProperty error", e);
+		}
+		return value;
+	}
+
+	/**
+	 * 获取Properties
+	 * 
+	 * @param path
+	 *            文件全路径
+	 * @return
+	 */
+	public static Properties getPropertiesByFilePath(String path) {
+		Properties properties = new Properties();
+		InputStream inputStream;
+		try {
+			log.info("path -> {}", path);
+			inputStream = new FileInputStream(new File(path));
+			properties.load(inputStream);
+
+			inputStream.close();
+		} catch (FileNotFoundException e) {
+			log.error("saveOrUpdateProperty error", e);
+		} catch (IOException e) {
+			log.error("saveOrUpdateProperty error", e);
+		}
+		return properties;
+	}
+
+	/**
+	 * 获取Properties
+	 * 
+	 * @param path
+	 *            文件全路径
+	 * @param key
+	 *            key值
+	 * @return
+	 */
+	public static Properties removePropertyByFilePath(String path, String key) {
+		Properties properties = new Properties();
+		InputStream inputStream;
+		OutputStream outputStream;
+		try {
+			log.info("path -> {}", path);
+			inputStream = new FileInputStream(new File(path));
+			properties.load(inputStream);
+			log.info("properties -> {}", properties);
+			if (properties != null && properties.containsKey(key)) {
+				log.info("remove key:{}", key);
+				properties.remove(key);
+			}
+
+			// 保存到文件中(将properties保存到文件)
+			outputStream = new FileOutputStream(new File(path));
+			properties.store(outputStream, "");
+
+			outputStream.close();
+			inputStream.close();
+		} catch (FileNotFoundException e) {
+			log.error("saveOrUpdateProperty error", e);
+		} catch (IOException e) {
+			log.error("saveOrUpdateProperty error", e);
+		}
+		return properties;
+	}
+
 	public static void main(String[] args) {
 		// 保存三个 最后一个相当于更新
 		PropertiesFileUtils.saveOrUpdateProperty("settings.properties", "a", "aaa");
@@ -162,7 +279,7 @@ public class PropertiesFileUtils {
 
 		// 删除a
 		PropertiesFileUtils.removeProperty("settings.properties", "a");
-		
+
 		// 获取所有的properties
 		Properties properties1 = PropertiesFileUtils.getProperties("settings.properties");
 		System.out.println(properties1);
