@@ -63,7 +63,7 @@
 					<div id="myTabContent" class="tab-content">
 						<!-- 安全帽设置 -->
 						<div class="tab-pane fade in active" id="home">
-							<form action="${baseurl}/view/settingAction_settings.do" method="post">
+							<form action="${baseurl}/view/settingAction_saveSettings.do" method="post">
 								安全帽编号长度:<input type="text" name="safeHatNumLength" value="${safeHatNumLength}"/>
 								<br/>
 								<input type="submit" value="保存"/>

@@ -70,16 +70,14 @@ public class PropertiesFileUtils {
 	public static String getPropertyValue(String fileName, String key) {
 		Properties properties = new Properties();
 		InputStream inputStream;
+		String value = "";
 		try {
 			String path = PropertiesFileUtils.class.getClassLoader().getResource(fileName).getPath();
 			log.info("path -> {}", path);
 			inputStream = new FileInputStream(new File(path));
 			properties.load(inputStream);
 
-			for (Entry<Object, Object> entry : properties.entrySet()) {
-				log.info("key -> {}， value -> {}", entry.getKey(), entry.getValue());
-			}
-
+			value = properties.getProperty(key);
 			// 保存到文件中(如果有的话会自动更新，没有会创建)
 			inputStream.close();
 		} catch (FileNotFoundException e) {
@@ -87,7 +85,7 @@ public class PropertiesFileUtils {
 		} catch (IOException e) {
 			log.error("saveOrUpdateProperty error", e);
 		}
-		return "";
+		return value;
 	}
 
 	/**
@@ -162,7 +160,7 @@ public class PropertiesFileUtils {
 
 		// 删除a
 		PropertiesFileUtils.removeProperty("settings.properties", "a");
-		
+
 		// 获取所有的properties
 		Properties properties1 = PropertiesFileUtils.getProperties("settings.properties");
 		System.out.println(properties1);

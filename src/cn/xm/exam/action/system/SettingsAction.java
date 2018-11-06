@@ -28,14 +28,14 @@ public class SettingsAction extends ActionSupport {
 
 		return "settings";
 	}
-	
+
 	public String saveSettings() {
 		ShiroPermissionUtils.checkPerissionAny("systemmanager:settings");
-		if(StringUtils.isNoneBlank(safeHatNumLength)){
-			ExamSystemUtils.setProperty("safeHatNumLength",safeHatNumLength);
+		if (StringUtils.isNoneBlank(safeHatNumLength)) {
+			ExamSystemUtils.setProperty("safeHatNumLength", safeHatNumLength);
 		}
 		safeHatNumLength = StringUtils.defaultIfBlank(ExamSystemUtils.getProperty("safeHatNumLength"), "3");
-		
+
 		return "settings";
 	}
 
