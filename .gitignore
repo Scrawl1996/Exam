@@ -1,5 +1,5 @@
 /build/
 .settings
 .classpath
-./config/path.properties
-./config/db.properties
+/config/path.properties
+/config/db.properties
