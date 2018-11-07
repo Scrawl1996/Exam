@@ -1,0 +1,47 @@
+引入webservice模块，注意事项如下:
+1.发布的接口实现类要声明targetNamespace为其接口的包名倒写。
+2.在shiro中要去掉拦截webservice请求，否则访问不成功。
+3.测试webservice是否发布成功可以启动服务之后访问:http://localhost/Exam/WS/userServiceWS?wsdl或者访问:http://localhost/Exam/WS/
+4.客户端访问webservice可以用一下三种方式:
+	(1)利用jdk自带的wsimport生成本地代码:(不依赖CXF框架)
+		  wsimport http://localhost/Exam/WS/userServiceWS?wsdl
+	将导出的代码打包放进项目中，测试代码如下:
+		UserWebServiceImplService userServiceImplService = new UserWebServiceImplService();
+		UserWebService userWebServiceImplPort = userServiceImplService.getUserWebServiceImplPort();
+		try {
+			User user = userWebServiceImplPort.getUserByUseridcard("140581197705070518");
+			System.out.println(user.getDepartmentname());
+		} catch (Exception_Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	
+	(2)利用静态代理
+	(3)利用动态代理，如下代码:(推荐这种)
+	
+import javax.xml.namespace.QName;
+
+import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
+
+public class TestWS {
+
+	public static void main(String[] args) throws Exception {
+
+		JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+
+		org.apache.cxf.endpoint.Client client = dcf.createClient("http://localhost/Exam/WS/userServiceWS?wsdl"); // url为调用webService的wsdl地址
+
+		QName name = new QName("http://webservice.service.exam.xm.cn/", "getUserByUseridcard");// namespace是命名空间，methodName是方法名
+
+		Object[] objects;
+		try {
+			objects = client.invoke(name,"XXXXX");// 第一个参数是上面的QName，第二个开始为参数，可变数组
+			System.out.println(objects[0].toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+}
+	
