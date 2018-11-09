@@ -19,6 +19,9 @@ $(function() {
 		var tel = /(^\d+$)/;
 		return this.optional(element) || (tel.test(value));
 	}, "请输入数字");
+	
+	//初始化员工学历和身体状况下拉列表
+	initEmployeePhyAndEducate();
 });
 
 /** ************************组合条件查询********************************** */
@@ -73,6 +76,12 @@ function showEmployeeBaseInfo(data) {
 				"<td>"+ (index + (data.pageBean.currentPage - 1) * $("#currentCount").val())
 				+ "<input class='find_employeeOutBirthday' type='hidden' value='"
 				+ employeeOutBaseInfoList[i].birthday
+				+ "'/>"
+				+ "<input class='find_employeeOutPhy' type='hidden' value='"
+				+ employeeOutBaseInfoList[i].empphysicalstatus
+				+ "'/>"
+				+ "<input class='find_employeeOutEducate' type='hidden' value='"
+				+ employeeOutBaseInfoList[i].empeducate
 				+ "'/>"
 				+ "<input class='find_employeeOutPhoto' type='hidden' value='"
 				+ employeeOutBaseInfoList[i].photo
@@ -312,12 +321,13 @@ function addEmployeeOutInfo() {
 			var sex = $("#gender").val();
 			var birthday = $("#birthday").val();
 			var address = $("#address").val();
-			var departmentId = $("#add_departmentId").val();
+			var address = $("#address").val();
+			var employeePhy = $("#add_employeePhy option:selected").text();//身体状况
+			var employeeEducate = $("#add_employeeEducate option:selected").text();//学历
 			var bigId = $("#add_bigId").val();
 			var employeeOutType = $("#add_employeeOutType option:selected").text();
 			var idCardImageStr = $("#idCardImageStr").val();
-			$
-					.ajax({
+			$.ajax({
 						url : "employeeOutPerson_checkAddEmployeeOutStatuss.action",
 						data : {
 							"employeeOutIdCard" : idCard,
@@ -347,6 +357,10 @@ function addEmployeeOutInfo() {
 										+ "</td><td>"
 										+ idCard
 										+ "</td><td>"
+										+ employeePhy
+										+ "</td><td>"
+										+ employeeEducate
+										+ "</td><td>"
 										+ "<a class='el_delButton' onClick='deleteAddInfo(this)'>删除</a><br/>"
 										+ "</td></tr>";
 								$("#addEmployeeOutInfoList").append(
@@ -354,8 +368,7 @@ function addEmployeeOutInfo() {
 
 								if (data.status == 1) {
 									// 将图片信息保存到文件中
-									$
-											.ajax({
+									$.ajax({
 												url : "employeeOutPerson_saveEmployeePhoto.action",
 												data : {
 													"employeeOutIdCard" : idCard,
@@ -441,6 +454,8 @@ function saveEmployeeAndHaulInfo() {
 			var $tds = $trs.eq(i).children("td");
 			var empType = $tds.eq(0).text();
 			var idCard = $tds.eq(3).text();
+			var employeePhy = $tds.eq(4).text();
+			var employeeEducate = $tds.eq(5).text();
 			var haulEmployeeOutInfoList = "<input name='haulEmployeeOutList["
 					+ i + "].unitid' type='hidden' value='" + departmentId
 					+ "'/>" + "<input name='haulEmployeeOutList[" + i
@@ -449,6 +464,10 @@ function saveEmployeeAndHaulInfo() {
 					+ "].empoutidcard' type='hidden' value='" + idCard + "'/>"
 					+ "<input name='haulEmployeeOutList[" + i
 					+ "].emptype' type='hidden' value='" + empType + "'/>";
+					+ "<input name='haulEmployeeOutList[" + i
+					+ "].empphysicalstatus' type='hidden' value='" + empType + "'/>";
+					+ "<input name='haulEmployeeOutList[" + i
+					+ "].empeducate' type='hidden' value='" + empType + "'/>";
 			// 添加到form表单中
 			$("#form_addEmployeeOutInfo").append(haulEmployeeOutInfoList);
 		}
@@ -508,6 +527,13 @@ function el_modifyEmp(obj) {
 	// 获取隐藏域中的值
 	var employeeOutBirthday = $(obj).parents("tr").find(
 			".find_employeeOutBirthday").val();
+	
+	var employeeOutEducate = $(obj).parents("tr").find(".find_employeeOutEducate").val();
+	var employeeOutPhy = $(obj).parents("tr").find(".find_employeeOutPhy").val();
+	$("#update_employeeEducate option[value='"+employeeOutEducate+"']").attr("selected","true");
+	$("#update_employeePhy option[value='"+employeeOutPhy+"']").attr("selected","true");
+	
+	
 	var employeeOutPhoto = $(obj).parents("tr").find(".find_employeeOutPhoto")
 			.val();
 	var bigId = $(obj).parents("tr").find(".find_bigId").val();
@@ -706,17 +732,17 @@ function allInfo(obj) {
 	$("#details_departmentName").text($tds.eq(5).text());
 	$("#details_employeeType").text($tds.eq(6).text());
 	// 获取隐藏域中的值
-	var employeeOutBirthday = $(obj).parents("tr").find(
-			".find_employeeOutBirthday").val();
-	var employeeOutPhoto = $(obj).parents("tr").find(".find_employeeOutPhoto")
-			.val();
-	var address = $(obj).parents("tr").find(".find_address")
-	.val();
-	$("#details_employeeOutBirthday").text(
-			Format(new Date(employeeOutBirthday.replace(/T/g, " ").replace(
-					/-/g, "/")), "yyyy-MM-dd"));
+	var employeeOutBirthday = $(obj).parents("tr").find(".find_employeeOutBirthday").val();
+	var employeeOutEducate = $(obj).parents("tr").find(".find_employeeOutEducate").val();
+	var employeeOutPhy = $(obj).parents("tr").find(".find_employeeOutPhy").val();
+	var employeeOutPhoto = $(obj).parents("tr").find(".find_employeeOutPhoto").val();
+	var address = $(obj).parents("tr").find(".find_address").val();
+	
+	$("#details_employeeOutBirthday").text(Format(new Date(employeeOutBirthday.replace(/T/g, " ").replace(/-/g, "/")), "yyyy-MM-dd"));
 	$("#details_employeeOutPhoto").prop("src", employeeOutPhoto);
 	$("#details_address").text(address);
+	$("#details_employeeEducate").text(replaceNull(employeeOutEducate));
+	$("#details_employeePhy").text(replaceNull(employeeOutPhy));
 	$('#allInfo').modal();
 }
 
@@ -1199,3 +1225,42 @@ function toggleQueryDiv() {
 	}
 }
 /*******************E QLQ 显示与隐藏查询条件*********************/
+
+//2018-11-09添加
+var initEmployeePhyAndEducate = function(){
+	$.post(contextPath+"/settingAction_getSettingsJSON.do",function(responseMap){
+		if(responseMap){
+			if(responseMap.educateBackground){
+				for(var i=0,length_1=responseMap.educateBackground.length;i<length_1;i++){
+					var obj = responseMap.educateBackground[i];
+					$(".employeeEducate").append("<option value='"+obj+"'>"+obj+"</>")
+				}
+			}
+			if(responseMap.physicalStatus){
+				for(var i=0,length_1=responseMap.physicalStatus.length;i<length_1;i++){
+					var obj = responseMap.physicalStatus[i];
+					$(".employeePhy").append("<option value='"+obj+"'>"+obj+"</>")
+				}
+			}
+		}
+	},'json');
+}
+
+
+/**
+ * 一个值如果是null或者''返回-
+ * @param value 需要处理的值
+ * @param length 需要截取的字符的长度的值,未指定的时候返回全部
+ * @returns {*} 处理过的值
+ */
+function replaceNull(value,length) {
+    //判断截取的值是否为空
+    if(value == null || value==undefined || value == "" || value=='undefined'){
+        return "-";
+    }
+    //判断长度是否为空
+    if(length == null || length == ''){
+        return value;
+    }
+    return value.toString().substr(0,length);
+}

@@ -18,10 +18,11 @@ import cn.xm.exam.utils.ShiroPermissionUtils;
 @Scope("prototype")
 public class SettingsAction extends ActionSupport {
 
-	private String safeHatNumLength;
-	private String physicalStatus;
-	private String educateBackground;
-	private Map responseMap;
+	private String safeHatNumLength;// 安全帽长度
+	private String physicalStatus;// 身体状况
+	private String educateBackground;// 教育背景
+	private Map<String, Object> responseMap = new HashMap<String, Object>();// 返回的结果
+	private String queryKey;// 需要查询的key的值
 
 	/**
 	 * serial
@@ -37,13 +38,12 @@ public class SettingsAction extends ActionSupport {
 				"健康,不健康");
 		educateBackground = StringUtils.defaultIfBlank(ExamSystemUtils.getProperty(ExamSystemUtils.educateBackground),
 				"大学,硕士");
-		
+
 		return "settings";
 	}
 
 	public String saveSettings() {
 		ShiroPermissionUtils.checkPerissionAny("systemmanager:settings");
-		responseMap = new HashMap();
 
 		try {
 			if (StringUtils.isNoneBlank(safeHatNumLength)) {
@@ -61,6 +61,24 @@ public class SettingsAction extends ActionSupport {
 			return "json";
 		}
 		responseMap.put("msg", "保存成功!");
+		return "json";
+	}
+
+	public String getSettingsJSON() {
+		try {
+			safeHatNumLength = StringUtils.defaultIfBlank(ExamSystemUtils.getProperty(ExamSystemUtils.safeHatNumLength),
+					"3");
+			physicalStatus = StringUtils.defaultIfBlank(ExamSystemUtils.getProperty(ExamSystemUtils.physicalStatus),
+					"健康,不健康");
+			educateBackground = StringUtils
+					.defaultIfBlank(ExamSystemUtils.getProperty(ExamSystemUtils.educateBackground), "大学,硕士");
+		} catch (Exception e) {
+			log.error("getSettingsJSON error");
+			return "json";
+		}
+		responseMap.put("safeHatNumLength", safeHatNumLength);
+		responseMap.put("physicalStatus", StringUtils.split(physicalStatus, ","));
+		responseMap.put("educateBackground", StringUtils.split(educateBackground, ","));
 		return "json";
 	}
 
@@ -102,5 +120,13 @@ public class SettingsAction extends ActionSupport {
 
 	public void setResponseMap(Map responseMap) {
 		this.responseMap = responseMap;
+	}
+
+	public String getQueryKey() {
+		return queryKey;
+	}
+
+	public void setQueryKey(String queryKey) {
+		this.queryKey = queryKey;
 	}
 }

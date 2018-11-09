@@ -582,7 +582,7 @@
 								role="dialog" aria-labelledby="myModalLabel23"
 								data-backdrop="static" data-keyboard="false" aria-hidden="true">
 								<div class="modal-dialog"
-									style="width: 60%; max-height: 550px; overflow-y: auto;">
+									style="width: 80%; max-height: 550px; overflow-y: auto;">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal"
@@ -629,6 +629,14 @@
 													id="add_departmentName" />
 											</div>
 											<div class="input-group el_modellist01" role="toolbar">
+												<span class="el_spans0">身体状况：</span> 
+												<select class="selectpicker el_modelinput form-control employeePhy"	id="add_employeePhy" title="请选择">
+												</select>
+												 <span class="el_spans0">员工学历：</span>
+												 <select class="selectpicker el_modelinput form-control employeeEducate" id="add_employeeEducate" title="请选择">
+												</select>
+											</div>
+											<div class="input-group el_modellist01" role="toolbar">
 												<span class="el_spans0">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：</span>
 												<select class="selectpicker el_modelinput form-control"
 													id="add_employeeOutType" title="请选择">
@@ -657,6 +665,8 @@
 														<th>姓名</th>
 														<th>性别</th>
 														<th>身份证</th>
+														<th>身体状况</th>
+														<th>学历</th>
 														<th>操作</th>
 													</tr>
 												</thead>
@@ -700,12 +710,11 @@
 												<div class="big-photo">
 													<img width="90" id="update_employeeOutPhoto">
 												</div>
-
+												
 												<div class="input-group el_modellist01" role="toolbar">
 													<span class="el_spans0">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：</span>
 													<select class="selectpicker el_modelinput form-control"
 														id="update_employeeOutType" title="请选择">
-
 													</select>
 												</div>
 
@@ -713,6 +722,18 @@
 													<span class="el_spans0">员工姓名：</span> <input type="text"
 														class="form-control el_modelinput" disabled name=""
 														id="update_employeeOutName" />
+												</div>
+												
+												<div class="input-group el_modellist01" role="toolbar">
+													<span class="el_spans0">员工学历：</span> 
+													<select class="selectpicker el_modelinput form-control employeeEducate"	id="update_employeeEducate" title="请选择">
+													</select>
+												</div>
+												
+												<div class="input-group el_modellist01" role="toolbar">
+													<span class="el_spans0">身体状况：</span> 
+													<select class="selectpicker el_modelinput form-control employeePhy"	id="update_employeePhy" title="请选择">
+													</select>
 												</div>
 
 												<div class="input-group el_modellist01">
@@ -961,6 +982,14 @@
 														<tr>
 															<td>家庭住址:</td>
 															<td id="details_address"></td>
+														</tr>
+														<tr>
+															<td>员工学历:</td>
+															<td id="details_employeeEducate"></td>
+														</tr>
+														<tr>
+															<td>身体状况:</td>
+															<td id="details_employeePhy"></td>
 														</tr>
 													</table>
 												</div>
