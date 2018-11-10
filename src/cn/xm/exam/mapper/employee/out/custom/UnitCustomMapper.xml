@@ -36,6 +36,7 @@
 		SELECT
 		haulunit.unitId,
 		haulunit.unitBigId,
+		haulunit.safehatprefix,
 		haulunit.bigId,
 		(select
 		group_concat(projectname) from project where projectid in (select projectId from

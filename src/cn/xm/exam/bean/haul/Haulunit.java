@@ -21,6 +21,8 @@ public class Haulunit {
 
     private String securephone;
 
+    private String safehatprefix;
+
     public String getUnitbigid() {
         return unitbigid;
     }
@@ -99,5 +101,13 @@ public class Haulunit {
 
     public void setSecurephone(String securephone) {
         this.securephone = securephone == null ? null : securephone.trim();
+    }
+
+    public String getSafehatprefix() {
+        return safehatprefix;
+    }
+
+    public void setSafehatprefix(String safehatprefix) {
+        this.safehatprefix = safehatprefix == null ? null : safehatprefix.trim();
     }
 }

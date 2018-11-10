@@ -62,6 +62,11 @@ color:#000;
 								<form action="${baseurl}/view/settingAction_saveSettings.do" method="post" id="saveSettings">
 									<label for="safeHatNumLength">安全帽编号长度:</label>
 									<input type="text" name="safeHatNumLength" value="${safeHatNumLength}">
+									<span>比如安全帽编号长度为3,编号为1，系统会自动格式化编号为001</span>
+									<br/><br/>
+									<label for="safeHatNumLength">安&nbsp;全&nbsp;帽&nbsp;分&nbsp;隔&nbsp;符:</label>
+									<input type="text" name="safeHatNumSpliter" value="${safeHatNumSpliter}">
+									<span>安全帽前缀与编号的分隔符,比如分隔符为-,系统会自动格式化安全帽编号为"前缀-编号"</span>
 									<br/><br/>
 									<s:textarea label="员工身体状况" name="physicalStatus" cols="30" rows="3" labelposition="left" value="%{physicalStatus}"/>
 									<span>多个值用英文状态的逗号分隔</span>

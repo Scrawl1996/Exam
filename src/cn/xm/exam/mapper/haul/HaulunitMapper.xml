@@ -12,6 +12,7 @@
     <result column="managerPhone" property="managerphone" jdbcType="VARCHAR" />
     <result column="secure" property="secure" jdbcType="VARCHAR" />
     <result column="securePhone" property="securephone" jdbcType="VARCHAR" />
+    <result column="safehatprefix" property="safehatprefix" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List" >
     unitBigId, unitId, bigId, unitMinisMum, isNewBig, projectNames, manager, managerPhone, 
-    secure, securePhone
+    secure, securePhone, safehatprefix
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.xm.exam.bean.haul.HaulunitExample" >
     select
@@ -109,11 +110,11 @@
     insert into haulunit (unitBigId, unitId, bigId, 
       unitMinisMum, isNewBig, projectNames, 
       manager, managerPhone, secure, 
-      securePhone)
+      securePhone, safehatprefix)
     values (#{unitbigid,jdbcType=VARCHAR}, #{unitid,jdbcType=VARCHAR}, #{bigid,jdbcType=VARCHAR}, 
       #{unitminismum,jdbcType=INTEGER}, #{isnewbig,jdbcType=VARCHAR}, #{projectnames,jdbcType=VARCHAR}, 
       #{manager,jdbcType=VARCHAR}, #{managerphone,jdbcType=VARCHAR}, #{secure,jdbcType=VARCHAR}, 
-      #{securephone,jdbcType=VARCHAR})
+      #{securephone,jdbcType=VARCHAR}, #{safehatprefix,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.xm.exam.bean.haul.Haulunit" >
     insert into haulunit
@@ -148,6 +149,9 @@
       <if test="securephone != null" >
         securePhone,
       </if>
+      <if test="safehatprefix != null" >
+        safehatprefix,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="unitbigid != null" >
@@ -179,6 +183,9 @@
       </if>
       <if test="securephone != null" >
         #{securephone,jdbcType=VARCHAR},
+      </if>
+      <if test="safehatprefix != null" >
+        #{safehatprefix,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -221,6 +228,9 @@
       <if test="record.securephone != null" >
         securePhone = #{record.securephone,jdbcType=VARCHAR},
       </if>
+      <if test="record.safehatprefix != null" >
+        safehatprefix = #{record.safehatprefix,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -237,7 +247,8 @@
       manager = #{record.manager,jdbcType=VARCHAR},
       managerPhone = #{record.managerphone,jdbcType=VARCHAR},
       secure = #{record.secure,jdbcType=VARCHAR},
-      securePhone = #{record.securephone,jdbcType=VARCHAR}
+      securePhone = #{record.securephone,jdbcType=VARCHAR},
+      safehatprefix = #{record.safehatprefix,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,6 +283,9 @@
       <if test="securephone != null" >
         securePhone = #{securephone,jdbcType=VARCHAR},
       </if>
+      <if test="safehatprefix != null" >
+        safehatprefix = #{safehatprefix,jdbcType=VARCHAR},
+      </if>
     </set>
     where unitBigId = #{unitbigid,jdbcType=VARCHAR}
   </update>
@@ -285,7 +299,8 @@
       manager = #{manager,jdbcType=VARCHAR},
       managerPhone = #{managerphone,jdbcType=VARCHAR},
       secure = #{secure,jdbcType=VARCHAR},
-      securePhone = #{securephone,jdbcType=VARCHAR}
+      securePhone = #{securephone,jdbcType=VARCHAR},
+      safehatprefix = #{safehatprefix,jdbcType=VARCHAR}
     where unitBigId = #{unitbigid,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -261,6 +261,7 @@ label.success {
 													<th>违章积分</th>
 													<th>单位人数</th>
 													<th>加权积分</th>
+													<th>安全帽前缀</th>
 													<th width="150">操作</th>
 												</tr>
 											</thead>
@@ -333,6 +334,13 @@ label.success {
 														<span class="el_spans">安全员电话：</span> <input type="text"
 															class="form-control addUnitInput"
 															name="haulUnit.securephone" id="update_securephone" />
+													</div>
+													
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">联系方式</span>-->
+														<span class="el_spans">安全帽前缀：</span> <input type="text"
+															class="form-control addUnitInput"
+															name="haulUnit.safehatprefix" id="update_safehatprefix" />
 													</div>
 
 													<div class="input-group el_modellist" role="toolbar" id="updateBiaoduanDiv">
@@ -579,6 +587,13 @@ label.success {
 														<span class="el_spans">安全员电话：</span> <input type="text"
 															class="form-control addUnitInput"
 															name="haulUnit.securephone" id="securephone" />
+													</div>
+													
+													<div class="input-group el_modellist" role="toolbar">
+														<!--<span class="input-group-addon">联系方式</span>-->
+														<span class="el_spans">安全帽前缀：</span> <input type="text"
+															class="form-control addUnitInput"
+															name="haulUnit.safehatprefix" id="safehatprefix" />
 													</div>
 
 													<div class="input-group el_modellist" role="toolbar" id="projectDiv">

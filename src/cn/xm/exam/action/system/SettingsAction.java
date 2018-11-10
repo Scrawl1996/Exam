@@ -21,6 +21,7 @@ public class SettingsAction extends ActionSupport {
 	private String safeHatNumLength;// 安全帽长度
 	private String physicalStatus;// 身体状况
 	private String educateBackground;// 教育背景
+	private String safeHatNumSpliter;// 安全帽编号前缀和数组分隔符
 	private Map<String, Object> responseMap = new HashMap<String, Object>();// 返回的结果
 	private String queryKey;// 需要查询的key的值
 
@@ -38,6 +39,8 @@ public class SettingsAction extends ActionSupport {
 				"健康,不健康");
 		educateBackground = StringUtils.defaultIfBlank(ExamSystemUtils.getProperty(ExamSystemUtils.educateBackground),
 				"大学,硕士");
+		safeHatNumSpliter = StringUtils.defaultIfBlank(ExamSystemUtils.getProperty(ExamSystemUtils.safeHatNumSpliter),
+				"");
 
 		return "settings";
 	}
@@ -54,6 +57,9 @@ public class SettingsAction extends ActionSupport {
 			}
 			if (StringUtils.isNoneBlank(safeHatNumLength)) {
 				ExamSystemUtils.setProperty(ExamSystemUtils.educateBackground, educateBackground);
+			}
+			if (StringUtils.isNoneBlank(safeHatNumSpliter)) {
+				ExamSystemUtils.setProperty(ExamSystemUtils.safeHatNumSpliter, safeHatNumSpliter);
 			}
 		} catch (Exception e) {
 			log.error("saveSettings error", e);
@@ -128,5 +134,13 @@ public class SettingsAction extends ActionSupport {
 
 	public void setQueryKey(String queryKey) {
 		this.queryKey = queryKey;
+	}
+
+	public String getSafeHatNumSpliter() {
+		return safeHatNumSpliter;
+	}
+
+	public void setSafeHatNumSpliter(String safeHatNumSpliter) {
+		this.safeHatNumSpliter = safeHatNumSpliter;
 	}
 }

@@ -157,6 +157,7 @@ hasOperatingEmpout = true;
 													<th>参与项目</th>
 													<th>单位人数</th>
 													<th>违章积分</th>
+													<th>安全帽前缀</th>
 												</tr>
 											</thead>
 											<tbody id="unitTbody">

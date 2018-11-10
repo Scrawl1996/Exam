@@ -2,6 +2,24 @@
  * 
  */
 var break_open = false, user_open = false;// 用于记录两个模态框是否打开
+/**
+ * 一个值如果是null或者''返回-
+ * @param value 需要处理的值
+ * @param length 需要截取的字符的长度的值,未指定的时候返回全部
+ * @returns {*} 处理过的值
+ */
+function replaceNull(value,length) {
+    //判断截取的值是否为空
+    if(value == null || value==undefined || value == "" || value=='undefined'){
+        return "";
+    }
+    //判断长度是否为空
+    if(length == null || length == ''){
+        return value;
+    }
+    return value.toString().substr(0,length);
+}
+
 // 添加员工
 function el_addEmp() {
 	$("#el_addEmp").modal();
@@ -107,7 +125,8 @@ function showUnitTale(response) {
 								+ units[i].unitMinisMum
 								+ '</a></td><td><a href="javascript:void(0)" title="点击查看单位员工信息" onclick="initVariable(this)">'
 								+ units[i].personNum + '</a></td><td>'
-								+ units[i].jiaquan + '</td><td>' + operation
+								+ units[i].jiaquan + '</td><td>' 
+								+ replaceNull(units[i].safehatprefix) + '</td><td>' + operation
 								+ '</td></tr>');
 	}
 	// 动态开启分页组件
@@ -159,6 +178,7 @@ function openUpdateModal(obj) {
 	var update_securephone = $($tds[6]).text();// 获取到检修名称
 	var update_projectnames = $($tds[7]).text();// 获取到部门违章记分
 	var update_nuitMinus = $($tds[8]).text();// 获取到部门违章记分
+	var update_safehatprefix = $($tds[11]).text();// 安全帽前缀
 	$("#update_big").val(update_big);
 	$("#update_unitid").val(update_unitid);
 	$("#update_haulUnitid").val(update_haulUnitid);
@@ -169,6 +189,7 @@ function openUpdateModal(obj) {
 	$("#update_securephone").val(update_securephone);
 	$("#update_nuitMinus").val(update_nuitMinus);
 	$("#update_projectnames").val(update_projectnames);
+	$("#update_safehatprefix").val(update_safehatprefix);
 	$.post(contextPath + '/addUnit_getProjectInfoByHaulId.action',
 			{
 				"bigid" : $("#hauid").val()

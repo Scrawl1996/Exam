@@ -17,9 +17,14 @@ public class ExamSystemUtils {
 	public static final String physicalStatus = "physicalStatus";
 
 	/**
-	 * 安全帽长度
+	 * 教育背景
 	 */
-	public static final String educateBackground = "educateBackground";// 安全帽长度key
+	public static final String educateBackground = "educateBackground";
+
+	/**
+	 * 安全帽分隔符
+	 */
+	public static final String safeHatNumSpliter = "safeHatNumSpliter";
 
 	private ExamSystemUtils() {
 	}

@@ -793,6 +793,76 @@ public class HaulunitExample {
             addCriterion("securePhone not between", value1, value2, "securephone");
             return (Criteria) this;
         }
+
+        public Criteria andSafehatprefixIsNull() {
+            addCriterion("safehatprefix is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatprefixIsNotNull() {
+            addCriterion("safehatprefix is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatprefixEqualTo(String value) {
+            addCriterion("safehatprefix =", value, "safehatprefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatprefixNotEqualTo(String value) {
+            addCriterion("safehatprefix <>", value, "safehatprefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatprefixGreaterThan(String value) {
+            addCriterion("safehatprefix >", value, "safehatprefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatprefixGreaterThanOrEqualTo(String value) {
+            addCriterion("safehatprefix >=", value, "safehatprefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatprefixLessThan(String value) {
+            addCriterion("safehatprefix <", value, "safehatprefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatprefixLessThanOrEqualTo(String value) {
+            addCriterion("safehatprefix <=", value, "safehatprefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatprefixLike(String value) {
+            addCriterion("safehatprefix like", value, "safehatprefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatprefixNotLike(String value) {
+            addCriterion("safehatprefix not like", value, "safehatprefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatprefixIn(List<String> values) {
+            addCriterion("safehatprefix in", values, "safehatprefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatprefixNotIn(List<String> values) {
+            addCriterion("safehatprefix not in", values, "safehatprefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatprefixBetween(String value1, String value2) {
+            addCriterion("safehatprefix between", value1, value2, "safehatprefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatprefixNotBetween(String value1, String value2) {
+            addCriterion("safehatprefix not between", value1, value2, "safehatprefix");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

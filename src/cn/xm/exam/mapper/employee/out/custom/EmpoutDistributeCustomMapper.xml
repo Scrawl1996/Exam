@@ -53,6 +53,7 @@
 		unit.manager,
 		unit.managerPhone,
 		unit.secure,
+		unit.safehatprefix,
 		unit.securePhone,
 		(IFNULL((SELECT SUM(minusNum) FROM breakrules,
 		haulemployeeout WHERE
