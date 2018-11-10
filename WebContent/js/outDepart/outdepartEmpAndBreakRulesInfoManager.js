@@ -556,6 +556,10 @@ function el_modifyEmp(obj) {
 function updateEmployeeOutInfo() {
 	var empType = $("#update_employeeOutType option:selected").text()
 	$("#updateAndDelete_employeeType").val(empType);
+	var employeeOutPhy = $("#update_employeePhy option:selected").text()
+	$("#updateAndDelete_employeeOutPhy").val(employeeOutPhy);
+	var employeeOutEducate = $("#update_employeeEducate option:selected").text()
+	$("#updateAndDelete_employeeOutEducate").val(employeeOutEducate);
 	$.ajax({
 		url : "employeeOutPerson_updateHaulEmployeeOutInfo.action",
 		data : $("#form_updateAndDelete").serialize(),

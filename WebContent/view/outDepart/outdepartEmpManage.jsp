@@ -782,8 +782,10 @@
 												type="hidden" name="employeeType"
 												id="updateAndDelete_employeeType" />
 											<!-- 隐藏大修员工ID -->
-											<input type="hidden" name="bigEmployeeOutId"
-												id="updateAndDelete_bigemployeeOutId" />
+											<input type="hidden" name="bigEmployeeOutId" id="updateAndDelete_bigemployeeOutId" />
+											<!--隐藏大修员工身体状况和学历  -->
+											<input type="hidden" name="employeeOutPhy" id="updateAndDelete_employeeOutPhy" />
+											<input type="hidden" name="employeeOutEducate" id="updateAndDelete_employeeOutEducate" />
 										</form>
 
 									</div>

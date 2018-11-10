@@ -21,6 +21,10 @@ public class EmployeeOut {
 
     private String headaddress;
 
+    private String empphysicalstatus;
+
+    private String empeducate;
+
     public String getEmployeeid() {
         return employeeid;
     }
@@ -91,5 +95,21 @@ public class EmployeeOut {
 
     public void setHeadaddress(String headaddress) {
         this.headaddress = headaddress == null ? null : headaddress.trim();
+    }
+
+    public String getEmpphysicalstatus() {
+        return empphysicalstatus;
+    }
+
+    public void setEmpphysicalstatus(String empphysicalstatus) {
+        this.empphysicalstatus = empphysicalstatus == null ? null : empphysicalstatus.trim();
+    }
+
+    public String getEmpeducate() {
+        return empeducate;
+    }
+
+    public void setEmpeducate(String empeducate) {
+        this.empeducate = empeducate == null ? null : empeducate.trim();
     }
 }

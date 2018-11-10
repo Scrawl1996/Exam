@@ -66,6 +66,10 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	private String employeeType;
 	//外来单位员工ID
 	private String employeeOutId;
+	//外来单位员工学历
+	private String employeeOutEducate;
+	//外来单位员工身体状况
+	private String employeeOutPhy;
 	//参加大修员工ID
 	private String bigEmployeeOutId;
 	//单位ID
@@ -286,6 +290,14 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		}
 		if(ValidateCheck.isNotNull(employeeOutName)){
 			condition.put("employeeOutName", employeeOutName);
+		}
+		
+		if(ValidateCheck.isNotNull(employeeOutEducate)){
+			condition.put("employeeOutEducate", employeeOutEducate);
+		}
+		
+		if(ValidateCheck.isNotNull(employeeOutPhy)){
+			condition.put("employeeOutPhy", employeeOutPhy);
 		}
 		
 		if(ValidateCheck.isNotNull(employeeOutSex)){
@@ -635,10 +647,20 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		this.breakrulesRight = breakrulesRight;
 	}
 
-	
+	public String getEmployeeOutEducate() {
+		return employeeOutEducate;
+	}
+
+	public void setEmployeeOutEducate(String employeeOutEducate) {
+		this.employeeOutEducate = employeeOutEducate;
+	}
+
+	public String getEmployeeOutPhy() {
+		return employeeOutPhy;
+	}
+
+	public void setEmployeeOutPhy(String employeeOutPhy) {
+		this.employeeOutPhy = employeeOutPhy;
+	}
 	//lixianyuan end
-	
-	
-	
-	
 }

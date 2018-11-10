@@ -11,6 +11,8 @@
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="finger" property="finger" jdbcType="VARCHAR" />
     <result column="headaddress" property="headaddress" jdbcType="VARCHAR" />
+    <result column="empphysicalstatus" property="empphysicalstatus" jdbcType="VARCHAR" />
+    <result column="empeducate" property="empeducate" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -71,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    employeeId, employeeNumber, name, idCode, sex, birthday, address, finger, headaddress
+    employeeId, employeeNumber, name, idCode, sex, birthday, address, finger, headaddress, 
+    empphysicalstatus, empeducate
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.xm.exam.bean.employee.out.EmployeeOutExample" >
     select
@@ -106,10 +109,12 @@
   <insert id="insert" parameterType="cn.xm.exam.bean.employee.out.EmployeeOut" >
     insert into employee_out (employeeId, employeeNumber, name, 
       idCode, sex, birthday, address, 
-      finger, headaddress)
+      finger, headaddress, empphysicalstatus, 
+      empeducate)
     values (#{employeeid,jdbcType=VARCHAR}, #{employeenumber,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{idcode,jdbcType=CHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{address,jdbcType=VARCHAR}, 
-      #{finger,jdbcType=VARCHAR}, #{headaddress,jdbcType=VARCHAR})
+      #{finger,jdbcType=VARCHAR}, #{headaddress,jdbcType=VARCHAR}, #{empphysicalstatus,jdbcType=VARCHAR}, 
+      #{empeducate,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.xm.exam.bean.employee.out.EmployeeOut" >
     insert into employee_out
@@ -141,6 +146,12 @@
       <if test="headaddress != null" >
         headaddress,
       </if>
+      <if test="empphysicalstatus != null" >
+        empphysicalstatus,
+      </if>
+      <if test="empeducate != null" >
+        empeducate,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="employeeid != null" >
@@ -169,6 +180,12 @@
       </if>
       <if test="headaddress != null" >
         #{headaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="empphysicalstatus != null" >
+        #{empphysicalstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="empeducate != null" >
+        #{empeducate,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -208,6 +225,12 @@
       <if test="record.headaddress != null" >
         headaddress = #{record.headaddress,jdbcType=VARCHAR},
       </if>
+      <if test="record.empphysicalstatus != null" >
+        empphysicalstatus = #{record.empphysicalstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empeducate != null" >
+        empeducate = #{record.empeducate,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -223,7 +246,9 @@
       birthday = #{record.birthday,jdbcType=DATE},
       address = #{record.address,jdbcType=VARCHAR},
       finger = #{record.finger,jdbcType=VARCHAR},
-      headaddress = #{record.headaddress,jdbcType=VARCHAR}
+      headaddress = #{record.headaddress,jdbcType=VARCHAR},
+      empphysicalstatus = #{record.empphysicalstatus,jdbcType=VARCHAR},
+      empeducate = #{record.empeducate,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -255,6 +280,12 @@
       <if test="headaddress != null" >
         headaddress = #{headaddress,jdbcType=VARCHAR},
       </if>
+      <if test="empphysicalstatus != null" >
+        empphysicalstatus = #{empphysicalstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="empeducate != null" >
+        empeducate = #{empeducate,jdbcType=VARCHAR},
+      </if>
     </set>
     where employeeId = #{employeeid,jdbcType=VARCHAR}
   </update>
@@ -267,7 +298,9 @@
       birthday = #{birthday,jdbcType=DATE},
       address = #{address,jdbcType=VARCHAR},
       finger = #{finger,jdbcType=VARCHAR},
-      headaddress = #{headaddress,jdbcType=VARCHAR}
+      headaddress = #{headaddress,jdbcType=VARCHAR},
+      empphysicalstatus = #{empphysicalstatus,jdbcType=VARCHAR},
+      empeducate = #{empeducate,jdbcType=VARCHAR}
     where employeeId = #{employeeid,jdbcType=VARCHAR}
   </update>
 </mapper>

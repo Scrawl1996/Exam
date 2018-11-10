@@ -147,6 +147,7 @@
 		insert into employee_out (employeeId, employeeNumber, name,
 		idCode,
 		sex, birthday, address,
+		empphysicalstatus,empeducate,
 		finger, headaddress)
 		values
 		<foreach collection="list" item="employeeOutInfo" separator=",">
@@ -157,6 +158,8 @@
 			#{employeeOutInfo.sex,jdbcType=VARCHAR},
 			#{employeeOutInfo.birthday,jdbcType=DATE},
 			#{employeeOutInfo.address,jdbcType=VARCHAR},
+			#{employeeOutInfo.empphysicalstatus,jdbcType=VARCHAR},
+			#{employeeOutInfo.empeducate,jdbcType=VARCHAR},
 			#{employeeOutInfo.finger,jdbcType=VARCHAR},
 			#{employeeOutInfo.headaddress,jdbcType=VARCHAR})
 		</foreach>
@@ -526,7 +529,7 @@
 	<!-- 组合条件查询员工的基本信息,分页显示数据   -->
 	<select id="findEmployeeOutBaseInfoEWithCondition"
 		parameterType="map" resultType="map">
-		SELECT employee_out.`name`,employee_out.idCode idCard,employee_out.sex,employee_out.address,employee_out.birthday,employee_out.headaddress photo,
+		SELECT employee_out.`name`,employee_out.idCode idCard,employee_out.sex,employee_out.empphysicalstatus,employee_out.empeducate,employee_out.address,employee_out.birthday,employee_out.headaddress photo,
 			haulemployeeout.*,haulinfo.bigBeginDate,haulinfo.bigCreateDate,haulinfo.bigdescription,haulinfo.bigEndDate,haulinfo.bigName,haulinfo.bigStatus, 
 			(SELECT unit.`name` FROM unit WHERE unitId = haulemployeeout.unitId) departmentName,
 			CASE (SELECT SUM(breakrules.minusNum) FROM breakrules WHERE  employeeId = haulemployeeout.employeeId AND breakTime LIKE CONCAT(YEAR(CURDATE()),'%'))  IS NULL 
