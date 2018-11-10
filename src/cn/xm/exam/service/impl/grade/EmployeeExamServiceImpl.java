@@ -16,10 +16,12 @@ import cn.xm.exam.bean.employee.out.EmployeeoutdistributeExample;
 import cn.xm.exam.bean.exam.Exam;
 import cn.xm.exam.bean.grade.Employeeexam;
 import cn.xm.exam.bean.grade.EmployeeexamExample;
+import cn.xm.exam.bean.haul.Haulemployeeout;
 import cn.xm.exam.mapper.employee.out.EmployeeoutdistributeMapper;
 import cn.xm.exam.mapper.exam.ExamMapper;
 import cn.xm.exam.mapper.grade.EmployeeexamMapper;
 import cn.xm.exam.mapper.grade.custom.EmployeeexamCustomMapper;
+import cn.xm.exam.mapper.haul.HaulemployeeoutMapper;
 import cn.xm.exam.service.grade.EmployeeExamService;
 import cn.xm.exam.utils.PageBean;
 import cn.xm.exam.vo.grade.EmployeeExamGrade;
@@ -37,6 +39,9 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 	@Resource
 	private EmployeeoutdistributeMapper employeeDistributeMapper;
 
+	@Autowired
+	private HaulemployeeoutMapper haulemployeeoutMapper;
+
 	@Override
 	public boolean addEmployeGrade(Employeeexam employeeOutGrades) throws Exception {
 		// TODO Auto-generated method stub
@@ -53,79 +58,93 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 	 */
 	public int addEmployeeOutGradeBatch(List<Employeeexam> employeeOutGrades) throws Exception {
 		// 批量导入员工的成绩
-		//int count = employeeexamCustomMapper.insertEmployeeGradeBantch(employeeOutGrades);
-		//采用循环遍历的方法
-		Map<String,Object> updateCondition = new HashMap<String,Object>();
+		// int count =
+		// employeeexamCustomMapper.insertEmployeeGradeBantch(employeeOutGrades);
+		// 采用循环遍历的方法
+		Map<String, Object> updateCondition = new HashMap<String, Object>();
+		Map<String, String> grades = new HashMap<>();
 		for (Employeeexam employeeexam : employeeOutGrades) {
 			updateCondition.put("exam_grade", employeeexam.getGrade());
 			updateCondition.put("exam_examId", employeeexam.getExamid());
 			updateCondition.put("exam_IdCard", employeeexam.getEmployeeid());
 			employeeexamCustomMapper.updateEmployeeOutGradeInfo(updateCondition);
+
+			grades.put(employeeexam.getEmployeeid(), employeeexam.getGrade().toString());
 		}
-		
-		//考试ID
+
+		// 考试ID
 		String examId = employeeOutGrades.get(0).getExamid();
 		EmployeeexamExample employeeExamExample = new EmployeeexamExample();
 		EmployeeexamExample.Criteria criteriaEmployeeExam = employeeExamExample.createCriteria();
 		criteriaEmployeeExam.andExamidEqualTo(examId);
 		List<Employeeexam> employeeExamInfoList = employeeExamMapper.selectByExample(employeeExamExample);
-		//判断若员工的类型为外部员工类型才更新员工分配表和大修员工表
-		if(employeeExamInfoList.get(0).getEmployeetype().equals("1")){
-			//分配表主键集合根据考试ID查询通过这次考试的员工分配表主键
+		// 判断若员工的类型为外部员工类型才更新员工分配表和大修员工表
+		if (employeeExamInfoList.get(0).getEmployeetype().equals("1")) {
+			// 分配表主键集合根据考试ID查询通过这次考试的员工分配表主键
 			List<String> distributeIds = new ArrayList<String>();
 			List<Map<String, Object>> mapInfoList = employeeexamCustomMapper.selectPassOutExamDistributeIds(examId);
 			for (Map<String, Object> mapInfo : mapInfoList) {
 				distributeIds.add(mapInfo.get("distributeid").toString());
 			}
-			if(distributeIds.size()>0){
-				//根据分配表主键批量分配表中员工的考试状态
+			if (distributeIds.size() > 0) {
+				// 根据分配表主键批量分配表中员工的考试状态
 				employeeexamCustomMapper.updateEmpDistributeExamStatusByIds(distributeIds);
 			}
-			
-			//根据考试ID查询考试的等级
+
+			// 根据考试ID查询考试的等级
 			Exam examInfo = examMapper.selectByPrimaryKey(examId);
-			String examBigId = examInfo.getBigid();//大修ID
-			//通过所有三级考试的大修员工ID集合
+			String examBigId = examInfo.getBigid();// 大修ID
+			// 通过所有三级考试的大修员工ID集合
 			List<String> haulEmpOutIds = new ArrayList<String>();
-			//若为三级考试判断该员工是否完成三级培训
-			if(examInfo.getExamlevel().equals("3")){
+			// 若为三级考试判断该员工是否完成三级培训
+			if (examInfo.getExamlevel().equals("3")) {
 				EmployeeoutdistributeExample distributeExample = new EmployeeoutdistributeExample();
 				EmployeeoutdistributeExample.Criteria criteria_distribute = distributeExample.createCriteria();
-				//大修ID
+				// 大修ID
 				criteria_distribute.andBigidEqualTo(examBigId);
-				//培训等级
+				// 培训等级
 				criteria_distribute.andEmpouttraingradeEqualTo("3");
-				//考试状态
+				// 考试状态
 				criteria_distribute.andEmpoutexamstatusEqualTo("0");
 				for (Map<String, Object> mapInfo : mapInfoList) {
-					criteria_distribute.andHaulempidEqualTo(mapInfo.get("bigEmployeeOutId").toString());				
-					List<Employeeoutdistribute> distributeInfoList = employeeDistributeMapper.selectByExample(distributeExample);
-					//判断集合中是否有值，即是否有尚未通过的三级考试
-					if(distributeInfoList.size()==0){
-						haulEmpOutIds.add((String)mapInfo.get("bigEmployeeOutId"));
+					criteria_distribute.andHaulempidEqualTo(mapInfo.get("bigEmployeeOutId").toString());
+					List<Employeeoutdistribute> distributeInfoList = employeeDistributeMapper
+							.selectByExample(distributeExample);
+					// 判断集合中是否有值，即是否有尚未通过的三级考试
+					if (distributeInfoList.size() == 0) {
+						haulEmpOutIds.add((String) mapInfo.get("bigEmployeeOutId"));
 					}
 				}
-				if(haulEmpOutIds.size()>0){	
-					//若通过全部三级考试批量修改大修员工表的培训状态
+				if (haulEmpOutIds.size() > 0) {
+					// 若通过全部三级考试批量修改大修员工表的培训状态
 					employeeexamCustomMapper.updateHaulEmployeeOutTrainStatusByIds(haulEmpOutIds);
+
+					// 修改成绩信息为最终的考试成绩
+					for (String haulEmpOutId : haulEmpOutIds) {
+						Haulemployeeout haulemployeeout = haulemployeeoutMapper.selectByPrimaryKey(haulEmpOutId);
+						if (haulemployeeout != null) {
+							haulemployeeout.setThirdscore(grades.get(haulemployeeout.getEmpoutidcard().toString()));
+							haulemployeeoutMapper.updateByPrimaryKeySelective(haulemployeeout);
+						}
+					}
+
 				}
 			}
-		}				
-		
-		/*// 根据考试ID查询通过这次考试的员工身份证号集合和大修ID
-		String examId = employeeOutGrades.get(0).getExamid();
-		List<EmployeeExamGrade> employeeOutExamInfoList = employeeexamCustomMapper
-				.getEmployeeIdCardsAndBigIdByExamId(examId);
-		// 判断通过考试的集合中是否有值
-		if (employeeOutExamInfoList != null && employeeOutExamInfoList.size() > 0) {
-			String bigId = employeeOutExamInfoList.get(0).getBigid();
-			String examLevel = employeeOutExamInfoList.get(0).getLevel();
-			Map<String, Object> condition = new HashMap<String, Object>();
-			condition.put("examLevel", examLevel);
-			condition.put("bigId", bigId);
-			condition.put("employeeOutExamInfoList", employeeOutExamInfoList);
-			employeeexamCustomMapper.updateEmployeeOutTrainStatus(condition);
-		}*/
+		}
+
+		/*
+		 * // 根据考试ID查询通过这次考试的员工身份证号集合和大修ID String examId =
+		 * employeeOutGrades.get(0).getExamid(); List<EmployeeExamGrade>
+		 * employeeOutExamInfoList = employeeexamCustomMapper
+		 * .getEmployeeIdCardsAndBigIdByExamId(examId); // 判断通过考试的集合中是否有值 if
+		 * (employeeOutExamInfoList != null && employeeOutExamInfoList.size() >
+		 * 0) { String bigId = employeeOutExamInfoList.get(0).getBigid(); String
+		 * examLevel = employeeOutExamInfoList.get(0).getLevel(); Map<String,
+		 * Object> condition = new HashMap<String, Object>();
+		 * condition.put("examLevel", examLevel); condition.put("bigId", bigId);
+		 * condition.put("employeeOutExamInfoList", employeeOutExamInfoList);
+		 * employeeexamCustomMapper.updateEmployeeOutTrainStatus(condition); }
+		 */
 		return employeeOutGrades.size();
 	}
 
@@ -199,9 +218,10 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 	public OnlineExamEmployeeInfo getExamGardeByEmployeeIdAndExamId(Map<String, Object> condition) throws Exception {
 		return employeeexamCustomMapper.getExamGardeByEmployeeIdAndExamId(condition);
 	}
-	
+
 	/**
 	 * 根据考试编号与身份证号查询在线考试员工成绩详情
+	 * 
 	 * @param condition
 	 * @return
 	 * @throws Exception
@@ -210,9 +230,10 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 	public OnlineExamEmployeeInfo getOnlineDetailInfoByCondition(Map<String, Object> condition) throws Exception {
 		return employeeexamCustomMapper.getOnlineDetailInfoByCondition(condition);
 	}
-	
+
 	/**
 	 * 根据考试编号和身份证号查询在线考试交卷得分信息
+	 * 
 	 * @param condition
 	 * @return
 	 * @throws Exception
@@ -315,9 +336,10 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 		int isUpdate = employeeexamCustomMapper.updateEmployeeInScoreByIdCard(condition);
 		return isUpdate > 0 ? true : false;
 	}
-	
+
 	/**
 	 * 根据条件查询考试部门信息分页显示
+	 * 
 	 * @param currentPage
 	 * @param currentTotal
 	 * @param condition
@@ -327,7 +349,7 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 	@Override
 	public PageBean<Map<String, Object>> getUnitExamInfosByCondition(int currentPage, int currentTotal,
 			Map<String, Object> condition) throws Exception {
-		PageBean<Map<String,Object>> pageBean = new PageBean<Map<String,Object>>();
+		PageBean<Map<String, Object>> pageBean = new PageBean<Map<String, Object>>();
 		pageBean.setCurrentPage(currentPage);
 		pageBean.setCurrentCount(currentTotal);
 		int totalCount = 0;
@@ -343,11 +365,12 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 		condition.put("currentCount", currentTotal);
 		List<Map<String, Object>> list = employeeexamCustomMapper.getUnitExamInfosByCondition(condition);
 		pageBean.setProductList(list);
-		return pageBean;		
+		return pageBean;
 	}
-	
+
 	/**
 	 * 根据考试ID和部门ID查询该部门参加这次考试的员工成绩信息
+	 * 
 	 * @param condition
 	 * @return
 	 * @throws Exception
@@ -360,12 +383,10 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 		criteria.andUnitidEqualTo(condition.get("unitId").toString());
 		employeeExamGradeExample.setOrderByClause("grade desc");
 		List<Employeeexam> employeeInfos = employeeExamMapper.selectByExample(employeeExamGradeExample);
-		
+
 		return employeeInfos;
 	}
-	
-	
-	
+
 	/********* S qlq *************/
 	@Override
 	public int addEmployeeExam(List<Employeeexam> employeeexam) throws SQLException {
@@ -391,5 +412,4 @@ public class EmployeeExamServiceImpl implements EmployeeExamService {
 	}
 	/********* E qlq *************/
 
-	
 }

@@ -10,6 +10,8 @@
     <result column="trainStatus" property="trainstatus" jdbcType="VARCHAR" />
     <result column="empType" property="emptype" jdbcType="VARCHAR" />
     <result column="empOutphone" property="empoutphone" jdbcType="VARCHAR" />
+    <result column="safeHatNum" property="safehatnum" jdbcType="VARCHAR" />
+    <result column="thirdScore" property="thirdscore" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -71,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List" >
     BigEmployeeoutId, unitId, employeeId, bigId, empoutIdcard, trainStatus, empType, 
-    empOutphone
+    empOutphone, safeHatNum, thirdScore
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.xm.exam.bean.haul.HaulemployeeoutExample" >
     select
@@ -106,10 +108,12 @@
   <insert id="insert" parameterType="cn.xm.exam.bean.haul.Haulemployeeout" >
     insert into haulemployeeout (BigEmployeeoutId, unitId, employeeId, 
       bigId, empoutIdcard, trainStatus, 
-      empType, empOutphone)
+      empType, empOutphone, safeHatNum, 
+      thirdScore)
     values (#{bigemployeeoutid,jdbcType=VARCHAR}, #{unitid,jdbcType=VARCHAR}, #{employeeid,jdbcType=VARCHAR}, 
       #{bigid,jdbcType=VARCHAR}, #{empoutidcard,jdbcType=VARCHAR}, #{trainstatus,jdbcType=VARCHAR}, 
-      #{emptype,jdbcType=VARCHAR}, #{empoutphone,jdbcType=VARCHAR})
+      #{emptype,jdbcType=VARCHAR}, #{empoutphone,jdbcType=VARCHAR}, #{safehatnum,jdbcType=VARCHAR}, 
+      #{thirdscore,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.xm.exam.bean.haul.Haulemployeeout" >
     insert into haulemployeeout
@@ -138,6 +142,12 @@
       <if test="empoutphone != null" >
         empOutphone,
       </if>
+      <if test="safehatnum != null" >
+        safeHatNum,
+      </if>
+      <if test="thirdscore != null" >
+        thirdScore,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="bigemployeeoutid != null" >
@@ -163,6 +173,12 @@
       </if>
       <if test="empoutphone != null" >
         #{empoutphone,jdbcType=VARCHAR},
+      </if>
+      <if test="safehatnum != null" >
+        #{safehatnum,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdscore != null" >
+        #{thirdscore,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -199,6 +215,12 @@
       <if test="record.empoutphone != null" >
         empOutphone = #{record.empoutphone,jdbcType=VARCHAR},
       </if>
+      <if test="record.safehatnum != null" >
+        safeHatNum = #{record.safehatnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thirdscore != null" >
+        thirdScore = #{record.thirdscore,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -213,7 +235,9 @@
       empoutIdcard = #{record.empoutidcard,jdbcType=VARCHAR},
       trainStatus = #{record.trainstatus,jdbcType=VARCHAR},
       empType = #{record.emptype,jdbcType=VARCHAR},
-      empOutphone = #{record.empoutphone,jdbcType=VARCHAR}
+      empOutphone = #{record.empoutphone,jdbcType=VARCHAR},
+      safeHatNum = #{record.safehatnum,jdbcType=VARCHAR},
+      thirdScore = #{record.thirdscore,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -242,6 +266,12 @@
       <if test="empoutphone != null" >
         empOutphone = #{empoutphone,jdbcType=VARCHAR},
       </if>
+      <if test="safehatnum != null" >
+        safeHatNum = #{safehatnum,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdscore != null" >
+        thirdScore = #{thirdscore,jdbcType=VARCHAR},
+      </if>
     </set>
     where BigEmployeeoutId = #{bigemployeeoutid,jdbcType=VARCHAR}
   </update>
@@ -253,7 +283,9 @@
       empoutIdcard = #{empoutidcard,jdbcType=VARCHAR},
       trainStatus = #{trainstatus,jdbcType=VARCHAR},
       empType = #{emptype,jdbcType=VARCHAR},
-      empOutphone = #{empoutphone,jdbcType=VARCHAR}
+      empOutphone = #{empoutphone,jdbcType=VARCHAR},
+      safeHatNum = #{safehatnum,jdbcType=VARCHAR},
+      thirdScore = #{thirdscore,jdbcType=VARCHAR}
     where BigEmployeeoutId = #{bigemployeeoutid,jdbcType=VARCHAR}
   </update>
 </mapper>

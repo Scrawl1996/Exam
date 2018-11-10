@@ -993,6 +993,14 @@
 															<td>身体状况:</td>
 															<td id="details_employeePhy"></td>
 														</tr>
+														<tr>
+															<td>员工成绩:</td>
+															<td id="details_thirdScore"></td>
+														</tr>
+														<tr>
+															<td>安全帽编号:</td>
+															<td id="details_safeHatNum"></td>
+														</tr>
 													</table>
 												</div>
 											</div>

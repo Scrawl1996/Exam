@@ -83,6 +83,12 @@ function showEmployeeBaseInfo(data) {
 				+ "<input class='find_employeeOutEducate' type='hidden' value='"
 				+ employeeOutBaseInfoList[i].empeducate
 				+ "'/>"
+				+ "<input class='find_thirdScore' type='hidden' value='"
+				+ employeeOutBaseInfoList[i].thirdScore
+				+ "'/>"
+				+ "<input class='find_safeHatNum' type='hidden' value='"
+				+ employeeOutBaseInfoList[i].safeHatNum
+				+ "'/>"
 				+ "<input class='find_employeeOutPhoto' type='hidden' value='"
 				+ employeeOutBaseInfoList[i].photo
 				+ "'/>"
@@ -739,6 +745,10 @@ function allInfo(obj) {
 	var employeeOutBirthday = $(obj).parents("tr").find(".find_employeeOutBirthday").val();
 	var employeeOutEducate = $(obj).parents("tr").find(".find_employeeOutEducate").val();
 	var employeeOutPhy = $(obj).parents("tr").find(".find_employeeOutPhy").val();
+	
+	var details_thirdScore = $(obj).parents("tr").find(".find_thirdScore").val();
+	var details_safeHatNum = $(obj).parents("tr").find(".find_safeHatNum").val();
+	
 	var employeeOutPhoto = $(obj).parents("tr").find(".find_employeeOutPhoto").val();
 	var address = $(obj).parents("tr").find(".find_address").val();
 	
@@ -747,6 +757,10 @@ function allInfo(obj) {
 	$("#details_address").text(address);
 	$("#details_employeeEducate").text(replaceNull(employeeOutEducate));
 	$("#details_employeePhy").text(replaceNull(employeeOutPhy));
+	
+	$("#details_thirdScore").text(replaceNull(details_thirdScore));
+	$("#details_safeHatNum").text(replaceNull(details_safeHatNum));
+	
 	$('#allInfo').modal();
 }
 

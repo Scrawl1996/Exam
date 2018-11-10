@@ -663,6 +663,146 @@ public class HaulemployeeoutExample {
             addCriterion("empOutphone not between", value1, value2, "empoutphone");
             return (Criteria) this;
         }
+
+        public Criteria andSafehatnumIsNull() {
+            addCriterion("safeHatNum is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatnumIsNotNull() {
+            addCriterion("safeHatNum is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatnumEqualTo(String value) {
+            addCriterion("safeHatNum =", value, "safehatnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatnumNotEqualTo(String value) {
+            addCriterion("safeHatNum <>", value, "safehatnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatnumGreaterThan(String value) {
+            addCriterion("safeHatNum >", value, "safehatnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatnumGreaterThanOrEqualTo(String value) {
+            addCriterion("safeHatNum >=", value, "safehatnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatnumLessThan(String value) {
+            addCriterion("safeHatNum <", value, "safehatnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatnumLessThanOrEqualTo(String value) {
+            addCriterion("safeHatNum <=", value, "safehatnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatnumLike(String value) {
+            addCriterion("safeHatNum like", value, "safehatnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatnumNotLike(String value) {
+            addCriterion("safeHatNum not like", value, "safehatnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatnumIn(List<String> values) {
+            addCriterion("safeHatNum in", values, "safehatnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatnumNotIn(List<String> values) {
+            addCriterion("safeHatNum not in", values, "safehatnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatnumBetween(String value1, String value2) {
+            addCriterion("safeHatNum between", value1, value2, "safehatnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSafehatnumNotBetween(String value1, String value2) {
+            addCriterion("safeHatNum not between", value1, value2, "safehatnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreIsNull() {
+            addCriterion("thirdScore is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreIsNotNull() {
+            addCriterion("thirdScore is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreEqualTo(String value) {
+            addCriterion("thirdScore =", value, "thirdscore");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreNotEqualTo(String value) {
+            addCriterion("thirdScore <>", value, "thirdscore");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreGreaterThan(String value) {
+            addCriterion("thirdScore >", value, "thirdscore");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreGreaterThanOrEqualTo(String value) {
+            addCriterion("thirdScore >=", value, "thirdscore");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreLessThan(String value) {
+            addCriterion("thirdScore <", value, "thirdscore");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreLessThanOrEqualTo(String value) {
+            addCriterion("thirdScore <=", value, "thirdscore");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreLike(String value) {
+            addCriterion("thirdScore like", value, "thirdscore");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreNotLike(String value) {
+            addCriterion("thirdScore not like", value, "thirdscore");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreIn(List<String> values) {
+            addCriterion("thirdScore in", values, "thirdscore");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreNotIn(List<String> values) {
+            addCriterion("thirdScore not in", values, "thirdscore");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreBetween(String value1, String value2) {
+            addCriterion("thirdScore between", value1, value2, "thirdscore");
+            return (Criteria) this;
+        }
+
+        public Criteria andThirdscoreNotBetween(String value1, String value2) {
+            addCriterion("thirdScore not between", value1, value2, "thirdscore");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

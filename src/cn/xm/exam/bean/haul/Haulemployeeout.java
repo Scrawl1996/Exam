@@ -1,89 +1,103 @@
 package cn.xm.exam.bean.haul;
 
-/**
- * 参加大修的外部员工
- * 
- * @author QiaoLiQiang
- * @time 2017年11月9日下午9:11:38
- */
 public class Haulemployeeout {
-	private String bigemployeeoutid;// 编号
+    private String bigemployeeoutid;
 
-	private String unitid;// 单位ID
+    private String unitid;
 
-	private String employeeid;// 员工id
+    private String employeeid;
 
-	private String bigid;// 大修ID
+    private String bigid;
 
-	private String empoutidcard;// 身份证号
+    private String empoutidcard;
 
-	private String trainstatus;// 培训状态
+    private String trainstatus;
 
-	private String emptype;// 员工工种
+    private String emptype;
 
-	private String empoutphone;// 电话
+    private String empoutphone;
 
-	public String getBigemployeeoutid() {
-		return bigemployeeoutid;
-	}
+    private String safehatnum;
 
-	public void setBigemployeeoutid(String bigemployeeoutid) {
-		this.bigemployeeoutid = bigemployeeoutid == null ? null : bigemployeeoutid.trim();
-	}
+    private String thirdscore;
 
-	public String getUnitid() {
-		return unitid;
-	}
+    public String getBigemployeeoutid() {
+        return bigemployeeoutid;
+    }
 
-	public void setUnitid(String unitid) {
-		this.unitid = unitid == null ? null : unitid.trim();
-	}
+    public void setBigemployeeoutid(String bigemployeeoutid) {
+        this.bigemployeeoutid = bigemployeeoutid == null ? null : bigemployeeoutid.trim();
+    }
 
-	public String getEmployeeid() {
-		return employeeid;
-	}
+    public String getUnitid() {
+        return unitid;
+    }
 
-	public void setEmployeeid(String employeeid) {
-		this.employeeid = employeeid == null ? null : employeeid.trim();
-	}
+    public void setUnitid(String unitid) {
+        this.unitid = unitid == null ? null : unitid.trim();
+    }
 
-	public String getBigid() {
-		return bigid;
-	}
+    public String getEmployeeid() {
+        return employeeid;
+    }
 
-	public void setBigid(String bigid) {
-		this.bigid = bigid == null ? null : bigid.trim();
-	}
+    public void setEmployeeid(String employeeid) {
+        this.employeeid = employeeid == null ? null : employeeid.trim();
+    }
 
-	public String getEmpoutidcard() {
-		return empoutidcard;
-	}
+    public String getBigid() {
+        return bigid;
+    }
 
-	public void setEmpoutidcard(String empoutidcard) {
-		this.empoutidcard = empoutidcard == null ? null : empoutidcard.trim();
-	}
+    public void setBigid(String bigid) {
+        this.bigid = bigid == null ? null : bigid.trim();
+    }
 
-	public String getTrainstatus() {
-		return trainstatus;
-	}
+    public String getEmpoutidcard() {
+        return empoutidcard;
+    }
 
-	public void setTrainstatus(String trainstatus) {
-		this.trainstatus = trainstatus == null ? null : trainstatus.trim();
-	}
+    public void setEmpoutidcard(String empoutidcard) {
+        this.empoutidcard = empoutidcard == null ? null : empoutidcard.trim();
+    }
 
-	public String getEmptype() {
-		return emptype;
-	}
+    public String getTrainstatus() {
+        return trainstatus;
+    }
 
-	public void setEmptype(String emptype) {
-		this.emptype = emptype == null ? null : emptype.trim();
-	}
+    public void setTrainstatus(String trainstatus) {
+        this.trainstatus = trainstatus == null ? null : trainstatus.trim();
+    }
 
-	public String getEmpoutphone() {
-		return empoutphone;
-	}
+    public String getEmptype() {
+        return emptype;
+    }
 
-	public void setEmpoutphone(String empoutphone) {
-		this.empoutphone = empoutphone == null ? null : empoutphone.trim();
-	}
+    public void setEmptype(String emptype) {
+        this.emptype = emptype == null ? null : emptype.trim();
+    }
+
+    public String getEmpoutphone() {
+        return empoutphone;
+    }
+
+    public void setEmpoutphone(String empoutphone) {
+        this.empoutphone = empoutphone == null ? null : empoutphone.trim();
+    }
+
+    public String getSafehatnum() {
+        return safehatnum;
+    }
+
+    public void setSafehatnum(String safehatnum) {
+        this.safehatnum = safehatnum == null ? null : safehatnum.trim();
+    }
+
+    public String getThirdscore() {
+        return thirdscore;
+    }
+
+    public void setThirdscore(String thirdscore) {
+        this.thirdscore = thirdscore == null ? null : thirdscore.trim();
+    }
 }
