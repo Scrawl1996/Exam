@@ -137,6 +137,8 @@ function showEmployeeBaseInfo(data) {
 			showEmployeeOutBaseInfoList += "<td>"
 					+ employeeOutBaseInfoList[i].isblackList + "</td><td>";
 		}
+		showEmployeeOutBaseInfoList += "<a href=javascript:void(0) onclick='queryHatChangeLog(this)'>"
+			+ replaceNull(employeeOutBaseInfoList[i].safeHatNum) + "</a></td><td>";
 		/*showEmployeeOutBaseInfoList += employeeOutBaseInfoList[i].trainstatus
 				.toString().replace("0", "未参加培训").replace("1", "通过一级考试")
 				.replace("2", "通过二级考试").replace("3", "通过三级考试")
@@ -1274,11 +1276,29 @@ var initEmployeePhyAndEducate = function(){
 function replaceNull(value,length) {
     //判断截取的值是否为空
     if(value == null || value==undefined || value == "" || value=='undefined'){
-        return "-";
+        return "";
     }
     //判断长度是否为空
     if(length == null || length == ''){
         return value;
     }
     return value.toString().substr(0,length);
+}
+
+function queryHatChangeLog(obj){
+	if(obj){
+		$("#safeHatChangeDetail").html("");
+		$.post(basePathUrl+"/safeHat_getSafehatChangelog.do",{"originSafeHatNum":$(obj).text()},function(res){
+			if(res){
+				for(var i=0,length_1=res.data.length;i<length_1;i++){
+					var str = "<tr><td>"+(i+1)+"</td><td>"+res.data[i]+"</td></tr>";
+					$("#safeHatChangeDetail").append(str);
+				}
+				$("#SafeHatModal").modal({
+					backdrop : 'static',
+					keyboard : false
+				}); // 手动开启
+			}
+		},'json')
+	}
 }

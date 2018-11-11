@@ -121,4 +121,18 @@ public class SafehatServiceImpl implements SafehatService {
 		}
 	}
 
+	@Override
+	public String getSafehatChangelog(String originSafeHatNum) {
+		SafehatExample example = new SafehatExample();
+		Criteria createCriteria = example.createCriteria();
+		createCriteria.andSafehatnumEqualTo(originSafeHatNum);
+		List<Safehat> hats = safehatMapper.selectByExampleWithBLOBs(example);
+		if (CollectionUtils.isEmpty(hats)) {
+			throw new RuntimeException("没有帽子");
+		}
+		Safehat safehat = hats.get(0);
+		log.info(safehat.getChangelog());
+		return safehat.getChangelog();
+	}
+
 }

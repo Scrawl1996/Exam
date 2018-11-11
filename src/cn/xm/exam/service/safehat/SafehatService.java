@@ -11,4 +11,6 @@ public interface SafehatService {
 
 	void updateSafehatNum(String originSafeHatNum, String newSafeHatNum, String safeHatPrefix, User user);
 
+	String getSafehatChangelog(String originSafeHatNum);
+
 }

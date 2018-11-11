@@ -78,6 +78,18 @@ public class SafeHatAction extends ActionSupport {
 		return "json";
 	}
 
+	public String getSafehatChangelog() {
+		String changeLog = "";
+		try {
+			changeLog = safehatService.getSafehatChangelog(originSafeHatNum);
+		} catch (Exception e) {
+			log.error("getSafehatChangelog error", e);
+		}
+
+		response.put("data", StringUtils.split(changeLog, ","));
+		return "json";
+	}
+
 	public Map<String, Object> getResponse() {
 		return response;
 	}
