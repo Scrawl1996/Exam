@@ -7,7 +7,7 @@
 	<package name="safeHalt" namespace="/" extends="interceptPackage">
 		<!-- 全局结果集，将response转换为json传到前台 -->
 		<global-results>
-			<result name="success" type="json">
+			<result name="json" type="json">
 				<param name="root">response</param>
 			</result>
 		</global-results>

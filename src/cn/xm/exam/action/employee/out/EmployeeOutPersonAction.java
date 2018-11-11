@@ -52,6 +52,8 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	private String currentCount;
 	//姓名
 	private String employeeOutName;
+	
+	private String safeHatNum;
 	//性别
 	private String employeeOutSex;
 	//身份证号
@@ -294,6 +296,10 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		
 		if(ValidateCheck.isNotNull(employeeOutEducate)){
 			condition.put("employeeOutEducate", employeeOutEducate);
+		}
+		
+		if(ValidateCheck.isNotNull(safeHatNum)){
+			condition.put("safeHatNum", safeHatNum);
 		}
 		
 		if(ValidateCheck.isNotNull(employeeOutPhy)){
@@ -663,4 +669,12 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		this.employeeOutPhy = employeeOutPhy;
 	}
 	//lixianyuan end
+
+	public String getSafeHatNum() {
+		return safeHatNum;
+	}
+
+	public void setSafeHatNum(String safeHatNum) {
+		this.safeHatNum = safeHatNum;
+	}
 }

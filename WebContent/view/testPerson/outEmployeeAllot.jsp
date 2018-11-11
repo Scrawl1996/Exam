@@ -207,6 +207,13 @@ hasOperatingEmpout = true;
 												class="btn btn-primary" onclick="revokeWork()">
 												回收工作证</button>
 										</shiro:hasPermission>
+										
+										<shiro:hasPermission name="safehat:manage">
+										<button style="display: none" id="allocateSafehat_btn"
+												class="btn btn-primary" onclick="allocateSafehat()">
+												分配安全帽</button>
+										</shiro:hasPermission>
+										
 										<shiro:hasPermission name="grademanager:revokegene">
 											<button style="display: none" id="reGeberateWord"
 												class="btn btn-primary" onclick="el_empCardModel()">
@@ -240,6 +247,7 @@ hasOperatingEmpout = true;
 												<th>违章积分</th>
 												<th>分配部门</th>
 												<th>分配班组</th>
+												<th>安全帽编号</th>
 												<th class="operate">操作</th>
 											</tr>
 										</thead>
@@ -543,10 +551,6 @@ hasOperatingEmpout = true;
 								<!-- /.modal -->
 							</div>
 
-
-
-
-
 							<!-- 模态框 查看培训档案-->
 							<div class="modal fade" id="el_empTrainDoc_1" tabindex="-1"
 								role="dialog" aria-labelledby="myModalLabel23"
@@ -598,9 +602,105 @@ hasOperatingEmpout = true;
 								<!-- /.modal -->
 							</div>
 
+							<!-- 模态框分配安全帽-->
+							<div class="modal fade" id="allocateSafehatModal" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog" style="width:60%;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="allocateSafeHatTitle"></h4>
+										</div>
+											<div class="modal-body" style="padding: 10px 30px 0 30px;">
+												<div>
+												<form id="allocateSafeHatForm">
+														<input type='hidden' name='safeHatPrefix' id='hidden_safeHatPrefix'/>
+														<input type='hidden' name='unitName' id='hidden_unitName'/>
+														<table
+															class="table table-bordered table-hover el_threeScoreListTable">
+															<thead>
+																<tr>
+																	<th>序号</th>
+																	<th>单位名称</th>
+																	<th>姓名</th>
+																	<th>安全帽编号</th>
+																</tr>
+															</thead>
+															
+															<tbody id="allocateSafehatTbody">
+															</tbody>
+														</table>
+													</form>
+													<br/>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-primary" onclick="saveSafeHat()">
+													确定</button>
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+											</div>
+										</form>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
 
-
-
+							<!-- 模态框修改安全帽编号-->
+							<div class="modal fade" id="updateSafeHatModal" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog" style="width:40%;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title">修改安全帽编号</h4>
+										</div>
+											<div class="modal-body" style="padding: 10px 30px 0 30px;">
+												<div>
+												<form id="updateSafeNumForm">
+														<input type='hidden' name='originSafeHatNum' id='hidden_originSafeHatNum'/>
+														<input type='hidden' name='safeHatPrefix' id='hidden_safeHatPrefix_update'/>
+														<table
+															class="table table-bordered table-hover el_threeScoreListTable">
+															<thead>
+																<tr>
+																	<th>安全帽编号</th>
+																	<th>新编号</th>
+																</tr>
+															</thead>
+															
+															<tbody id="allocateSafehatTbody">
+																<tr>
+																	<td id="originNum"></td>
+																	<td><input type="text" name='newSafeHatNum' id="newSafeHatNum"></td>
+																</tr>
+															</tbody>
+														</table>
+													</form>
+													<br/>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-primary" onclick="updateSafehatnum()">
+													确定</button>
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+											</div>
+										</form>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
 
 
 

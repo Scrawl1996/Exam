@@ -333,6 +333,12 @@
 													 name="ageRight" >
 											</div>
 										</div>
+										<div class="col-md-5" id="el_breakTimeIndex" style="">
+											<div class="input-group" id="el_startEndTime" role="toolbar">
+												<span class="el_spans">安全帽编号：</span>
+												 <input type="text" class=" form-control" name="safeHatNum"/> 
+											</div>
+										</div>
 									</div>
 									
 									<!-- 隐藏部门ID和大修ID -->

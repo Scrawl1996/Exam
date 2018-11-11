@@ -1,19 +1,23 @@
 /**
  * 一个值如果是null或者''返回-
- * @param value 需要处理的值
- * @param length 需要截取的字符的长度的值,未指定的时候返回全部
+ * 
+ * @param value
+ *            需要处理的值
+ * @param length
+ *            需要截取的字符的长度的值,未指定的时候返回全部
  * @returns {*} 处理过的值
  */
-function replaceNull(value,length) {
-    //判断截取的值是否为空
-    if(value == null || value==undefined || value == "" || value=='undefined'){
-        return "";
-    }
-    //判断长度是否为空
-    if(length == null || length == ''){
-        return value;
-    }
-    return value.toString().substr(0,length);
+function replaceNull(value, length) {
+	// 判断截取的值是否为空
+	if (value == null || value == undefined || value == ""
+			|| value == 'undefined') {
+		return "";
+	}
+	// 判断长度是否为空
+	if (length == null || length == '') {
+		return value;
+	}
+	return value.toString().substr(0, length);
 }
 
 $(function() {
@@ -83,8 +87,8 @@ function geneDepartmentTree(departmentTrees) {
 			/*
 			 * chkboxType : { "Y" : "", "N" : "" }
 			 */
-			chkStyle: "radio",
-			radioType: "all"
+			chkStyle : "radio",
+			radioType : "all"
 		},
 		data : {
 			simpleData : {
@@ -124,11 +128,13 @@ function onCheck(event, treeId, treeNode) {
 /** *********************请求树信息********************* */
 
 function searchDepartmentAndOverHualTree(bigStatus) {
-	$.ajax({
+	$
+			.ajax({
 				type : "post",
 				target : "#departmentAndOverHaulTree",
 				dataType : "json",
-				url : "distribute_getHaulunitTreeByDepartmentId.action?markTrainType=1&bigStatusMark="+bigStatus,
+				url : "distribute_getHaulunitTreeByDepartmentId.action?markTrainType=1&bigStatusMark="
+						+ bigStatus,
 				success : getTree_1,
 				error : function() {
 					alert("请求树失败！");
@@ -195,7 +201,7 @@ function onClick(event, treeId, treeNode) {
 							+ unit.secure + '</dh><td>' + unit.securePhone
 							+ '</td><td>' + unit.projectNames + '</td><td>'
 							+ unit.perNum + '</td><td>' + unit.unitMinisMum
-							+'</td><td>' + replaceNull(unit.safehatprefix)
+							+ '</td><td>' + replaceNull(unit.safehatprefix)
 							+ '</td></tr>');
 			$("#unitInfoDiv").css("display", "block");
 		}, 'json')
@@ -245,6 +251,8 @@ function showFenpeiTable(response) {
 				+ distributeinfos[i].fenpeibumen
 				+ '</td><td>'
 				+ distributeinfos[i].fenpeibanzu
+				+ '</td><td>'
+				+ "<a href=javascript:void(0) onclick='updateSahtNumber(this)' title='点击修改安全帽编号'>"+replaceNull(distributeinfos[i].safeHatNum)+"</a>"
 				+ '</td><td>'
 				+ updateOperating();
 		// 隐藏一些必须的信息
@@ -299,7 +307,7 @@ function saveFenpei() {
 		var outempname = $(this).parent().parent().children("td:eq(2)").html();// 姓名
 		var empoutidcard = $(this).parent().parent().children("td:eq(4)")
 				.html();// 身份证号
-		var hidden_input = $(this).parent().parent().children("td:eq(11)");
+		var hidden_input = $(this).parent().parent().children("td:eq(12)");
 		var bigid = hidden_input.find(".bigid").val();
 		var unitid = hidden_input.find(".unitid").val();
 		var haulempid = hidden_input.find(".haulempid").val();
@@ -378,8 +386,8 @@ function geneDepartmentTree1(departmentTrees) {
 			/*
 			 * chkboxType : { "Y" : "", "N" : "" }
 			 */
-			chkStyle: "radio",
-			radioType: "all"
+			chkStyle : "radio",
+			radioType : "all"
 		},
 		data : {
 			simpleData : {
@@ -421,7 +429,7 @@ function updateFenpei(obj) {
 	var bigName = $(obj).parent().parent().children("td:eq(5)").html();// 大修名字
 	var unitName = $(obj).parent().parent().children("td:eq(6)").html();// 單位名字
 	var sex = $(obj).parent().parent().children("td:eq(3)").html();// 身份证号
-	var hidden_input = $(obj).parent().parent().children("td:eq(11)");
+	var hidden_input = $(obj).parent().parent().children("td:eq(12)");
 	var bigid = hidden_input.find(".bigid").val();
 	var unitid = hidden_input.find(".unitid").val();
 	var haulempid = hidden_input.find(".haulempid").val();
@@ -498,11 +506,13 @@ function selectFenpeiInfo() {
 	} else {
 		$("#generateWork").css("display", "none");
 	}
-	// 动态显示与隐藏回收作证
+	// 动态显示与隐藏回收作证、分配安全帽
 	if (distributeStatus == '4') {
 		$("#revokeWork").css("display", "");
+		$("#allocateSafehat_btn").css("display", "");
 	} else {
 		$("#revokeWork").css("display", "none");
+		$("#allocateSafehat_btn").css("display", "none");
 	}
 	// 动态显示与隐藏重新发放
 	if (distributeStatus == '5') {
@@ -523,7 +533,7 @@ function clearQueryInfo() {
 	// 判断当前是否有树选中
 	var value = $("#query_bigId").val();
 	// 清除选中的节点
-	if(value!=""){
+	if (value != "") {
 		$(".curSelectedNode").removeClass("curSelectedNode");
 	}
 	$(".clearInput").val("");
@@ -555,7 +565,7 @@ function el_empCardModel() {
 						function() { // 获取选择的员工
 							if ($(this).prop("checked")) {// 如果选中。。。
 								var tds = $(this).parent().parent().children();
-								var haulempid = tds.eq(11).children(
+								var haulempid = tds.eq(12).children(
 										".haulempid").val();
 								$("#empInfoListForCertificate")
 										.append(
@@ -588,19 +598,16 @@ function exportEmployeeOutInfo() {
 		haulempids[i] = $(this).val();
 	});
 
-	$.post(baseurl + '/distribute_generateWordCard.action', 
-			{
-			"bigEmployeeOutIds" : haulempids.toString()
-			}, 
-			function(response) {
-				alert(response.result);
-				if(response.result=="生成工作证成功!"){
-					// 关闭模态框并查询
-					$("#el_empCardModel").modal("hide");
-					queryDistributeInfo();
-				}
-				}, 
-				'json');
+	$.post(baseurl + '/distribute_generateWordCard.action', {
+		"bigEmployeeOutIds" : haulempids.toString()
+	}, function(response) {
+		alert(response.result);
+		if (response.result == "生成工作证成功!") {
+			// 关闭模态框并查询
+			$("#el_empCardModel").modal("hide");
+			queryDistributeInfo();
+		}
+	}, 'json');
 
 }
 
@@ -620,7 +627,7 @@ function revokeWork() {
 						function() { // 获取选择的员工
 							if ($(this).prop("checked")) {// 如果选中。。。
 								var tds = $(this).parent().parent().children();
-								var haulempid = tds.eq(11).children(
+								var haulempid = tds.eq(12).children(
 										".haulempid").val();
 								$("#empInfoListForRevoke")
 										.append(
@@ -652,26 +659,21 @@ function revokeEmployeeOutInfo() {
 	$(".haulempid_revoke").each(function(i) {
 		haulempids_1[i] = $(this).val();
 	});
-	$.post(baseurl + '/distribute_revokeWordCard.action', 
-			{
-			"bigEmployeeOutIds" : haulempids_1.toString()
-			}, 
-			function(response) {
-				alert(response.result);
-				if(response.result=="回收工作证成功!"){
-					// 关闭模态框并查询
-					$("#el_empCardModel1").modal("hide");
-					queryDistributeInfo();
-				}
-				}, 
-				'json');
-	
-	
+	$.post(baseurl + '/distribute_revokeWordCard.action', {
+		"bigEmployeeOutIds" : haulempids_1.toString()
+	}, function(response) {
+		alert(response.result);
+		if (response.result == "回收工作证成功!") {
+			// 关闭模态框并查询
+			$("#el_empCardModel1").modal("hide");
+			queryDistributeInfo();
+		}
+	}, 'json');
+
 }
 
-
 /** *************************S 二次分配相关操作**************************** */
-function reDstributeDepart(){
+function reDstributeDepart() {
 	var chooseEmpNum = 0;// 判断是否有员工被选中
 	$(".el_checks").each(function() { // 获取选择的员工
 		if ($(this).prop("checked")) {// 如果选中。。。
@@ -686,21 +688,21 @@ function reDstributeDepart(){
 		alert("请先选择员工！")
 	}
 }
-function saveReDis(){
+function saveReDis() {
 	// 1.根据树获取选中的节点的ID
-	var reDistributeDepartmentId="";
-    var treeObj = $.fn.zTree.getZTreeObj("reDistribueTree");
-    /** 获取所有树节点 */
-    var nodes = treeObj.transformToArray(treeObj.getNodes());
-    // 获取选中的节点
-    for (var k = 0, length_3 = nodes.length; k < length_3; k++) {
-            if(nodes[k].checked==true){
-            	reDistributeDepartmentId = nodes[k].departmentId;
-            }
-    }
-	if(reDistributeDepartmentId == ""){
+	var reDistributeDepartmentId = "";
+	var treeObj = $.fn.zTree.getZTreeObj("reDistribueTree");
+	/** 获取所有树节点 */
+	var nodes = treeObj.transformToArray(treeObj.getNodes());
+	// 获取选中的节点
+	for (var k = 0, length_3 = nodes.length; k < length_3; k++) {
+		if (nodes[k].checked == true) {
+			reDistributeDepartmentId = nodes[k].departmentId;
+		}
+	}
+	if (reDistributeDepartmentId == "") {
 		alert("分配部门不能为空!");
-		return ;
+		return;
 	}
 	// 2.拼接表单
 	var checkedEmp = $("#employeeOutBaseInfoList").find(":checkBox:checked");
@@ -712,24 +714,43 @@ function saveReDis(){
 		var empoutidcard = $(this).parent().parent().children("td:eq(4)")
 				.html();// 身份证号
 		var emptype = $(this).parent().parent().children("td:eq(7)").html();// 员工工种
-		var hidden_input = $(this).parent().parent().children("td:eq(11)");
+		var hidden_input = $(this).parent().parent().children("td:eq(12)");
 		var bigid = hidden_input.find(".bigid").val();// 大修ID
 		var unitid = hidden_input.find(".unitid").val();// 单位ID
 		var empid = hidden_input.find(".employeeid").val();// 员工ID
-		$("#reDistributeForm").append(
-// 拼接分配信息
-				'<input type="hidden" value="' + bigid+ '" name="employeeoutdistributes[' + i + '].bigid"/>'
-				+ '<input type="hidden" value="' + unitid+ '" name="employeeoutdistributes[' + i + '].unitid"/>'
-				+ '<input type="hidden" value="' + outempname+ '" name="employeeoutdistributes[' + i+ '].outempname"/>'
-				+ '<input type="hidden" value="'+ empoutidcard + '" name="employeeoutdistributes[' + i+ '].empoutidcard"/>' 
-				+ '<input type="hidden" value="'+ reDistributeDepartmentId + '" name="employeeoutdistributes[' + i	+ '].departmentid"/>'
-// 拼接大修员工信息
-				+ '<input type="hidden" value="'+ bigid + '" name="haulemployeeouts[' + i+ '].bigid"/>'
-				+ '<input type="hidden" value="'+ unitid + '" name="haulemployeeouts[' + i+ '].unitid"/>'
-				+ '<input type="hidden" value="'+ empid + '" name="haulemployeeouts[' + i+ '].employeeid"/>'
-				+ '<input type="hidden" value="'+ emptype + '" name="haulemployeeouts[' + i+ '].emptype"/>'
-				+ '<input type="hidden" value="'+ empoutidcard + '" name="haulemployeeouts[' + i+ '].empoutidcard"/>'
-		);
+		$("#reDistributeForm")
+				.append(
+						// 拼接分配信息
+						'<input type="hidden" value="' + bigid
+								+ '" name="employeeoutdistributes[' + i
+								+ '].bigid"/>' + '<input type="hidden" value="'
+								+ unitid + '" name="employeeoutdistributes['
+								+ i + '].unitid"/>'
+								+ '<input type="hidden" value="' + outempname
+								+ '" name="employeeoutdistributes[' + i
+								+ '].outempname"/>'
+								+ '<input type="hidden" value="' + empoutidcard
+								+ '" name="employeeoutdistributes[' + i
+								+ '].empoutidcard"/>'
+								+ '<input type="hidden" value="'
+								+ reDistributeDepartmentId
+								+ '" name="employeeoutdistributes[' + i
+								+ '].departmentid"/>'
+								// 拼接大修员工信息
+								+ '<input type="hidden" value="' + bigid
+								+ '" name="haulemployeeouts[' + i
+								+ '].bigid"/>' + '<input type="hidden" value="'
+								+ unitid + '" name="haulemployeeouts[' + i
+								+ '].unitid"/>'
+								+ '<input type="hidden" value="' + empid
+								+ '" name="haulemployeeouts[' + i
+								+ '].employeeid"/>'
+								+ '<input type="hidden" value="' + emptype
+								+ '" name="haulemployeeouts[' + i
+								+ '].emptype"/>'
+								+ '<input type="hidden" value="' + empoutidcard
+								+ '" name="haulemployeeouts[' + i
+								+ '].empoutidcard"/>');
 
 	})
 	// 3.提交表单
@@ -742,11 +763,10 @@ function saveReDis(){
 		}
 	}, 'json')
 
-	
 }
 /** *************************E 二次分配相关操作**************************** */
 /** **************************S 重新分配单位相关操作 *** */
-function reDistributeUnit(){
+function reDistributeUnit() {
 	var chooseEmpNum = 0;// 判断是否有员工被选中
 	$(".el_checks").each(function() { // 获取选择的员工
 		if ($(this).prop("checked")) {// 如果选中。。。
@@ -773,7 +793,9 @@ $(function() {
 function searchDepartmentAndOverHualTree_2() {
 	$.ajax({
 		type : "post",
-		data:{"markTrainType":"1"},
+		data : {
+			"markTrainType" : "1"
+		},
 		dataType : "json",
 		url : "employeeOutPerson_getDepartmentAndOverHaulTree.action",
 		success : getTree_2,
@@ -807,8 +829,8 @@ function getTree_2(treeList2) {
 	$.fn.zTree.init($("#departmentAndOverHaulTree_modal"), setting, zNodes);
 }
 
-function onClick_reDistributeTree(event, treeId, treeNode){
-	if(treeNode.level==1){
+function onClick_reDistributeTree(event, treeId, treeNode) {
+	if (treeNode.level == 1) {
 		$("#input_reDisUnit").val(treeNode.name);
 		$("#input_reDisUnit").removeAttr("placeholder");
 		$("#reDisUnitUnitId").val(treeNode.id);
@@ -819,15 +841,15 @@ function onClick_reDistributeTree(event, treeId, treeNode){
 /**
  * 保存二次分配单位信息
  */
-function saveReDisUnit(){
+function saveReDisUnit() {
 	// 1.根据树获取选中的节点的ID
 	var reDisUnitUnitId = $("#reDisUnitUnitId").val();
 	var reDisUnitBigId = $("#reDisUnitBigId").val();
-	if(reDisUnitUnitId==""||reDisUnitBigId==""){
+	if (reDisUnitUnitId == "" || reDisUnitBigId == "") {
 		alert("重新分配的单位不能为空!")
 		return;
 	}
-	
+
 	// 2.拼接表单
 	var checkedEmp = $("#employeeOutBaseInfoList").find(":checkBox:checked");
 	// 遍历选中的人添加到表单中
@@ -838,26 +860,44 @@ function saveReDisUnit(){
 		var empoutidcard = $(this).parent().parent().children("td:eq(4)")
 				.html();// 身份证号
 		var emptype = $(this).parent().parent().children("td:eq(7)").html();// 员工工种
-		var hidden_input = $(this).parent().parent().children("td:eq(11)");
+		var hidden_input = $(this).parent().parent().children("td:eq(12)");
 		var empid = hidden_input.find(".employeeid").val();// 员工ID
-		$("#reDistributeUnitForm").append(
-// 拼接分配信息
-				'<input type="hidden" value="' + reDisUnitBigId+ '" name="employeeoutdistributes[' + i + '].bigid"/>'
-				+ '<input type="hidden" value="' + reDisUnitUnitId+ '" name="employeeoutdistributes[' + i + '].unitid"/>'
-				+ '<input type="hidden" value="' + outempname+ '" name="employeeoutdistributes[' + i+ '].outempname"/>'
-				+ '<input type="hidden" value="'+ empoutidcard + '" name="employeeoutdistributes[' + i+ '].empoutidcard"/>' 
-// 拼接大修员工信息
-				+ '<input type="hidden" value="'+ reDisUnitBigId + '" name="haulemployeeouts[' + i+ '].bigid"/>'
-				+ '<input type="hidden" value="'+ reDisUnitUnitId + '" name="haulemployeeouts[' + i+ '].unitid"/>'
-				+ '<input type="hidden" value="'+ empid + '" name="haulemployeeouts[' + i+ '].employeeid"/>'
-				+ '<input type="hidden" value="'+ emptype + '" name="haulemployeeouts[' + i+ '].emptype"/>'
-				+ '<input type="hidden" value="'+ empoutidcard + '" name="haulemployeeouts[' + i+ '].empoutidcard"/>'
-		);
+		$("#reDistributeUnitForm")
+				.append(
+						// 拼接分配信息
+						'<input type="hidden" value="' + reDisUnitBigId
+								+ '" name="employeeoutdistributes[' + i
+								+ '].bigid"/>' + '<input type="hidden" value="'
+								+ reDisUnitUnitId
+								+ '" name="employeeoutdistributes[' + i
+								+ '].unitid"/>'
+								+ '<input type="hidden" value="' + outempname
+								+ '" name="employeeoutdistributes[' + i
+								+ '].outempname"/>'
+								+ '<input type="hidden" value="' + empoutidcard
+								+ '" name="employeeoutdistributes[' + i
+								+ '].empoutidcard"/>'
+								// 拼接大修员工信息
+								+ '<input type="hidden" value="'
+								+ reDisUnitBigId + '" name="haulemployeeouts['
+								+ i + '].bigid"/>'
+								+ '<input type="hidden" value="'
+								+ reDisUnitUnitId + '" name="haulemployeeouts['
+								+ i + '].unitid"/>'
+								+ '<input type="hidden" value="' + empid
+								+ '" name="haulemployeeouts[' + i
+								+ '].employeeid"/>'
+								+ '<input type="hidden" value="' + emptype
+								+ '" name="haulemployeeouts[' + i
+								+ '].emptype"/>'
+								+ '<input type="hidden" value="' + empoutidcard
+								+ '" name="haulemployeeouts[' + i
+								+ '].empoutidcard"/>');
 
 	})
 	// 3.提交表单
-	$.post(baseurl + '/distribute_reDistributeUnit.action', $("#reDistributeUnitForm")
-			.serialize(), function(response) {
+	$.post(baseurl + '/distribute_reDistributeUnit.action', $(
+			"#reDistributeUnitForm").serialize(), function(response) {
 		alert(response.result);
 		$("#reDistributeUnitModal").modal("hide");
 		if (response.result == "分配单位成功") {
@@ -865,14 +905,7 @@ function saveReDisUnit(){
 		}
 	}, 'json')
 
-	
 }
-
-
-
-
-
-
 
 /** **************************E 重新分配单位相关操作 *** */
 
@@ -881,11 +914,12 @@ function lookTrainInfo() {
 	if ($(".el_checks:checked").length == "0") {
 		alert("请选择要查看的员工！");
 		return;
-	} 
-	if($(".el_checks:checked").length > 1){
+	}
+	if ($(".el_checks:checked").length > 1) {
 		alert("请选择一个员工进行查看！");
-	}else {
-		var employeeOutIdCard = $(".el_checks:checked").parents("tr").children("td:eq(4)").text();
+	} else {
+		var employeeOutIdCard = $(".el_checks:checked").parents("tr").children(
+				"td:eq(4)").text();
 		// 分页显示员工的培训档案
 		showEmployeeOutExamsInfoList(employeeOutIdCard, 1, 8);
 	}
@@ -928,11 +962,10 @@ function showEmployeeOutExamsInfoList(employeeOutIdCard, currentPage,
 						+ Format(new Date(examInfoList[i].endTime.replace(/T/g,
 								" ").replace(/-/g, "/")), "yyyy-MM-dd HH:mm")
 						+ "</td><td>" + examInfoList[i].paperScore
-						+ "</td><td>" + examInfoList[i].grade 						
-						+ "</td><td>" + examInfoList[i].isPass 
-						+ "</td><td>" + examInfoList[i].xueshi
-						+ "</td><td>" + examInfoList[i].traincontent
-						+ "</td></tr>";
+						+ "</td><td>" + examInfoList[i].grade + "</td><td>"
+						+ examInfoList[i].isPass + "</td><td>"
+						+ examInfoList[i].xueshi + "</td><td>"
+						+ examInfoList[i].traincontent + "</td></tr>";
 				$("#employeeOutExamInfos").append(showExamInfoList);
 			}
 			// 当前页
@@ -968,7 +1001,7 @@ function trainStatus_page(currentPage, totalCount, employeeOutIdCard) {
 
 /** **********************S 历史检修和当前检修****************************** */
 // 根据标记查询大修信息
-function historyBigInfoFind(){
+function historyBigInfoFind() {
 	// 获取当前的大修标记状态
 	var mark = $("#el_bigStatusMark").val();
 	// 设置到隐藏域中
@@ -979,7 +1012,7 @@ function historyBigInfoFind(){
 }
 
 /** ******************S 免培训****************** */
-function notrain(){
+function notrain() {
 	var chooseEmpNum = 0;// 判断是否有员工被选中
 	$(".el_checks").each(function() { // 获取选择的员工
 		if ($(this).prop("checked")) {// 如果选中。。。
@@ -988,30 +1021,204 @@ function notrain(){
 	})
 	if (chooseEmpNum == 0) {
 		alert("请先选择员工！")
-	} else if(chooseEmpNum== 1 ){
+	} else if (chooseEmpNum == 1) {
 		notrain_post();
-	}else{
+	} else {
 		alert("请选择单个员工进行免培训！")
 	}
-	
+
 }
-function notrain_post(){
+function notrain_post() {
 	var checkedPerson = $(".el_checks:checked");
 	var username = checkedPerson.parent().parent().children("td:eq(2)").text();
 	var empType = checkedPerson.parent().parent().children("td:eq(7)").text();
-	var  distributeId= checkedPerson.parent().parent().find(".distributeId").val();
-	if(confirm("您确认  "+username+"【"+empType+"】  免考本级考试?\n\n确认之后不可修改!!!")){
-		$.post(contextPath+"/distribute_updateDistributeForMiankao.action",
-				{"distributeId":distributeId},
-				function(response){
-					alert(response.result);
-					queryDistributeInfo();
-				},
-				"json"
-		)
+	var distributeId = checkedPerson.parent().parent().find(".distributeId")
+			.val();
+	if (confirm("您确认  " + username + "【" + empType
+			+ "】  免考本级考试?\n\n确认之后不可修改!!!")) {
+		$.post(contextPath + "/distribute_updateDistributeForMiankao.action", {
+			"distributeId" : distributeId
+		}, function(response) {
+			alert(response.result);
+			queryDistributeInfo();
+		}, "json")
 	}
 }
 /** ******************E 免培训****************** */
+
+/** *************S 安全帽相关操作******************************** */
+function allocateSafehat() {
+	// 判断是否合法
+	var display=$("#unitInfoDiv").css("display");
+	if("none" == display){
+		alert("请先选择检修单位,按单位分配安全帽!");
+		return;
+	}
+
+	var safehatPrefix =  $("#unitTbody").find("td").last().text();
+	if("" == safehatPrefix || safehatPrefix=="undefined" ){
+		alert("该单位还没有安全帽前缀,请先设置安全帽前缀!");
+		return;
+	}
+	$("#hidden_safeHatPrefix").val(safehatPrefix);//前缀设置到表单中
+	$("#hidden_unitName").val($("#unitTbody").find("td:eq(0)").text());
+	
+	var chooseEmpNum = 0;// 判断是否有员工被选中
+	var hasAllocated = false;
+	$("#allocateSafehatTbody").html("");//清空表格
+	$(".el_checks").each(function(i) { // 获取选择的员工
+		if ($(this).prop("checked")) {// 如果选中。。。
+			var tr = $(this).parents("tr");
+			var value = tr.find("td:eq(11)").text();
+			if("" != value){
+				hasAllocated = true;
+				return;
+			}
+			var haulEmpoutId = tr.find("td:eq(12)").find(".haulempid").val();//大修员工ID
+			var empName = tr.find("td:eq(2)").text();
+			var unitName = tr.find("td:eq(6)").text();
+			var str = "<tr><td>"+
+				(chooseEmpNum+1)+
+				"<input type='hidden' name='haulEmpoutId["+chooseEmpNum+"]' value='"+haulEmpoutId+"'/>"+
+				"<input type='hidden' name='empoutNames["+chooseEmpNum+"]' value='"+empName+"'/>"+
+				"</td><td>"+
+				unitName+"</td><td>"+
+				empName+"</td><td>"+
+				"<input type='text' name='haulEmpoutSafehatNum["+chooseEmpNum+"]'/>"+"</td></tr>";
+			$("#allocateSafehatTbody").append(str);//清空表格
+			chooseEmpNum++;
+		}
+	})
+	
+	if(hasAllocated){
+		alert("请选择没有分配安全帽的员工！")
+		return;
+	}
+	
+	if (chooseEmpNum == 0) {
+		alert("请先选择员工！")
+		return;
+	} 
+	
+
+	
+	// 2.开启模态框
+	$("#allocateSafeHatTitle").text("分配安全帽编号(该单位安全帽前缀是:"+safehatPrefix+")");
+	$("#allocateSafehatModal").modal({
+		backdrop : 'static',
+		keyboard : false
+	}); // 手动开启
+}
+
+/**
+ * 保存安全帽信息
+ */
+function saveSafeHat(){
+	//判断是否有没有填写的input
+	var safeNum=new Array()
+	var hasNullValue = false;
+	$("input[name^='haulEmpoutSafehatNum']").each(function(i){
+		var value = $(this).val();
+		if("" == value){
+			hasNullValue=true;
+			return;
+		}
+		safeNum[i]=value;
+	});
+	if(hasNullValue){
+		alert("您还有未填写的安全帽编号");
+		return;
+	}
+	//判断是否有重复的编号
+	if(hasRepeatValue(safeNum)){
+		alert("您填写了重复的编号,请重填写!");
+		return;
+	}
+	//保存后台
+	$.post(baseurl+"/safeHat_allocateSafeHatNum.do",$("#allocateSafeHatForm").serialize(),function(res){
+		if(res){
+			if(res.msg && "ok" == res.msg){
+				alert("保存成功");
+				//关闭模态框，重新查询
+				$("#allocateSafehatModal").modal('hide');  //手动关闭
+				queryDistributeInfo();
+			}else{
+				alert(res.msg);
+			}
+		}
+	},'json')
+}
+function hasRepeatValue(a) {
+	return /(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + a.join("\x0f\x0f") + "\x0f");
+}
+
+//修改安全帽编号
+function updateSahtNumber(obj){
+	if(obj){
+		// 判断是否合法
+		var display=$("#unitInfoDiv").css("display");
+		if("none" == display){
+			alert("请先选择检修单位,按单位分配安全帽!");
+			return;
+		}
+		var safehatPrefix =  $("#unitTbody").find("td").last().text();
+		if("" == safehatPrefix || safehatPrefix=="undefined" ){
+			alert("该单位还没有安全帽前缀,请先设置安全帽前缀!");
+			return;
+		}
+		$("#hidden_safeHatPrefix_update").val(safehatPrefix);//前缀设置到表单中
+		
+		var originNum = $(obj).text();
+		$("#hidden_originSafeHatNum").val(originNum);
+		$("#originNum").text(originNum);
+		
+		$("#updateSafeHatModal").modal({
+			backdrop : 'static',
+			keyboard : false
+		}); // 手动开启
+	}
+}
+
+function updateSafehatnum(){
+	var value = $("#newSafeHatNum").val();
+	if(value == null || "" == value){
+		alert("请输入编号");
+		return;
+	}
+	
+	if(!isNumber(value)){
+		alert("请输入数字编号");
+		return;
+	}
+	//保存后台
+	$.post(baseurl+"/safeHat_updateSafehatNum.do",$("#updateSafeNumForm").serialize(),function(res){
+		if(res){
+			if(res.msg && "ok" == res.msg){
+				alert("保存成功");
+				//关闭模态框，重新查询
+				$("#updateSafeHatModal").modal('hide');  //手动关闭
+				queryDistributeInfo();
+			}else{
+				alert(res.msg);
+			}
+		}
+	},'json')
+}
+
+function isNumber(val){
+    var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+    var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+    if(regPos.test(val) || regNeg.test(val)){
+        return true;
+    }else{
+        return false;
+    }
+
+}
+/** *************E 安全帽相关操作******************************** */
+
+
+
 
 
 

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xm.exam.mapper.safehat.SafehatMapper" >
+  <resultMap id="BaseResultMap" type="cn.xm.exam.bean.safehat.Safehat" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="safeHatNum" property="safehatnum" jdbcType="VARCHAR" />
+    <result column="creatorFullName" property="creatorfullname" jdbcType="VARCHAR" />
+    <result column="creatorUsername" property="creatorusername" jdbcType="VARCHAR" />
+    <result column="creatorDepartId" property="creatordepartid" jdbcType="VARCHAR" />
+    <result column="userHaulEmpId" property="userhaulempid" jdbcType="VARCHAR" />
+    <result column="userIdCard" property="useridcard" jdbcType="VARCHAR" />
+    <result column="isDelete" property="isdelete" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.xm.exam.bean.safehat.Safehat" extends="BaseResultMap" >
+    <result column="changelog" property="changelog" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, safeHatNum, creatorFullName, creatorUsername, creatorDepartId, userHaulEmpId, 
+    userIdCard, isDelete
+  </sql>
+  <sql id="Blob_Column_List" >
+    changelog
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="cn.xm.exam.bean.safehat.SafehatExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from safehat
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.xm.exam.bean.safehat.SafehatExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from safehat
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from safehat
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from safehat
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.xm.exam.bean.safehat.SafehatExample" >
+    delete from safehat
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.xm.exam.bean.safehat.Safehat" >
+    insert into safehat (ID, safeHatNum, creatorFullName, 
+      creatorUsername, creatorDepartId, userHaulEmpId, 
+      userIdCard, isDelete, changelog
+      )
+    values (#{id,jdbcType=VARCHAR}, #{safehatnum,jdbcType=VARCHAR}, #{creatorfullname,jdbcType=VARCHAR}, 
+      #{creatorusername,jdbcType=VARCHAR}, #{creatordepartid,jdbcType=VARCHAR}, #{userhaulempid,jdbcType=VARCHAR}, 
+      #{useridcard,jdbcType=VARCHAR}, #{isdelete,jdbcType=VARCHAR}, #{changelog,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xm.exam.bean.safehat.Safehat" >
+    insert into safehat
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="safehatnum != null" >
+        safeHatNum,
+      </if>
+      <if test="creatorfullname != null" >
+        creatorFullName,
+      </if>
+      <if test="creatorusername != null" >
+        creatorUsername,
+      </if>
+      <if test="creatordepartid != null" >
+        creatorDepartId,
+      </if>
+      <if test="userhaulempid != null" >
+        userHaulEmpId,
+      </if>
+      <if test="useridcard != null" >
+        userIdCard,
+      </if>
+      <if test="isdelete != null" >
+        isDelete,
+      </if>
+      <if test="changelog != null" >
+        changelog,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="safehatnum != null" >
+        #{safehatnum,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorfullname != null" >
+        #{creatorfullname,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorusername != null" >
+        #{creatorusername,jdbcType=VARCHAR},
+      </if>
+      <if test="creatordepartid != null" >
+        #{creatordepartid,jdbcType=VARCHAR},
+      </if>
+      <if test="userhaulempid != null" >
+        #{userhaulempid,jdbcType=VARCHAR},
+      </if>
+      <if test="useridcard != null" >
+        #{useridcard,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=VARCHAR},
+      </if>
+      <if test="changelog != null" >
+        #{changelog,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.xm.exam.bean.safehat.SafehatExample" resultType="java.lang.Integer" >
+    select count(*) from safehat
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update safehat
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.safehatnum != null" >
+        safeHatNum = #{record.safehatnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatorfullname != null" >
+        creatorFullName = #{record.creatorfullname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatorusername != null" >
+        creatorUsername = #{record.creatorusername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatordepartid != null" >
+        creatorDepartId = #{record.creatordepartid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userhaulempid != null" >
+        userHaulEmpId = #{record.userhaulempid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.useridcard != null" >
+        userIdCard = #{record.useridcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdelete != null" >
+        isDelete = #{record.isdelete,jdbcType=VARCHAR},
+      </if>
+      <if test="record.changelog != null" >
+        changelog = #{record.changelog,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update safehat
+    set ID = #{record.id,jdbcType=VARCHAR},
+      safeHatNum = #{record.safehatnum,jdbcType=VARCHAR},
+      creatorFullName = #{record.creatorfullname,jdbcType=VARCHAR},
+      creatorUsername = #{record.creatorusername,jdbcType=VARCHAR},
+      creatorDepartId = #{record.creatordepartid,jdbcType=VARCHAR},
+      userHaulEmpId = #{record.userhaulempid,jdbcType=VARCHAR},
+      userIdCard = #{record.useridcard,jdbcType=VARCHAR},
+      isDelete = #{record.isdelete,jdbcType=VARCHAR},
+      changelog = #{record.changelog,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update safehat
+    set ID = #{record.id,jdbcType=VARCHAR},
+      safeHatNum = #{record.safehatnum,jdbcType=VARCHAR},
+      creatorFullName = #{record.creatorfullname,jdbcType=VARCHAR},
+      creatorUsername = #{record.creatorusername,jdbcType=VARCHAR},
+      creatorDepartId = #{record.creatordepartid,jdbcType=VARCHAR},
+      userHaulEmpId = #{record.userhaulempid,jdbcType=VARCHAR},
+      userIdCard = #{record.useridcard,jdbcType=VARCHAR},
+      isDelete = #{record.isdelete,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xm.exam.bean.safehat.Safehat" >
+    update safehat
+    <set >
+      <if test="safehatnum != null" >
+        safeHatNum = #{safehatnum,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorfullname != null" >
+        creatorFullName = #{creatorfullname,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorusername != null" >
+        creatorUsername = #{creatorusername,jdbcType=VARCHAR},
+      </if>
+      <if test="creatordepartid != null" >
+        creatorDepartId = #{creatordepartid,jdbcType=VARCHAR},
+      </if>
+      <if test="userhaulempid != null" >
+        userHaulEmpId = #{userhaulempid,jdbcType=VARCHAR},
+      </if>
+      <if test="useridcard != null" >
+        userIdCard = #{useridcard,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null" >
+        isDelete = #{isdelete,jdbcType=VARCHAR},
+      </if>
+      <if test="changelog != null" >
+        changelog = #{changelog,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.xm.exam.bean.safehat.Safehat" >
+    update safehat
+    set safeHatNum = #{safehatnum,jdbcType=VARCHAR},
+      creatorFullName = #{creatorfullname,jdbcType=VARCHAR},
+      creatorUsername = #{creatorusername,jdbcType=VARCHAR},
+      creatorDepartId = #{creatordepartid,jdbcType=VARCHAR},
+      userHaulEmpId = #{userhaulempid,jdbcType=VARCHAR},
+      userIdCard = #{useridcard,jdbcType=VARCHAR},
+      isDelete = #{isdelete,jdbcType=VARCHAR},
+      changelog = #{changelog,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xm.exam.bean.safehat.Safehat" >
+    update safehat
+    set safeHatNum = #{safehatnum,jdbcType=VARCHAR},
+      creatorFullName = #{creatorfullname,jdbcType=VARCHAR},
+      creatorUsername = #{creatorusername,jdbcType=VARCHAR},
+      creatorDepartId = #{creatordepartid,jdbcType=VARCHAR},
+      userHaulEmpId = #{userhaulempid,jdbcType=VARCHAR},
+      userIdCard = #{useridcard,jdbcType=VARCHAR},
+      isDelete = #{isdelete,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

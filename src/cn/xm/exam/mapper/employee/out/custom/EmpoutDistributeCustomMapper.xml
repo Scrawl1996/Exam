@@ -219,6 +219,7 @@
 		employee_out.idCode =
 		distr.empOutIdCard)) AS minusNum,
 		haulemp.empType,
+		haulemp.safeHatNum,
 		haulemp.trainStatus,
 		IFNULL((SELECT
 		GROUP_CONCAT(departmentName SEPARATOR ';') FROM

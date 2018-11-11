@@ -516,6 +516,9 @@
 		<if test="bigStatus != null">
 			and haulinfo.bigStatus = #{bigStatus}
 		</if>
+		<if test="safeHatNum != null">
+			and haulemployeeout.safeHatNum like '%${safeHatNum}%'
+		</if>
 		
 		<if test="minusNumLeft !=null and minusNumLeft !='' ">
 			and 
@@ -603,6 +606,9 @@
 		<!-- 增加检修状态的判断 -->
 		<if test="bigStatus != null">
 			and haulinfo.bigStatus = #{bigStatus}
+		</if>
+		<if test="safeHatNum != null">
+			and haulemployeeout.safeHatNum like '%${safeHatNum}%'
 		</if>
 		
 		
