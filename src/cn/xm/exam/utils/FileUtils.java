@@ -2,8 +2,6 @@ package cn.xm.exam.utils;
 
 import java.util.UUID;
 
-import org.junit.Test;
-
 /**
  * 产生唯一文件名的工具
  * 

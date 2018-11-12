@@ -3,3 +3,4 @@
 .classpath
 /config/path.properties
 /config/db.properties
+/config/log4j.properties
