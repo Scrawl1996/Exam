@@ -538,8 +538,10 @@ function el_modifyEmp(obj) {
 	
 	var employeeOutEducate = $(obj).parents("tr").find(".find_employeeOutEducate").val();
 	var employeeOutPhy = $(obj).parents("tr").find(".find_employeeOutPhy").val();
-	$("#update_employeeEducate option[value='"+employeeOutEducate+"']").attr("selected","true");
-	$("#update_employeePhy option[value='"+employeeOutPhy+"']").attr("selected","true");
+/*	$("#update_employeeEducate option[value='"+employeeOutEducate+"']").attr("selected","true");
+	$("#update_employeePhy option[value='"+employeeOutPhy+"']").attr("selected","true");*/
+	$("#update_employeeEducate").val(employeeOutEducate);
+	$("#update_employeePhy").val(employeeOutPhy);
 	
 	
 	var employeeOutPhoto = $(obj).parents("tr").find(".find_employeeOutPhoto")

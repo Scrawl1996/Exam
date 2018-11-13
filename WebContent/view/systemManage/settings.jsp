@@ -54,7 +54,7 @@ color:#000;
 									 常用设置
 								</a>
 							</li>
-							<li><a href="#ios" data-toggle="tab">iOS</a></li>
+							<!-- <li><a href="#ios" data-toggle="tab">iOS</a></li> -->
 						</ul>
 						<div id="myTabContent" class="tab-content" style="margin-top: 20px;">
 							<!-- 安全帽设置 -->
@@ -77,10 +77,10 @@ color:#000;
 									<input type="button" value="保存" onclick="ajaxSubmitForm('saveSettings')"/>
 								</form>
 							</div>
-							<div class="tab-pane fade" id="ios">
+							<!-- <div class="tab-pane fade" id="ios">
 								<p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple 
 									TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
-							</div>
+							</div> -->
 						</div>
 					</div>
 
