@@ -1,4 +1,4 @@
-﻿package cn.xm.exam.action.exam.exam;
+package cn.xm.exam.action.exam.exam;
 
 import java.util.Collections;
 import java.util.Date;

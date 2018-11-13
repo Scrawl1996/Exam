@@ -1,4 +1,4 @@
-﻿package cn.xm.exam.action.exam.exam;
+package cn.xm.exam.action.exam.exam;
 
 /**
  * 自定义EL函数，方便在JSP中处理一些复杂的字符串替换函数

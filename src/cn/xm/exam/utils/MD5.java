@@ -1,4 +1,4 @@
-﻿package cn.xm.exam.utils;
+package cn.xm.exam.utils;
 
 
 /************************************************

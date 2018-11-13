@@ -1,0 +1,51 @@
+<project name="exam" default="jarSrcCode" basedir=".">
+
+	<echo message="basedir -> ${basedir}">
+	</echo>
+
+	<!--import properties -->
+	<property file="build.properties">
+	</property>
+
+	<path id="exam.lib">
+		<fileset dir="${tomcatPath}/lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${basedir}/WebContent/WEB-INF/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="cleanExamBuildFolder">
+		<delete dir="${basedir}/dist/examBuildClass" />
+		<delete dir="${basedir}/dist/examJavaCodeJar" />
+		<echo message="delete  ${basedir}/dist/examBuildClass and ${basedir}/dist/examJavaCodeJar ">
+		</echo>
+
+		<mkdir dir="${basedir}/dist/examBuildClass" />
+		<mkdir dir="${basedir}/dist/examJavaCodeJar" />
+		<echo message="mkdir ${basedir}/dist/examBuildClass and ${basedir}/dist/examJavaCodeJar ">
+		</echo>
+	</target>
+
+	<!--编译项目中的源代码-->
+	<target name="buildSrcCode" depends="cleanExamBuildFolder">
+		<javac encoding="utf-8" srcdir="${basedir}/src" excludes="cn/xm/exam/test/**" destdir="${basedir}/dist/examBuildClass" classpathref="exam.lib" includeAntRuntime="false" fork="true">
+			<compilerarg line="-encoding UTF-8 " />
+		</javac>
+		<echo message="编译成功" level="info">
+		</echo>
+	</target>
+
+	<!--打包编译后的classes文件-->
+	<target name="jarSrcCode" depends="buildSrcCode">
+		<jar destfile="${basedir}/dist/examJavaCodeJar/${jarName}-${jarNumber}.jar" basedir="${basedir}/dist/examBuildClass" includes="**/*.class" excludes="**/Test.class">
+		</jar>
+		<echo message="jar success!">
+		</echo>
+
+		<delete dir="${basedir}/dist/examBuildClass" />
+		<echo message="delete  ${basedir}/dist/examBuildClass">
+		</echo>
+	</target>
+</project>
