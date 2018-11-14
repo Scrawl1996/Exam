@@ -19,13 +19,11 @@
 	<target name="cleanExamBuildFolder">
 		<delete dir="${basedir}/dist/examBuildClass" />
 		<delete dir="${basedir}/dist/examJavaCodeJar" />
-		<echo message="delete  ${basedir}/dist/examBuildClass and ${basedir}/dist/examJavaCodeJar ">
-		</echo>
+		<echo message="delete  ${basedir}/dist/examBuildClass and ${basedir}/dist/examJavaCodeJar "/>
 
 		<mkdir dir="${basedir}/dist/examBuildClass" />
 		<mkdir dir="${basedir}/dist/examJavaCodeJar" />
-		<echo message="mkdir ${basedir}/dist/examBuildClass and ${basedir}/dist/examJavaCodeJar ">
-		</echo>
+		<echo message="mkdir ${basedir}/dist/examBuildClass and ${basedir}/dist/examJavaCodeJar "/>
 	</target>
 
 	<!--编译项目中的源代码-->
@@ -33,20 +31,17 @@
 		<javac encoding="utf-8" srcdir="${basedir}/src" excludes="cn/xm/exam/test/**" destdir="${basedir}/dist/examBuildClass" classpathref="exam.lib" includeAntRuntime="false" fork="true">
 			<compilerarg line="-encoding UTF-8 " />
 		</javac>
-		<echo message="编译成功" level="info">
-		</echo>
+		<echo message="编译成功" level="info"/>
 	</target>
 
 	<!--打包编译后的classes文件-->
 	<target name="jarSrcCode" depends="buildSrcCode">
 		<jar destfile="${basedir}/dist/examJavaCodeJar/${jarName}-${jarNumber}.jar" basedir="${basedir}/dist/examBuildClass" includes="**/*.class" excludes="**/Test.class">
 		</jar>
-		<echo message="jar success!">
-		</echo>
+		<echo message="jar success!"/>
 
 		<delete dir="${basedir}/dist/examBuildClass" />
-		<echo message="delete  ${basedir}/dist/examBuildClass">
-		</echo>
+		<echo message="delete  ${basedir}/dist/examBuildClass"/>
 	</target>
 
 	<target name="js-css-compress">
@@ -57,7 +52,6 @@
 			<arg value="-o" />
 			<arg value="${examJsRootPath}/index3questionAddExamParper.min.js" />
 		</java>
-		<echo message="index3questionAddExamParper.js compressed succes">
-		</echo>
+		<echo message="index3questionAddExamParper.js compressed succes"/>
 	</target>
 </project>
