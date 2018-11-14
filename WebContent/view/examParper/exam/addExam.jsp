@@ -17,7 +17,7 @@
 
 <%@ include file="/public/cssJs.jsp"%>
 
-<script src="<%=path%>/js/examParper/exam/addExam.js"></script>
+<script src="<%=path%>/js/examParper/exam/addExam.min.js"></script>
 <!-- 日期格式转换 -->
 <script
 	src="${pageContext.request.contextPath }/js/questionLibrary/dateformat.js "></script>

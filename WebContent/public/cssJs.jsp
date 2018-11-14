@@ -44,32 +44,3 @@
 <!-- 2018.03.07 QLQ 引入的ztree的插件 -->
 <link rel="stylesheet" href="${baseurl}/controls/zTree/css/zTreeStyle/zTreeStyle.css"/>
 <script src="${baseurl}/controls/zTree/js/jquery.ztree.all.js"></script> 
-
-<!-- <script>
-// 设置jQuery Ajax全局错误处理
-$(document).ajaxError( 
-   function(event, jqXHR, options, errorMsg){  
-/* 	   	console.log("event:"+ event)
-	   	console.log("jqXHR:"+jqXHR.status)
-	   	console.log("options:"+options.url)
-	   	console.log("errorMsg:"+errorMsg) */
-        switch (jqXHR.status){  
-            case(500):  
-                alert("服务器系统内部错误");  
-                break;  
-            case(401):  
-                alert("未登录");  
-                break;  
-            case(403):  
-                alert("无权限执行此操作");  
-/*             	window.location.href=""; */
-                break;  
-            case(408):  
-                alert("请求超时");  
-                break;  
-            default:  
-                alert("未知错误");  
-        }  
-    }  
-);
-</script> -->

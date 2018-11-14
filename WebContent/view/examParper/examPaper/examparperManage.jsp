@@ -20,7 +20,7 @@
 
 <!--分页-->
 <%-- <script src="<%=path %>/js/public/page.js"></script> --%>
-<script src="<%=path%>/js/examParper/examPaper/examparperManage.js"></script>
+<script src="<%=path%>/js/examParper/examPaper/examparperManage.min.js"></script>
 </head>
 <body>
 

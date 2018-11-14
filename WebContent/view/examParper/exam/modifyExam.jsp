@@ -22,11 +22,7 @@
 </script>
 <%@ include file="/public/cssJs.jsp"%>
 
-<!--复选框 树-->
-<%-- <script src="<%=path%>/js/public/treeC.js"></script> --%>
-
-<%-- <script src="<%=path%>/js/examParper/exam/addExam.js"></script> --%>
-<script src="<%=path%>/js/examParper/exam/updateExam.js"></script>
+<script src="<%=path%>/js/examParper/exam/updateExam.min.js"></script>
 <link rel="stylesheet" href="<%=path%>/css/examParper/modifyExam.css">
 <!-- 日期格式转换 -->
 <script

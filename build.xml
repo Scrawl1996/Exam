@@ -48,10 +48,47 @@
 		<java jar="dist/lib/yuicompressor-2.4.7.jar" fork="true" maxmemory="128m">
 			<arg value="--charset" />
 			<arg value="UTF-8" />
-			<arg value="${examJsRootPath}/index3questionAddExamParper.js" />
+			<arg value="${examJsRootPath}/examParper/examPaper/examparperManage.js" />
 			<arg value="-o" />
-			<arg value="${examJsRootPath}/index3questionAddExamParper.min.js" />
+			<arg value="${examJsRootPath}/examParper/examPaper/examparperManage.min.js" />
 		</java>
-		<echo message="index3questionAddExamParper.js compressed succes"/>
+		<echo message="${examJsRootPath}/examParper/examPaper/examparperManage.js compressed succes"/>
+
+		<java jar="dist/lib/yuicompressor-2.4.7.jar" fork="true" maxmemory="128m">
+			<arg value="--charset" />
+			<arg value="UTF-8" />
+			<arg value="${examJsRootPath}/examParper/addExamparper/index3question.js" />
+			<arg value="-o" />
+			<arg value="${examJsRootPath}/examParper/addExamparper/index3question.min.js" />
+		</java>
+		<echo message="${examJsRootPath}/examParper/addExamparper/index3question.js compressed succes"/>
+
+		<java jar="dist/lib/yuicompressor-2.4.7.jar" fork="true" maxmemory="128m">
+			<arg value="--charset" />
+			<arg value="UTF-8" />
+			<arg value="${examJsRootPath}/examParper/exam/addExam.js" />
+			<arg value="-o" />
+			<arg value="${examJsRootPath}/examParper/exam/addExam.min.js" />
+		</java>
+		<echo message="${examJsRootPath}/examParper/exam/addExam.js compressed succes"/>
+
+		<java jar="dist/lib/yuicompressor-2.4.7.jar" fork="true" maxmemory="128m">
+			<arg value="--charset" />
+			<arg value="UTF-8" />
+			<arg value="${examJsRootPath}/examParper/exam/updateExam.js" />
+			<arg value="-o" />
+			<arg value="${examJsRootPath}/examParper/exam/updateExam.min.js" />
+		</java>
+		<echo message="${examJsRootPath}/examParper/exam/updateExam.js compressed succes"/>
+
+		<java jar="dist/lib/yuicompressor-2.4.7.jar" fork="true" maxmemory="128m">
+			<arg value="--charset" />
+			<arg value="UTF-8" />
+			<arg value="${examJsRootPath}/outDepart/outdepartEmpAndBreakRulesInfoManager.js" />
+			<arg value="-o" />
+			<arg value="${examJsRootPath}/outDepart/outdepartEmpAndBreakRulesInfoManager.min.js" />
+		</java>
+		<echo message="${examJsRootPath}/outDepart/outdepartEmpAndBreakRulesInfoManager.js compressed succes"/>
+
 	</target>
 </project>

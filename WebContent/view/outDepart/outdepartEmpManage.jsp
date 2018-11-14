@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="<%=path%>/css/outDepart/outdepartTree.css">
 
 <script
-	src="<%=path%>/js/outDepart/outdepartEmpAndBreakRulesInfoManager.js"></script>
+	src="<%=path%>/js/outDepart/outdepartEmpAndBreakRulesInfoManager.min.js"></script>
 <link rel="stylesheet"
 	href="<%=path%>/css/outDepart/outdepartEmpManage.css">
 <!-- 日期格式转换 -->

@@ -33,7 +33,7 @@
 <script>
 	var $7 = $.noConflict(true);
 </script>
-<script src="<%=path%>/js/examParper/addExamparper/index3question.js"></script>
+<script src="<%=path%>/js/examParper/addExamparper/index3question.min.js"></script>
 <!--放编辑试题-->
 
 <!--富文本框-->
