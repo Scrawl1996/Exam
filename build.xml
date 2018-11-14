@@ -1,8 +1,4 @@
-<project name="exam" default="jarSrcCode" basedir=".">
-
-	<echo message="basedir -> ${basedir}">
-	</echo>
-
+<project name="exam" default="js-css-compress" basedir=".">
 	<!--import properties -->
 	<property file="build.properties">
 	</property>
@@ -15,6 +11,10 @@
 			<include name="*.jar" />
 		</fileset>
 	</path>
+
+	<target name="testTarget">
+		<echo message="${examJsRootPath}" />
+	</target>
 
 	<target name="cleanExamBuildFolder">
 		<delete dir="${basedir}/dist/examBuildClass" />
@@ -46,6 +46,18 @@
 
 		<delete dir="${basedir}/dist/examBuildClass" />
 		<echo message="delete  ${basedir}/dist/examBuildClass">
+		</echo>
+	</target>
+
+	<target name="js-css-compress">
+		<java jar="dist/lib/yuicompressor-2.4.7.jar" fork="true" maxmemory="128m">
+			<arg value="--charset" />
+			<arg value="UTF-8" />
+			<arg value="${examJsRootPath}/index3questionAddExamParper.js" />
+			<arg value="-o" />
+			<arg value="${examJsRootPath}/index3questionAddExamParper.min.js" />
+		</java>
+		<echo message="index3questionAddExamParper.js compressed succes">
 		</echo>
 	</target>
 </project>

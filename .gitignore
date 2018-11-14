@@ -5,4 +5,4 @@
 /config/db.properties
 /config/log4j.properties
 build.properties
-/dist/**
+/dist/exam**
