@@ -1,4 +1,4 @@
-<project name="exam" default="buildSrcCode" basedir=".">
+<project name="exam" default="jarSrcCode" basedir=".">
 	<!--import properties -->
 	<property file="build.properties">
 	</property>
@@ -35,10 +35,10 @@
 
 		<copy todir="${basedir}/dist/examBuildClass">
 			<fileset dir="${basedir}/src">
-				<include name="**.xml" />
+				<include name="**/**.xml" />
 			</fileset>
 		</copy>
-		<echo message="mapper.xml 复制成功" level="info" />
+		<echo message="mybatis mapper.xml 复制成功" level="info" />
 	</target>
 
 	<!--打包编译后的classes文件-->
