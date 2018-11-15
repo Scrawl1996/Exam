@@ -21,11 +21,6 @@ public class ExamSystemUtils {
 	 */
 	public static final String educateBackground = "educateBackground";
 
-	/**
-	 * 安全帽分隔符
-	 */
-	public static final String safeHatNumSpliter = "safeHatNumSpliter";
-
 	private ExamSystemUtils() {
 	}
 

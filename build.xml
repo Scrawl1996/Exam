@@ -1,4 +1,4 @@
-<project name="exam" default="js-css-compress" basedir=".">
+<project name="exam" default="buildSrcCode" basedir=".">
 	<!--import properties -->
 	<property file="build.properties">
 	</property>
@@ -19,11 +19,11 @@
 	<target name="cleanExamBuildFolder">
 		<delete dir="${basedir}/dist/examBuildClass" />
 		<delete dir="${basedir}/dist/examJavaCodeJar" />
-		<echo message="delete  ${basedir}/dist/examBuildClass and ${basedir}/dist/examJavaCodeJar "/>
+		<echo message="delete  ${basedir}/dist/examBuildClass and ${basedir}/dist/examJavaCodeJar " />
 
 		<mkdir dir="${basedir}/dist/examBuildClass" />
 		<mkdir dir="${basedir}/dist/examJavaCodeJar" />
-		<echo message="mkdir ${basedir}/dist/examBuildClass and ${basedir}/dist/examJavaCodeJar "/>
+		<echo message="mkdir ${basedir}/dist/examBuildClass and ${basedir}/dist/examJavaCodeJar " />
 	</target>
 
 	<!--编译项目中的源代码-->
@@ -31,17 +31,24 @@
 		<javac encoding="utf-8" srcdir="${basedir}/src" excludes="cn/xm/exam/test/**" destdir="${basedir}/dist/examBuildClass" classpathref="exam.lib" includeAntRuntime="false" fork="true">
 			<compilerarg line="-encoding UTF-8 " />
 		</javac>
-		<echo message="编译成功" level="info"/>
+		<echo message="编译成功" level="info" />
+
+		<copy todir="${basedir}/dist/examBuildClass">
+			<fileset dir="${basedir}/src">
+				<include name="**.xml" />
+			</fileset>
+		</copy>
+		<echo message="mapper.xml 复制成功" level="info" />
 	</target>
 
 	<!--打包编译后的classes文件-->
 	<target name="jarSrcCode" depends="buildSrcCode">
-		<jar destfile="${basedir}/dist/examJavaCodeJar/${jarName}-${jarNumber}.jar" basedir="${basedir}/dist/examBuildClass" includes="**/*.class" excludes="**/Test.class">
+		<jar destfile="${basedir}/dist/examJavaCodeJar/${jarName}-${jarNumber}.jar" basedir="${basedir}/dist/examBuildClass" includes="**/*.class,**/*.xml" excludes="**/Test.class">
 		</jar>
-		<echo message="jar success!"/>
+		<echo message="jar success!" />
 
 		<delete dir="${basedir}/dist/examBuildClass" />
-		<echo message="delete  ${basedir}/dist/examBuildClass"/>
+		<echo message="delete  ${basedir}/dist/examBuildClass" />
 	</target>
 
 	<target name="js-css-compress">
@@ -52,7 +59,7 @@
 			<arg value="-o" />
 			<arg value="${examJsRootPath}/examParper/examPaper/examparperManage.min.js" />
 		</java>
-		<echo message="${examJsRootPath}/examParper/examPaper/examparperManage.js compressed succes"/>
+		<echo message="${examJsRootPath}/examParper/examPaper/examparperManage.js compressed succes" />
 
 		<java jar="dist/lib/yuicompressor-2.4.7.jar" fork="true" maxmemory="128m">
 			<arg value="--charset" />
@@ -61,7 +68,7 @@
 			<arg value="-o" />
 			<arg value="${examJsRootPath}/examParper/addExamparper/index3question.min.js" />
 		</java>
-		<echo message="${examJsRootPath}/examParper/addExamparper/index3question.js compressed succes"/>
+		<echo message="${examJsRootPath}/examParper/addExamparper/index3question.js compressed succes" />
 
 		<java jar="dist/lib/yuicompressor-2.4.7.jar" fork="true" maxmemory="128m">
 			<arg value="--charset" />
@@ -70,7 +77,7 @@
 			<arg value="-o" />
 			<arg value="${examJsRootPath}/examParper/exam/addExam.min.js" />
 		</java>
-		<echo message="${examJsRootPath}/examParper/exam/addExam.js compressed succes"/>
+		<echo message="${examJsRootPath}/examParper/exam/addExam.js compressed succes" />
 
 		<java jar="dist/lib/yuicompressor-2.4.7.jar" fork="true" maxmemory="128m">
 			<arg value="--charset" />
@@ -79,7 +86,7 @@
 			<arg value="-o" />
 			<arg value="${examJsRootPath}/examParper/exam/updateExam.min.js" />
 		</java>
-		<echo message="${examJsRootPath}/examParper/exam/updateExam.js compressed succes"/>
+		<echo message="${examJsRootPath}/examParper/exam/updateExam.js compressed succes" />
 
 		<java jar="dist/lib/yuicompressor-2.4.7.jar" fork="true" maxmemory="128m">
 			<arg value="--charset" />
@@ -88,7 +95,7 @@
 			<arg value="-o" />
 			<arg value="${examJsRootPath}/outDepart/outdepartEmpAndBreakRulesInfoManager.min.js" />
 		</java>
-		<echo message="${examJsRootPath}/outDepart/outdepartEmpAndBreakRulesInfoManager.js compressed succes"/>
+		<echo message="${examJsRootPath}/outDepart/outdepartEmpAndBreakRulesInfoManager.js compressed succes" />
 
 	</target>
 </project>

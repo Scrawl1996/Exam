@@ -40,14 +40,13 @@ public class SafehatServiceImpl implements SafehatService {
 	public void saveSafeHatNums(String safeHatPrefix, List<String> haulEmpoutIds, List<String> haulEmpoutSafehatNums,
 			List<String> empoutNames, String unitName, User user) {
 		// 1.保存安全帽表
-		String spliter = StringUtils.defaultIfBlank(ExamSystemUtils.getProperty(ExamSystemUtils.safeHatNumSpliter), "");
 		String safeHatNumLength = StringUtils
 				.defaultIfBlank(ExamSystemUtils.getProperty(ExamSystemUtils.safeHatNumLength), "");
 		for (int i = 0, length_1 = haulEmpoutSafehatNums.size(); i < length_1; i++) {
 			String haulEmpoutSafehatNum = haulEmpoutSafehatNums.get(i);
 			String haulEmpoutId = haulEmpoutIds.get(i);
 			String empoutName = empoutNames.get(i);
-			String safehatNum = safeHatPrefix + spliter
+			String safehatNum = safeHatPrefix
 					+ String.format("%0" + safeHatNumLength + "d", NumberUtils.stringToInt(haulEmpoutSafehatNum));// 最终的编号
 
 			// 1.1保存安全帽
@@ -92,7 +91,6 @@ public class SafehatServiceImpl implements SafehatService {
 	@Override
 	public void updateSafehatNum(String originSafeHatNum, String newSafeHatNum, String safeHatPrefix, User user) {
 		// 1.保存安全帽表
-		String spliter = StringUtils.defaultIfBlank(ExamSystemUtils.getProperty(ExamSystemUtils.safeHatNumSpliter), "");
 		String safeHatNumLength = StringUtils
 				.defaultIfBlank(ExamSystemUtils.getProperty(ExamSystemUtils.safeHatNumLength), "");
 
@@ -105,7 +103,7 @@ public class SafehatServiceImpl implements SafehatService {
 			throw new RuntimeException("没有帽子");
 		}
 		Safehat safehat = hats.get(0);
-		String safehatNum = safeHatPrefix + spliter
+		String safehatNum = safeHatPrefix
 				+ String.format("%0" + safeHatNumLength + "d", NumberUtils.stringToInt(newSafeHatNum));// 新编号
 		safehat.setSafehatnum(safehatNum);
 		String changeLog = safehat.getChangelog() + "," + geneChangeLog(user, "将帽子编号改为" + safehatNum);
