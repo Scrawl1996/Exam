@@ -212,7 +212,12 @@ hasOperatingEmpout = true;
 										<button style="display: none" id="allocateSafehat_btn"
 												class="btn btn-primary" onclick="allocateSafehat()">
 												分配安全帽</button>
+										<button style="display: none" id="modifySafehat_btn"
+												class="btn btn-primary" onclick="modifySafehat()">
+												使用以前安全帽</button>
 										</shiro:hasPermission>
+										
+
 										
 										<shiro:hasPermission name="grademanager:revokegene">
 											<button style="display: none" id="reGeberateWord"
@@ -632,6 +637,56 @@ hasOperatingEmpout = true;
 															</thead>
 															
 															<tbody id="allocateSafehatTbody">
+															</tbody>
+														</table>
+													</form>
+													<br/>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-primary" onclick="saveSafeHat()">
+													确定</button>
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+											</div>
+										</form>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+							
+							<!-- 模态框安全帽换人-->
+							<div class="modal fade" id="modifySafehatModal" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog" style="width:60%;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="modifySafehatModalTitle"></h4>
+										</div>
+											<div class="modal-body" style="padding: 10px 30px 0 30px;">
+												<div>
+												<form id="modifySafeHatForm">
+														<input type='hidden' name='safeHatPrefix' id='hidden_modifyPrefix'/>
+														<input type='hidden' name='unitName' id='hidden_modifyUnitName'/>
+														<table
+															class="table table-bordered table-hover el_threeScoreListTable">
+															<thead>
+																<tr>
+																	<th>序号</th>
+																	<th>单位名称</th>
+																	<th>姓名</th>
+																	<th>安全帽编号(旧)</th>
+																	<th>正在使用者</th>
+																</tr>
+															</thead>
+															
+															<tbody id="modifySafehatTbody">
 															</tbody>
 														</table>
 													</form>

@@ -3,6 +3,9 @@ package cn.xm.exam.bean.safehat;
 public class Safehat {
 	private String id;
 
+	/**
+	 * 编号(前缀+数字)
+	 */
 	private String safehatnum;
 
 	private String creatorfullname;
@@ -11,8 +14,14 @@ public class Safehat {
 
 	private String creatordepartid;
 
+	/**
+	 * 短委员工ID
+	 */
 	private String userhaulempid;
 
+	/**
+	 * 使用者身份证号
+	 */
 	private String useridcard;
 
 	/**
@@ -20,6 +29,9 @@ public class Safehat {
 	 */
 	private String isdelete;
 
+	/**
+	 * 变更日志(包含创建信息、修改信息以及更换信息)
+	 */
 	private String changelog;
 
 	/**

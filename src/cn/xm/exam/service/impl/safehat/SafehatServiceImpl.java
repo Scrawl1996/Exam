@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.xm.exam.bean.employee.out.EmployeeOut;
+import cn.xm.exam.bean.employee.out.EmployeeOutExample;
 import cn.xm.exam.bean.haul.Haulemployeeout;
 import cn.xm.exam.bean.safehat.Safehat;
 import cn.xm.exam.bean.safehat.SafehatExample;
@@ -49,23 +51,30 @@ public class SafehatServiceImpl implements SafehatService {
 			String safehatNum = safeHatPrefix
 					+ String.format("%0" + safeHatNumLength + "d", NumberUtils.stringToInt(haulEmpoutSafehatNum));// 最终的编号
 
+			// 1.获取员工身份证号
+			Haulemployeeout empOut = haulemployeeoutMapper.selectByPrimaryKey(haulEmpoutId);
+			if (empOut == null) {
+				continue;
+			}
+			String userIdCard = empOut.getEmpoutidcard();
+
 			// 1.1保存安全帽
 			Safehat safehat = new Safehat();
 			String id = UUIDUtil.getUUID2();
 			safehat.setId(id);
-			safehat.setUseridcard(user.getUseridcard());
 			safehat.setUserhaulempid(haulEmpoutId);
 			safehat.setCreatordepartid(user.getDepartmentid());
 			safehat.setIsDeleted(false);
 			safehat.setCreatorfullname(user.getUsername());
 			safehat.setSafehatnum(safehatNum);
-			String geneChangeLog = geneChangeLog(user, "创建了安全帽" + safehatNum,
-					"分配给" + empoutName + "(" + unitName + ")");
+			safehat.setUseridcard(userIdCard);// 使用者身份证号
+			String geneChangeLog = geneChangeLog(user, "创建了安全帽" + safehatNum, "分配给" + empoutName + "(" + unitName + ")",
+					"【新建】");
 			safehat.setChangelog(geneChangeLog);
 			log.info("geneChangeLog -> {}", geneChangeLog);
 			safehatMapper.insert(safehat);
-			// 2.保存修改检修员工表
-			Haulemployeeout empOut = haulemployeeoutMapper.selectByPrimaryKey(haulEmpoutId);
+
+			//
 			if (empOut != null) {
 				empOut.setSafehatnum(safehatNum);
 				haulemployeeoutMapper.updateByPrimaryKeySelective(empOut);
@@ -106,7 +115,7 @@ public class SafehatServiceImpl implements SafehatService {
 		String safehatNum = safeHatPrefix
 				+ String.format("%0" + safeHatNumLength + "d", NumberUtils.stringToInt(newSafeHatNum));// 新编号
 		safehat.setSafehatnum(safehatNum);
-		String changeLog = safehat.getChangelog() + "," + geneChangeLog(user, "将帽子编号改为" + safehatNum);
+		String changeLog = safehat.getChangelog() + "," + geneChangeLog(user, "将帽子编号改为" + safehatNum, "【修改】");
 		log.info(changeLog);
 		safehat.setChangelog(changeLog);
 		safehatMapper.updateByPrimaryKeySelective(safehat);
@@ -131,6 +140,31 @@ public class SafehatServiceImpl implements SafehatService {
 		Safehat safehat = hats.get(0);
 		log.info(safehat.getChangelog());
 		return safehat.getChangelog();
+	}
+
+	@Override
+	public String getHatUserName(String safeHatNum) {
+		// 1.查到帽子
+		SafehatExample example = new SafehatExample();
+		Criteria createCriteria = example.createCriteria();
+		createCriteria.andSafehatnumEqualTo(safeHatNum);
+		List<Safehat> hats = safehatMapper.selectByExampleWithBLOBs(example);
+		if (CollectionUtils.isEmpty(hats)) {
+			throw new RuntimeException("没有帽子");
+		}
+		Safehat safehat = hats.get(0);
+		String userhaulempid = safehat.getUseridcard();
+
+		// 2.查使用者
+		EmployeeOutExample employeeOutExample = new EmployeeOutExample();
+		EmployeeOutExample.Criteria createCriteria2 = employeeOutExample.createCriteria();
+		createCriteria2.andIdcodeEqualTo(userhaulempid);
+		List<EmployeeOut> employeeOuts = employeeOutMapper.selectByExample(employeeOutExample);
+		if (CollectionUtils.isEmpty(employeeOuts)) {
+			throw new RuntimeException("帽子使用者已经删除");
+		}
+
+		return employeeOuts.get(0).getName()+"("+employeeOuts.get(0).getIdcode()+")";
 	}
 
 }

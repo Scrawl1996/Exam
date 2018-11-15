@@ -510,9 +510,11 @@ function selectFenpeiInfo() {
 	if (distributeStatus == '4') {
 		$("#revokeWork").css("display", "");
 		$("#allocateSafehat_btn").css("display", "");
+		$("#modifySafehat_btn").css("display", "");
 	} else {
 		$("#revokeWork").css("display", "none");
 		$("#allocateSafehat_btn").css("display", "none");
+		$("#modifySafehat_btn").css("display", "");
 	}
 	// 动态显示与隐藏重新发放
 	if (distributeStatus == '5') {
@@ -1117,7 +1119,7 @@ function saveSafeHat(){
 	//判断是否有没有填写的input
 	var safeNum=new Array()
 	var hasNullValue = false;
-	$("input[name^='haulEmpoutSafehatNum']").each(function(i){
+	$("#allocateSafehatTbody input[name^='haulEmpoutSafehatNum']").each(function(i){
 		var value = $(this).val();
 		if("" == value){
 			hasNullValue=true;
@@ -1215,6 +1217,88 @@ function isNumber(val){
     }
 
 }
+
+function modifySafehat(){
+	// 判断是否合法
+	var display=$("#unitInfoDiv").css("display");
+	if("none" == display){
+		alert("请先选择检修单位,按单位分配安全帽!");
+		return;
+	}
+
+	var safehatPrefix =  $("#unitTbody").find("td").last().text();
+	if("" == safehatPrefix || safehatPrefix=="undefined" ){
+		alert("该单位还没有安全帽前缀,请先设置安全帽前缀!");
+		return;
+	}
+	$("#hidden_modifyPrefix").val(safehatPrefix);//前缀设置到表单中
+	$("#hidden_modifyUnitName").val($("#unitTbody").find("td:eq(0)").text());
+	
+	var chooseEmpNum = 0;// 判断是否有员工被选中
+	var hasAllocated = false;
+	$("#modifySafehatTbody").html("");//清空表格
+	$(".el_checks").each(function(i) { // 获取选择的员工
+		if ($(this).prop("checked")) {// 如果选中。。。
+			var tr = $(this).parents("tr");
+			var value = tr.find("td:eq(11)").text();
+			if("" != value){
+				hasAllocated = true;
+				return;
+			}
+			var haulEmpoutId = tr.find("td:eq(12)").find(".haulempid").val();//大修员工ID
+			var empName = tr.find("td:eq(2)").text();
+			var unitName = tr.find("td:eq(6)").text();
+			var str = "<tr><td>"+
+				(chooseEmpNum+1)+
+				"<input type='hidden' name='haulEmpoutId["+chooseEmpNum+"]' value='"+haulEmpoutId+"'/>"+
+				"<input type='hidden' name='empoutNames["+chooseEmpNum+"]' value='"+empName+"'/>"+
+				"</td><td>"+
+				unitName+"</td><td>"+
+				empName+"</td><td>"+
+				"<input type='text' name='haulEmpoutSafehatNum["+chooseEmpNum+"]' onblur='selectUserName(this)'/>"+"</td><td></td></tr>";
+			$("#modifySafehatTbody").append(str);//清空表格
+			chooseEmpNum++;
+		}
+	})
+	
+	if(hasAllocated){
+		alert("请选择没有分配安全帽的员工！")
+		return;
+	}
+	
+	if (chooseEmpNum == 0) {
+		alert("请先选择员工！")
+		return;
+	} 
+	
+	// 2.开启模态框
+	$("#modifySafehatModalTitle").text("使用旧安全帽(该单位安全帽前缀是:"+safehatPrefix+")");
+	$("#modifySafehatModal").modal({
+		backdrop : 'static',
+		keyboard : false
+	}); // 手动开启
+}
+
+function selectUserName(obj){
+	$(obj).parents("tr").find("td:eq(4)").text("-");
+	var value = $(obj).val();
+	if(value){
+		//保存后台
+		$.post(baseurl+"/safeHat_getSafehatUserNameBySafehatName.do",
+				{
+				"safeHatPrefix":$("#hidden_modifyPrefix").val(),
+				 "originSafeHatNum":value,
+				},
+				function(res){
+					if( res && res.hatUserName){
+						$(obj).parents("tr").find("td:eq(4)").text(res.hatUserName);
+					}
+		},'json')
+	}else{
+		$(obj).parents("tr").find("td:eq(4)").text("-");
+	}
+}
+
 /** *************E 安全帽相关操作******************************** */
 
 

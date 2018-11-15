@@ -13,4 +13,6 @@ public interface SafehatService {
 
 	String getSafehatChangelog(String originSafeHatNum);
 
+	String getHatUserName(String string);
+
 }
