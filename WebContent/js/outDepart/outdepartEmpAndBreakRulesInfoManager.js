@@ -329,9 +329,11 @@ function addEmployeeOutInfo() {
 			var sex = $("#gender").val();
 			var birthday = $("#birthday").val();
 			var address = $("#address").val();
-			var address = $("#address").val();
+			var departmentId = $("#add_departmentId").val();
+			
 			var employeePhy = $("#add_employeePhy option:selected").text();//身体状况
 			var employeeEducate = $("#add_employeeEducate option:selected").text();//学历
+			
 			var bigId = $("#add_bigId").val();
 			var employeeOutType = $("#add_employeeOutType option:selected").text();
 			var idCardImageStr = $("#idCardImageStr").val();
