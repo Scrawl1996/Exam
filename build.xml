@@ -1,7 +1,10 @@
-<project name="exam" default="jarSrcCode" basedir=".">
+<project name="exam" default="exportProjectZip" basedir=".">
 	<!--import properties -->
-	<property file="build.properties">
-	</property>
+	<property file="build.properties" />
+
+	<target name="testTarget">
+		<echo message="${basedir}" />
+	</target>
 
 	<path id="exam.lib">
 		<fileset dir="${tomcatPath}/lib">
@@ -11,10 +14,6 @@
 			<include name="*.jar" />
 		</fileset>
 	</path>
-
-	<target name="testTarget">
-		<echo message="${examJsRootPath}" />
-	</target>
 
 	<target name="cleanExamBuildFolder">
 		<delete dir="${basedir}/dist/examBuildClass" />
@@ -96,6 +95,36 @@
 			<arg value="${examJsRootPath}/outDepart/outdepartEmpAndBreakRulesInfoManager.min.js" />
 		</java>
 		<echo message="${examJsRootPath}/outDepart/outdepartEmpAndBreakRulesInfoManager.js compressed succes" />
+	</target>
 
+	<target name="exportProjectZip">
+		<mkdir dir="${projectZipPath}/Exam" />
+		<echo message="mkdir ${projectZipPath}/Exam success" />
+
+		<copydir dest="${projectZipPath}/Exam" src="${web.dir}" />
+		<echo message="copy ${web.dir} success!" />
+
+		<antcall target="jarSrcCode" />
+		<copy tofile="${projectZipPath}/Exam/WEB-INF/lib/${jarName}-${jarNumber}.jar" file="${basedir}/dist/examJavaCodeJar/${jarName}-${jarNumber}.jar" />
+		<echo message="copy ${basedir}/dist/examJavaCodeJar/${jarName}-${jarNumber}.jar success!" />
+
+		<mkdir dir="${projectZipPath}/Exam/WEB-INF/classes" />
+		<echo message="mkdir ${projectZipPath}/Exam/WEB-INF/classes success!" />
+
+		<copy todir="${projectZipPath}/Exam/WEB-INF/classes">
+			<fileset dir="${basedir}/config">
+				<exclude name="**/**sample.properties" />
+			</fileset>
+		</copy>
+		<echo message="copy ${basedir}/config files success!" />
+
+		<copydir dest="${projectFolderPath}" src="${projectZipPath}/Exam" />
+		<echo message="copy ${projectZipPath}/Exam to ${projectFolderPath} success!" />
+
+		<zip destfile="${zipPath}" basedir="${projectZipPath}" />
+		<echo message="zip ${zipPath} success!" />
+
+		<delete dir="${projectZipPath}/Exam" />
+		<echo message="delete ${projectZipPath}/Exam success" />
 	</target>
 </project>
