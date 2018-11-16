@@ -150,6 +150,47 @@ public class SafeHatAction extends ActionSupport {
 		return "json";
 	}
 
+	public String recoverSafehat() {
+		// 批量回收，因此originSafeHatNum是逗号分隔的多个安全编号
+		if (StringUtils.isBlank(originSafeHatNum)) {
+			response.put("msg", "请选择带安全帽的人员");
+			return "json";
+		}
+
+		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
+		try {
+			safehatService.deleteSafehat(originSafeHatNum, user);
+		} catch (Exception e) {
+			log.error("recoverSafehat error", e);
+			response.put("msg", "回收失败");
+			return "json";
+		}
+
+		response.put("msg", "ok");
+		return "json";
+	}
+
+	public String updateSafeHatNumBatch() {
+		if (CollectionUtils.isEmpty(haulEmpoutId) || CollectionUtils.isEmpty(haulEmpoutSafehatNum)) {
+			log.error("haulEmpoutId or haulEmpoutSafehatNum is empty");
+			response.put("msg", "请输入编号后保存");
+			return "json";
+		}
+
+		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
+		try {
+			safehatService.updateSafeHatNumBatch(safeHatPrefix, haulEmpoutId, haulEmpoutSafehatNum, empoutNames,
+					unitName, user);
+		} catch (Exception e) {
+			log.error("allocateSafeHatNum error!", e);
+			response.put("msg", "安全帽换人失败!");
+			return "json";
+		}
+
+		response.put("msg", "ok");
+		return "json";
+	}
+
 	public Map<String, Object> getResponse() {
 		return response;
 	}

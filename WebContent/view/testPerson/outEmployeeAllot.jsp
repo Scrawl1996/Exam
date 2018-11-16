@@ -215,6 +215,9 @@ hasOperatingEmpout = true;
 										<button style="display: none" id="modifySafehat_btn"
 												class="btn btn-primary" onclick="modifySafehat()">
 												使用以前安全帽</button>
+										<button style="display: none" id="recoverSafehat_btn"
+												class="btn btn-primary" onclick="recoverSafehat()">
+												安全帽收回</button>
 										</shiro:hasPermission>
 										
 
@@ -694,7 +697,7 @@ hasOperatingEmpout = true;
 												</div>
 											</div>
 											<div class="modal-footer">
-												<button type="button" class="btn btn-primary" onclick="saveSafeHat()">
+												<button type="button" class="btn btn-primary" onclick="saveModifySafehat()">
 													确定</button>
 												<button type="button" class="btn btn-default"
 													data-dismiss="modal">关闭</button>
@@ -733,7 +736,7 @@ hasOperatingEmpout = true;
 																</tr>
 															</thead>
 															
-															<tbody id="allocateSafehatTbody">
+															<tbody id="updateSafehatTbody">
 																<tr>
 																	<td id="originNum"></td>
 																	<td><input type="text" name='newSafeHatNum' id="newSafeHatNum"></td>

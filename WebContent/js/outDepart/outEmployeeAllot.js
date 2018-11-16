@@ -511,10 +511,12 @@ function selectFenpeiInfo() {
 		$("#revokeWork").css("display", "");
 		$("#allocateSafehat_btn").css("display", "");
 		$("#modifySafehat_btn").css("display", "");
+		$("#recoverSafehat_btn").css("display", "");
 	} else {
 		$("#revokeWork").css("display", "none");
 		$("#allocateSafehat_btn").css("display", "none");
-		$("#modifySafehat_btn").css("display", "");
+		$("#modifySafehat_btn").css("display", "none");
+		$("#recoverSafehat_btn").css("display", "none");
 	}
 	// 动态显示与隐藏重新发放
 	if (distributeStatus == '5') {
@@ -1218,6 +1220,44 @@ function isNumber(val){
 
 }
 
+function recoverSafehat(){
+	var selectUsers = $(".el_checks:checked");
+	if(!selectUsers || selectUsers.length==0){
+		alert("请选择您需要回收安全帽的人员进行操作");
+		return;
+	}
+	
+	var safeHatNums = new Array();
+	$(".el_checks").each(function(i){
+		var safeHatNum = $(this).parents("tr").find("td:eq(11)").text();
+		if(safeHatNum){
+			safeHatNums.push(safeHatNum);
+		}
+	});
+	
+	if(safeHatNums.length == 0){
+		alert("请选择已经分配安全帽的员工进行回收");
+		return;
+	}
+	
+	//回收安全帽操作
+	if(!confirm("您确认回收安全帽?")){
+		return;
+	}
+	$.post(baseurl+"/safeHat_recoverSafehat.do",
+			{"originSafeHatNum":safeHatNums.toString()},
+			function(res){
+				if(res && res.msg){
+					if("ok" == res.msg){
+						alert("回收成功");
+						queryDistributeInfo();
+					}else{
+						alert(res.msg);
+					}
+				}
+			},'json');
+}
+
 function modifySafehat(){
 	// 判断是否合法
 	var display=$("#unitInfoDiv").css("display");
@@ -1299,6 +1339,40 @@ function selectUserName(obj){
 	}
 }
 
+function saveModifySafehat(){
+	//判断是否有没有填写的input
+	var safeNum=new Array()
+	var hasNullValue = false;
+	$("#modifySafehatTbody input[name^='haulEmpoutSafehatNum']").each(function(i){
+		var value = $(this).val();
+		if(value){
+			safeNum.push(value);
+		}
+	});
+	
+	//判断是否有重复的编号
+	if(hasRepeatValue(safeNum)){
+		alert("您填写了重复的编号,请重填写!");
+		return;
+	}
+	
+	if(!confirm("确认换人?")){
+		return;
+	}
+	//保存后台
+	$.post(baseurl+"/safeHat_updateSafeHatNumBatch.do",$("#modifySafeHatForm").serialize(),function(res){
+		if(res){
+			if(res.msg && "ok" == res.msg){
+				alert("保存成功");
+				//关闭模态框，重新查询
+				$("#modifySafehatModal").modal('hide');  //手动关闭
+				queryDistributeInfo();
+			}else{
+				alert(res.msg);
+			}
+		}
+	},'json')
+}
 /** *************E 安全帽相关操作******************************** */
 
 

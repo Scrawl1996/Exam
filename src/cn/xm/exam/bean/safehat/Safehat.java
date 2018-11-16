@@ -1,5 +1,7 @@
 package cn.xm.exam.bean.safehat;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class Safehat {
 	private String id;
 
@@ -105,6 +107,14 @@ public class Safehat {
 
 	public String getChangelog() {
 		return changelog;
+	}
+
+	public void appendChangeLog(String changelog) {
+		if (StringUtils.isBlank(this.changelog)) {
+			setChangelog(changelog);
+		} else {
+			this.changelog += "," + changelog;
+		}
 	}
 
 	public void setChangelog(String changelog) {

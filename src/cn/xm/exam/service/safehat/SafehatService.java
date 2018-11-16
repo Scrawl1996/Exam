@@ -15,4 +15,9 @@ public interface SafehatService {
 
 	String getHatUserName(String string);
 
+	void deleteSafehat(String originSafeHatNum, User user);
+
+	void updateSafeHatNumBatch(String safeHatPrefix, List<String> haulEmpoutId, List<String> haulEmpoutSafehatNum,
+			List<String> empoutNames, String unitName, User user);
+
 }
