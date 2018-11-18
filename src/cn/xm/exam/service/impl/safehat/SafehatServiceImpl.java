@@ -3,6 +3,7 @@ package cn.xm.exam.service.impl.safehat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.NumberUtils;
@@ -23,6 +24,7 @@ import cn.xm.exam.bean.system.User;
 import cn.xm.exam.mapper.employee.out.EmployeeOutMapper;
 import cn.xm.exam.mapper.haul.HaulemployeeoutMapper;
 import cn.xm.exam.mapper.safehat.SafehatMapper;
+import cn.xm.exam.mapper.safehat.custom.SafehatCustomMapper;
 import cn.xm.exam.service.safehat.SafehatService;
 import cn.xm.exam.utils.ExamSystemUtils;
 import cn.xm.exam.utils.UUIDUtil;
@@ -33,6 +35,9 @@ public class SafehatServiceImpl implements SafehatService {
 
 	@Autowired
 	private SafehatMapper safehatMapper;
+
+	@Autowired
+	private SafehatCustomMapper safehatCustomMapper;
 	@Autowired
 	private HaulemployeeoutMapper haulemployeeoutMapper;
 	@Autowired
@@ -265,6 +270,11 @@ public class SafehatServiceImpl implements SafehatService {
 			result.add(other);
 		}
 		return StringUtils.join(result, "-");
+	}
+
+	@Override
+	public List<Map<String, Object>> getSafehatTaizhang(Map condition) {
+		return safehatCustomMapper.getSafehatTaizhang(condition);
 	}
 
 }

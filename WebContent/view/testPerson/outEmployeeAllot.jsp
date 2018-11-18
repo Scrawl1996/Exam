@@ -209,17 +209,27 @@ hasOperatingEmpout = true;
 										</shiro:hasPermission>
 										
 										<shiro:hasPermission name="safehat:manage">
-										<button style="display: none" id="allocateSafehat_btn"
+											<button style="display: none" id="allocateSafehat_btn"
 												class="btn btn-primary" onclick="allocateSafehat()">
 												分配安全帽</button>
-										<button style="display: none" id="modifySafehat_btn"
+										</shiro:hasPermission>
+
+										<shiro:hasPermission name="safehat:useOld">
+											<button style="display: none" id="modifySafehat_btn"
 												class="btn btn-primary" onclick="modifySafehat()">
-												使用以前安全帽</button>
-										<button style="display: none" id="recoverSafehat_btn"
+												使用以前安全帽</button>		
+										</shiro:hasPermission>
+											
+										<shiro:hasPermission name="safehat:revoke">	
+											<button style="display: none" id="recoverSafehat_btn"
 												class="btn btn-primary" onclick="recoverSafehat()">
-												安全帽收回</button>
+												安全帽收回</button>								
 										</shiro:hasPermission>
 										
+										<shiro:hasPermission name="safehat:taizhang">
+											<!-- 新开页面查看安全帽台账信息(查询和下载) -->
+											<a id="safeHatTaiZhang" href="/Exam/view/testPerson/safeHatTaizhang.jsp"	class="btn btn-primary" target="_blank">安全帽台账</a>
+										</shiro:hasPermission>
 
 										
 										<shiro:hasPermission name="grademanager:revokegene">

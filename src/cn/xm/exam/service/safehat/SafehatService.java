@@ -1,6 +1,7 @@
 package cn.xm.exam.service.safehat;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.xm.exam.bean.system.User;
 
@@ -19,5 +20,7 @@ public interface SafehatService {
 
 	void updateSafeHatNumBatch(String safeHatPrefix, List<String> haulEmpoutId, List<String> haulEmpoutSafehatNum,
 			List<String> empoutNames, String unitName, User user);
+
+	List<Map<String, Object>> getSafehatTaizhang(Map condition);
 
 }

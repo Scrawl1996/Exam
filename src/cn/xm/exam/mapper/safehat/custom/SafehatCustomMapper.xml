@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.xm.exam.mapper.safehat.custom.SafehatCustomMapper">
+	<select id="getSafehatTaizhang" resultType="map">
+		SELECT
+		safehat.*,employee_out.*,haulemployeeout.thirdScore,haulemployeeout.empType
+		FROM safehat
+		LEFT JOIN employee_out
+		ON safehat.userIdCard =
+		employee_out.idCode
+		LEFT
+		JOIN haulemployeeout
+		ON safehat.safeHatNum =
+		haulemployeeout.safeHatNum
+		<where>
+			<if test="userName != null">
+				and NAME like '%${userName}%'
+			</if>
+			<if test="safeHatNum != null">
+				and safehat.safeHatNum like '%${safeHatNum}%'
+			</if>
+			<if test="idCard != null">
+				and idCode like '%${idCard}%'
+			</if>
+		</where>
+	</select>
 </mapper>
