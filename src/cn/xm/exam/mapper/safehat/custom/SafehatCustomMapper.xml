@@ -23,5 +23,8 @@
 				and idCode like '%${idCard}%'
 			</if>
 		</where>
+		<if test="orderColumn != null">
+				order by  ${orderColumn}
+		</if>
 	</select>
 </mapper>

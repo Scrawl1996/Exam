@@ -503,20 +503,20 @@ function selectFenpeiInfo() {
 	// 动态显示与隐藏生成工作证
 	if (distributeStatus == '3') {
 		$("#generateWork").css("display", "");
-	} else {
-		$("#generateWork").css("display", "none");
-	}
-	// 动态显示与隐藏回收作证、分配安全帽
-	if (distributeStatus == '4') {
-		$("#revokeWork").css("display", "");
 		$("#allocateSafehat_btn").css("display", "");
 		$("#modifySafehat_btn").css("display", "");
 		$("#recoverSafehat_btn").css("display", "");
 	} else {
-		$("#revokeWork").css("display", "none");
+		$("#generateWork").css("display", "none");
 		$("#allocateSafehat_btn").css("display", "none");
 		$("#modifySafehat_btn").css("display", "none");
 		$("#recoverSafehat_btn").css("display", "none");
+	}
+	// 动态显示与隐藏回收作证、分配安全帽
+	if (distributeStatus == '4') {
+		$("#revokeWork").css("display", "");
+	} else {
+		$("#revokeWork").css("display", "none");
 	}
 	// 动态显示与隐藏重新发放
 	if (distributeStatus == '5') {
