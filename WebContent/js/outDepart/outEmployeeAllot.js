@@ -1229,9 +1229,11 @@ function recoverSafehat(){
 	
 	var safeHatNums = new Array();
 	$(".el_checks").each(function(i){
-		var safeHatNum = $(this).parents("tr").find("td:eq(11)").text();
-		if(safeHatNum){
-			safeHatNums.push(safeHatNum);
+		if ($(this).prop("checked")) {// 如果选中。。。
+			var safeHatNum = $(this).parents("tr").find("td:eq(11)").text();
+			if(safeHatNum){
+				safeHatNums.push(safeHatNum);
+			}
 		}
 	});
 	
