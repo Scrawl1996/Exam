@@ -411,8 +411,12 @@
 															title="请选择" onchange="historyBreakInfoFind2()">
 															<option value="0">当前违章</option>
 															<option value="1">历史违章</option>
-
 														</select>
+											
+														<shiro:hasPermission name="safehat:taizhang">
+															<!-- 新开页面查看安全帽台账信息(查询和下载) -->
+															<a id="safeHatTaiZhang" href="/Exam/view/testPerson/safeHatTaizhang.jsp"	class="btn btn-primary" target="_blank">安全帽台账</a>
+														</shiro:hasPermission>
 													</div>
 												</div>
 
@@ -1048,6 +1052,49 @@
 															</thead>
 															
 															<tbody id="safeHatChangeDetail">
+															</tbody>
+														</table>
+													<br/>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+											</div>
+										</form>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+							
+							<!-- 模态框安全换帽详情-->
+							<div class="modal fade" id="safehatChangeInfoModal" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog" style="width:40%;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title">换人信息</h4>
+										</div>
+											<div class="modal-body" style="padding: 10px 30px 0 30px;">
+												<div>
+														<table
+															class="table table-bordered table-hover el_threeScoreListTable">
+															<thead>
+																<tr>
+																	<th>安全帽换人记录</th>
+																</tr>
+															</thead>
+															
+															<tbody id="safeHatChangeDetail">
+																<tr>
+																	<td id="safehatChangeInfoTd"></td>
+																</tr>
 															</tbody>
 														</table>
 													<br/>

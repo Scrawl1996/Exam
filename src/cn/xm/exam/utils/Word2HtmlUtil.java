@@ -1,9 +1,6 @@
 package cn.xm.exam.utils;
 
-import java.io.File;
-
 import com.jacob.activeX.ActiveXComponent;
-import com.jacob.com.ComThread;
 import com.jacob.com.Dispatch;
 import com.jacob.com.Variant;
 

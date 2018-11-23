@@ -216,6 +216,12 @@ public class SafehatServiceImpl implements SafehatService {
 					+ String.format("%0" + safeHatNumLength + "d", NumberUtils.stringToInt(haulEmpoutSafehatNum));// 最终的编号
 
 			// 查询帽子，查到就换人,查不到就创建帽子并且分配给人
+			// 0.新人信息
+			Haulemployeeout empOutNewUser = haulemployeeoutMapper.selectByPrimaryKey(haulEmpoutId);
+			if (empOutNewUser == null) {
+				continue;
+			}
+
 			// 1.查帽子查不到创建帽子
 			SafehatExample example = new SafehatExample();
 			Criteria createCriteria = example.createCriteria();
@@ -230,26 +236,36 @@ public class SafehatServiceImpl implements SafehatService {
 
 			// 2.查到帽子换人
 			Safehat safehat = hats.get(0);
-			// 2.1取消原来的使用者
+			// 2.1取消原来的使用者(将其安全帽编号改为换人信息)
 			String oldUserhaulempid = safehat.getUserhaulempid();
 			Haulemployeeout empOut = haulemployeeoutMapper.selectByPrimaryKey(oldUserhaulempid);
+			String oldUserIdCard = safehat.getUseridcard();
+			EmployeeOutExample employeeOutExample = new EmployeeOutExample();
+			cn.xm.exam.bean.employee.out.EmployeeOutExample.Criteria createCriteria2 = employeeOutExample
+					.createCriteria();
+			createCriteria2.andIdcodeEqualTo(oldUserIdCard);
+			List<EmployeeOut> employeeOuts = employeeOutMapper.selectByExample(employeeOutExample);
+			String oldUserName = "";
+			if (CollectionUtils.isNotEmpty(employeeOuts)) {
+				EmployeeOut employeeOut = employeeOuts.get(0);
+				oldUserName = employeeOut.getName();
+			}
+
+			StringBuilder oldSafeHatInfo = new StringBuilder(safehatNum + "【已换人】");
 			if (empOut != null) {
-				empOut.setSafehatnum("");
+				oldSafeHatInfo.append(
+						geneChangeLog(user, "将帽子换给 " + empoutName + " (" + empOutNewUser.getEmpoutidcard() + ")"));
+				empOut.setSafehatnum(oldSafeHatInfo.toString());
 				haulemployeeoutMapper.updateByPrimaryKeySelective(empOut);
 			}
-			String oldUserIdCard = safehat.getUseridcard();
 
 			// 2.2分给新人
-			Haulemployeeout empOutNewUser = haulemployeeoutMapper.selectByPrimaryKey(haulEmpoutId);
-			if (empOutNewUser == null) {
-				continue;
-			}
 			String userIdCard = empOutNewUser.getEmpoutidcard();
 			safehat.setUseridcard(userIdCard);
 			safehat.setUserhaulempid(haulEmpoutId);
-
 			safehat.appendChangeLog(geneChangeLog(user,
-					"将帽子从 " + oldUserIdCard + " 换给 " + empoutName + "(" + userIdCard + ")", "【换人】"));
+					"将帽子从 " + oldUserName + "(" + oldUserIdCard + ")换给 " + empoutName + "(" + userIdCard + ")",
+					"【换人】"));
 			safehatMapper.updateByPrimaryKeySelective(safehat);
 
 			empOutNewUser.setSafehatnum(safehatNum);

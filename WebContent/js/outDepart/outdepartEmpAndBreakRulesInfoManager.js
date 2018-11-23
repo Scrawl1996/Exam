@@ -137,8 +137,17 @@ function showEmployeeBaseInfo(data) {
 			showEmployeeOutBaseInfoList += "<td>"
 					+ employeeOutBaseInfoList[i].isblackList + "</td><td>";
 		}
-		showEmployeeOutBaseInfoList += "<a href=javascript:void(0) onclick='queryHatChangeLog(this)'>"
-			+ replaceNull(employeeOutBaseInfoList[i].safeHatNum) + "</a></td><td>";
+		
+		var safeHatNumTmp = replaceNull(employeeOutBaseInfoList[i].safeHatNum);
+		if (safeHatNumTmp && safeHatNumTmp.length > 50) {
+			showEmployeeOutBaseInfoList += "<a href=javascript:void(0) title=点击查看换人信息  onclick='openSafehatChangeInfo(\""+safeHatNumTmp+"\")'>"
+					+ safeHatNumTmp.substr(0, safeHatNumTmp.indexOf("】") + 1)
+					+ "</a></td><td>";
+		} else {
+			showEmployeeOutBaseInfoList += "<a href=javascript:void(0) title=点击查看安全帽变更信息 onclick='queryHatChangeLog(this)'>"
+					+ safeHatNumTmp
+					+ "</a></td><td>";
+		}
 		/*showEmployeeOutBaseInfoList += employeeOutBaseInfoList[i].trainstatus
 				.toString().replace("0", "未参加培训").replace("1", "通过一级考试")
 				.replace("2", "通过二级考试").replace("3", "通过三级考试")
@@ -754,6 +763,9 @@ function allInfo(obj) {
 	
 	var details_thirdScore = $(obj).parents("tr").find(".find_thirdScore").val();
 	var details_safeHatNum = $(obj).parents("tr").find(".find_safeHatNum").val();
+	if (details_safeHatNum && details_safeHatNum.length > 50){
+		details_safeHatNum = details_safeHatNum.substr(0, details_safeHatNum.indexOf("】") + 1);
+	}
 	
 	var employeeOutPhoto = $(obj).parents("tr").find(".find_employeeOutPhoto").val();
 	var address = $(obj).parents("tr").find(".find_address").val();
@@ -1304,5 +1316,15 @@ function queryHatChangeLog(obj){
 				}); // 手动开启
 			}
 		},'json')
+	}
+}
+
+function openSafehatChangeInfo(changeInfo){
+	if(changeInfo){
+		$("#safehatChangeInfoTd").text(changeInfo);
+		$("#safehatChangeInfoModal").modal({
+			backdrop : 'static',
+			keyboard : false
+		}); // 手动开启
 	}
 }

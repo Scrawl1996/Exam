@@ -251,10 +251,21 @@ function showFenpeiTable(response) {
 				+ distributeinfos[i].fenpeibumen
 				+ '</td><td>'
 				+ distributeinfos[i].fenpeibanzu
-				+ '</td><td>'
-				+ "<a href=javascript:void(0) onclick='updateSahtNumber(this)' title='点击修改安全帽编号'>"+replaceNull(distributeinfos[i].safeHatNum)+"</a>"
-				+ '</td><td>'
-				+ updateOperating();
+				+ '</td><td>';
+
+				var safeHatNumTmp = replaceNull(distributeinfos[i].safeHatNum);
+				//换人的显示
+				if (safeHatNumTmp && safeHatNumTmp.length > 50) {
+					str += "<a href=javascript:void(0) title='点击查看换人信息' onclick='openSafehatChangeInfo(\""+safeHatNumTmp
+							+ "\")'>"
+							+ safeHatNumTmp.substr(0, safeHatNumTmp.indexOf("】") + 1)
+							+ "</a>";
+				} else {//正常的显示
+					str += "<a href=javascript:void(0) onclick='updateSahtNumber(this)' title='点击修改安全帽编号'>"
+							+ replaceNull(distributeinfos[i].safeHatNum) + "</a>";
+				}
+		
+				str = str + '</td><td>' + updateOperating();
 		// 隐藏一些必须的信息
 		str += '<input type="hidden" class="bigid" value="'
 				+ distributeinfos[i].bigid + '"/>'
@@ -557,11 +568,22 @@ function updateOperating() {
 // 选中一次大修或部门，点击生成工作证按钮执行的操作
 function el_empCardModel() {
 	var chooseEmpNum = 0;// 判断是否有员工被选中
+	var allHasSafeHatNum = true;
 	$(".el_checks").each(function() { // 获取选择的员工
 		if ($(this).prop("checked")) {// 如果选中。。。
 			chooseEmpNum++;
+			if(!$(this).parents("tr").find("td:eq(11)").text()){
+				allHasSafeHatNum = false;
+				return;
+			}
 		}
 	})
+	
+	if(!allHasSafeHatNum){
+		alert("请选择有安全帽编号的员工");
+		return;
+	}
+	
 	if (chooseEmpNum != 0) {
 		$("#empInfoListForCertificate").html("");
 		$(".el_checks")
@@ -1231,7 +1253,7 @@ function recoverSafehat(){
 	$(".el_checks").each(function(i){
 		if ($(this).prop("checked")) {// 如果选中。。。
 			var safeHatNum = $(this).parents("tr").find("td:eq(11)").text();
-			if(safeHatNum){
+			if(safeHatNum && safeHatNum.indexOf("已换人")==-1){
 				safeHatNums.push(safeHatNum);
 			}
 		}
@@ -1377,7 +1399,15 @@ function saveModifySafehat(){
 }
 /** *************E 安全帽相关操作******************************** */
 
-
+function openSafehatChangeInfo(changeInfo){
+	if(changeInfo){
+		$("#safehatChangeInfoTd").text(changeInfo);
+		$("#safehatChangeInfoModal").modal({
+			backdrop : 'static',
+			keyboard : false
+		}); // 手动开启
+	}
+}
 
 
 
