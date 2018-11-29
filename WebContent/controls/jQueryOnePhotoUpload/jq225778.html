@@ -1,0 +1,52 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>单张上传图片预览-jq22.com</title>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<style>
+</style>
+</head>
+<body>
+<img id="preview" height="230" border="0" title="" src="http://www.jq22.com/demo/jQuery-banner201703062207/img/a4.png">
+<div class="btn upload">上传头像<input type="file" name="image_file" id="image_file" class="upload_pic" onchange="fileSelected('preview','image_file');"></div>
+<input type="hidden" id="hidden_photo_base64" />
+
+
+<script>
+// common variables
+
+var iBytesUploaded = 0;
+var iBytesTotal = 0;
+var iPreviousBytesLoaded = 0;
+var iMaxFilesize = 1048576; // 1MB
+var oTimer = 0;
+var sResultFileSize = '';
+
+function fileSelected(a, b) {
+    var oFile = document.getElementById(b).files[0];
+    // filter for image files
+    var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i;
+    if (!rFilter.test(oFile.type)) {
+        document.getElementById('error').style.display = 'block';
+        return;
+    }
+    // get preview element
+    var oImage = document.getElementById(a);
+    console.log(a);
+    // prepare HTML5 FileReader
+    var oReader = new FileReader();
+    oReader.onload = function(e) {
+
+        oImage.src = e.target.result;
+        $("#hidden_photo_base64").val(e.target.result);
+        console.log($("#hidden_photo_base64").val());
+    };
+
+    // read selected file as DataURL
+    oReader.readAsDataURL(oFile);
+}
+</script>
+
+</body>
+</html>
