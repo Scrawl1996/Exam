@@ -417,6 +417,7 @@
 															<!-- 新开页面查看安全帽台账信息(查询和下载) -->
 															<a id="safeHatTaiZhang" href="/Exam/view/testPerson/safeHatTaizhang.jsp"	class="btn btn-primary" target="_blank">安全帽台账</a>
 														</shiro:hasPermission>
+														<button id="openAddEmpoutHandleModal" onclick="openHanleAddEmp();"	class="btn btn-primary" target="_blank">手工录入员工</button>
 													</div>
 												</div>
 
@@ -648,7 +649,7 @@
 											</div>
 											<div class="input-group el_modellist01" role="toolbar">
 												<span class="el_spans0">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：</span>
-												<select class="selectpicker el_modelinput form-control"
+												<select class="selectpicker el_modelinput form-control add_employeeOutType"
 													id="add_employeeOutType" title="请选择">
 												</select>
 											</div>
@@ -1140,6 +1141,86 @@
 								<!-- /.modal-dialog -->
 							</div>
 							<!-- /.modal -->
+							
+							<!-- 模态框手工添加员工-->
+							<div class="modal fade" id="el_addEmp_handle" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog"
+									style="width: 80%; max-height: 550px; overflow-y: auto;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabel23">手工录入员工</h4>
+										</div>
+										<div class="modal-body" style="position: relative">
+											<!--头像一-->
+											<div id="localImag" class="big-photo"
+												style="border-left-width: 0px; border-right-width: 0px; border-top-width: 0px; border-bottom-width: 0px;">
+												<img style="width: 120px height:140px"
+													src="${pageContext.request.contextPath}/image/userImage.png"
+													onerror="this.src='image/userImage.png'"
+													style="margin-left:5px" id="id_img_pers">
+											</div>
+											<input id="idCardImageStr_handle" type="hidden" />
+
+											<div class="input-group el_modellist01" role="toolbar">
+												<span class="el_spans0">员工姓名：</span>
+												 <input type="text" value="" id="personName" class="form-control el_modelinput handleDispose" name="" /> 
+												 <span	class="el_spans0">员工性别：</span> 
+												 <input class="el_modelinput form-control handleDispose" id="sexHandle"/>
+											</div>
+											<div class="input-group el_modellist01" role="toolbar">
+												<span class="el_spans0">出生日期：</span>
+												 <input type="text" id="birthdayHandle" class="form-control el_modelinput handleDispose"  name="" />
+											 	 <span class="el_spans0">身&nbsp;&nbsp;份&nbsp;证：</span>
+											 	 <input	type="text" value="" onblur="getIdcardData()" id="idCardNumberHandle" class="form-control el_modelinput"  name="" />
+											</div>
+											<div class="input-group el_modellist01" role="toolbar">
+												<span class="el_spans0">家庭住址：</span> 
+												<input type="text" value="" id="address" class="form-control el_modelinput handleDispose" name="" /> 
+												<span class="el_spans0">选择单位：</span>
+												<input type="text" class="form-control el_modelinput handleDispose" name="" id="add_departmentNameHandle" />
+											</div>
+											<div class="input-group el_modellist01" role="toolbar">
+												<span class="el_spans0">身体状况：</span> 
+												<select class="selectpicker el_modelinput form-control employeePhy"	id="add_employeePhy" title="请选择">
+												</select>
+												 <span class="el_spans0">员工学历：</span>
+												 <select class="selectpicker el_modelinput form-control employeeEducate" id="add_employeeEducate" title="请选择">
+												</select>
+											</div>
+											<div class="input-group el_modellist01" role="toolbar">
+												<span class="el_spans0">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：</span>
+												<select class="selectpicker el_modelinput form-control add_employeeOutType" id="add_employeeOutType" title="请选择">
+												</select>
+											</div>
+
+											<!-- 隐藏部门ID和大修ID -->
+											<input id="add_departmentIdHandle" type="hidden" /> 
+											<input id="add_bigIdHandle" type="hidden" />
+
+											<button class="btn btn-primary el_modellist02"
+												onclick="queryEmployeeOutTrainInfo()">查看历史培训档案</button>
+
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default"
+												data-dismiss="modal">关闭</button>
+											<button type="button" class="btn btn-primary"
+												onclick="saveEmployeeAndHaulInfo()">保存</button>
+										</div>
+
+										<form id="form_addEmployeeOutInfo"></form>
+
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
 
 						</div>
 					</div>

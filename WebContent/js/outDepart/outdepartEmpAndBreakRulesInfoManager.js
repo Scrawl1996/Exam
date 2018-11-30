@@ -22,6 +22,9 @@ $(function() {
 	
 	//初始化员工学历和身体状况下拉列表
 	initEmployeePhyAndEducate();
+	
+	// 初始化工种信息
+	initEmployeeTypeDic_add();
 });
 
 /** ************************组合条件查询********************************** */
@@ -242,17 +245,17 @@ function initEmployeeTypeDic_add() {
 	}, showEmployeeTypeDic_add, 'json');
 }
 function showEmployeeTypeDic_add(response) {
-	$("#add_employeeOutType").empty();
+	$(".add_employeeOutType").empty();
 	if (response != null && response.names != null) {
 		var names = response.names;// 获取字段返回的值
-		$("#add_employeeOutType").append("<option value='0'>--请选择--</option>")
+		$(".add_employeeOutType").append("<option value='0'>--请选择--</option>")
 		for (var i = 0; i < names.length; i++) {
 			if(names[i]=='普工'){
-				$("#add_employeeOutType").append(
+				$(".add_employeeOutType").append(
 						'<option selected value="' + names[i] + '">' + names[i]
 						+ '</option>')
 			}else{				
-				$("#add_employeeOutType").append(
+				$(".add_employeeOutType").append(
 						'<option value="' + names[i] + '">' + names[i]
 						+ '</option>')
 			}
@@ -933,6 +936,12 @@ function onClick(event, treeId, treeNode) {
 		$("#add_departmentName").val(treeNode.name);
 		$("#add_departmentId").val(treeNode.id);
 		$("#add_bigId").val(treeNode.upid);
+		
+		//向手工录入的添加默认值		
+		$("#add_departmentNameHandle").val(treeNode.name);
+		$("#add_departmentIdHandle").val(treeNode.id);
+		$("#add_bigIdHandle").val(treeNode.upid);
+		
 		selectedDepartmentID = treeNode.id;
 		selectedOverHaulId = treeNode.upid;
 		$("#query_bigId").val(selectedOverHaulId);
@@ -1328,3 +1337,29 @@ function openSafehatChangeInfo(changeInfo){
 		}); // 手动开启
 	}
 }
+
+
+/**********S  手工录入身份证******************/
+
+function getIdcardData(){
+   var ido=document.getElementById('idCardNumberHandle');//身份证号input元素的ID
+   var bd=document.getElementById('birthdayHandle');
+   var sex=document.getElementById('sexHandle');
+   if(!/^\d{6}((?:19|20)((?:\d{2}(?:0[13578]|1[02])(?:0[1-9]|[12]\d|3[01]))|(?:\d{2}(?:0[13456789]|1[012])(?:0[1-9]|[12]\d|30))|(?:\d{2}02(?:0[1-9]|1\d|2[0-8]))|(?:(?:0[48]|[2468][048]|[13579][26])0229)))\d{2}(\d)[xX\d]$/.test(ido.value)){
+      alert('身份证号非法.');
+      return;
+   }
+   bd.value=(RegExp.$1).substr(0,4)+'-'+(RegExp.$1).substr(4,2)+'-'+(RegExp.$1).substr(6,2);//设置出生日期
+   sex.value=(parseInt(RegExp.$2)%2==0?'女':'男');//设置性别
+}
+
+function openHanleAddEmp(){
+	//清空一些元素
+	$(".handleDispose").val("");
+	//打开模态框
+	$("#el_addEmp_handle").modal({
+		backdrop : 'static',
+		keyboard : false
+	}); // 手动开启
+}
+/**********E  手工录入身份证******************/
