@@ -1,8 +1,10 @@
 package cn.xm.exam.utils;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
+import cn.xm.exam.utils.ImageUtil.ImageUtils;
 import sun.misc.BASE64Decoder;
 
 /**
@@ -30,6 +32,11 @@ public class BSASE64 {
 			out.write(b);
 			out.flush();
 			out.close();
+
+			// 调整图片大小为指定的大小为102*126像素
+			ImageUtils.fromFile(new File(path)).size(102, 126).quality(0.8f).fixedGivenSize(true)
+					.toFile(new File(path));
+
 			return true;
 		} catch (Exception e) {
 			return false;

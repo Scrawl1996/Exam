@@ -239,6 +239,9 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		//String path = "D:/images";
 		String path = ResourcesUtil.getValue("path", "employeeOutPhoto");
 		String filepath = path + "\\" + employeeOutIdCard + ".jpg";
+		if(photoStr.startsWith("data:image/jpeg;base64,")){
+			photoStr = photoStr.replace("data:image/jpeg;base64,", "");
+		}
 		BSASE64.generateImage(photoStr, filepath);
 		return NONE;
 	}

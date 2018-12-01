@@ -424,7 +424,11 @@ function addEmployeeOutInfo() {
 											+ "<input name='employeeOutList["
 											+ employeeOutSeq
 											+ "].birthday' type='hidden' value='"
-											+ birthday + "'/>";
+											+ birthday + "'/>"
+											+ "<input name='employeeOutList[" + employeeOutSeq
+											+ "].empphysicalstatus' type='hidden' value='" + employeePhy + "'/>"
+											+ "<input name='employeeOutList[" + employeeOutSeq
+											+ "].empeducate' type='hidden' value='" + employeeEducate + "'/>";
 									$("#form_addEmployeeOutInfo").append(
 											add_employeeOutInfo);
 									employeeOutSeq = employeeOutSeq + 1;
@@ -486,10 +490,6 @@ function saveEmployeeAndHaulInfo() {
 					+ "].empoutidcard' type='hidden' value='" + idCard + "'/>"
 					+ "<input name='haulEmployeeOutList[" + i
 					+ "].emptype' type='hidden' value='" + empType + "'/>";
-					+ "<input name='haulEmployeeOutList[" + i
-					+ "].empphysicalstatus' type='hidden' value='" + empType + "'/>";
-					+ "<input name='haulEmployeeOutList[" + i
-					+ "].empeducate' type='hidden' value='" + empType + "'/>";
 			// 添加到form表单中
 			$("#form_addEmployeeOutInfo").append(haulEmployeeOutInfoList);
 		}
@@ -937,7 +937,7 @@ function onClick(event, treeId, treeNode) {
 		$("#add_departmentId").val(treeNode.id);
 		$("#add_bigId").val(treeNode.upid);
 		
-		//向手工录入的添加默认值		
+		//向手工录入的添加默认值	
 		$("#add_departmentNameHandle").val(treeNode.name);
 		$("#add_departmentIdHandle").val(treeNode.id);
 		$("#add_bigIdHandle").val(treeNode.upid);
@@ -1354,12 +1354,165 @@ function getIdcardData(){
 }
 
 function openHanleAddEmp(){
+	if(!$("#add_departmentNameHandle").val() || !$("#add_bigIdHandle").val() || !$("#add_departmentIdHandle").val()){
+		alert("请选择检修单位!");
+		return;
+	}
+	
 	//清空一些元素
 	$(".handleDispose").val("");
+	$("#preview").attr("src","/Exam/image/userImage.png");
+	
 	//打开模态框
 	$("#el_addEmp_handle").modal({
 		backdrop : 'static',
 		keyboard : false
 	}); // 手动开启
+}
+
+function divChooseFile(){
+	$("#image_file").click();
+}
+
+function saveEmpoutInfoHandle(){
+	//1.验证
+	var notHasNullInput = true;
+	$(".validateInput").each(function(){
+		if(!$(this).val()){
+			notHasNullInput = false;
+		}
+	});
+	if(!notHasNullInput){
+		alert("请检查所有信息已经填写完成");
+		return;
+	}
+	
+	var added = false;
+	var employeeOutTypeValue = $("#add_employeeOutTypeHandle option:selected").val();//获取工种
+	var idCard = $("#idCardNumberHandle").val();
+	
+	/**
+	 * 判断该员工的年龄是否达到要求 出生日期年龄范围是 18<= age <= 55
+	 */
+	var date = new Date();// 获得今天的时间
+	var birthday = $("#birthdayHandle").val();//获取出生日期
+	var startDate = new Date(birthday);
+	var newDate = date.getTime() - startDate.getTime();
+	var age = Math.ceil(newDate / 1000 / 60 / 60 / 24 / 365);// 获得年龄
+	var aged = true;
+	if (age < 18) {
+		alert("该员工年龄小于18岁！");
+		aged = false;
+	}
+	if (age > 55) {
+		alert("该员工年龄大于55岁！");
+		aged = false;
+	}
+	
+	var name = $("#personNameHandle").val();
+	var sex = $("#sexHandle").val();
+	var birthday = $("#birthdayHandle").val();
+	var address = $("#addressHandle").val();
+	var departmentId = $("#add_departmentIdHandle").val();
+	
+	var employeePhy = $("#add_employeePhyHandle option:selected").text();//身体状况
+	var employeeEducate = $("#add_employeeEducateHandle option:selected").text();//学历
+	var bigId = $("#add_bigIdHandle").val();
+	var employeeOutType = $("#add_employeeOutTypeHandle option:selected").text();
+	var idCardImageStr = $("#idCardImageStr_handle").val();
+	
+	$.ajax({
+		url : "employeeOutPerson_checkAddEmployeeOutStatuss.action",
+		data : {
+			"employeeOutIdCard" : idCard,
+			"bigId" : bigId,
+			"unitId":departmentId
+		},
+		dataType : "json",
+		type : "post",
+		success : function(data) {
+			// 若该员工没进入黑名单执行的操作
+			if (data.status == 3) {
+				alert("该员工已进入黑名单，不能添加！")
+			} /*else if (data.status == 4) {
+				alert("该员工已经添加到这次大修的该单位中，不能添加！")
+			}*/ else if (data.status == 5) {
+				alert("该员工违章已经累计超过12分，积分周期内不能添加！")
+			} else {
+				//清空表单添加数据
+				$("#form_addEmployeeOutInfo").html("");
+				//检修员工信息添加到表单中(检修员工信息)
+				var i = 0;
+				var haulEmployeeOutInfoList = "<input name='haulEmployeeOutList["
+					+ i + "].unitid' type='hidden' value='" + departmentId
+					+ "'/>" + "<input name='haulEmployeeOutList[" + i
+					+ "].bigid' type='hidden' value='" + bigId + "'/>"
+					+ "<input name='haulEmployeeOutList[" + i
+					+ "].empoutidcard' type='hidden' value='" + idCard + "'/>"
+					+ "<input name='haulEmployeeOutList[" + i
+					+ "].emptype' type='hidden' value='" + employeeOutTypeValue + "'/>";
+				$("#form_addEmployeeOutInfo").append(haulEmployeeOutInfoList);
+				
+				//如果重来没来过将图片上传上去并且	
+				if (data.status == 1) {
+					// 将图片信息保存到文件中
+					$.ajax({
+							url : "employeeOutPerson_saveEmployeePhoto.action",
+							data : {
+								"employeeOutIdCard" : idCard,
+								"photoStr" : idCardImageStr
+							},
+							type : "post"
+						});
+					
+					//添加到表单中准备提交
+					var employeeOutSeq=0;
+					sex = sex.toString().replace("男", "1").replace("女", "2");
+					// 将没有来过的员工信息拼接到表单中
+					var add_employeeOutInfo = "<input name='employeeOutList["
+							+ employeeOutSeq
+							+ "].name' type='hidden' value='"
+							+ name
+							+ "'/>"
+							+ "<input name='employeeOutList["
+							+ employeeOutSeq
+							+ "].idcode' type='hidden' value='"
+							+ idCard
+							+ "'/>"
+							+ "<input name='employeeOutList["
+							+ employeeOutSeq
+							+ "].sex' type='hidden' value='"
+							+ sex
+							+ "'/>"
+							+ "<input name='employeeOutList["
+							+ employeeOutSeq
+							+ "].address' type='hidden' value='"
+							+ address
+							+ "'/>"
+							+ "<input name='employeeOutList["
+							+ employeeOutSeq
+							+ "].birthday' type='hidden' value='"
+							+ birthday + "'/>"
+							+ "<input name='employeeOutList[" + employeeOutSeq
+							+ "].empphysicalstatus' type='hidden' value='" + employeePhy + "'/>"
+							+ "<input name='employeeOutList[" + employeeOutSeq
+							+ "].empeducate' type='hidden' value='" + employeeEducate + "'/>";
+					$("#form_addEmployeeOutInfo").append(add_employeeOutInfo);
+				}
+				$.ajax({
+					url : "employeeOutPerson_addEmployeeOutBatch.action",
+					data : $("#form_addEmployeeOutInfo").serialize(),
+					dataType : "json",
+					type : "post",
+					success : function(data) {
+						alert(data.result);
+						$("#el_addEmp_handle").modal("hide");
+						// 调用查询员工信息的方法
+						queryEmployeeOutBaseInfo();
+					}
+				});
+			}
+		}
+	});
 }
 /**********E  手工录入身份证******************/
