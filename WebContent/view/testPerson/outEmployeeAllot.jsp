@@ -187,7 +187,7 @@ hasOperatingEmpout = true;
 											<option value="5">已回收工作证</option>
 										</select>
 										<button class="btn btn-primary" id="lookTrainInfo"
-											 onclick="lookTrainInfo()">查看培训档案员工</button>
+											 onclick="lookTrainInfo()">查看员工培训档案</button>
 										<button class="btn btn-primary" id="el_lookTrainDocument"
 											style="display: none" onclick="el_empTrainDoc()">分配员工</button>
 										<shiro:hasPermission name="grademanager:printcard">

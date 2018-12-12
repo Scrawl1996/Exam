@@ -611,7 +611,7 @@ function showEmployeeOutExamsInfoList(employeeOutIdCard, currentPage,
 			for (var i = 0; i < examInfoList.length; i++) {
 				var index = i + 1;
 				showExamInfoList = "<tr><td>"
-						+ (index + (data.pageBean.currentPage - 1) * 5)
+						+ (index + (data.pageBean.currentPage - 1) * 8)
 						+ "</td><td>"					
 						+ examInfoList[i].examName
 						+ "</td><td>"
