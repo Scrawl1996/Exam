@@ -1350,8 +1350,9 @@ function getIdcardData(){
       return;
    }
    bd.value=(RegExp.$1).substr(0,4)+'-'+(RegExp.$1).substr(4,2)+'-'+(RegExp.$1).substr(6,2);//设置出生日期
-   sex.value=(parseInt(RegExp.$2)%2==0?'女':'男');//设置性别
-}
+   sex.value=(parseInt(ido.value.charAt(ido.value.length-2))%2==0?'女':'男');//设置性别
+/*   sex.value=(parseInt(ido.value.charAt(ido.value.length-2))%2==0?'女':'男');//设置性别
+*/}
 
 function openHanleAddEmp(){
 	if(!$("#add_departmentNameHandle").val() || !$("#add_bigIdHandle").val() || !$("#add_departmentIdHandle").val()){
