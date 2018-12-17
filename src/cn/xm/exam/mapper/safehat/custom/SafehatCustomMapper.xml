@@ -3,7 +3,8 @@
 <mapper namespace="cn.xm.exam.mapper.safehat.custom.SafehatCustomMapper">
 	<select id="getSafehatTaizhang" resultType="map">
 		SELECT
-		safehat.*,employee_out.*,haulemployeeout.thirdScore,haulemployeeout.empType
+		safehat.*,employee_out.*,haulemployeeout.thirdScore,haulemployeeout.empType,unit.name
+		as unitName
 		FROM safehat
 		LEFT JOIN employee_out
 		ON safehat.userIdCard =
@@ -12,6 +13,9 @@
 		JOIN haulemployeeout
 		ON safehat.safeHatNum =
 		haulemployeeout.safeHatNum
+		LEFT JOIN unit
+		ON haulemployeeout.unitid =
+		unit.unitid
 		<where>
 			<if test="userName != null">
 				and NAME like '%${userName}%'
@@ -22,9 +26,12 @@
 			<if test="idCard != null">
 				and idCode like '%${idCard}%'
 			</if>
+			<if test="unitName != null">
+				and unit.name like '%${unitName}%'
+			</if>
 		</where>
 		<if test="orderColumn != null">
-				order by  ${orderColumn}
+			order by ${orderColumn}
 		</if>
 	</select>
 </mapper>

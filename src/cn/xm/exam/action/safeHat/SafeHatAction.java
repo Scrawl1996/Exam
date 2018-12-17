@@ -217,6 +217,9 @@ public class SafeHatAction extends ActionSupport {
 		if (ValidateCheck.isNotNull(safeHatNum)) {
 			condition.put("safeHatNum", safeHatNum);
 		}
+		if (ValidateCheck.isNotNull(unitName)) {
+			condition.put("unitName", unitName);
+		}
 		int pageNum = 1;
 		if (StringUtils.isNotBlank(currentPage)) { // 如果不为空的话改变当前页号
 			pageNum = Integer.parseInt(currentPage);

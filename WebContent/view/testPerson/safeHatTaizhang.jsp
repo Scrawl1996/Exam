@@ -78,6 +78,15 @@
 											</div>
 										</div>
 									</div>
+									
+									<div class="row el_queryBoxrow">
+										<div class="col-md-3 el_qlmQuery">
+											<div class="input-group" role="toolbar">
+												<span class="el_spans">单&nbsp;位&nbsp;名&nbsp;称:</span> <input type="text"
+													class="form-control clearInput" name="unitName" />
+											</div>
+										</div>
+									</div>
 
 									<!-- 隐藏当前页和显示条数 -->
 									<input type="hidden" name="currentPage" id="currentPage" /> <input
@@ -86,7 +95,7 @@
 									<button type="button"
 										class="btn btn-primary el_queryButton btn-sm"
 										onclick="queryTaizhangInfo()">查询</button>
-									<button type="reset"
+									<button type="button"
 										class="btn btn-default el_queryButton0 btn-sm"
 										onclick="extTaizhang()">导出</button>
 								</form>
@@ -105,6 +114,7 @@
 												<th>姓名</th>
 												<th>性别</th>
 												<th>年龄</th>
+												<th>单位</th>
 												<th>学历</th>
 												<th>身体状况</th>
 												<th>职务</th>
@@ -220,6 +230,7 @@ function queryTaizhangInfo(){
 					+"<td>"+replaceNull(data.name)+"</td>"
 					+"<td>"+replaceNull(data.sex)+"</td>"
 					+"<td>"+replaceNull(data.age)+"</td>"
+					+"<td>"+replaceNull(data.unitName)+"</td>"
 					+"<td>"+replaceNull(data.empeducate)+"</td>"
 					+"<td>"+replaceNull(data.empphysicalstatus)+"</td>"
 					+"<td>"+replaceNull(data.empType)+"</td>"
@@ -282,6 +293,7 @@ function extTaizhang(){
     exportForm.append("<input type='hidden' name='userName' value='"+$("[name='userName']").val()+"'/>")
     exportForm.append("<input type='hidden' name='idCard' value='"+$("[name='idCard']").val()+"'/>")
     exportForm.append("<input type='hidden' name='safeHatNum' value='"+$("[name='safeHatNum']").val()+"'/>")
+    exportForm.append("<input type='hidden' name='unitName' value='"+$("[name='unitName']").val()+"'/>")
     $(document.body).append(exportForm);
     exportForm.submit();
     exportForm.remove(); 

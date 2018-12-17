@@ -43,6 +43,7 @@ public class ExtSafeHatTaizhang extends ActionSupport {
 	private String idCard;
 	private String safeHatNum;
 	private String fileName;
+	private String unitName;
 
 	@Autowired
 	private SafehatService safehatService;
@@ -62,11 +63,11 @@ public class ExtSafeHatTaizhang extends ActionSupport {
 			List<Map<String, Object>> safehatTaizhang = getSafehatTaizhang();
 
 			// 写入文件中
-			String[] headerNames = new String[] { "序号", "姓名", "年龄", "性别", "学历", "身体状况", "职务(工种)", "成绩", "身份证号", "安全帽编号",
-					"备注" };
+			String[] headerNames = new String[] { "序号", "姓名", "年龄", "性别", "单位", "学历", "身体状况", "职务(工种)", "成绩", "身份证号",
+					"安全帽编号", "备注" };
 			HSSFWorkExcel hssfWorkExcel = new HSSFWorkExcel(headerNames, "安全帽台账信息");
-			String[] keys = new String[] { "index", "name", "age", "sex", "empeducate", "empphysicalstatus", "empType",
-					"thirdScore", "idCode", "safeHatNum", "description" };
+			String[] keys = new String[] { "index", "name", "age", "sex", "unitName", "empeducate", "empphysicalstatus",
+					"empType", "thirdScore", "idCode", "safeHatNum", "description" };
 			hssfWorkExcel.createTableRows(safehatTaizhang, keys);
 			hssfWorkExcel.exportExcel(new FileOutputStream(file));
 
@@ -90,7 +91,10 @@ public class ExtSafeHatTaizhang extends ActionSupport {
 		if (ValidateCheck.isNotNull(safeHatNum)) {
 			condition.put("safeHatNum", safeHatNum);
 		}
-		//增加排序列
+		if (ValidateCheck.isNotNull(unitName)) {
+			condition.put("unitName", unitName);
+		}
+		// 增加排序列
 		condition.put("orderColumn", "safehat.safeHatNum");
 		// 开始分页
 		List<Map<String, Object>> results = null;
@@ -181,5 +185,13 @@ public class ExtSafeHatTaizhang extends ActionSupport {
 			return DateFormatUtils.format(new Date(), "yyyy-MM-dd") + ".xls";
 		}
 		return name;
+	}
+
+	public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
 	}
 }
