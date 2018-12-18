@@ -80,18 +80,6 @@ function showEmployeeBaseInfo(data) {
 				+ "<input class='find_employeeOutBirthday' type='hidden' value='"
 				+ employeeOutBaseInfoList[i].birthday
 				+ "'/>"
-				+ "<input class='find_employeeOutPhy' type='hidden' value='"
-				+ employeeOutBaseInfoList[i].empphysicalstatus
-				+ "'/>"
-				+ "<input class='find_employeeOutEducate' type='hidden' value='"
-				+ employeeOutBaseInfoList[i].empeducate
-				+ "'/>"
-				+ "<input class='find_thirdScore' type='hidden' value='"
-				+ employeeOutBaseInfoList[i].thirdScore
-				+ "'/>"
-				+ "<input class='find_safeHatNum' type='hidden' value='"
-				+ employeeOutBaseInfoList[i].safeHatNum
-				+ "'/>"
 				+ "<input class='find_employeeOutPhoto' type='hidden' value='"
 				+ employeeOutBaseInfoList[i].photo
 				+ "'/>"
@@ -115,6 +103,18 @@ function showEmployeeBaseInfo(data) {
 				+ "'/>"
 				+ "<input class='find_address' type='hidden' value='"
 				+ employeeOutBaseInfoList[i].address
+				+ "'/>"
+				+ "<input class='find_employeeOutPhy' type='hidden' value='"
+				+ employeeOutBaseInfoList[i].empphysicalstatus
+				+ "'/>"
+				+ "<input class='find_employeeOutEducate' type='hidden' value='"
+				+ employeeOutBaseInfoList[i].empeducate
+				+ "'/>"
+				+ "<input class='find_thirdScore' type='hidden' value='"
+				+ employeeOutBaseInfoList[i].thirdScore
+				+ "'/>"
+				+ "<input class='find_safeHatNum' type='hidden' value='"
+				+ employeeOutBaseInfoList[i].safeHatNum
 				+ "'/>"
 				+ "</td><td>"
 				+ employeeOutBaseInfoList[i].name
@@ -1005,7 +1005,7 @@ function el_addBreakInfo() {
 		//5单位id
 		var unitid = $input.eq(5).val(); 
 		//6 违章总积分
-		var breakScoreSum = $input.eq(6).val(); 
+		var breakScoreSum = $input.eq(6).val();
 		
 		// 为隐藏域赋值
 		// 职工id
