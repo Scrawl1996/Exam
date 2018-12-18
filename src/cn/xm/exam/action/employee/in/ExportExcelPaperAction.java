@@ -10,7 +10,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
+
 import javax.imageio.ImageIO;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
@@ -18,10 +20,13 @@ import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.ClientAnchor.AnchorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
 import com.opensymphony.xwork2.ActionSupport;
+
 import cn.xm.exam.bean.employee.in.Department;
 import cn.xm.exam.bean.employee.in.EmployeeIn;
 import cn.xm.exam.service.employee.in.DepartmentService;
@@ -33,7 +38,7 @@ import cn.xm.exam.utils.ResourcesUtil;
 @Controller
 @Scope("prototype")
 public class ExportExcelPaperAction extends ActionSupport {
-	
+
 	private static final long serialVersionUID = 1L;
 	// 查数据的身份证编号
 	private String idcode;
@@ -98,40 +103,42 @@ public class ExportExcelPaperAction extends ActionSupport {
 
 		return myexam;
 	}
-	
-	//ll 生成Excel文件
+
+	// ll 生成Excel文件
 	public boolean writeExamEmployees2Excel(List<Map<String, Object>> exams, String fileName) throws Exception {
 
 		EmployeeIn employeeIn = employeeInService.getEmployeeInByIdcode(idcode);
-		
-		Map<String, Object> map = GenerateEmployeeInTrainFile.generateEmployeeInTrainProfile(fileName, employeeIn, exams);
+
+		Map<String, Object> map = GenerateEmployeeInTrainFile.generateEmployeeInTrainProfile(fileName, employeeIn,
+				exams);
 		HSSFWorkbook workbook = (HSSFWorkbook) map.get("workBook");
-	
+
 		HSSFSheet sheet = (HSSFSheet) map.get("sheet");
-		
-		//查询部门名称
-		Department department = departmentService.getDepartmentById(employeeIn.getDepartmentid());		
+
+		// 查询部门名称
+		Department department = departmentService.getDepartmentById(employeeIn.getDepartmentid());
 		HSSFRow row = sheet.getRow(2);
 		HSSFCell cell = row.getCell(3);
-		//设置部门名称
+		// 设置部门名称
 		cell.setCellValue(department.getDepartmentname());
-	
-		//导出图片操作
+
+		// 导出图片操作
 		String path = ResourcesUtil.getValue("path", "photo");
 		String filepath = path + "\\" + idcode + ".jpg";
-		
-	    ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();   
-	    BufferedImage bufferImg = ImageIO.read(new File(filepath));   
-	    ImageIO.write(bufferImg, "jpg", byteArrayOut);
-	    
-	    //画图的顶级管理器，一个sheet只能获取一个
-	    HSSFPatriarch patriarch = sheet.createDrawingPatriarch();   
-	    //anchor主要用于设置图片的属性
-	    HSSFClientAnchor anchor = new HSSFClientAnchor(20, 5, 1000, 250, (short) 4, 1, (short) 4, 2);   
-	    //注意：这个方法在新版本的POI中参数类型改成了（AnchorType anchorType）　
-	 	anchor.setAnchorType(3); 
-	    patriarch.createPicture(anchor, workbook.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG));
-	
+
+		ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+		BufferedImage bufferImg = ImageIO.read(new File(filepath));
+		ImageIO.write(bufferImg, "jpg", byteArrayOut);
+
+		// 画图的顶级管理器，一个sheet只能获取一个
+		HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
+		// anchor主要用于设置图片的属性
+		HSSFClientAnchor anchor = new HSSFClientAnchor(20, 5, 1000, 250, (short) 4, 1, (short) 4, 2);
+		// 注意：这个方法在新版本的POI中参数类型改成了（AnchorType anchorType）
+		anchor.setAnchorType(AnchorType.DONT_MOVE_AND_RESIZE);
+		patriarch.createPicture(anchor,
+				workbook.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG));
+
 		// 创建一个文件
 		File file = new File(fileName);
 		// 如果存在就删除
@@ -153,8 +160,6 @@ public class ExportExcelPaperAction extends ActionSupport {
 
 		return true;
 	}
-	
-	
 
 	// 3.打开文件的流提供下载
 	public InputStream getInputStream() throws Exception {
@@ -201,6 +206,5 @@ public class ExportExcelPaperAction extends ActionSupport {
 		this.setFileName(idcode);
 		return super.execute();
 	}
-	
-	
+
 }
