@@ -177,6 +177,7 @@ $(function() {
 	}, "请输入数字");
 
 	// 页面加载的时候初始化一些数据出来
+	selectDuty();
 	findSaveBtn();
 	// initData();
 })
@@ -1056,6 +1057,7 @@ function getDepartmentName(departmentid) {
 			// 将获取到的name赋值到这个标签中
 
 			$("#add_departmentName").val(result.departmentname);
+			$("#add_departmentNameHandle").val(result.departmentname);
 		}
 	});
 
@@ -1064,7 +1066,6 @@ function getDepartmentName(departmentid) {
  * 职务下拉菜单
  */
 function selectDuty() {
-
 	$.ajax({
 		url : '/Exam/employeein_getDuty.action',
 		data : {
@@ -1078,8 +1079,8 @@ function selectDuty() {
 			var dictionarys = result.dictionarys;
 			// alert(dictionarys);
 
-			$("#addEmployeeInDuty").empty();
-			var duty = $("#addEmployeeInDuty");
+			$(".addEmployeeInDuty").empty();
+			var duty = $(".addEmployeeInDuty");
 			// duty.append("<option value=''>无</option>");
 			// console.log("ceshi"+dictionarys)
 			// alert(dictionarys.length);
@@ -1087,7 +1088,6 @@ function selectDuty() {
 				// alert(dictionarys[i].dictionaryid);
 
 				if (dictionarys[i].dictionaryname == "无") {
-
 					var str = "<option selected value='"
 							+ dictionarys[i].dictionaryid + "'>"
 							+ dictionarys[i].dictionaryname + "</option>";
@@ -1111,7 +1111,6 @@ function selectDuty() {
 /**
  * 添加员工
  */
-
 function el_addEmployeeIn() {
 	if ($("#queryDepartmentId").val() == "") {
 		alert("请选择员工所在部门！");
@@ -1129,7 +1128,6 @@ function el_addEmployeeIn() {
 		var queryDepartmentId = $("#queryDepartmentId").val();
 
 		getDepartmentName(queryDepartmentId)
-		selectDuty();
 		$('#el_addEmployeeIn').modal();
 
 	}
@@ -1284,7 +1282,6 @@ function addEmployeeInInfo() {
 			// 将联系方式文本框清空
 			$("#addEmployeeInPhone").val('');
 			$("#message3").hide();
-			selectDuty();
 
 		}
 		// }
@@ -1307,7 +1304,6 @@ function initAddModel() {
 	$("#idCardImageStr").val('');
 
 	$("#addEmployeeInPhone").val('');
-	$("#addEmployeeInDuty").empty();
 	var duty = $("#addEmployeeInDuty");
 	// $("select:option").remove();
 
@@ -1690,3 +1686,59 @@ function toggleQueryDiv() {
 	}
 }
 /*******************E QLQ 显示与隐藏查询条件*********************/
+
+/**********S  手工录入身份证******************/
+function getIdcardData(){
+   var ido=document.getElementById('idCardNumberHandle');//身份证号input元素的ID
+   var bd=document.getElementById('birthdayHandle');
+   var sex=document.getElementById('sexHandle');
+   if(!/^\d{6}((?:19|20)((?:\d{2}(?:0[13578]|1[02])(?:0[1-9]|[12]\d|3[01]))|(?:\d{2}(?:0[13456789]|1[012])(?:0[1-9]|[12]\d|30))|(?:\d{2}02(?:0[1-9]|1\d|2[0-8]))|(?:(?:0[48]|[2468][048]|[13579][26])0229)))\d{2}(\d)[xX\d]$/.test(ido.value)){
+      alert('身份证号非法.');
+      return;
+   }
+   bd.value=(RegExp.$1).substr(0,4)+'-'+(RegExp.$1).substr(4,2)+'-'+(RegExp.$1).substr(6,2);//设置出生日期
+   sex.value=(parseInt(ido.value.charAt(ido.value.length-2))%2==0?'女':'男');//设置性别
+/*   sex.value=(parseInt(ido.value.charAt(ido.value.length-2))%2==0?'女':'男');//设置性别
+*/}
+
+function openHanleAddEmp(){
+	if ($("#queryDepartmentId").val() == "") {
+		alert("请选择员工所在部门！");
+		return;
+	}
+	
+	//清空一些元素
+	$(".handleDispose").val("");
+	$("#preview").attr("src","/Exam/image/userImage.png");
+	
+	var queryDepartmentId = $("#queryDepartmentId").val();
+	getDepartmentName(queryDepartmentId)
+//	
+	//打开模态框
+	$("#el_addEmployeeInHandle").modal({
+		backdrop : 'static',
+		keyboard : false
+	}); // 手动开启
+}
+
+function divChooseFile(){
+	$("#image_file").click();
+}
+
+function saveEmployeeAndHaulInfoHandle(){
+	//1.验证
+	var notHasNullInput = true;
+	$(".validateInput").each(function(){
+		if(!$(this).val()){
+			notHasNullInput = false;
+		}
+	});
+	if(!notHasNullInput){
+		alert("请检查所有信息已经填写完成");
+		return;
+	}
+	
+	//写到这里进行保存前的验证
+	
+}
+/**********E  手工录入身份证******************/

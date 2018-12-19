@@ -405,6 +405,8 @@ hasOperatingEmpin = true;
 														</a>
 													</shiro:hasPermission>
 
+													<button id="openAddEmpoutHandleModal" onclick="openHanleAddEmp();"	class="btn btn-primary">手工录入员工</button>
+
 												</div>
 											</div>
 
@@ -808,7 +810,7 @@ hasOperatingEmpin = true;
 
 											<div class="input-group el_modellist03" role="toolbar">
 												<span class="el_spans0">职 &nbsp;&nbsp;&nbsp;&nbsp;务
-													&nbsp;&nbsp;：</span> <select class="form-control el_modelinput"
+													&nbsp;&nbsp;：</span> <select class="form-control el_modelinput addEmployeeInDuty"
 													title="请选择" name="EmployeeIn.duty" id="addEmployeeInDuty"></select>
 											</div>
 											<div class="input-group el_modellist04" role="toolbar">
@@ -854,11 +856,7 @@ hasOperatingEmpin = true;
 											<button type="button" class="btn btn-primary"
 												onclick="saveEmployeeAndHaulInfo()">保存</button>
 										</div>
-
-
-
 									</div>
-
 									<form id="form_addEmployeeOutInfo"></form>
 									<!-- /.modal-content -->
 								</div>
@@ -950,7 +948,81 @@ hasOperatingEmpin = true;
 								<!-- /.modal -->
 							</div>
 
+							<!-- 模态框手工添加员工-->
+							<div class="modal fade" id="el_addEmployeeInHandle" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog"
+									style="width: 70%; position: relative; max-height: 450px; overflow-y: auto;">
+									<div class="modal-content"
+										style="min-height: 330px !important;">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="myModalLabel">手工添加员工</h4>
+										</div>
 
+										<div class="modal-body" style="position: relative">
+											<!--头像一-->
+											<div class="big-photo"
+												style="border-left-width: 0px; border-right-width: 0px; border-top-width: 0px; border-bottom-width: 0px;">
+												<input type="file" name="image_file" style="display: none" id="image_file" class="upload_pic" onchange="fileSelected('preview','image_file');">
+												<img onclick="divChooseFile()" style="width: 120px; height:140px;max-height: 140px;max-width: 120px;"
+													src="${pageContext.request.contextPath}/image/userImage.png"
+													onerror="this.src='image/userImage.png'"
+													style="margin-left:5px" id="preview">
+											</div>
+											<input id="idCardImageStr_handle" class="validateInput handleDispose"  type="hidden" />
+
+											<div class="input-group el_modellist01" role="toolbar">
+												<span class="el_spans0">员工姓名：</span>
+												 <input type="text" id="personNameHandle"
+													class="form-control el_modelinput handleDispose validateInput" />
+												<span class="el_spans0">员工性别：</span> 
+												<input type="text" id="sexHandle" class="form-control el_modelinput validateInput handleDispose" name="EmployeeIn.sex" />
+											</div>
+											
+											<div class="input-group el_modellist01" role="toolbar">
+												<span class="el_spans0">出生日期：</span> 
+												<input type="text" value="" id="birthdayHandle" class="form-control el_modelinput"name="EmployeeIn.birthday" />
+											 	<span class="el_spans0">身&nbsp;&nbsp;份&nbsp;证：</span>
+											 	<input	type="text" value="" onblur="getIdcardData()" id="idCardNumberHandle" class="handleDispose validateInput form-control el_modelinput"  name="" />
+											</div>
+
+											<div class="input-group el_modellist01" role="toolbar">
+												<span class="el_spans0">家庭住址：</span> 
+												<input type="text" value="" id="address" name="EmployeeIn.address" class="form-control validateInput el_modelinput handleDispose"/> 
+												<span class="el_spans0">所选部门：</span>
+												<input type="text" class="form-control el_modelinput handleDispose" id="add_departmentNameHandle" />
+											    <input type="hidden" id="yincangzhiwuHandle">
+											</div>
+
+											<div class="input-group el_modellist03" role="toolbar">
+												<span class="el_spans0">职 &nbsp;&nbsp;&nbsp;&nbsp;务
+													&nbsp;&nbsp;：</span> <select class="form-control validateInput el_modelinput addEmployeeInDuty"
+													title="请选择" name="EmployeeIn.duty" id="addEmployeeInDutyHandle"></select>
+											</div>
+											<div class="input-group el_modellist04" role="toolbar">
+												<span class="el_spans0">联系方式：</span> <input type="text"
+													class="form-control el_modelinput validateInput handleDispose" name="EmployeeIn.photo"
+													id="addEmployeeInPhoneHandle" />
+											</div>
+
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default"
+												data-dismiss="modal">关闭</button>
+											<button type="button" class="btn btn-primary"
+												onclick="saveEmployeeAndHaulInfoHandle()">保存</button>
+										</div>
+									</div>
+									<form id="form_addEmployeeOutInfoHandle"></form>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
 
 
 
@@ -991,3 +1063,35 @@ hasOperatingEmpin = true;
 	<jsp:include page="/view/public/footer.jsp"></jsp:include>
 </body>
 </html>
+<script>
+// common variables
+var iBytesUploaded = 0;
+var iBytesTotal = 0;
+var iPreviousBytesLoaded = 0;
+var iMaxFilesize = 1048576; // 1MB
+var oTimer = 0;
+var sResultFileSize = '';
+
+function fileSelected(a, b) {
+    var oFile = document.getElementById(b).files[0];
+    // filter for image files
+    var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i;
+    if (!rFilter.test(oFile.type)) {
+        document.getElementById('error').style.display = 'block';
+        return;
+    }
+    // get preview element
+    var oImage = document.getElementById(a);
+    console.log(a);
+    // prepare HTML5 FileReader
+    var oReader = new FileReader();
+    oReader.onload = function(e) {
+
+        oImage.src = e.target.result;
+        $("#idCardImageStr_handle").val(e.target.result);
+    };
+
+    // read selected file as DataURL
+    oReader.readAsDataURL(oFile);
+}
+</script>
