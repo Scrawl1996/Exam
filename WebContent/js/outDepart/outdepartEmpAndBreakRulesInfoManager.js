@@ -1340,19 +1340,20 @@ function openSafehatChangeInfo(changeInfo){
 
 
 /**********S  手工录入身份证******************/
-
 function getIdcardData(){
-   var ido=document.getElementById('idCardNumberHandle');//身份证号input元素的ID
-   var bd=document.getElementById('birthdayHandle');
-   var sex=document.getElementById('sexHandle');
-   if(!/^\d{6}((?:19|20)((?:\d{2}(?:0[13578]|1[02])(?:0[1-9]|[12]\d|3[01]))|(?:\d{2}(?:0[13456789]|1[012])(?:0[1-9]|[12]\d|30))|(?:\d{2}02(?:0[1-9]|1\d|2[0-8]))|(?:(?:0[48]|[2468][048]|[13579][26])0229)))\d{2}(\d)[xX\d]$/.test(ido.value)){
-      alert('身份证号非法.');
-      return;
-   }
-   bd.value=(RegExp.$1).substr(0,4)+'-'+(RegExp.$1).substr(4,2)+'-'+(RegExp.$1).substr(6,2);//设置出生日期
-   sex.value=(parseInt(ido.value.charAt(ido.value.length-2))%2==0?'女':'男');//设置性别
-/*   sex.value=(parseInt(ido.value.charAt(ido.value.length-2))%2==0?'女':'男');//设置性别
-*/}
+	   var ido=document.getElementById('idCardNumberHandle');//身份证号input元素的ID
+	   var bd=document.getElementById('birthdayHandle');
+	   var sex=document.getElementById('sexHandle');
+	   var okIdcode = true;
+	   if(!/^\d{6}((?:19|20)((?:\d{2}(?:0[13578]|1[02])(?:0[1-9]|[12]\d|3[01]))|(?:\d{2}(?:0[13456789]|1[012])(?:0[1-9]|[12]\d|30))|(?:\d{2}02(?:0[1-9]|1\d|2[0-8]))|(?:(?:0[48]|[2468][048]|[13579][26])0229)))\d{2}(\d)[xX\d]$/.test(ido.value)){
+	      alert('身份证号非法.');
+	      okIdcode=false;
+	   }
+	   if(okIdcode){
+		   bd.value=(RegExp.$1).substr(0,4)+'-'+(RegExp.$1).substr(4,2)+'-'+(RegExp.$1).substr(6,2);//设置出生日期
+		   sex.value=(parseInt(ido.value.charAt(ido.value.length-2))%2==0?'女':'男');//设置性别
+	   }
+}
 
 function openHanleAddEmp(){
 	if(!$("#add_departmentNameHandle").val() || !$("#add_bigIdHandle").val() || !$("#add_departmentIdHandle").val()){
@@ -1363,6 +1364,9 @@ function openHanleAddEmp(){
 	//清空一些元素
 	$(".handleDispose").val("");
 	$("#preview").attr("src","/Exam/image/userImage.png");
+	
+	//清空最后的form
+	$("#form_addEmployeeOutInfoHandle").html("");
 	
 	//打开模态框
 	$("#el_addEmp_handle").modal({
@@ -1498,11 +1502,11 @@ function saveEmpoutInfoHandle(){
 							+ "].empphysicalstatus' type='hidden' value='" + employeePhy + "'/>"
 							+ "<input name='employeeOutList[" + employeeOutSeq
 							+ "].empeducate' type='hidden' value='" + employeeEducate + "'/>";
-					$("#form_addEmployeeOutInfo").append(add_employeeOutInfo);
+					$("#form_addEmployeeOutInfoHandle").append(add_employeeOutInfo);
 				}
 				$.ajax({
 					url : "employeeOutPerson_addEmployeeOutBatch.action",
-					data : $("#form_addEmployeeOutInfo").serialize(),
+					data : $("#form_addEmployeeOutInfoHandle").serialize(),
 					dataType : "json",
 					type : "post",
 					success : function(data) {

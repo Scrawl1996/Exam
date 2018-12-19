@@ -204,7 +204,9 @@ hasOperatingEmpout = true;
 												<button class="btn btn-primary"
 													onclick="javascript:location.href='${baseurl}/view/innerDepart/newdepartManage.jsp'">单位详情</button>
 													
-												<button id="openAddEmpoutHandleModal" onclick="openHanleAddEmp();"	class="btn btn-primary">手工录入员工</button>
+												<shiro:hasPermission name="addEmpnew:handle">
+													<button id="openAddEmpoutHandleModal" onclick="openHanleAddEmp();"	class="btn btn-primary">手工录入员工</button>
+												</shiro:hasPermission>
 											</div>
 										</div>
 									</div>

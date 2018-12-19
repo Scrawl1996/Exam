@@ -47,6 +47,12 @@ function findEmployeeOutBaseInfo() {
 }
 // 显示员工的基本信息
 function showEmployeeBaseInfo(data) {
+	// 当前页
+	var currentPage = data.pageBean.currentPage;
+	// 总条数
+	var totalCount = data.pageBean.totalCount;
+	// 页大小
+	var currentCount = data.pageBean.currentCount;
 	var employeeOutBaseInfoList = data.pageBean.productList;
 	var showEmployeeOutBaseInfoList = '';
 	for (var i = 0; i < employeeOutBaseInfoList.length; i++) {
@@ -54,7 +60,7 @@ function showEmployeeBaseInfo(data) {
 		showEmployeeOutBaseInfoList += "<tr><td><input type='radio' name='el_chooseEmp' class='el_checks' value='"
 				+ employeeOutBaseInfoList[i].idCard
 				+ "'/></td><td>"
-				+ (index + (data.pageBean.currentPage - 1) * 8)
+				+ (index + (data.pageBean.currentPage - 1) * currentCount)
 				+ "<input class='find_employeeOutBirthday' type='hidden' value='"
 				+ employeeOutBaseInfoList[i].birthday
 				+ "'/>"
@@ -99,12 +105,6 @@ function showEmployeeBaseInfo(data) {
 	$("#employeeOutBaseInfoList").empty();
 	$("#employeeOutBaseInfoList").append(showEmployeeOutBaseInfoList);
 
-	// 当前页
-	var currentPage = data.pageBean.currentPage;
-	// 总条数
-	var totalCount = data.pageBean.totalCount;
-	// 页大小
-	var currentCount = data.pageBean.currentCount;
 	// 调用分页函数
 	outdepartEmpManage_page(currentPage, totalCount, currentCount);
 }
@@ -1010,14 +1010,16 @@ function getIdcardData(){
    var ido=document.getElementById('idCardNumberHandle');//身份证号input元素的ID
    var bd=document.getElementById('birthdayHandle');
    var sex=document.getElementById('sexHandle');
+   var okIdcode = true;
    if(!/^\d{6}((?:19|20)((?:\d{2}(?:0[13578]|1[02])(?:0[1-9]|[12]\d|3[01]))|(?:\d{2}(?:0[13456789]|1[012])(?:0[1-9]|[12]\d|30))|(?:\d{2}02(?:0[1-9]|1\d|2[0-8]))|(?:(?:0[48]|[2468][048]|[13579][26])0229)))\d{2}(\d)[xX\d]$/.test(ido.value)){
       alert('身份证号非法.');
-      return;
+      okIdcode=false;
    }
-   bd.value=(RegExp.$1).substr(0,4)+'-'+(RegExp.$1).substr(4,2)+'-'+(RegExp.$1).substr(6,2);//设置出生日期
-   sex.value=(parseInt(ido.value.charAt(ido.value.length-2))%2==0?'女':'男');//设置性别
-/*   sex.value=(parseInt(ido.value.charAt(ido.value.length-2))%2==0?'女':'男');//设置性别
-*/}
+   if(okIdcode){
+	   bd.value=(RegExp.$1).substr(0,4)+'-'+(RegExp.$1).substr(4,2)+'-'+(RegExp.$1).substr(6,2);//设置出生日期
+	   sex.value=(parseInt(ido.value.charAt(ido.value.length-2))%2==0?'女':'男');//设置性别
+   }
+}
 
 function openHanleAddEmp(){
 	if(!$("#add_departmentNameHandle").val() || !$("#add_bigIdHandle").val() || !$("#add_departmentIdHandle").val()){

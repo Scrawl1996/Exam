@@ -404,9 +404,10 @@ hasOperatingEmpin = true;
 															</button>
 														</a>
 													</shiro:hasPermission>
-
-													<button id="openAddEmpoutHandleModal" onclick="openHanleAddEmp();"	class="btn btn-primary">手工录入员工</button>
-
+													
+													<shiro:hasPermission name="addEmpin:handle">
+														<button id="openAddEmpoutHandleModal" onclick="openHanleAddEmp();"	class="btn btn-primary">手工录入员工</button>
+													</shiro:hasPermission>
 												</div>
 											</div>
 
@@ -993,7 +994,7 @@ hasOperatingEmpin = true;
 
 											<div class="input-group el_modellist01" role="toolbar">
 												<span class="el_spans0">家庭住址：</span> 
-												<input type="text" value="" id="address" name="EmployeeIn.address" class="form-control validateInput el_modelinput handleDispose"/> 
+												<input type="text" value="" id="addressHandle" name="EmployeeIn.address" class="form-control validateInput el_modelinput handleDispose"/> 
 												<span class="el_spans0">所选部门：</span>
 												<input type="text" class="form-control el_modelinput handleDispose" id="add_departmentNameHandle" />
 											    <input type="hidden" id="yincangzhiwuHandle">

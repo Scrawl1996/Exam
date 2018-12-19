@@ -322,7 +322,9 @@ public class EmployeeInAction extends ActionSupport {
 
 		String name = employeeInIdCard + ".jpg";
 		String dir = ResourcesUtil.getValue("path", "photo") + name;
-
+		if(photoStr.startsWith("data:image/jpeg;base64,")){
+			photoStr = photoStr.replace("data:image/jpeg;base64,", "");
+		}
 		BSASE64.generateImage(photoStr, dir);
 
 		return NONE;

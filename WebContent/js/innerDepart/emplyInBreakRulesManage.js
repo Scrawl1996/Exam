@@ -1402,7 +1402,7 @@ function saveEmployeeAndHaulInfo() {
 				alert(result.flag);
 				$("#el_addEmployeeIn").modal("hide");
 				// 调用查询员工信息的方法
-				InnerEmpQuery();
+				clearPagenum();
 
 			}
 		});
@@ -1692,14 +1692,16 @@ function getIdcardData(){
    var ido=document.getElementById('idCardNumberHandle');//身份证号input元素的ID
    var bd=document.getElementById('birthdayHandle');
    var sex=document.getElementById('sexHandle');
+   var okIdcode = true;
    if(!/^\d{6}((?:19|20)((?:\d{2}(?:0[13578]|1[02])(?:0[1-9]|[12]\d|3[01]))|(?:\d{2}(?:0[13456789]|1[012])(?:0[1-9]|[12]\d|30))|(?:\d{2}02(?:0[1-9]|1\d|2[0-8]))|(?:(?:0[48]|[2468][048]|[13579][26])0229)))\d{2}(\d)[xX\d]$/.test(ido.value)){
       alert('身份证号非法.');
-      return;
+      okIdcode=false;
    }
-   bd.value=(RegExp.$1).substr(0,4)+'-'+(RegExp.$1).substr(4,2)+'-'+(RegExp.$1).substr(6,2);//设置出生日期
-   sex.value=(parseInt(ido.value.charAt(ido.value.length-2))%2==0?'女':'男');//设置性别
-/*   sex.value=(parseInt(ido.value.charAt(ido.value.length-2))%2==0?'女':'男');//设置性别
-*/}
+   if(okIdcode){
+	   bd.value=(RegExp.$1).substr(0,4)+'-'+(RegExp.$1).substr(4,2)+'-'+(RegExp.$1).substr(6,2);//设置出生日期
+	   sex.value=(parseInt(ido.value.charAt(ido.value.length-2))%2==0?'女':'男');//设置性别
+   }
+}
 
 function openHanleAddEmp(){
 	if ($("#queryDepartmentId").val() == "") {
@@ -1713,7 +1715,9 @@ function openHanleAddEmp(){
 	
 	var queryDepartmentId = $("#queryDepartmentId").val();
 	getDepartmentName(queryDepartmentId)
-//	
+	
+	//	清空最后的添加模态框
+	$("#form_addEmployeeOutInfoHandle").html("");
 	//打开模态框
 	$("#el_addEmployeeInHandle").modal({
 		backdrop : 'static',
@@ -1738,7 +1742,117 @@ function saveEmployeeAndHaulInfoHandle(){
 		return;
 	}
 	
-	//写到这里进行保存前的验证
+	//保存前进行验证以及验证是否已经存在
+	var added = false;
+	var idCard = $("#idCardNumberHandle").val();
+	/**
+	 * 判断该员工的年龄是否达到要求 出生日期年龄范围是 18<= age <= 55
+	 */
+	var date = new Date();// 获得今天的时间
+	var birthday = $("#birthday").val();
+	var startDate = new Date(birthday);
+	var newDate = date.getTime() - startDate.getTime();
+	var age = Math.ceil(newDate / 1000 / 60 / 60 / 24 / 365);// 获得年龄
+	var aged = true;
+	if (age < 18) {
+		alert("该员工年龄小于18岁！");
+		aged = false;
+	}
+	if (age > 55) {
+		alert("该员工年龄大于55岁！");
+		aged = false;
+	}
+
+	// 判断该身份证是否已经添加
+	var name = $("#personNameHandle").val();
+	var sex = $("#sexHandle").val();
+	var birthday = $("#birthdayHandle").val();
+	var address = $("#addressHandle").val();
+	var phone = $("#addEmployeeInPhoneHandle").val();
+
+	var duty = $("#addEmployeeInDuty option:selected").text();
+	var add_departmentName = $("#add_departmentName").val();
+	var departmentid = $("#queryDepartmentId").val();
+
+	var idCardImageStr = $("#idCardImageStr_handle").val();//头像
+	// 判断该员工是否进入黑名单
+	$.ajax({url : "/Exam/employeein_isBlackList.action",
+					data : {
+						"myIdcode" : idCard
+					},
+					async:false,
+					dataType : "json",
+					type : "post",
+					success : function(data) {
+						if (data.flag == "0") {
+							$.ajax({	url : '/Exam/employeein_isIdCode.action',
+										data : {
+											"myIdcode" : idCard
+										},
+										type : 'POST',
+										dataType : 'json',
+										async : false,
+										success : function(result) {
+											if (!result.flag) {
+												alert("该员工已经添加，不能重复添加");
+											}else{
+												//上传头像
+												console.log(idCard);
+												console.log(idCardImageStr);
+												$.ajax({
+													url : "/Exam/employeein_saveEmployeePhoto.action",
+													data : {
+														"employeeInIdCard" : idCard,
+														"photoStr" : idCardImageStr
+													},
+													async : true,
+													type : "post"
+												});
+												//保存信息
+												// 先进行转换
+												var i=0;
+												sex = sex.toString().replace("男", "1").replace("女", "2");
+												var add_employeeOutInfo = "<input name='employeeInList[" + i
+														+ "].name' type='hidden' value='" + name + "'/>"
+														+ "<input name='employeeInList[" + i
+														+ "].idcode' type='hidden' value='" + idCard + "'/>"
+														+ "<input name='employeeInList[" + i
+														+ "].sex' type='hidden' value='" + sex + "'/>"
+														+ "<input name='employeeInList[" + i
+														+ "].address' type='hidden' value='" + address + "'/>"
+														+ "<input name='employeeInList[" + i
+														+ "].birthday' type='hidden' value='" + birthday + "'/>"
+														+ "<input name='employeeInList[" + i
+														+ "].phone' type='hidden' value='" + phone + "'/>"
+														+ "<input name='employeeInList[" + i
+														+ "].duty' type='hidden' value='" + duty + "'/>"
+														+ "<input name='employeeInList[" + i
+														+ "].departmentid' type='hidden' value='" + departmentid
+														+ "'/>";
+												$("#form_addEmployeeOutInfoHandle").append(add_employeeOutInfo);
+												$.ajax({
+													url : "/Exam/employeein_addEmployeeInBatch.action",
+													data : $("#form_addEmployeeOutInfoHandle").serialize(),
+													dataType : "json",
+													type : "post",
+													success : function(result) {
+														alert(result.flag);
+														$("#el_addEmployeeInHandle").modal("hide");
+														// 调用查询员工信息的方法
+														clearPagenum();
+													}
+												});
+												
+											}
+										}
+									});
+						} else if (data.flag == "2") {
+							alert("该员工的违章积分已经累计达到12分,不能添加");
+						} else if (data.flag == "1") {
+							alert("该员工已进入永久黑名单，不能添加");
+						}
+					}
+				});
 	
 }
 /**********E  手工录入身份证******************/
