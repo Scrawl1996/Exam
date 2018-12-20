@@ -37,8 +37,8 @@ import cn.xm.exam.utils.ValidateCheck;
 
 @SuppressWarnings("all")
 public class EmployeeInAction extends ActionSupport {
-	
-	private static final Logger log = LoggerFactory.getLogger(DepartmentCountAction.class);
+
+	private static final Logger log = LoggerFactory.getLogger(EmployeeInAction.class);
 
 	private File fileName;
 	private String fileNameContentType;
@@ -312,6 +312,7 @@ public class EmployeeInAction extends ActionSupport {
 	}
 
 	public String saveEmployeePhoto() throws Exception {
+		log.info("访问开始saveEmployeePhoto");
 		// 得到图片的信息
 
 		// 1.保存图片
@@ -322,11 +323,12 @@ public class EmployeeInAction extends ActionSupport {
 
 		String name = employeeInIdCard + ".jpg";
 		String dir = ResourcesUtil.getValue("path", "photo") + name;
-		if(photoStr.startsWith("data:image/jpeg;base64,")){
+		if (photoStr.startsWith("data:image/jpeg;base64,")) {
 			photoStr = photoStr.replace("data:image/jpeg;base64,", "");
 		}
 		BSASE64.generateImage(photoStr, dir);
-
+		log.info("employeeInIdCard->{},photoStr->{}", employeeInIdCard, photoStr);
+		log.info("访问结束saveEmployeePhoto");
 		return NONE;
 	}
 
@@ -408,7 +410,7 @@ public class EmployeeInAction extends ActionSupport {
 			condition2.put("empbumen", empbumen);
 			result.put("empbumen", empbumen);
 		}
-		
+
 		return condition2;
 	}
 
@@ -577,17 +579,17 @@ public class EmployeeInAction extends ActionSupport {
 			condition.put("departmentid", departmentid);
 			result.put("departmentid", departmentid);
 		}
-		
+
 		if (ValidateCheck.isNotNull(empbumen)) {
 			condition.put("empbumen", empbumen);
 			result.put("empbumen", empbumen);
 		}
-		
+
 		if (ValidateCheck.isNotNull(isOnlyManager)) {
 			condition.put("isOnlyManager", isOnlyManager);
 			result.put("isOnlyManager", isOnlyManager);
 		}
-		
+
 		return condition;
 	}
 
@@ -695,7 +697,7 @@ public class EmployeeInAction extends ActionSupport {
 	private String trainstatus;
 	private String departmentid;
 	private String isOnlyManager;
-	
+
 	public String getIsOnlyManager() {
 		return isOnlyManager;
 	}
@@ -703,7 +705,7 @@ public class EmployeeInAction extends ActionSupport {
 	public void setIsOnlyManager(String isOnlyManager) {
 		this.isOnlyManager = isOnlyManager;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
