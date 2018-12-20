@@ -1456,7 +1456,7 @@ function saveEmpoutInfoHandle(){
 					+ "].empoutidcard' type='hidden' value='" + idCard + "'/>"
 					+ "<input name='haulEmployeeOutList[" + i
 					+ "].emptype' type='hidden' value='" + employeeOutTypeValue + "'/>";
-				$("#form_addEmployeeOutInfo").append(haulEmployeeOutInfoList);
+				$("#form_addEmployeeOutInfoHandle").append(haulEmployeeOutInfoList);
 				
 				//如果重来没来过将图片上传上去并且	
 				if (data.status == 1) {
