@@ -987,7 +987,7 @@ hasOperatingEmpin = true;
 											
 											<div class="input-group el_modellist01" role="toolbar">
 												<span class="el_spans0">出生日期：</span> 
-												<input type="text" value="" id="birthdayHandle" class="form-control el_modelinput"name="EmployeeIn.birthday" />
+												<input type="text" value="" id="birthdayHandle" class="form-control validateInput handleDispose el_modelinput"name="EmployeeIn.birthday" />
 											 	<span class="el_spans0">身&nbsp;&nbsp;份&nbsp;证：</span>
 											 	<input	type="text" value="" onblur="getIdcardData()" id="idCardNumberHandle" class="handleDispose validateInput form-control el_modelinput"  name="" />
 											</div>
@@ -996,8 +996,7 @@ hasOperatingEmpin = true;
 												<span class="el_spans0">家庭住址：</span> 
 												<input type="text" value="" id="addressHandle" name="EmployeeIn.address" class="form-control validateInput el_modelinput handleDispose"/> 
 												<span class="el_spans0">所选部门：</span>
-												<input type="text" class="form-control el_modelinput handleDispose" id="add_departmentNameHandle" />
-											    <input type="hidden" id="yincangzhiwuHandle">
+												<input type="text" readonly="readonly" class="form-control el_modelinput handleDispose" id="add_departmentNameHandle" />
 											</div>
 
 											<div class="input-group el_modellist03" role="toolbar">

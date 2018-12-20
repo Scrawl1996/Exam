@@ -1770,8 +1770,7 @@ function saveEmployeeAndHaulInfoHandle(){
 	var address = $("#addressHandle").val();
 	var phone = $("#addEmployeeInPhoneHandle").val();
 
-	var duty = $("#addEmployeeInDuty option:selected").text();
-	var add_departmentName = $("#add_departmentName").val();
+	var duty = $("#addEmployeeInDutyHandle option:selected").text();
 	var departmentid = $("#queryDepartmentId").val();
 
 	var idCardImageStr = $("#idCardImageStr_handle").val();//头像
