@@ -8,11 +8,14 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import cn.xm.exam.action.employee.in.EmployeeInAction;
 import cn.xm.exam.bean.employee.out.Breakrules;
 import cn.xm.exam.bean.employee.out.EmployeeOut;
 import cn.xm.exam.bean.haul.Haulemployeeout;
@@ -39,6 +42,8 @@ import cn.xm.exam.vo.employee.out.EmployeeOutBaseInfo;
 @Controller
 @Scope("prototype")
 public class EmployeeOutPersonAction extends ActionSupport{
+	
+	private static final Logger log = LoggerFactory.getLogger(EmployeeOutPersonAction.class);
 
 	private static final long serialVersionUID = 1L;
 	
@@ -234,15 +239,15 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	
 	//图片信息的处理
 	public String saveEmployeePhoto(){
-		// 获取工程下的路径
-		//String path = ServletActionContext.getServletContext().getRealPath("image/employeePhoto");
-		//String path = "D:/images";
+		log.info("[保存外部图片]访问开始saveEmployeePhoto");
 		String path = ResourcesUtil.getValue("path", "employeeOutPhoto");
 		String filepath = path + "\\" + employeeOutIdCard + ".jpg";
 		if(photoStr.startsWith("data:image/jpeg;base64,")){
 			photoStr = photoStr.replace("data:image/jpeg;base64,", "");
 		}
 		BSASE64.generateImage(photoStr, filepath);
+		log.info("[保存外部图片]filepath->{},photoStr->{}", filepath, photoStr);
+		log.info("[保存外部图片]访问结束saveEmployeePhoto");
 		return NONE;
 	}
 	

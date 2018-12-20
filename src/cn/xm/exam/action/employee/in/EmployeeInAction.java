@@ -312,23 +312,21 @@ public class EmployeeInAction extends ActionSupport {
 	}
 
 	public String saveEmployeePhoto() throws Exception {
-		log.info("访问开始saveEmployeePhoto");
+		log.info("[保存内部图片]访问开始saveEmployeePhoto");
 		// 得到图片的信息
 
 		// 1.保存图片
 		// 2.修改名字
 		// 3修改员工属性
-		ServletContext servletContext = ServletActionContext.getServletContext();
 		// 新名字
-
 		String name = employeeInIdCard + ".jpg";
 		String dir = ResourcesUtil.getValue("path", "photo") + name;
 		if (photoStr.startsWith("data:image/jpeg;base64,")) {
 			photoStr = photoStr.replace("data:image/jpeg;base64,", "");
 		}
 		BSASE64.generateImage(photoStr, dir);
-		log.info("employeeInIdCard->{},photoStr->{}", employeeInIdCard, photoStr);
-		log.info("访问结束saveEmployeePhoto");
+		log.info("[保存内部图片]dir->{},photoStr->{}", dir, photoStr);
+		log.info("[保存内部图片]访问结束saveEmployeePhoto");
 		return NONE;
 	}
 
