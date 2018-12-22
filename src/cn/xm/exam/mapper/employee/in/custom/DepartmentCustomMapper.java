@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import cn.xm.exam.bean.employee.in.Department;
 
@@ -29,9 +30,9 @@ public interface DepartmentCustomMapper {
 	 * @return
 	 * @throws SQLException
 	 */
-	@Select("SELECT DISTINCT departmentName FROM department WHERE updepartmentid IN(SELECT departmentid  FROM department WHERE"
+	@Select("SELECT DISTINCT departmentName,safehatprefix FROM department WHERE updepartmentid IN(SELECT departmentid  FROM department WHERE"
 			+ " departmentName = '长委单位')   AND departmentType = '1' and departmentName like concat('%',#{depNameWords},'%')")
-	public List<String> getChangWeiDepartment(@Param("depNameWords")String depNameWords) throws SQLException;
+	public List<Map<String,Object>> getChangWeiDepartment(@Param("depNameWords")String depNameWords) throws SQLException;
 
 	/******** E 查询内部部门树 ****************/
 	/**** 查询部门信息 */
@@ -185,7 +186,9 @@ public interface DepartmentCustomMapper {
 	 */
 	@Delete("delete from department where departmentId like '${value}%'")
 	public int deleteDepartmentByUpId(String id)throws SQLException;
-
+	
+	@Update("update department set safehatprefix=#{safeHatNumPrefix}  where departmentName=#{changweiName}")
+	public int updateSafehatNumPrefix(@Param("changweiName")String changweiName,@Param("safeHatNumPrefix") String safeHatNumPrefix);
 	/****** E leilong **********/
 
 }

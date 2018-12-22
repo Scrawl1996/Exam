@@ -1,6 +1,23 @@
 /**
  * Created by yorge on 2017/9/14.
  */
+/**
+ * 一个值如果是null或者''返回-
+ * @param value 需要处理的值
+ * @param length 需要截取的字符的长度的值,未指定的时候返回全部
+ * @returns {*} 处理过的值
+ */
+function replaceNull(value,length) {
+    //判断截取的值是否为空
+    if(value == null || value==undefined || value == "" || value=='undefined'){
+        return "";
+    }
+    //判断长度是否为空
+    if(length == null || length == ''){
+        return value;
+    }
+    return value.toString().substr(0,length);
+}
 
 /** *************************分页******************************* */
 function fenye(total, pageSize, pageNumber) {
@@ -959,12 +976,12 @@ function showTables(result) {
 						"<tr><td>"
 								+ (parseInt(currentCount)
 										* parseInt(currentPage - 1) + (i + 1))
-								+ "</td><td>"
-								+ list[i]
-								+ "</td><td>"
+								+ "</td><td>" + list[i].departmentName + "</td>"
+								+ "<td>" + replaceNull(list[i].safehatprefix) + "</td><td>"
 								+ "<a class='button' href=javascript:void(0) onclick='deleteCw(\""
-								+ list[i]
-								+ "\")'><span class='glyphicon glyphicon-trash'></span></a></td></tr>")
+								+ list[i].departmentName
+								+ "\")'><span class='glyphicon glyphicon-trash'></span></a>"
+								+"<a class='button' href=javascript:void(0) title='修改安全帽前缀' onclick='updateSafehatNumPrefix(\""+list[i].departmentName+"\",this)'><span class='glyphicon glyphicon-pencil'></span></a></td></tr>")
 	}
 	// 动态开启分页组件
 	page(currentPage, totalCount, currentCount);
@@ -998,7 +1015,7 @@ function deleteCw(obj) {
 		if (confirm("您确认删除此长委单位?您的操作比较危险,确认后将删除此长委单位的全部信息!")) {
 			var departmentName = obj;
 			$.post('department_deleteCWByName.action', {
-				'deleteName' : departmentName
+				'changweiName' : departmentName
 			}, function(result) {
 				alert(result.message);
 				if ("删除成功" == result.message) {
@@ -1007,4 +1024,21 @@ function deleteCw(obj) {
 			}, 'json');
 		}
 	}
+}
+
+function updateSafehatNumPrefix(changweiName,obj){
+    var safeHatNumPrefix = prompt("请输入安全帽编号前缀");
+    if(safeHatNumPrefix!=null){//点击确定
+		$.post('department_updateSafehatNumPrefix.action', {
+			'changweiName' : changweiName,
+			'safeHatNumPrefix' : safeHatNumPrefix
+		}, function(result) {
+			if(result && result.message){
+				alert(result.message);
+				if("修改成功" == result.message){
+					$(obj).parents("tr").find("td:eq(2)").text(safeHatNumPrefix);
+				}
+			}
+		}, 'json');
+    }
 }

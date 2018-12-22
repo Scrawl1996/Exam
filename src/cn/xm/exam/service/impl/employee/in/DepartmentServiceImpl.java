@@ -575,7 +575,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	@Override
-	public List<String> getChangWeiDepartment(String depNameWords) throws SQLException {
+	public List<Map<String, Object>> getChangWeiDepartment(String depNameWords) throws SQLException {
 		return departmentCustomMapper.getChangWeiDepartment(depNameWords);
 	}
 
@@ -642,4 +642,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return message;
 	}
 
+	@Override
+	public String updateSafehatNumPrefix(String changweiName,String safeHatNumPrefix) {
+		return departmentCustomMapper.updateSafehatNumPrefix(changweiName,safeHatNumPrefix) > 0 ? "修改成功" : "修改失败";
+	}
 }

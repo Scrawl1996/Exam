@@ -11,6 +11,7 @@
     <result column="sort" property="sort" jdbcType="VARCHAR" />
     <result column="departProjectNames" property="departprojectnames" jdbcType="VARCHAR" />
     <result column="departmentType" property="departmenttype" jdbcType="VARCHAR" />
+    <result column="safehatprefix" property="safehatprefix" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List" >
     departmentId, upDepartmentId, departmentName, employeeName, phone, description, sort, 
-    departProjectNames, departmentType
+    departProjectNames, departmentType, safehatprefix
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.xm.exam.bean.employee.in.DepartmentExample" >
     select
@@ -107,12 +108,12 @@
   <insert id="insert" parameterType="cn.xm.exam.bean.employee.in.Department" >
     insert into department (departmentId, upDepartmentId, departmentName, 
       employeeName, phone, description, 
-      sort, departProjectNames, departmentType
-      )
+      sort, departProjectNames, departmentType, 
+      safehatprefix)
     values (#{departmentid,jdbcType=VARCHAR}, #{updepartmentid,jdbcType=VARCHAR}, #{departmentname,jdbcType=VARCHAR}, 
       #{employeename,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{sort,jdbcType=VARCHAR}, #{departprojectnames,jdbcType=VARCHAR}, #{departmenttype,jdbcType=VARCHAR}
-      )
+      #{sort,jdbcType=VARCHAR}, #{departprojectnames,jdbcType=VARCHAR}, #{departmenttype,jdbcType=VARCHAR}, 
+      #{safehatprefix,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.xm.exam.bean.employee.in.Department" >
     insert into department
@@ -144,6 +145,9 @@
       <if test="departmenttype != null" >
         departmentType,
       </if>
+      <if test="safehatprefix != null" >
+        safehatprefix,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="departmentid != null" >
@@ -172,6 +176,9 @@
       </if>
       <if test="departmenttype != null" >
         #{departmenttype,jdbcType=VARCHAR},
+      </if>
+      <if test="safehatprefix != null" >
+        #{safehatprefix,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -211,6 +218,9 @@
       <if test="record.departmenttype != null" >
         departmentType = #{record.departmenttype,jdbcType=VARCHAR},
       </if>
+      <if test="record.safehatprefix != null" >
+        safehatprefix = #{record.safehatprefix,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -226,7 +236,8 @@
       description = #{record.description,jdbcType=VARCHAR},
       sort = #{record.sort,jdbcType=VARCHAR},
       departProjectNames = #{record.departprojectnames,jdbcType=VARCHAR},
-      departmentType = #{record.departmenttype,jdbcType=VARCHAR}
+      departmentType = #{record.departmenttype,jdbcType=VARCHAR},
+      safehatprefix = #{record.safehatprefix,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -258,6 +269,9 @@
       <if test="departmenttype != null" >
         departmentType = #{departmenttype,jdbcType=VARCHAR},
       </if>
+      <if test="safehatprefix != null" >
+        safehatprefix = #{safehatprefix,jdbcType=VARCHAR},
+      </if>
     </set>
     where departmentId = #{departmentid,jdbcType=VARCHAR}
   </update>
@@ -270,7 +284,8 @@
       description = #{description,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=VARCHAR},
       departProjectNames = #{departprojectnames,jdbcType=VARCHAR},
-      departmentType = #{departmenttype,jdbcType=VARCHAR}
+      departmentType = #{departmenttype,jdbcType=VARCHAR},
+      safehatprefix = #{safehatprefix,jdbcType=VARCHAR}
     where departmentId = #{departmentid,jdbcType=VARCHAR}
   </update>
 </mapper>

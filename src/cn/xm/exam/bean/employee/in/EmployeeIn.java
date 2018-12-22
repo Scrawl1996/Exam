@@ -68,6 +68,9 @@ public class EmployeeIn {
 	 * @return
 	 */
 	private String sort;
+
+	private String safehatnum;
+
 	private String departmentname;// 飞哥加的
 
 	public String getEmployeeid() {
@@ -207,13 +210,20 @@ public class EmployeeIn {
 		this.departmentname = departmentname;
 	}
 
+	public String getSafehatnum() {
+		return safehatnum;
+	}
+
+	public void setSafehatnum(String safehatnum) {
+		this.safehatnum = safehatnum;
+	}
+
 	@Override
 	public String toString() {
 		return "EmployeeIn [employeeid=" + employeeid + ", employeenumber=" + employeenumber + ", name=" + name
 				+ ", idcode=" + idcode + ", sex=" + sex + ", birthday=" + birthday + ", photo=" + photo + ", phone="
 				+ phone + ", email=" + email + ", address=" + address + ", duty=" + duty + ", departmentid="
 				+ departmentid + ", finger=" + finger + ", isdelete=" + isdelete + ", trainstatus=" + trainstatus
-				+ ", sort=" + sort + "]";
+				+ ", sort=" + sort + ", safehatnum=" + safehatnum + ", departmentname=" + departmentname + "]";
 	}
-
 }

@@ -20,7 +20,7 @@
 <!--左边的树-->
 <!-- <script src="../../js/public/tree.js"></script> -->
 
-<script src="../../js/innerDepart/innerDepart.js"></script>
+<script src="../../js/innerDepart/innerDepart.js?time=2018-12-22"></script>
 <script>
 	var hasOperatingDepart=false;
 	$(function() {
@@ -162,7 +162,7 @@
 													<!-- 删除长委单位功能 -->
 													<shiro:hasPermission name="cwdepartment:delete">
 														<button class="btn btn-primary"
-															onclick="delete_cwdw()">删除长委单位</button>
+															onclick="delete_cwdw()">长委单位管理</button>
 													</shiro:hasPermission>
 																									
 											</div>
@@ -569,6 +569,7 @@
 							                			<tr>
 							                				<th>序号</th>
 							                				<th>单位名称</th>
+							                				<th>安全帽编号前缀</th>
 							                				<th>操作</th>
 							                			</tr>
 							                		</thead>

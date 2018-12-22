@@ -18,6 +18,8 @@ public class Department {
     private String departprojectnames;
 
     private String departmenttype;
+    
+    private String safehatprefix;
 
     public String getDepartmentid() {
         return departmentid;
@@ -90,4 +92,12 @@ public class Department {
     public void setDepartmenttype(String departmenttype) {
         this.departmenttype = departmenttype == null ? null : departmenttype.trim();
     }
+
+	public String getSafehatprefix() {
+		return safehatprefix;
+	}
+
+	public void setSafehatprefix(String safehatprefix) {
+		this.safehatprefix = safehatprefix;
+	}
 }

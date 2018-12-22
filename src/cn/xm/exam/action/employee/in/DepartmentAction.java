@@ -52,7 +52,7 @@ public class DepartmentAction extends ActionSupport {
 		try {
 			treeList = departmentService.getDepartmentTreeCommon(departmentId);
 		} catch (Exception e) {
-			log.error("getDepartmentTree error",e);
+			log.error("getDepartmentTree error", e);
 		}
 
 		result.put("treeList", treeList);
@@ -444,13 +444,13 @@ public class DepartmentAction extends ActionSupport {
 		}
 		/****** S PageHelper分页 *********/
 		PageHelper.startPage(current_page, current_total);// 开始分页
-		List<String> departmentnames = null;
+		List<Map<String, Object>> departmentnames = null;
 		try {
 			departmentnames = departmentService.getChangWeiDepartment(depNameWords);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		PageInfo<String> pageInfo = new PageInfo<>(departmentnames);
+		PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(departmentnames);
 		/****** E PageHelper分页 *********/
 
 		result.put("pageInfo", pageInfo);
@@ -462,16 +462,40 @@ public class DepartmentAction extends ActionSupport {
 	 * 
 	 * @return
 	 */
-	private String deleteName;// 要删除的长委单位的名字
+	private String changweiName;// 要删除的长委单位的名字
 
 	public String deleteCWByName() throws Exception {
 		// 1.根据名称查出所有的部门编号集合
 		result = new HashMap<String, Object>();
-		String message = departmentService.deleteCWDepartmentById(deleteName);
+		String message = "";
+		try {
+			message = departmentService.deleteCWDepartmentById(changweiName);
+		} catch (Exception e) {
+			log.error("deleteCWByName error", e);
+			message = "删除长委出错";
+		}
 
 		result.put("message", message);
 		return SUCCESS;
 	}
+	
+	private String safeHatNumPrefix;
+	public String updateSafehatNumPrefix(){
+		// 1.根据名称查出所有的部门编号集合
+		result = new HashMap<String, Object>();
+		String message = "";
+		try {
+			message = departmentService.updateSafehatNumPrefix(changweiName,safeHatNumPrefix);
+		} catch (Exception e) {
+			log.error("deleteCWByName error", e);
+			message = "修改长委安全帽前缀出错";
+		}
+		
+		result.put("message", message);
+		return SUCCESS;
+	}
+	
+	
 
 	/******** E QLQ ****************/
 
@@ -483,12 +507,19 @@ public class DepartmentAction extends ActionSupport {
 		this.depNameWords = depNameWords;
 	}
 
-	public String getDeleteName() {
-		return deleteName;
+	public String getChangweiName() {
+		return changweiName;
 	}
 
-	public void setDeleteName(String deleteName) {
-		this.deleteName = deleteName;
+	public void setChangweiName(String changweiName) {
+		this.changweiName = changweiName;
 	}
 
+	public String getSafeHatNumPrefix() {
+		return safeHatNumPrefix;
+	}
+
+	public void setSafeHatNumPrefix(String safeHatNumPrefix) {
+		this.safeHatNumPrefix = safeHatNumPrefix;
+	}
 }

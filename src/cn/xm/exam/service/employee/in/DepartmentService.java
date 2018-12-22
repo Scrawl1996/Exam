@@ -157,7 +157,7 @@ public interface DepartmentService {
 	 * @throws SQLException
 	 */
 	//public List<Map<String, Object>> getDepartmentTreeForExam(String departmentId) throws SQLException;
-	public List<String> getChangWeiDepartment(String depNameWords) throws SQLException;
+	public List<Map<String,Object>> getChangWeiDepartment(String depNameWords) throws SQLException;
 	/** E qlq *********/
 	
 	/** S ll *********/
@@ -209,4 +209,6 @@ public interface DepartmentService {
 	 * @throws SQLException
 	 */
 	public String deleteCWDepartmentById(String name)throws Exception;
+
+	public String updateSafehatNumPrefix(String changweiName, String safeHatNumPrefix);
 }

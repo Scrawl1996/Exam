@@ -29,6 +29,7 @@
 		employee_in.employeeId),0) as
 		"sumBreakScore",
 		department.departmentId,
+		department.safehatprefix,
 		department.departmentName
 
 		from employee_in,department
@@ -108,6 +109,7 @@
 		=
 		employee_in.employeeId),'否') as 'status',
 		department.departmentId,
+		department.safehatprefix,
 		department.departmentName
 
 		from employee_in,department
@@ -314,6 +316,7 @@
 		blacklist.employeestatus='0' and blacklist.employeeId =
 		employee_in.employeeId),'否') as 'status',
 		department.departmentId,
+		department.safehatprefix,
 		department.departmentName,
 		department.departmentType
 		
@@ -395,6 +398,7 @@
 		),0) as
 		"sumBreakScore",
 		department.departmentId,
+		department.safehatprefix,
 		department.departmentName,
 		department.departmentType,
 		IFNULL((select
@@ -561,6 +565,7 @@
 		),0) as
 		"sumBreakScore",
 		department.departmentId,
+		department.safehatprefix,
 		department.departmentName,
 		department.departmentType,
 		IFNULL((select
@@ -684,6 +689,7 @@
 		group by emplyin_breakrules.empInEmployeeId),0) as
 		"sumBreakScore",
 		department.departmentId,
+		department.safehatprefix,
 		department.departmentName,
 		department.departmentType,
 		IFNULL((select
