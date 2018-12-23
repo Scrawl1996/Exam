@@ -7,19 +7,19 @@ public class SafehatIn {
 
 	private String safehatnum;
 
-	private String creatorfullname;
+	private String creatorfullname;// 创建者姓名
 
-	private String creatorusername;
+	private String creatorusername;// 创建者身份证号
 
-	private String creatordepartid;
+	private String creatordepartid;// 创建者部门ID
 
-	private String userempid;
+	private String userempid;// 使用者员工ID
 
-	private String useridcard;
+	private String useridcard;// 使用者身份证号
 
 	private String isdelete;
 
-	private String changelog;
+	private String changelog;// 变更记录
 
 	public String getId() {
 		return id;

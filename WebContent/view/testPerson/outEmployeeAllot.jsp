@@ -630,8 +630,6 @@ hasOperatingEmpout = true;
 											<div class="modal-body" style="padding: 10px 30px 0 30px;">
 												<div>
 												<form id="allocateSafeHatForm">
-														<input type='hidden' name='safeHatPrefix' id='hidden_safeHatPrefix'/>
-														<input type='hidden' name='unitName' id='hidden_unitName'/>
 														<table
 															class="table table-bordered table-hover el_threeScoreListTable">
 															<thead>

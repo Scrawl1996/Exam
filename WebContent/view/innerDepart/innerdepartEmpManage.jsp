@@ -368,7 +368,7 @@ hasOperatingEmpin = true;
 									<div class="panel panel-default">
 										<div class="panel-body el_MainxiaoMain">
 
-											<div class="el_topButton">
+											<div class="el_topButton" style="min-height: 80px;">
 												<div>
 													<button class="btn btn-primary" data-toggle="modal"
 														onclick="el_empTrainDoc()">查看员工培训档案</button>
@@ -408,6 +408,28 @@ hasOperatingEmpin = true;
 													<shiro:hasPermission name="addEmpin:handle">
 														<button id="openAddEmpoutHandleModal" onclick="openHanleAddEmp();"	class="btn btn-primary">手工录入员工</button>
 													</shiro:hasPermission>
+													
+													<shiro:hasPermission name="safehat:manage">
+														<button id="allocateSafehat_btn"
+															class="btn btn-primary" onclick="allocateSafehat()">
+															分配安全帽</button>
+													</shiro:hasPermission>
+			
+													<shiro:hasPermission name="safehat:useOld">
+														<button id="modifySafehat_btn"
+															class="btn btn-primary" onclick="modifySafehat()">
+															使用以前安全帽</button>		
+													</shiro:hasPermission>
+														
+													<shiro:hasPermission name="safehat:revoke">	
+														<button id="recoverSafehat_btn"
+															class="btn btn-primary" onclick="recoverSafehat()">
+															安全帽收回</button>								
+													</shiro:hasPermission>	
+														
+													<button id="recoverSafehat_btn"
+														class="btn btn-primary" onclick="importSafeHat()">
+														导入安全帽</button>								
 												</div>
 											</div>
 
@@ -427,6 +449,7 @@ hasOperatingEmpin = true;
 												<th>职务</th>
 												<th>违章积分</th>
 												<th>黑名单状态</th>
+												<th>安全帽编号</th>
 												<th width="190">操作</th>
 											</tr>
 										</thead>
@@ -1023,9 +1046,273 @@ hasOperatingEmpin = true;
 								</div>
 								<!-- /.modal -->
 							</div>
+							
+							<!-- 模态框分配安全帽-->
+							<div class="modal fade" id="allocateSafehatModal" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog" style="width:60%;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="allocateSafeHatTitle">内部员工分配安全帽</h4>
+										</div>
+											<div class="modal-body" style="padding: 10px 30px 0 30px;">
+												<div>
+												<form id="allocateSafeHatForm">
+														<table
+															class="table table-bordered table-hover el_threeScoreListTable">
+															<thead>
+																<tr>
+																	<th>序号</th>
+																	<th>部门名称</th>
+																	<th>姓名</th>
+																	<th>安全帽编号</th>
+																</tr>
+															</thead>
+															
+															<tbody id="allocateSafehatTbody">
+															</tbody>
+														</table>
+													</form>
+													<br/>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-primary" onclick="saveSafeHat()">
+													确定</button>
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+											</div>
+										</form>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+							
+							<!-- 模态框安全帽换人-->
+							<div class="modal fade" id="modifySafehatModal" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog" style="width:60%;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title" id="modifySafehatModalTitle">安全帽换人</h4>
+										</div>
+											<div class="modal-body" style="padding: 10px 30px 0 30px;">
+												<div>
+												<form id="modifySafeHatForm">
+														<input type='hidden' name='safeHatPrefix' id='hidden_modifyPrefix'/>
+														<input type='hidden' name='unitName' id='hidden_modifyUnitName'/>
+														<table
+															class="table table-bordered table-hover el_threeScoreListTable">
+															<thead>
+																<tr>
+																	<th>序号</th>
+																	<th>单位名称</th>
+																	<th>姓名</th>
+																	<th>安全帽编号(旧)</th>
+																	<th>正在使用者</th>
+																</tr>
+															</thead>
+															
+															<tbody id="modifySafehatTbody">
+															</tbody>
+														</table>
+													</form>
+													<br/>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-primary" onclick="saveModifySafehat()">
+													确定</button>
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+											</div>
+										</form>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
 
+							<!-- 模态框修改安全帽编号-->
+							<div class="modal fade" id="updateSafeHatModal" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog" style="width:40%;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title">修改安全帽编号</h4>
+										</div>
+											<div class="modal-body" style="padding: 10px 30px 0 30px;">
+												<div>
+												<form id="updateSafeNumForm">
+														<input type='hidden' name='originSafeHatNum' id='hidden_originSafeHatNum'/>
+														<input type='hidden' name='safeHatPrefix' id='hidden_safeHatPrefix_update'/>
+														<table
+															class="table table-bordered table-hover el_threeScoreListTable">
+															<thead>
+																<tr>
+																	<th>安全帽编号</th>
+																	<th>新编号</th>
+																</tr>
+															</thead>
+															
+															<tbody id="updateSafehatTbody">
+																<tr>
+																	<td id="originNum"></td>
+																	<td><input type="text" name='newSafeHatNum' id="newSafeHatNum"></td>
+																</tr>
+															</tbody>
+														</table>
+													</form>
+													<br/>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-primary" onclick="updateSafehatnum()">
+													确定</button>
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+											</div>
+										</form>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
 
-
+							<!-- 模态框安全换帽详情-->
+							<div class="modal fade" id="safehatChangeInfoModal" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel23"
+								data-backdrop="static" data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog" style="width:40%;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title">换人信息</h4>
+										</div>
+											<div class="modal-body" style="padding: 10px 30px 0 30px;">
+												<div>
+														<table
+															class="table table-bordered table-hover el_threeScoreListTable">
+															<thead>
+																<tr>
+																	<th>安全帽换人记录</th>
+																</tr>
+															</thead>
+															
+															<tbody id="safeHatChangeDetail">
+																<tr>
+																	<td id="safehatChangeInfoTd"></td>
+																</tr>
+															</tbody>
+														</table>
+													<br/>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+											</div>
+										</form>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+							
+							<!-- 模态框安全帽详情-->
+							<div class="modal fade" id="SafeHatChangeLogModal" tabindex="-1" role="dialog"
+								aria-labelledby="myModalLabel23" data-backdrop="static"
+								data-keyboard="false" aria-hidden="true">
+								<div class="modal-dialog" style="width: 40%;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">&times;</button>
+											<!--关闭符号-->
+											<!--标题-->
+											<h4 class="modal-title">安全帽变更记录</h4>
+										</div>
+										<div class="modal-body" style="padding: 10px 30px 0 30px;">
+											<div>
+												<table
+													class="table table-bordered table-hover el_threeScoreListTable">
+													<thead>
+														<tr>
+															<th>序号</th>
+															<th>安全帽变更记录</th>
+														</tr>
+													</thead>
+				
+													<tbody id="safeHatChangeLogDetail">
+													</tbody>
+												</table>
+												<br />
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default"
+												data-dismiss="modal">关闭</button>
+										</div>
+										</form>
+									</div>
+									<!-- /.modal-content -->
+								</div>
+								<!-- /.modal -->
+							</div>
+							
+			                <div class="modal fade" id="safehatBatchImportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+			                     aria-hidden="true" data-backdrop="static" data-keyboard="false">
+			                    <div class="modal-dialog">
+			                        <div class="modal-content">
+			                            <div class="modal-header">
+			                                <button type="button" class="close" data-dismiss="modal"
+			                                        aria-hidden="true">&times;</button><!--关闭符号-->
+			                                <!--标题-->
+			                                <h4 class="modal-title" id="myModalLabel">批量导入安全帽</h4>
+			                            </div>
+			                            <form  enctype="multipart/form-data" id="form_inputQuestions">
+			
+			                                <div class="modal-body">
+			
+			                                    <div class="expScoreTitle">
+			                                        <span>模板下载：</span>
+			                                        <a href='exportBatchModel.action?name=safahatIn.xls'>点击下载模板</a>
+			                                    </div>
+			                                    <div class="input-group el_modellist" role="toolbar">
+			                                        <span class="el_spans">导入安全帽信息：</span>
+			                                        <input type="file"  name="fileName" accept=".xls"/>
+			                                    </div>
+			                                </div>
+			
+			                                <div class="modal-footer">
+			                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			                                    <button type="button" id="importBtn" class="btn btn-primary" onclick="inputQuestions()">导入</button>
+			                                </div>
+			                            </form>
+			
+			                        </div><!-- /.modal-content -->
+			                    </div><!-- /.modal -->
+			                </div>
+							
 							<!-- zwy end -->
 
 							<!-- 隐藏域，隐藏一个添加前的违章总积分 -->

@@ -505,5 +505,4 @@
 			where departmentId like '${value}%'
 		</if>
 	</select>
-
 </mapper>

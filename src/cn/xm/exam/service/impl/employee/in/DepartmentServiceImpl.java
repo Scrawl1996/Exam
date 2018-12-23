@@ -643,7 +643,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	@Override
-	public String updateSafehatNumPrefix(String changweiName,String safeHatNumPrefix) {
-		return departmentCustomMapper.updateSafehatNumPrefix(changweiName,safeHatNumPrefix) > 0 ? "修改成功" : "修改失败";
+	public String updateSafehatNumPrefix(String changweiName, String safeHatNumPrefix) {
+		List<String> departmentIds = departmentCustomMapper.getDepartmentIdsByName(changweiName);
+		for (String departmentId : departmentIds) {
+			departmentCustomMapper.updateSafehatNumPrefix(departmentId, safeHatNumPrefix);
+		}
+		return "修改成功";
 	}
 }

@@ -13,6 +13,7 @@
 		</global-results>
 
 		<action name="safeHat_*" class="safeHatAction" method="{1}"></action>
+		<action name="safeHatIn_*" class="empInSafeHatAction" method="{1}"></action>
 
 		<action name="extSafeHatTaizhang" class="extSafeHatTaizhang">
 			<result type="stream">

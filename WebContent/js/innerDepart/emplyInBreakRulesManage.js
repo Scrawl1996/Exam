@@ -1,6 +1,28 @@
 /**
  * Created by yorge on 2017/9/14.
  */
+/**
+ * 一个值如果是null或者''返回-
+ * @param value 需要处理的值
+ * @param length 需要截取的字符的长度的值,未指定的时候返回全部
+ * @returns {*} 处理过的值
+ */
+function replaceNull(value,length) {
+    //判断截取的值是否为空
+    if(value == null || value==undefined || value == "" || value=='undefined'){
+        return "";
+    }
+    //判断长度是否为空
+    if(length == null || length == ''){
+        return value;
+    }
+    return value.toString().substr(0,length);
+}
+
+function hasRepeatValue(a) {
+	return /(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + a.join("\x0f\x0f") + "\x0f");
+}
+
 /* 添加违章信息 */
 function el_addBreakInfo() {
 	// 累计选择的个数，若等于1，才执行，否则提示
@@ -11,7 +33,7 @@ function el_addBreakInfo() {
 		}
 	});
 	if (nums != 1) {
-		alert("请选中员工之后再添加违章信息！");
+		alert("请选中单个员工之后再添加违章信息！");
 		return false;
 	} else {
 		// 为模态框表格中的数据初始化
@@ -468,8 +490,9 @@ function leftBtn() {
 								+ ">";// 隐藏部门类型
 						opStr += "<input  type='hidden' class='query_address' value="
 								+ data.empInMsgByDepIdLeft[i].address + ">";// 隐藏家庭住址
-
-						opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="
+						opStr += "<input  type='hidden' class='query_safehatprefix' value="
+							+ replaceNull(data.empInMsgByDepIdLeft[i].safehatprefix) + ">";// 隐藏单位编号前缀
+						opStr += "<td><input type='checkbox' name='el_chooseBreakRules' class='el_checks' value="
 								+ employeeId + "></td>";
 						opStr += "<td>" + name + "</td>";// 姓名
 						opStr += "<td>" + sex + "</td>";// 性别
@@ -502,6 +525,17 @@ function leftBtn() {
 							} else {
 								opStr += "<td>" + "否" + "</td>";
 							}
+						}
+						
+						var safeHatNumTmp = replaceNull(data.empInMsgByDepIdLeft[i].safeHatNum);
+						//换人的显示
+						if (safeHatNumTmp && safeHatNumTmp.length > 50) {
+							opStr += "<td><a href=javascript:void(0) title='点击查看换人信息' onclick='openSafehatChangeInfo(\""+safeHatNumTmp
+									+ "\")'>"
+									+ safeHatNumTmp.substr(0, safeHatNumTmp.indexOf("】") + 1)
+									+ "</a></td>";
+						} else {//正常的显示
+							opStr += "<td><a title='点击查看变更记录' onclick='queryHatChangeLog(this)' href='javascript:void(0)'>"+replaceNull(data.empInMsgByDepIdLeft[i].safeHatNum)+"</a></td>";
 						}
 						opStr += "<td>";
 
@@ -669,6 +703,7 @@ function findSaveBtn() {
 						var birthday = data.empInMsgByDepIdLeft[i].birthday;// 出生日期
 
 						opStr += "<tr>";
+						
 						// 隐藏域
 						opStr += "<input name='el_ycy' type='hidden' value="
 								+ employeeId + ">";// 隐藏域，隐藏一个职工id employeeId
@@ -682,7 +717,9 @@ function findSaveBtn() {
 								+ ">";// 隐藏部门类型
 						opStr += "<input  type='hidden' class='query_address' value="
 								+ data.empInMsgByDepIdLeft[i].address + ">";// 隐藏家庭住址
-						opStr += "<td><input type='radio' name='el_chooseBreakRules' class='el_checks' value="
+						opStr += "<input  type='hidden' class='query_safehatprefix' value="
+							+ replaceNull(data.empInMsgByDepIdLeft[i].safehatprefix) + ">";// 隐藏单位编号前缀
+						opStr += "<td><input type='checkbox' name='el_chooseBreakRules' class='el_checks' value="
 								+ phone + "></td>";
 						opStr += "<td>" + name + "</td>";// 姓名
 						opStr += "<td>" + sex + "</td>";// 性别
@@ -720,6 +757,18 @@ function findSaveBtn() {
 								opStr += "<td>" + "否" + "</td>";
 							}
 						}
+						
+						var safeHatNumTmp = replaceNull(data.empInMsgByDepIdLeft[i].safeHatNum);
+						//换人的显示
+						if (safeHatNumTmp && safeHatNumTmp.length > 50) {
+							opStr += "<td><a href=javascript:void(0) title='点击查看换人信息' onclick='openSafehatChangeInfo(\""+safeHatNumTmp
+									+ "\")'>"
+									+ safeHatNumTmp.substr(0, safeHatNumTmp.indexOf("】") + 1)
+									+ "</a></td>";
+						} else {//正常的显示
+							opStr += "<td><a title='点击查看变更记录' onclick='queryHatChangeLog(this)' href='javascript:void(0)'>"+replaceNull(data.empInMsgByDepIdLeft[i].safeHatNum)+"</a></td>";
+						}
+						
 						opStr += "<td>";
 
 						opStr += "<input type='hidden' value=" + employeeId
@@ -1418,7 +1467,7 @@ function saveEmployeeAndHaulInfo() {
 
 function el_empTrainDoc() {
 
-	if ($("input[name='el_chooseBreakRules']:checked").length == "0") {
+	if ($("input[name='el_chooseBreakRules']:checked").length == "0" || $("input[name='el_chooseBreakRules']:checked").length >1 ) {
 		alert("请选择一名员工！");
 
 	} else {
@@ -1855,3 +1904,262 @@ function saveEmployeeAndHaulInfoHandle(){
 	
 }
 /**********E  手工录入身份证******************/
+
+/** *************S 安全帽相关操作******************************** */
+function allocateSafehat() {
+	// 判断是否合法
+	var chooseEmpNum = 0;// 判断是否有员工被选中
+	var hasAllocated = false;
+	$("#allocateSafehatTbody").html("");//清空表格
+	$(".el_checks:checked").each(function(i) { // 获取选择的员工
+			var tr = $(this).parents("tr");
+			var value = tr.find("td:eq(9)").text();
+			if("" != value){
+				hasAllocated = true;
+				return;
+			}
+			var usertName = tr.find("td:eq(1)").text();
+			var departmentName = tr.find("td:eq(5)").text();
+			var departmentId = tr.find("td:eq(5)").text();
+			var safehatprefix = tr.find(".query_safehatprefix").val();
+			var userIdCard = tr.find("#myidCode").val();
+			var departmentid = tr.find("#departmentid").val();
+			var hiddenEle="";
+			    hiddenEle+="<input type='hidden' name='userIdCards["+i+"]' value='"+userIdCard+"'/>";
+			
+			var tr = "<tr>"
+			+"<td>"+(i+1)+hiddenEle+"</td>"
+			+"<td>"+usertName+"</td>"
+			+"<td>"+departmentName+"</td>"
+			+"<td><input name='safeHatNums["+i+"]' value='"+safehatprefix+"' class='safeHatNums_save'/></td>"
+			+"</tr>";
+			chooseEmpNum++;
+			$("#allocateSafehatTbody").append(tr);
+	});
+	
+	if(hasAllocated){
+		alert("请选择没有分配安全帽的员工！")
+		return;
+	}
+	
+	if (chooseEmpNum == 0) {
+		alert("请先选择员工！")
+		return;
+	}
+	
+	// 2.开启模态框
+	$("#allocateSafehatModal").modal({
+		backdrop : 'static',
+		keyboard : false
+	}); // 手动开启
+}
+
+/**
+ * 保存安全帽信息
+ */
+function saveSafeHat(){
+	//判断是否有没有填写的input
+	var hasNullValue = false;
+	$(".safeHatNums_save").each(function(){
+		if(!$(this).val()){
+			hasNullValue = true;
+		}
+	});
+	if(hasNullValue){
+		alert("请输入安全帽编号");
+		return;
+	}
+		
+	//保存后台
+	$.post("/Exam/safeHatIn_allocateSafeHatNum.do",$("#allocateSafeHatForm").serialize(),function(res){
+		if(res){
+			if(res.msg && "ok" == res.msg){
+				alert("保存成功");
+				//关闭模态框，重新查询
+				$("#allocateSafehatModal").modal('hide');  //手动关闭
+				findSaveBtn();
+			}else{
+				alert(res.msg);
+			}
+		}
+	},'json')
+}
+
+
+//获取变更记录
+function queryHatChangeLog(obj){
+	if(obj){
+		$("#safeHatChangeLogDetail").html("");
+		$.post("/Exam/safeHatIn_getSafehatChangelog.do",{"safeHatNum":$(obj).text()},function(res){
+			if(res){
+				for(var i=0,length_1=res.data.length;i<length_1;i++){
+					var str = "<tr><td>"+(i+1)+"</td><td>"+res.data[i]+"</td></tr>";
+					$("#safeHatChangeLogDetail").append(str);
+				}
+				$("#SafeHatChangeLogModal").modal({
+					backdrop : 'static',
+					keyboard : false
+				}); // 手动开启
+			}
+		},'json')
+	}
+}
+
+function recoverSafehat(){
+	var selectUsers = $(".el_checks:checked");
+	if(!selectUsers || selectUsers.length==0){
+		alert("请选择您需要回收安全帽的人员进行操作");
+		return;
+	}
+	
+	var safeHatNums = new Array();
+	$(".el_checks").each(function(i){
+		if ($(this).prop("checked")) {// 如果选中。。。
+			var safeHatNum = $(this).parents("tr").find("td:eq(9)").text();
+			if(safeHatNum && safeHatNum.indexOf("已换人")==-1){
+				safeHatNums.push(safeHatNum);
+			}
+		}
+	});
+	
+	if(safeHatNums.length == 0){
+		alert("请选择已经分配安全帽的员工进行回收");
+		return;
+	}
+	
+	//回收安全帽操作
+	if(!confirm("您确认回收安全帽?")){
+		return;
+	}
+	$.post("/Exam/safeHatIn_recoverSafehat.do",
+			{"safeHatNumsArr":safeHatNums.toString()},
+			function(res){
+				if(res && res.msg){
+					if("ok" == res.msg){
+						alert("回收成功");
+						findSaveBtn();
+					}else{
+						alert(res.msg);
+					}
+				}
+			},'json');
+}
+
+function modifySafehat(){
+	// 判断是否合法
+	var chooseEmpNum = 0;// 判断是否有员工被选中
+	var hasAllocated = false;
+	$("#modifySafehatTbody").html("");//清空表格
+	$(".el_checks:checked").each(function(i) { // 获取选择的员工
+			var tr = $(this).parents("tr");
+			var value = tr.find("td:eq(9)").text();
+			if("" != value){
+				hasAllocated = true;
+				return;
+			}
+			var usertName = tr.find("td:eq(1)").text();
+			var departmentName = tr.find("td:eq(5)").text();
+			var safehatprefix = tr.find(".query_safehatprefix").val();
+			var userIdCard = tr.find("#myidCode").val();
+			var hiddenEle="";
+			    hiddenEle+="<input type='hidden' name='userIdCards["+i+"]' value='"+userIdCard+"'/>";
+			
+			var tr = "<tr>"
+			+"<td>"+(i+1)+hiddenEle+"</td>"
+			+"<td>"+departmentName+"</td>"
+			+"<td>"+usertName+"</td>"
+			+"<td><input name='safeHatNums["+i+"]' value='"+safehatprefix+"' class='safeHatNums_origin' onblur='selectUserName(this)'/></td>"
+			+"<td></td>"
+			+"</tr>";
+			chooseEmpNum++;
+			$("#modifySafehatTbody").append(tr);
+	});
+	
+	if(hasAllocated){
+		alert("请选择没有分配安全帽的员工！")
+		return;
+	}
+	
+	if (chooseEmpNum == 0) {
+		alert("请先选择员工！")
+		return;
+	} 
+	
+	// 2.开启模态框
+	$("#modifySafehatModal").modal({
+		backdrop : 'static',
+		keyboard : false
+	}); // 手动开启
+}
+
+function selectUserName(obj){
+	$(obj).parents("tr").find("td:eq(4)").text("-");
+	var value = $(obj).val();
+	if(value){
+		$.post("/Exam/safeHatIn_getSafehatUserNameBySafehatName.do",
+				{
+					"safeHatNum":value
+				},
+				function(res){
+					if( res && res.hatUserName){
+						$(obj).parents("tr").find("td:eq(4)").text(res.hatUserName);
+					}
+		},'json')
+	}else{
+		$(obj).parents("tr").find("td:eq(4)").text("-");
+	}
+}
+
+function saveModifySafehat(){
+	//判断是否有没有填写的input
+	var safeNum=new Array()
+	var hasNullValue = false;
+	$("#modifySafehatTbody input[name^='safeHatNums']").each(function(i){
+		var value = $(this).val();
+		if(value){
+			safeNum.push(value);
+		}else{
+			hasNullValue = true;
+		}
+	});
+	if(hasNullValue){
+		alert("您还有未填写的编号!");
+		return;
+	}
+	//判断是否有重复的编号
+	if(hasRepeatValue(safeNum)){
+		alert("您填写了重复的编号,请重填写!");
+		return;
+	}
+	
+	if(!confirm("确认换人?")){
+		return;
+	}
+	//保存后台
+	$.post("/Exam/safeHatIn_updateSafeHatNumBatch.do",$("#modifySafeHatForm").serialize(),function(res){
+		if(res){
+			if(res.msg && "ok" == res.msg){
+				alert("换人成功");
+				findSaveBtn();
+				//关闭模态框，重新查询
+				$("#modifySafehatModal").modal('hide');  //手动关闭
+			}else{
+				alert(res.msg);
+			}
+		}
+	},'json')
+}
+/** *************E 安全帽相关操作******************************** */
+function openSafehatChangeInfo(changeInfo){
+	if(changeInfo){
+		$("#safehatChangeInfoTd").text(changeInfo);
+		$("#safehatChangeInfoModal").modal({
+			backdrop : 'static',
+			keyboard : false
+		}); // 手动开启
+	}
+}
+
+function importSafeHat(){
+	$("#safehatBatchImportModal").modal();
+}

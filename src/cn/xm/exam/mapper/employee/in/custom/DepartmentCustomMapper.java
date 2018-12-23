@@ -32,7 +32,8 @@ public interface DepartmentCustomMapper {
 	 */
 	@Select("SELECT DISTINCT departmentName,safehatprefix FROM department WHERE updepartmentid IN(SELECT departmentid  FROM department WHERE"
 			+ " departmentName = '长委单位')   AND departmentType = '1' and departmentName like concat('%',#{depNameWords},'%')")
-	public List<Map<String,Object>> getChangWeiDepartment(@Param("depNameWords")String depNameWords) throws SQLException;
+	public List<Map<String, Object>> getChangWeiDepartment(@Param("depNameWords") String depNameWords)
+			throws SQLException;
 
 	/******** E 查询内部部门树 ****************/
 	/**** 查询部门信息 */
@@ -54,9 +55,9 @@ public interface DepartmentCustomMapper {
 	 */
 	public List<Map<String, Object>> getDepartmentInfoByCondition(Map condition) throws SQLException;
 
-	@Select("SELECT  departmentId FROM department WHERE departmentName = #{name} AND departmentType = '1'")	
-	public List<String> getCWDepartmentIdsByName(@Param("name")String name)throws SQLException;
-	
+	@Select("SELECT  departmentId FROM department WHERE departmentName = #{name} AND departmentType = '1'")
+	public List<String> getCWDepartmentIdsByName(@Param("name") String name) throws SQLException;
+
 	/**************** E qlq **********************/
 
 	/****** S zhangwenyi **********/
@@ -180,15 +181,20 @@ public interface DepartmentCustomMapper {
 
 	/**
 	 * 删除长委单位(及其子单位)
+	 * 
 	 * @param string
 	 * @return
 	 * @throws SQLException
 	 */
 	@Delete("delete from department where departmentId like '${value}%'")
-	public int deleteDepartmentByUpId(String id)throws SQLException;
-	
-	@Update("update department set safehatprefix=#{safeHatNumPrefix}  where departmentName=#{changweiName}")
-	public int updateSafehatNumPrefix(@Param("changweiName")String changweiName,@Param("safeHatNumPrefix") String safeHatNumPrefix);
+	public int deleteDepartmentByUpId(String id) throws SQLException;
+
+	@Select("SELECT departmentId FROM department WHERE departmentName=#{changweiName}")
+	public List<String> getDepartmentIdsByName(@Param("changweiName") String changweiName);
+
+	@Update("update department set safehatprefix=#{safeHatNumPrefix}  where departmentId  like '${departmentId}%'")
+	public int updateSafehatNumPrefix(@Param("departmentId") String departmentId,
+			@Param("safeHatNumPrefix") String safeHatNumPrefix);
 	/****** E leilong **********/
 
 }
