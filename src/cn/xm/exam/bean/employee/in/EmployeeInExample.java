@@ -1301,6 +1301,146 @@ public class EmployeeInExample {
             addCriterion("safeHatNum not between", value1, value2, "safehatnum");
             return (Criteria) this;
         }
+
+        public Criteria andEmpphysicalstatusIsNull() {
+            addCriterion("empphysicalstatus is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpphysicalstatusIsNotNull() {
+            addCriterion("empphysicalstatus is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpphysicalstatusEqualTo(String value) {
+            addCriterion("empphysicalstatus =", value, "empphysicalstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpphysicalstatusNotEqualTo(String value) {
+            addCriterion("empphysicalstatus <>", value, "empphysicalstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpphysicalstatusGreaterThan(String value) {
+            addCriterion("empphysicalstatus >", value, "empphysicalstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpphysicalstatusGreaterThanOrEqualTo(String value) {
+            addCriterion("empphysicalstatus >=", value, "empphysicalstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpphysicalstatusLessThan(String value) {
+            addCriterion("empphysicalstatus <", value, "empphysicalstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpphysicalstatusLessThanOrEqualTo(String value) {
+            addCriterion("empphysicalstatus <=", value, "empphysicalstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpphysicalstatusLike(String value) {
+            addCriterion("empphysicalstatus like", value, "empphysicalstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpphysicalstatusNotLike(String value) {
+            addCriterion("empphysicalstatus not like", value, "empphysicalstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpphysicalstatusIn(List<String> values) {
+            addCriterion("empphysicalstatus in", values, "empphysicalstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpphysicalstatusNotIn(List<String> values) {
+            addCriterion("empphysicalstatus not in", values, "empphysicalstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpphysicalstatusBetween(String value1, String value2) {
+            addCriterion("empphysicalstatus between", value1, value2, "empphysicalstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpphysicalstatusNotBetween(String value1, String value2) {
+            addCriterion("empphysicalstatus not between", value1, value2, "empphysicalstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateIsNull() {
+            addCriterion("empeducate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateIsNotNull() {
+            addCriterion("empeducate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateEqualTo(String value) {
+            addCriterion("empeducate =", value, "empeducate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateNotEqualTo(String value) {
+            addCriterion("empeducate <>", value, "empeducate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateGreaterThan(String value) {
+            addCriterion("empeducate >", value, "empeducate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateGreaterThanOrEqualTo(String value) {
+            addCriterion("empeducate >=", value, "empeducate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateLessThan(String value) {
+            addCriterion("empeducate <", value, "empeducate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateLessThanOrEqualTo(String value) {
+            addCriterion("empeducate <=", value, "empeducate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateLike(String value) {
+            addCriterion("empeducate like", value, "empeducate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateNotLike(String value) {
+            addCriterion("empeducate not like", value, "empeducate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateIn(List<String> values) {
+            addCriterion("empeducate in", values, "empeducate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateNotIn(List<String> values) {
+            addCriterion("empeducate not in", values, "empeducate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateBetween(String value1, String value2) {
+            addCriterion("empeducate between", value1, value2, "empeducate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpeducateNotBetween(String value1, String value2) {
+            addCriterion("empeducate not between", value1, value2, "empeducate");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

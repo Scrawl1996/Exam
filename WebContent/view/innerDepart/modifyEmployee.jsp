@@ -150,6 +150,26 @@
                         </select>
                         <input type="hidden" id="yincangzhiwu"  value="${result.employeeIn.duty }">
                     </div>
+                    <div id="message5" style="display: block;margin-left: 99px; color:red;"></div>
+                    
+                    <br/>
+					<div class="input-group" role="toolbar">
+                        <span class="el_spans" style="padding-left: 20px;">学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：</span>
+                        <select class="selectpicker form-control employeeEducate" title="请选择" name="employeeIn.empeducate" id="empeducate"   style="width: 312px;">
+                            
+                        </select>
+                        <input type="hidden" id="empeducateHidden"  value="${result.employeeIn.empeducate }">
+                    </div>
+                    <div id="message6" style="display: block;margin-left: 99px; color:red;"></div>
+                    
+                    <br/>
+					<div class="input-group" role="toolbar">
+                        <span class="el_spans" style="padding-left: 20px;">身体状况：</span>
+                        <select class="selectpicker form-control employeePhy" title="请选择" name="employeeIn.empphysicalstatus" id="empphysicalstatus"   style="width: 312px;">
+                            
+                        </select>
+                        <input type="hidden" id="empphysicalstatusHidden"  value="${result.employeeIn.empphysicalstatus }">
+                    </div>
                     
                     <div class="input-group el_modellist" role="toolbar">
                         <span class="el_spans el_chooseSpan">选择部门：</span>

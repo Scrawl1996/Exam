@@ -3,31 +3,27 @@
 <mapper namespace="cn.xm.exam.mapper.safehat.custom.SafehatInCustomMapper">
 	<select id="getSafehatTaizhang" resultType="map">
 		SELECT
-		safehat.*,employee_out.*,haulemployeeout.thirdScore,haulemployeeout.empType,unit.name
-		as unitName
-		FROM safehat
-		LEFT JOIN employee_out
-		ON safehat.userIdCard =
-		employee_out.idCode
+		safehat_in.*,employee_in.*,department.departmentName
+		FROM safehat_in
+		LEFT JOIN employee_in
+		ON safehat_in.userIdCard =
+		employee_in.idCode
 		LEFT
-		JOIN haulemployeeout
-		ON safehat.safeHatNum =
-		haulemployeeout.safeHatNum
-		LEFT JOIN unit
-		ON haulemployeeout.unitid =
-		unit.unitid
+		JOIN department
+		ON employee_in.departmentId =
+		department.departmentId
 		<where>
 			<if test="userName != null">
 				and NAME like '%${userName}%'
 			</if>
 			<if test="safeHatNum != null">
-				and safehat.safeHatNum like '%${safeHatNum}%'
+				and safehat_in.safeHatNum like '%${safeHatNum}%'
 			</if>
 			<if test="idCard != null">
 				and idCode like '%${idCard}%'
 			</if>
-			<if test="unitName != null">
-				and unit.name like '%${unitName}%'
+			<if test="departName != null">
+				and departmentName like '%${departName}%'
 			</if>
 		</where>
 		<if test="orderColumn != null">

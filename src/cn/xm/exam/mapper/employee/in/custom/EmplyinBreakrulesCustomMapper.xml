@@ -20,7 +20,7 @@
 	<select id="getEmpInMsgByDepIdLeft" parameterType="map"
 		resultType="map">
 		select
-		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,employee_in.safeHatNum,
+		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,employee_in.safeHatNum,employee_in.empphysicalstatus,employee_in.empeducate,
 	<!-- zwy在这里添加了 employee_in.birthday,employee_in.photo,,-->
 		employee_in.phone,employee_in.birthday,employee_in.photo,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
@@ -94,7 +94,7 @@
 	<!-- 页面加载的时候把所有部门下的所有员工及其违章信息显示出来,用于页面初始化 -->
 	<select id="initPageDate" parameterType="map" resultType="map">
 		select
-		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,employee_in.safeHatNum,
+		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,employee_in.safeHatNum,employee_in.empphysicalstatus,employee_in.empeducate,
 		<!-- zwy添加的employee_in.birthday,employee_in.photo, -->
 		employee_in.phone,employee_in.birthday,employee_in.photo,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
@@ -294,7 +294,7 @@
 	<select id="clickLeftShowEmpInMsg" parameterType="map"
 		resultType="map">
 		select
-		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,employee_in.safeHatNum,
+		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,employee_in.safeHatNum,employee_in.empphysicalstatus,employee_in.empeducate,
 		<!-- zwy添加的employee_in.birthday,employee_in.photo, -->
 		employee_in.phone,employee_in.birthday,employee_in.photo,employee_in.address,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
@@ -371,7 +371,7 @@
 	<!-- 左侧的树和条件绑定之后 "未选择黑名单状态的" 的查询，显示该部门及旗下所有子孙部门下的内部员工的信息及其违章信息 -->
 	<select id="leftTreeAndConditionMsg" parameterType="map" resultType="map">
 		select
-		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,employee_in.safeHatNum,
+		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,employee_in.safeHatNum,employee_in.empphysicalstatus,employee_in.empeducate,
 		<!-- zwy添加的employee_in.birthday,employee_in.photo, -->
 		employee_in.phone,employee_in.birthday,employee_in.photo,employee_in.address,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
@@ -540,7 +540,7 @@
 	<select id="leftTreeAndConditionIsBlacklistMsg" parameterType="map"
 		resultType="map">
 		select
-		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,employee_in.safeHatNum,
+		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,employee_in.safeHatNum,employee_in.empphysicalstatus,employee_in.empeducate,
 		<!-- zwy添加的employee_in.birthday, employee_in.photo,-->
 		employee_in.phone,employee_in.birthday,employee_in.photo,employee_in.address,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)
@@ -665,7 +665,7 @@
 	<select id="leftTreeAndConditionNoBlacklistMsg" parameterType="map"
 		resultType="map">
 		select
-		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,employee_in.safeHatNum,
+		employee_in.employeeId,employee_in.name,employee_in.sex,employee_in.idCode,employee_in.duty,employee_in.safeHatNum,employee_in.empphysicalstatus,employee_in.empeducate,
 		<!-- zwy添加的employee_in.birthday, employee_in.photo,-->
 		employee_in.phone,employee_in.birthday,employee_in.photo,employee_in.address,
 		IFNULL((select SUM(emplyin_breakrules.empInMinusNum)

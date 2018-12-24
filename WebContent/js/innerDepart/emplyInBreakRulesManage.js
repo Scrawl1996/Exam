@@ -202,6 +202,9 @@ $(function() {
 	selectDuty();
 	findSaveBtn();
 	// initData();
+	
+	//初始化员工学历和身体状况下拉列表
+	initEmployeePhyAndEducate();
 })
 
 /** *********************请求树信息********************* */
@@ -490,8 +493,14 @@ function leftBtn() {
 								+ ">";// 隐藏部门类型
 						opStr += "<input  type='hidden' class='query_address' value="
 								+ data.empInMsgByDepIdLeft[i].address + ">";// 隐藏家庭住址
+						
 						opStr += "<input  type='hidden' class='query_safehatprefix' value="
-							+ replaceNull(data.empInMsgByDepIdLeft[i].safehatprefix) + ">";// 隐藏单位编号前缀
+							+ replaceNull(data.empInMsgByDepIdLeft[i].safehatprefix) + ">";
+						opStr += "<input  type='hidden' class='query_empeducate' value="
+							+ replaceNull(data.empInMsgByDepIdLeft[i].empeducate) + ">";
+						opStr += "<input  type='hidden' class='query_empphysicalstatus' value="
+							+ replaceNull(data.empInMsgByDepIdLeft[i].empphysicalstatus) + ">";
+						
 						opStr += "<td><input type='checkbox' name='el_chooseBreakRules' class='el_checks' value="
 								+ employeeId + "></td>";
 						opStr += "<td>" + name + "</td>";// 姓名
@@ -717,8 +726,14 @@ function findSaveBtn() {
 								+ ">";// 隐藏部门类型
 						opStr += "<input  type='hidden' class='query_address' value="
 								+ data.empInMsgByDepIdLeft[i].address + ">";// 隐藏家庭住址
+						
 						opStr += "<input  type='hidden' class='query_safehatprefix' value="
 							+ replaceNull(data.empInMsgByDepIdLeft[i].safehatprefix) + ">";// 隐藏单位编号前缀
+						opStr += "<input  type='hidden' class='query_empeducate' value="
+							+ replaceNull(data.empInMsgByDepIdLeft[i].empeducate) + ">";
+						opStr += "<input  type='hidden' class='query_empphysicalstatus' value="
+							+ replaceNull(data.empInMsgByDepIdLeft[i].empphysicalstatus) + ">";
+						
 						opStr += "<td><input type='checkbox' name='el_chooseBreakRules' class='el_checks' value="
 								+ phone + "></td>";
 						opStr += "<td>" + name + "</td>";// 姓名
@@ -1043,6 +1058,10 @@ function allInfo(obj) {
 	var employeefinger = $(obj).parents("tr").find("#employeefinger").val();
 	var employeephoto = $(obj).parents("tr").find("#employeephoto").val();
 	var zhiwu = $(obj).parents("tr").find("#zhiwu").val();
+	
+	var empeducate = $(obj).parents("tr").find(".query_empeducate").val();
+	var empphysicalstatus = $(obj).parents("tr").find(".query_empphysicalstatus").val();
+	
 	var idcode = $(obj).parents("tr").children('input[name="el_ycy"]').eq(3)
 			.val();
 	// 家庭住址
@@ -1064,6 +1083,9 @@ function allInfo(obj) {
 	$("#InfoDepartmentid").html($tds.eq(5).html());
 	// $("#InfoFinger").html(employeefinger);
 	$("#Infozhiwu").html(zhiwu);
+	
+	$("#Infoempeducate").html(empeducate);
+	$("#Infoempphysicalstatus").html(empphysicalstatus);
 
 	var employeeid = $(obj).parents("tr").find("#employeeid").val();
 	$("#InfoEmployeeInForm").append(
@@ -1240,6 +1262,9 @@ function addEmployeeInInfo() {
 			var add_departmentName = $("#add_departmentName").val();
 
 			var departmentid = $("#queryDepartmentId").val();
+			
+			var employeePhy = $("#add_employeePhy option:selected").text();//身体状况
+			var employeeEducate = $("#add_employeeEducate option:selected").text();//学历
 
 			var idCardImageStr = $("#idCardImageStr").val();
 
@@ -1282,6 +1307,10 @@ function addEmployeeInInfo() {
 															+ phone
 															+ "</td><td>"
 															+ add_departmentName
+															+ "</td><td>"
+															+ employeePhy
+															+ "</td><td>"
+															+ employeeEducate
 															+ "</td><td>"
 															+ "<input type='hidden' class='address' value='"
 															+ address
@@ -1394,6 +1423,11 @@ function saveEmployeeAndHaulInfo() {
 				"td").eq(4).text();
 		var duty = $("#addEmployeeOutInfoList").children("tr").eq(i).children(
 				"td").eq(3).text();
+		var employeePhy = $("#addEmployeeOutInfoList").children("tr").eq(i).children(
+		"td").eq(6).text();
+		var employeeEducate = $("#addEmployeeOutInfoList").children("tr").eq(i).children(
+		"td").eq(7).text();
+		
 
 		var address = $("#addEmployeeOutInfoList").children("tr").eq(i).find(
 				".address").val();
@@ -1421,6 +1455,12 @@ function saveEmployeeAndHaulInfo() {
 				+ "].phone' type='hidden' value='" + phone + "'/>"
 				+ "<input name='employeeInList[" + i
 				+ "].duty' type='hidden' value='" + duty + "'/>"
+				
+				+ "<input name='employeeInList[" + i
+				+ "].empeducate' type='hidden' value='" + employeeEducate + "'/>"
+				+ "<input name='employeeInList[" + i
+				+ "].empphysicalstatus' type='hidden' value='" + employeePhy + "'/>"
+				
 				+ "<input name='employeeInList[" + i
 				+ "].departmentid' type='hidden' value='" + departmentid
 				+ "'/>";
@@ -1821,6 +1861,9 @@ function saveEmployeeAndHaulInfoHandle(){
 
 	var duty = $("#addEmployeeInDutyHandle option:selected").text();
 	var departmentid = $("#queryDepartmentId").val();
+	
+	var add_employeePhyHandle = $("#add_employeePhyHandle").val();
+	var add_employeeEducateHandle = $("#add_employeeEducateHandle").val();
 
 	var idCardImageStr = $("#idCardImageStr_handle").val();//头像
 	// 判断该员工是否进入黑名单
@@ -1874,6 +1917,12 @@ function saveEmployeeAndHaulInfoHandle(){
 														+ "].phone' type='hidden' value='" + phone + "'/>"
 														+ "<input name='employeeInList[" + i
 														+ "].duty' type='hidden' value='" + duty + "'/>"
+														
+														+ "<input name='employeeInList[" + i
+														+ "].empphysicalstatus' type='hidden' value='" + add_employeePhyHandle + "'/>"
+														+ "<input name='employeeInList[" + i
+														+ "].empeducate' type='hidden' value='" + add_employeeEducateHandle + "'/>"
+														
 														+ "<input name='employeeInList[" + i
 														+ "].departmentid' type='hidden' value='" + departmentid
 														+ "'/>";
@@ -2162,4 +2211,46 @@ function openSafehatChangeInfo(changeInfo){
 
 function importSafeHat(){
 	$("#safehatBatchImportModal").modal();
+}
+
+function inputSafehats(){
+    var formData = new FormData($( "#form_inputSafehats" )[0]);  
+    $.ajax({  
+         url: '/Exam/importSafeHat.action' ,  
+         type: 'POST',  
+         data: formData,  
+         async: false,  
+         cache: false,  
+         contentType: false,  
+         processData: false,  
+         success: function (returndata) {  
+        	 if(returndata){
+        		  alert(returndata.message);  
+                  if("导入成功" == returndata.message){
+                	  $("#safehatBatchImportModal").modal('hide');  //手动关闭
+                	  findSaveBtn();
+                  } 
+        	 }
+         }
+    });  
+}
+
+//2018-11-09添加
+var initEmployeePhyAndEducate = function(){
+	$.post(contextPath+"/settingAction_getSettingsJSON.do",function(responseMap){
+		if(responseMap){
+			if(responseMap.educateBackground){
+				for(var i=0,length_1=responseMap.educateBackground.length;i<length_1;i++){
+					var obj = responseMap.educateBackground[i];
+					$(".employeeEducate").append("<option value='"+obj+"'>"+obj+"</>")
+				}
+			}
+			if(responseMap.physicalStatus){
+				for(var i=0,length_1=responseMap.physicalStatus.length;i<length_1;i++){
+					var obj = responseMap.physicalStatus[i];
+					$(".employeePhy").append("<option value='"+obj+"'>"+obj+"</>")
+				}
+			}
+		}
+	},'json');
 }

@@ -19,6 +19,8 @@
     <result column="trainStatus" property="trainstatus" jdbcType="INTEGER" />
     <result column="sort" property="sort" jdbcType="VARCHAR" />
     <result column="safeHatNum" property="safehatnum" jdbcType="VARCHAR" />
+    <result column="empphysicalstatus" property="empphysicalstatus" jdbcType="VARCHAR" />
+    <result column="empeducate" property="empeducate" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -80,7 +82,8 @@
   </sql>
   <sql id="Base_Column_List" >
     employeeId, employeeNumber, name, idCode, sex, birthday, photo, phone, email, address, 
-    duty, departmentId, finger, isDelete, trainStatus, sort, safeHatNum
+    duty, departmentId, finger, isDelete, trainStatus, sort, safeHatNum, empphysicalstatus, 
+    empeducate
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.xm.exam.bean.employee.in.EmployeeInExample" >
     select
@@ -118,13 +121,15 @@
       phone, email, address, 
       duty, departmentId, finger, 
       isDelete, trainStatus, sort, 
-      safeHatNum)
+      safeHatNum, empphysicalstatus, empeducate
+      )
     values (#{employeeid,jdbcType=VARCHAR}, #{employeenumber,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{idcode,jdbcType=CHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{photo,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{duty,jdbcType=VARCHAR}, #{departmentid,jdbcType=VARCHAR}, #{finger,jdbcType=VARCHAR}, 
       #{isdelete,jdbcType=VARCHAR}, #{trainstatus,jdbcType=INTEGER}, #{sort,jdbcType=VARCHAR}, 
-      #{safehatnum,jdbcType=VARCHAR})
+      #{safehatnum,jdbcType=VARCHAR}, #{empphysicalstatus,jdbcType=VARCHAR}, #{empeducate,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.xm.exam.bean.employee.in.EmployeeIn" >
     insert into employee_in
@@ -180,6 +185,12 @@
       <if test="safehatnum != null" >
         safeHatNum,
       </if>
+      <if test="empphysicalstatus != null" >
+        empphysicalstatus,
+      </if>
+      <if test="empeducate != null" >
+        empeducate,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="employeeid != null" >
@@ -232,6 +243,12 @@
       </if>
       <if test="safehatnum != null" >
         #{safehatnum,jdbcType=VARCHAR},
+      </if>
+      <if test="empphysicalstatus != null" >
+        #{empphysicalstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="empeducate != null" >
+        #{empeducate,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -295,6 +312,12 @@
       <if test="record.safehatnum != null" >
         safeHatNum = #{record.safehatnum,jdbcType=VARCHAR},
       </if>
+      <if test="record.empphysicalstatus != null" >
+        empphysicalstatus = #{record.empphysicalstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empeducate != null" >
+        empeducate = #{record.empeducate,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -318,7 +341,9 @@
       isDelete = #{record.isdelete,jdbcType=VARCHAR},
       trainStatus = #{record.trainstatus,jdbcType=INTEGER},
       sort = #{record.sort,jdbcType=VARCHAR},
-      safeHatNum = #{record.safehatnum,jdbcType=VARCHAR}
+      safeHatNum = #{record.safehatnum,jdbcType=VARCHAR},
+      empphysicalstatus = #{record.empphysicalstatus,jdbcType=VARCHAR},
+      empeducate = #{record.empeducate,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -374,6 +399,12 @@
       <if test="safehatnum != null" >
         safeHatNum = #{safehatnum,jdbcType=VARCHAR},
       </if>
+      <if test="empphysicalstatus != null" >
+        empphysicalstatus = #{empphysicalstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="empeducate != null" >
+        empeducate = #{empeducate,jdbcType=VARCHAR},
+      </if>
     </set>
     where employeeId = #{employeeid,jdbcType=VARCHAR}
   </update>
@@ -394,7 +425,9 @@
       isDelete = #{isdelete,jdbcType=VARCHAR},
       trainStatus = #{trainstatus,jdbcType=INTEGER},
       sort = #{sort,jdbcType=VARCHAR},
-      safeHatNum = #{safehatnum,jdbcType=VARCHAR}
+      safeHatNum = #{safehatnum,jdbcType=VARCHAR},
+      empphysicalstatus = #{empphysicalstatus,jdbcType=VARCHAR},
+      empeducate = #{empeducate,jdbcType=VARCHAR}
     where employeeId = #{employeeid,jdbcType=VARCHAR}
   </update>
 </mapper>

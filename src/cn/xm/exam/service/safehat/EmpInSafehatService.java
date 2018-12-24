@@ -19,4 +19,8 @@ public interface EmpInSafehatService {
 
 	void updateSafeHatNumBatch(List<String> safeHatNums, List<String> userIdCards, User user);
 
+	void deleteSafeHat(String safeHatNum);
+
+	void updateSafeNum(String safeHatNum, String newSafeHatNum);
+
 }

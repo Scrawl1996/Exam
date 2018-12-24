@@ -51,6 +51,9 @@ $(function() {
 		$("#el_chooseDepart").append("<li class='dark'>" + hiV + "</li>");
 	}
 	selectDuty();
+	
+	//初始化员工学历和身体状况下拉列表
+	initEmployeePhyAndEducate();
 });
 
 /***********************请求树信息**********************/
@@ -114,4 +117,34 @@ function getTree_1(result) {
 	var treeObj = $.fn.zTree.getZTreeObj("treeDemo9");
 	treeObj.expandAll(false);
 
+}
+
+//2018-11-09添加
+var initEmployeePhyAndEducate = function(){
+	$.post(contextPath+"/settingAction_getSettingsJSON.do",function(responseMap){
+		if(responseMap){
+			if(responseMap.educateBackground){
+				var empeducateHidden = $("#empeducateHidden").val();
+				for(var i=0,length_1=responseMap.educateBackground.length;i<length_1;i++){
+					var obj = responseMap.educateBackground[i];
+					if(obj == empeducateHidden){
+						$(".employeeEducate").append("<option selected value='"+obj+"'>"+obj+"</>")
+					}else{
+						$(".employeeEducate").append("<option value='"+obj+"'>"+obj+"</>")
+					}
+				}
+			}
+			if(responseMap.physicalStatus){
+				var empphysicalstatusHidden = $("#empphysicalstatusHidden").val();
+				for(var i=0,length_1=responseMap.physicalStatus.length;i<length_1;i++){
+					var obj = responseMap.physicalStatus[i];
+					if(obj == empphysicalstatusHidden){
+						$(".employeePhy").append("<option selected value='"+obj+"'>"+obj+"</>")
+					}else{
+						$(".employeePhy").append("<option value='"+obj+"'>"+obj+"</>")
+					}
+				}
+			}
+		}
+	},'json');
 }

@@ -70,6 +70,10 @@ public class EmployeeIn {
 	private String sort;
 
 	private String safehatnum;
+	
+    private String empphysicalstatus;//身体状况
+
+    private String empeducate;//学历
 
 	private String departmentname;// 飞哥加的
 
@@ -216,6 +220,22 @@ public class EmployeeIn {
 
 	public void setSafehatnum(String safehatnum) {
 		this.safehatnum = safehatnum;
+	}
+	
+	public String getEmpphysicalstatus() {
+		return empphysicalstatus;
+	}
+
+	public void setEmpphysicalstatus(String empphysicalstatus) {
+		this.empphysicalstatus = empphysicalstatus;
+	}
+
+	public String getEmpeducate() {
+		return empeducate;
+	}
+
+	public void setEmpeducate(String empeducate) {
+		this.empeducate = empeducate;
 	}
 
 	@Override

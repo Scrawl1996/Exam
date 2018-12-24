@@ -426,6 +426,11 @@ hasOperatingEmpin = true;
 															class="btn btn-primary" onclick="recoverSafehat()">
 															安全帽收回</button>								
 													</shiro:hasPermission>	
+													
+													<shiro:hasPermission name="safehat:taizhang">
+														<!-- 新开页面查看安全帽台账信息(查询和下载) -->
+														<a id="safeHatTaiZhang" href="/Exam/view/testPerson/safeHatInTaizhang.jsp"	class="btn btn-primary" target="_blank">安全帽台账</a>
+													</shiro:hasPermission>
 														
 													<button id="recoverSafehat_btn"
 														class="btn btn-primary" onclick="importSafeHat()">
@@ -677,6 +682,14 @@ hasOperatingEmpin = true;
 															<td>家庭住址：</td>
 															<td id="InfoAddress"></td>
 														</tr>
+														<tr>
+															<td>员工学历：</td>
+															<td id="Infoempeducate"></td>
+														</tr>
+														<tr>
+															<td>身体状态：</td>
+															<td id="Infoempphysicalstatus"></td>
+														</tr>
 													</table>
 												</div>
 											</div>
@@ -783,7 +796,7 @@ hasOperatingEmpin = true;
 								role="dialog" aria-labelledby="myModalLabel23"
 								data-backdrop="static" data-keyboard="false" aria-hidden="true">
 								<div class="modal-dialog"
-									style="width: 70%; position: relative; max-height: 550px; overflow-y: auto;">
+									style="width: 80%; position: relative; max-height: 550px; overflow-y: auto;">
 									<div class="modal-content"
 										style="min-height: 420px !important;">
 										<div class="modal-header">
@@ -842,6 +855,15 @@ hasOperatingEmpin = true;
 													class="form-control el_modelinput" name="EmployeeIn.photo"
 													id="addEmployeeInPhone" />
 											</div>
+											
+											<div class="input-group el_modellist01" role="toolbar">
+												<span class="el_spans0">身体状况：</span> 
+												<select class="selectpicker el_modelinput form-control employeePhy"	id="add_employeePhy" title="请选择">
+												</select>
+												 <span class="el_spans0">员工学历：</span>
+												 <select class="selectpicker el_modelinput form-control employeeEducate" id="add_employeeEducate" title="请选择">
+												</select>
+											</div>
 											<div id="message3"
 												style="display: block; margin-left: 99px; color: red;"></div>
 
@@ -865,6 +887,8 @@ hasOperatingEmpin = true;
 														<th>职务</th>
 														<th>联系方式</th>
 														<th>部门</th>
+														<th>身体状况</th>
+														<th>学历</th>
 														<!-- <th>职务</th> -->
 														<th>操作</th>
 													</tr>
@@ -1031,6 +1055,15 @@ hasOperatingEmpin = true;
 												<span class="el_spans0">联系方式：</span> <input type="text"
 													class="form-control el_modelinput validateInput handleDispose" name="EmployeeIn.photo"
 													id="addEmployeeInPhoneHandle" />
+											</div>
+		
+											<div class="input-group el_modellist01" role="toolbar">
+												<span class="el_spans0">身体状况：</span> 
+												<select class="selectpicker el_modelinput form-control employeePhy"	id="add_employeePhyHandle" title="请选择">
+												</select>
+												 <span class="el_spans0">员工学历：</span>
+												 <select class="selectpicker el_modelinput form-control employeeEducate" id="add_employeeEducateHandle" title="请选择">
+												</select>
 											</div>
 
 										</div>
@@ -1289,7 +1322,7 @@ hasOperatingEmpin = true;
 			                                <!--标题-->
 			                                <h4 class="modal-title" id="myModalLabel">批量导入安全帽</h4>
 			                            </div>
-			                            <form  enctype="multipart/form-data" id="form_inputQuestions">
+			                            <form  enctype="multipart/form-data" method="post" id="form_inputSafehats" action="/Exam/importSafeHat.action">
 			
 			                                <div class="modal-body">
 			
@@ -1299,13 +1332,13 @@ hasOperatingEmpin = true;
 			                                    </div>
 			                                    <div class="input-group el_modellist" role="toolbar">
 			                                        <span class="el_spans">导入安全帽信息：</span>
-			                                        <input type="file"  name="fileName" accept=".xls"/>
+			                                        <input type="file"  name="file" id="input_SafeHat" accept=".xls"/>
 			                                    </div>
 			                                </div>
 			
 			                                <div class="modal-footer">
 			                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-			                                    <button type="button" id="importBtn" class="btn btn-primary" onclick="inputQuestions()">导入</button>
+			                                    <button type="button" class="btn btn-primary" onclick="inputSafehats()">导入</button>
 			                                </div>
 			                            </form>
 			
@@ -1318,7 +1351,6 @@ hasOperatingEmpin = true;
 							<!-- 隐藏域，隐藏一个添加前的违章总积分 -->
 							<input id="breakScoreSum" type="hidden" value="" />
 							<script type="text/javascript">
-								
 							</script>
 
 

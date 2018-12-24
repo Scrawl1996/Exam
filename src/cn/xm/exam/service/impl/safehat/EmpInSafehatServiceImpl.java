@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import cn.xm.exam.mapper.employee.in.DepartmentMapper;
 import cn.xm.exam.mapper.employee.in.EmployeeInMapper;
 import cn.xm.exam.mapper.employee.in.custom.EmployeeInCustomMapper;
 import cn.xm.exam.mapper.safehat.SafehatInMapper;
+import cn.xm.exam.mapper.safehat.custom.SafehatInCustomMapper;
 import cn.xm.exam.service.safehat.EmpInSafehatService;
 import cn.xm.exam.utils.UUIDUtil;
 
@@ -33,6 +35,8 @@ public class EmpInSafehatServiceImpl implements EmpInSafehatService {
 
 	@Autowired
 	private SafehatInMapper safehatInMapper;
+	@Autowired
+	private SafehatInCustomMapper safehatInCustomMapper;
 
 	@Autowired
 	private EmployeeInMapper employeeInMapper;
@@ -123,7 +127,7 @@ public class EmpInSafehatServiceImpl implements EmpInSafehatService {
 
 	@Override
 	public List<Map<String, Object>> getSafehatTaizhang(Map condition) {
-		return null;
+		return safehatInCustomMapper.getSafehatTaizhang(condition);
 	}
 
 	@Override
@@ -229,6 +233,38 @@ public class EmpInSafehatServiceImpl implements EmpInSafehatService {
 			employeeInMapper.updateByPrimaryKeySelective(hatUser);
 			safehatInMapper.updateByPrimaryKeySelective(safehat);
 		}
+	}
+
+	@Override
+	public void deleteSafeHat(String safeHatNum) {
+		// 1.查到帽子
+		SafehatInExample example = new SafehatInExample();
+		cn.xm.exam.bean.safehat.SafehatInExample.Criteria createCriteria = example.createCriteria();
+		createCriteria.andSafehatnumEqualTo(safeHatNum);
+		List<SafehatIn> hats = safehatInMapper.selectByExampleWithBLOBs(example);
+		if (CollectionUtils.isEmpty(hats)) {
+			throw new RuntimeException("没有帽子");
+		}
+		SafehatIn safehat = hats.get(0);
+		safehatInMapper.deleteByPrimaryKey(safehat.getId());
+	}
+
+	@Override
+	public void updateSafeNum(String safeHatNum, String newSafeHatNum) {
+		// 1.查到帽子
+		SafehatInExample example = new SafehatInExample();
+		cn.xm.exam.bean.safehat.SafehatInExample.Criteria createCriteria = example.createCriteria();
+		createCriteria.andSafehatnumEqualTo(safeHatNum);
+		List<SafehatIn> hats = safehatInMapper.selectByExampleWithBLOBs(example);
+		if (CollectionUtils.isEmpty(hats)) {
+			throw new RuntimeException("没有帽子");
+		}
+		SafehatIn safehat = hats.get(0);
+		safehat.setSafehatnum(newSafeHatNum);
+		// 变更实录设为换人
+		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
+		safehat.appendChangeLog(geneChangeLog(user, "将帽子编号修改为" + newSafeHatNum, "【修改编号】"));
+		safehatInMapper.updateByPrimaryKeyWithBLOBs(safehat);
 	}
 
 }
