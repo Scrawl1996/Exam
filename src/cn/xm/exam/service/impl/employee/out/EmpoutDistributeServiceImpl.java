@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import cn.xm.exam.bean.haul.Haulemployeeout;
 import cn.xm.exam.bean.system.User;
 import cn.xm.exam.mapper.employee.out.EmployeeoutdistributeMapper;
 import cn.xm.exam.mapper.employee.out.custom.EmpoutDistributeCustomMapper;
+import cn.xm.exam.mapper.grade.custom.EmployeeexamCustomMapper;
 import cn.xm.exam.mapper.haul.HaulemployeeoutMapper;
 import cn.xm.exam.service.employee.out.EmpoutDistributeService;
 import cn.xm.exam.utils.PageBean;
@@ -24,6 +27,7 @@ import cn.xm.exam.utils.ValidateCheck;
 @Service
 @SuppressWarnings("all")
 public class EmpoutDistributeServiceImpl implements EmpoutDistributeService {
+	private static final Logger log = LoggerFactory.getLogger(EmpoutDistributeServiceImpl.class);
 	@Autowired
 	private EmpoutDistributeCustomMapper empoutDistributeCustomMapper;
 
@@ -113,82 +117,83 @@ public class EmpoutDistributeServiceImpl implements EmpoutDistributeService {
 		}
 		return true;
 	}
-	/**************二次分配信息***************/
+
+	/************** 二次分配信息 ***************/
 	@Autowired
 	private HaulemployeeoutMapper haulemployeeoutMapper;
 	@Autowired
 	private EmployeeoutdistributeMapper employeeoutdistributeMapper;
+
 	@Override
 	public boolean addSecondFenpeiInfoBatch(List<Haulemployeeout> haulemployeeouts,
-			List<Employeeoutdistribute> employeeoutdistributes) throws SQLException{
-		if(haulemployeeouts==null || employeeoutdistributes==null){
+			List<Employeeoutdistribute> employeeoutdistributes) throws SQLException {
+		if (haulemployeeouts == null || employeeoutdistributes == null) {
 			return false;
 		}
 		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 		String departmentIdSession = user == null ? null : user.getDepartmentid();// 获取到session部门ID
-		Haulemployeeout haulemployeeout=null;
-		Employeeoutdistribute employeeoutdistribute=null;
+		Haulemployeeout haulemployeeout = null;
+		Employeeoutdistribute employeeoutdistribute = null;
 		String haulEmpId = null;
-		for(int i=0,length=haulemployeeouts.size();i<length;i++){
+		for (int i = 0, length = haulemployeeouts.size(); i < length; i++) {
 			haulemployeeout = haulemployeeouts.get(i);
-			employeeoutdistribute=employeeoutdistributes.get(i);
+			employeeoutdistribute = employeeoutdistributes.get(i);
 			haulEmpId = UUIDUtil.getUUID2();
 			haulemployeeout.setBigemployeeoutid(haulEmpId);
 			haulemployeeout.setTrainstatus("0");
-			
-			//1.插入大修员工信息
+
+			// 1.插入大修员工信息
 			haulemployeeoutMapper.insert(haulemployeeout);
-			//2.插入分配信息
+			// 2.插入分配信息
 			employeeoutdistribute.setHaulempid(haulEmpId);
-			//2.1判断分配的部门等级
-			//2.1.1如果充分的是三级部门
+			// 2.1判断分配的部门等级
+			// 2.1.1如果充分的是三级部门
 			if (employeeoutdistribute.getDepartmentid().length() == 8) {
-				//添加三级
+				// 添加三级
 				employeeoutdistribute.setEmpoutexamstatus("0");
 				employeeoutdistribute.setEmpouttraingrade("3");
 				employeeoutdistributeMapper.insert(employeeoutdistribute);
-				//添加2级
+				// 添加2级
 				employeeoutdistribute.setEmpoutexamstatus("1");
 				employeeoutdistribute.setEmpouttraingrade("2");
 				employeeoutdistribute.setDepartmentid(departmentIdSession);
 				employeeoutdistributeMapper.insert(employeeoutdistribute);
 			}
-			//2.1.2如果是二级部门
+			// 2.1.2如果是二级部门
 			if (departmentIdSession.length() == 5 && "01002".equals(departmentIdSession)) {
-				//添加2级
+				// 添加2级
 				employeeoutdistribute.setEmpoutexamstatus("0");
 				employeeoutdistribute.setEmpouttraingrade("2");
 				employeeoutdistributeMapper.insert(employeeoutdistribute);
 			}
-			//添加1级
+			// 添加1级
 			employeeoutdistribute.setEmpoutexamstatus("1");
 			employeeoutdistribute.setEmpouttraingrade("1");
 			employeeoutdistribute.setDepartmentid("01002");
 			employeeoutdistributeMapper.insert(employeeoutdistribute);
 		}
-		return  true;
+		return true;
 	}
 
-	
-	/*****二次分配班组信息*********/
+	/***** 二次分配班组信息 *********/
 	@Override
 	public boolean addSecondFenpeiUnitBatch(List<Haulemployeeout> haulemployeeouts,
 			List<Employeeoutdistribute> employeeoutdistributes) throws SQLException {
-		if(haulemployeeouts==null || employeeoutdistributes==null){
+		if (haulemployeeouts == null || employeeoutdistributes == null) {
 			return false;
 		}
-		Haulemployeeout haulemployeeout=null;
-		Employeeoutdistribute employeeoutdistribute=null;
-		String haulEmpId="";
-		for(int i=0,length=haulemployeeouts.size();i<length;i++){
+		Haulemployeeout haulemployeeout = null;
+		Employeeoutdistribute employeeoutdistribute = null;
+		String haulEmpId = "";
+		for (int i = 0, length = haulemployeeouts.size(); i < length; i++) {
 			haulemployeeout = haulemployeeouts.get(i);
-			employeeoutdistribute=employeeoutdistributes.get(i);
-			//1.向检修单位员工中添加一条记录
+			employeeoutdistribute = employeeoutdistributes.get(i);
+			// 1.向检修单位员工中添加一条记录
 			haulEmpId = UUIDUtil.getUUID2();
-			haulemployeeout.setBigemployeeoutid(haulEmpId);//设置大修员工ID
+			haulemployeeout.setBigemployeeoutid(haulEmpId);// 设置大修员工ID
 			haulemployeeout.setTrainstatus("0");
 			haulemployeeoutMapper.insert(haulemployeeout);
-			//2.分配表中加一条记录
+			// 2.分配表中加一条记录
 			employeeoutdistribute.setHaulempid(haulEmpId);
 			employeeoutdistribute.setEmpoutexamstatus("1");
 			employeeoutdistribute.setEmpouttraingrade("1");
@@ -196,17 +201,34 @@ public class EmpoutDistributeServiceImpl implements EmpoutDistributeService {
 			employeeoutdistributeMapper.insert(employeeoutdistribute);
 		}
 		return true;
-		
+
 	}
+
+	@Autowired
+	private EmployeeexamCustomMapper employeeexamCustomMapper;
 
 	@Override
 	public boolean updateDistributeForMiankao(String distributeId) throws SQLException {
-		//0.创建一个外来员工分配对象
+		// 0.创建一个外来员工分配对象
 		Employeeoutdistribute employeeoutdistribute = new Employeeoutdistribute();
 		employeeoutdistribute.setDistributeid(Integer.valueOf(distributeId));
-		employeeoutdistribute.setEmpoutexamstatus("1");;
-		//2.修改
-		return	employeeoutdistributeMapper.updateByPrimaryKeySelective(employeeoutdistribute)>0?true:false;
+		employeeoutdistribute.setEmpoutexamstatus("1");
+
+		// 2.如果是3级免考,设置为已经合格
+		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
+		if (8 == user.getDepartmentid().length()) {// 班组免培训
+			Employeeoutdistribute selectByPrimaryKey = employeeoutdistributeMapper
+					.selectByPrimaryKey(Integer.valueOf(distributeId));
+			String haulempid = selectByPrimaryKey.getHaulempid();
+
+			List<String> haulEmpOutIds = new ArrayList<>();
+			haulEmpOutIds.add(haulempid);
+			log.info("haulempid ->{} ,idCard -> {} 班组{}免培训设置为合格", haulempid, selectByPrimaryKey.getEmpoutidcard(),
+					user.getDepartmentid());
+			employeeexamCustomMapper.updateHaulEmployeeOutTrainStatusByIds(haulEmpOutIds);
+		}
+
+		return employeeoutdistributeMapper.updateByPrimaryKeySelective(employeeoutdistribute) > 0 ? true : false;
 	}
 
 }
