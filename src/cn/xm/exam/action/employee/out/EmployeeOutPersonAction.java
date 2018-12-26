@@ -29,86 +29,83 @@ import cn.xm.exam.utils.UUIDUtil;
 import cn.xm.exam.utils.ValidateCheck;
 import cn.xm.exam.vo.employee.out.EmployeeOutBaseInfo;
 
-/**   
-*    
-* 项目名称：Exam   
-* 类名称：EmployeeOutPersonAction   
-* 类描述：外来单位员工管理的action
-* 创建人：Leilong  
-* 创建时间：2017年11月12日 下午9:34:44   
-* @version    
-*    
-*/
+/**
+ * 
+ * 项目名称：Exam 类名称：EmployeeOutPersonAction 类描述：外来单位员工管理的action 创建人：Leilong
+ * 创建时间：2017年11月12日 下午9:34:44
+ * 
+ * @version
+ * 
+ */
 @Controller
 @Scope("prototype")
-public class EmployeeOutPersonAction extends ActionSupport{
-	
+public class EmployeeOutPersonAction extends ActionSupport {
+
 	private static final Logger log = LoggerFactory.getLogger(EmployeeOutPersonAction.class);
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Resource
 	private EmployeeOutService employeeOutService;
-	
-	private Map<String,Object> result;
-	//当前页
+
+	private Map<String, Object> result;
+	// 当前页
 	private String currentPage;
-	//当前页显示的条数
+	// 当前页显示的条数
 	private String currentCount;
-	//姓名
+	// 姓名
 	private String employeeOutName;
-	
+
 	private String safeHatNum;
-	//性别
+	// 性别
 	private String employeeOutSex;
-	//身份证号
+	// 身份证号
 	private String employeeOutIdCard;
-	//违章积分分数段
+	// 违章积分分数段
 	private String minusNum;
-	//黑名单信息
+	// 黑名单信息
 	private String blackListInfo;
-	//培训情况
+	// 培训情况
 	private String trainStatus;
-	//工种
+	// 工种
 	private String employeeType;
-	//外来单位员工ID
+	// 外来单位员工ID
 	private String employeeOutId;
-	//外来单位员工学历
+	// 外来单位员工学历
 	private String employeeOutEducate;
-	//外来单位员工身体状况
+	// 外来单位员工身体状况
 	private String employeeOutPhy;
-	//参加大修员工ID
+	// 参加大修员工ID
 	private String bigEmployeeOutId;
-	//单位ID
+	// 单位ID
 	private String unitId;
-	//大修ID
+	// 大修ID
 	private String bigId;
-	//外来员工基本信息集合
+	// 外来员工基本信息集合
 	private List<EmployeeOut> employeeOutList;
-	//参加大修的员工信息
+	// 参加大修的员工信息
 	private List<Haulemployeeout> haulEmployeeOutList;
-	//图片
+	// 图片
 	private String photoStr;
-	//标记培训类型
+	// 标记培训类型
 	private String markTrainType;
-	//家庭住址
+	// 家庭住址
 	private String address;
-	//大修状态标记 1表示查看所有检修
+	// 大修状态标记 1表示查看所有检修
 	private String bigStatusMark;
-	//年龄段左侧
+	// 年龄段左侧
 	private String ageLeft;
-	//年龄端右侧
+	// 年龄端右侧
 	private String ageRight;
 	private String breakrulesLeft;// 违章的起始值
 	private String breakrulesRight;// 违章的结束值
-	
-	
-	//初始化大修部门树
-	public String getDepartmentAndOverHaulTree(){
-		Map<String,Object> condition = new HashMap<String,Object>();
+
+	// 初始化大修部门树
+	public String getDepartmentAndOverHaulTree() {
+		Map<String, Object> condition = new HashMap<String, Object>();
 		condition = generationCondition(condition);
-		result = new HashMap<String,Object>();
-		List<Map<String, Object>> departmentAndOverHaulTree = null ;				
+		result = new HashMap<String, Object>();
+		List<Map<String, Object>> departmentAndOverHaulTree = null;
 		try {
 			departmentAndOverHaulTree = employeeOutService.getDepartmentAndOverHaulTree(condition);
 		} catch (Exception e) {
@@ -117,27 +114,28 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		result.put("departmentAndOverHaulTree", departmentAndOverHaulTree);
 		return SUCCESS;
 	}
-	
-	//组合条件查询分页显示外来单位的员工信息 (原先的还没有 时间段 与 违章类型这两个条件)
-	public String getEmployeeOutBaseInfoList(){
-		Map<String,Object> condition = new HashMap<String,Object>();
+
+	// 组合条件查询分页显示外来单位的员工信息 (原先的还没有 时间段 与 违章类型这两个条件)
+	public String getEmployeeOutBaseInfoList() {
+		Map<String, Object> condition = new HashMap<String, Object>();
 		condition = generationCondition(condition);
-		
-		result = new HashMap<String,Object>();
+
+		result = new HashMap<String, Object>();
 		try {
-			PageBean<Map<String,Object>> pageBean = employeeOutService.findEmployeeOutWithCondition(Integer.valueOf(currentPage), Integer.valueOf(currentCount), condition);
+			PageBean<Map<String, Object>> pageBean = employeeOutService.findEmployeeOutWithCondition(
+					Integer.valueOf(currentPage), Integer.valueOf(currentCount), condition);
 			result.put("pageBean", pageBean);
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return SUCCESS;
 	}
-	
-	//根据身份证号查询员工的培训信息
-	public String getExamsInfoByEmployeeOutIdCard(){
-		result = new HashMap<String,Object>();
+
+	// 根据身份证号查询员工的培训信息
+	public String getExamsInfoByEmployeeOutIdCard() {
+		result = new HashMap<String, Object>();
 		try {
 			List<Map<String, Object>> examInfos = employeeOutService.getExamsInfoByEmployeeOutIdCard(employeeOutIdCard);
 			result.put("examInfos", examInfos);
@@ -146,23 +144,24 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		}
 		return SUCCESS;
 	}
-	
-	//根据身份证号查询员工的培训信息,分页显示
-	public String getExamsInfoByEmployeeOutIdCardLimit(){
-		result = new HashMap<String,Object>();
+
+	// 根据身份证号查询员工的培训信息,分页显示
+	public String getExamsInfoByEmployeeOutIdCardLimit() {
+		result = new HashMap<String, Object>();
 		try {
-			PageBean<Map<String, Object>> pageBean = employeeOutService.getExamsInfoByEmployeeOutIdCard(Integer.valueOf(currentPage), Integer.valueOf(currentCount),employeeOutIdCard);
+			PageBean<Map<String, Object>> pageBean = employeeOutService.getExamsInfoByEmployeeOutIdCard(
+					Integer.valueOf(currentPage), Integer.valueOf(currentCount), employeeOutIdCard);
 			result.put("pageBean", pageBean);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SUCCESS;
 	}
-	
-	//根据条件查询外来单位员工的违章信息
-	public String getBreakRulesByCondition(){
-		result = new HashMap<String,Object>();
-		Map<String,Object> condition = new HashMap<String,Object>();
+
+	// 根据条件查询外来单位员工的违章信息
+	public String getBreakRulesByCondition() {
+		result = new HashMap<String, Object>();
+		Map<String, Object> condition = new HashMap<String, Object>();
 		condition = generationCondition(condition);
 		try {
 			List<Breakrules> breakRules = employeeOutService.getBreakRulesInfoByCondition(condition);
@@ -172,63 +171,64 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		}
 		return SUCCESS;
 	}
-	
-	//根据条件查询员工的基本信息用于生成工作证
-	public String getEmpInfoforCertificate(){
-		result = new HashMap<String,Object>();
-		Map<String,Object> condition = new HashMap<String,Object>();
+
+	// 根据条件查询员工的基本信息用于生成工作证
+	public String getEmpInfoforCertificate() {
+		result = new HashMap<String, Object>();
+		Map<String, Object> condition = new HashMap<String, Object>();
 		condition = generationCondition(condition);
 		try {
-			List<EmployeeOutBaseInfo> employeeOutInfoList = employeeOutService.getEmpInfoForCertificateWithCondition(condition);
-			result.put("employeeOutInfoList",employeeOutInfoList);
+			List<EmployeeOutBaseInfo> employeeOutInfoList = employeeOutService
+					.getEmpInfoForCertificateWithCondition(condition);
+			result.put("employeeOutInfoList", employeeOutInfoList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SUCCESS;
 	}
-	
-	//判断录入员工信息的状态,是否来过，是否进入黑名单
-	public String checkAddEmployeeOutStatuss(){
-	
-		result = new HashMap<String,Object>();
+
+	// 判断录入员工信息的状态,是否来过，是否进入黑名单
+	public String checkAddEmployeeOutStatuss() {
+
+		result = new HashMap<String, Object>();
 		try {
-			int status = employeeOutService.findEmployeeOutStatus(employeeOutIdCard,bigId,unitId);
-			result.put("status", status);			
-		} catch (Exception e) {			
+			int status = employeeOutService.findEmployeeOutStatus(employeeOutIdCard, bigId, unitId);
+			result.put("status", status);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return SUCCESS;
 	}
-	
-	//批量导入外来单位员工的基本信息
-	public String addEmployeeOutBatch(){
-		result = new HashMap<String,Object>();
+
+	// 批量导入外来单位员工的基本信息
+	public String addEmployeeOutBatch() {
+		result = new HashMap<String, Object>();
 		try {
-			//员工信息有可能为空
-			if(employeeOutList !=null&&employeeOutList.size()>0){
+			// 员工信息有可能为空
+			if (employeeOutList != null && employeeOutList.size() > 0) {
 				employeeOutList.removeAll(Collections.singleton(null));
-				//设置员工的id和头像路径
+				// 设置员工的id和头像路径
 				for (EmployeeOut employeeOut : employeeOutList) {
 					employeeOut.setEmployeeid(UUIDUtil.getUUID2());
-					//employeeOut.setHeadaddress("/image/employeePhoto/"+employeeOut.getIdcode()+".jpg");
-					employeeOut.setHeadaddress("/employeeOutPhotos/"+employeeOut.getIdcode()+".jpg");
+					// employeeOut.setHeadaddress("/image/employeePhoto/"+employeeOut.getIdcode()+".jpg");
+					employeeOut.setHeadaddress("/employeeOutPhotos/" + employeeOut.getIdcode() + ".jpg");
 				}
 			}
-			//去除集合中的所有null元素			
+			// 去除集合中的所有null元素
 			haulEmployeeOutList.removeAll(Collections.singleton(null));
-			
-			//设置员工大修ID和培训状态
+
+			// 设置员工大修ID和培训状态
 			for (Haulemployeeout haulEmployeeOut : haulEmployeeOutList) {
 				haulEmployeeOut.setBigemployeeoutid(UUIDUtil.getUUID2());
 				haulEmployeeOut.setTrainstatus("0");
-			}						
-			
-			//批量导入外来单位员工的基本信息
-			int count = employeeOutService.addEmployeeOutBatch(employeeOutList,haulEmployeeOutList);
-			if(count==haulEmployeeOutList.size()){
+			}
+
+			// 批量导入外来单位员工的基本信息
+			int count = employeeOutService.addEmployeeOutBatch(employeeOutList, haulEmployeeOutList);
+			if (count == haulEmployeeOutList.size()) {
 				result.put("result", "添加成功！");
-			}else{
+			} else {
 				result.put("result", "添加失败！");
 			}
 		} catch (Exception e) {
@@ -236,31 +236,31 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		}
 		return SUCCESS;
 	}
-	
-	//图片信息的处理
-	public String saveEmployeePhoto(){
-		log.info("[保存外部图片]访问开始saveEmployeePhoto");
+
+	// 图片信息的处理
+	public String saveEmployeePhoto() {
+		log.debug("[保存外部图片]访问开始saveEmployeePhoto");
 		String path = ResourcesUtil.getValue("path", "employeeOutPhoto");
 		String filepath = path + "\\" + employeeOutIdCard + ".jpg";
-		if(photoStr.startsWith("data:image/jpeg;base64,")){
+		if (photoStr.startsWith("data:image/jpeg;base64,")) {
 			photoStr = photoStr.replace("data:image/jpeg;base64,", "");
 		}
 		BSASE64.generateImage(photoStr, filepath);
-		log.info("[保存外部图片]filepath->{},photoStr->{}", filepath, photoStr);
-		log.info("[保存外部图片]访问结束saveEmployeePhoto");
+		log.debug("[保存外部图片]filepath->{},photoStr->{}", filepath, photoStr);
+		log.debug("[保存外部图片]访问结束saveEmployeePhoto");
 		return NONE;
 	}
-	
-	//修改参加大修员工的工种信息
-	public String updateHaulEmployeeOutInfo(){
-		Map<String,Object> condition = new HashMap<String,Object>();
+
+	// 修改参加大修员工的工种信息
+	public String updateHaulEmployeeOutInfo() {
+		Map<String, Object> condition = new HashMap<String, Object>();
 		condition = generationCondition(condition);
-		result = new HashMap<String,Object>();
+		result = new HashMap<String, Object>();
 		try {
 			boolean update = employeeOutService.updateHaulEmployeeOutInfoByCondition(condition);
-			if(update){
+			if (update) {
 				result.put("result", "修改成功！");
-			}else{
+			} else {
 				result.put("result", "修改失败！");
 			}
 		} catch (Exception e) {
@@ -268,17 +268,17 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		}
 		return SUCCESS;
 	}
-	
-	//删除大修员工的信息
-	public String deleteHaulEmployeeOutInfo(){
-		Map<String,Object> condition = new HashMap<String,Object>();
+
+	// 删除大修员工的信息
+	public String deleteHaulEmployeeOutInfo() {
+		Map<String, Object> condition = new HashMap<String, Object>();
 		condition = generationCondition(condition);
-		result = new HashMap<String,Object>();
+		result = new HashMap<String, Object>();
 		try {
 			boolean delete = employeeOutService.deleteHaulEmployeeOutInfoByCondition(condition);
-			if(delete){
+			if (delete) {
 				result.put("result", "删除成功！");
-			}else{
+			} else {
 				result.put("result", "删除失败！");
 			}
 		} catch (Exception e) {
@@ -286,129 +286,126 @@ public class EmployeeOutPersonAction extends ActionSupport{
 		}
 		return SUCCESS;
 	}
-	
-	//组装查询条件
-	private Map<String,Object> generationCondition(Map<String,Object> condition){
-		
-		//对当前页信息进行设置
+
+	// 组装查询条件
+	private Map<String, Object> generationCondition(Map<String, Object> condition) {
+
+		// 对当前页信息进行设置
 		if (currentPage == null || "".equals(currentPage.trim())) {
 			currentPage = "1";
 		}
-		//对当前页显示的信息进行设置
+		// 对当前页显示的信息进行设置
 		if (currentCount == null || "".equals(currentCount.trim())) {
 			currentCount = DefaultValue.PAGE_SIZE;
 		}
-		if(ValidateCheck.isNotNull(employeeOutName)){
+		if (ValidateCheck.isNotNull(employeeOutName)) {
 			condition.put("employeeOutName", employeeOutName);
 		}
-		
-		if(ValidateCheck.isNotNull(employeeOutEducate)){
+
+		if (ValidateCheck.isNotNull(employeeOutEducate)) {
 			condition.put("employeeOutEducate", employeeOutEducate);
 		}
-		
-		if(ValidateCheck.isNotNull(safeHatNum)){
+
+		if (ValidateCheck.isNotNull(safeHatNum)) {
 			condition.put("safeHatNum", safeHatNum);
 		}
-		
-		if(ValidateCheck.isNotNull(employeeOutPhy)){
+
+		if (ValidateCheck.isNotNull(employeeOutPhy)) {
 			condition.put("employeeOutPhy", employeeOutPhy);
 		}
-		
-		if(ValidateCheck.isNotNull(employeeOutSex)){
+
+		if (ValidateCheck.isNotNull(employeeOutSex)) {
 			condition.put("employeeOutSex", employeeOutSex);
 		}
-		
-		if(ValidateCheck.isNotNull(employeeOutIdCard)){
+
+		if (ValidateCheck.isNotNull(employeeOutIdCard)) {
 			condition.put("employeeOutIdCard", employeeOutIdCard);
 		}
-		
-/*		if(ValidateCheck.isNotNull(minusNum)){
-			String[] points = minusNum.split(",");
-			if(points.length>1){				
-				condition.put("minusNumLeft", points[0]);
-				condition.put("minusNumRight", points[1]);
-			}else{
-				condition.put("minusNumLeft", points[0]);
-			}
-		}
-		*/
-		if(ValidateCheck.isNotNull(breakrulesLeft)){
+
+		/*
+		 * if(ValidateCheck.isNotNull(minusNum)){ String[] points =
+		 * minusNum.split(","); if(points.length>1){
+		 * condition.put("minusNumLeft", points[0]);
+		 * condition.put("minusNumRight", points[1]); }else{
+		 * condition.put("minusNumLeft", points[0]); } }
+		 */
+		if (ValidateCheck.isNotNull(breakrulesLeft)) {
 			condition.put("minusNumLeft", breakrulesLeft);
 		}
-		if(ValidateCheck.isNotNull(breakrulesRight)){
+		if (ValidateCheck.isNotNull(breakrulesRight)) {
 			condition.put("minusNumRight", breakrulesRight);
 		}
-		if(ValidateCheck.isNotNull(blackListInfo)){
+		if (ValidateCheck.isNotNull(blackListInfo)) {
 			condition.put("blackListInfo", blackListInfo);
 		}
-		
-		
-		if(ValidateCheck.isNotNull(trainStatus)){
+
+		if (ValidateCheck.isNotNull(trainStatus)) {
 			condition.put("trainStatus", trainStatus);
 		}
-		
-		if(ValidateCheck.isNotNull(employeeType)){
+
+		if (ValidateCheck.isNotNull(employeeType)) {
 			condition.put("employeeType", employeeType);
 		}
-		
-		if(ValidateCheck.isNotNull(employeeOutId)){
+
+		if (ValidateCheck.isNotNull(employeeOutId)) {
 			condition.put("employeeOutId", employeeOutId);
 		}
-		
-		if(ValidateCheck.isNotNull(bigEmployeeOutId)){
+
+		if (ValidateCheck.isNotNull(bigEmployeeOutId)) {
 			condition.put("bigEmployeeOutId", bigEmployeeOutId);
 		}
-		
-		if(ValidateCheck.isNotNull(unitId)){
+
+		if (ValidateCheck.isNotNull(unitId)) {
 			condition.put("unitId", unitId);
 		}
-		
-		if(ValidateCheck.isNotNull(bigId)){
+
+		if (ValidateCheck.isNotNull(bigId)) {
 			condition.put("bigId", bigId);
 		}
-		
-		if(ValidateCheck.isNotNull(address)){
+
+		if (ValidateCheck.isNotNull(address)) {
 			condition.put("address", address);
 		}
-		
-		//年龄段左侧数据
-		if(ValidateCheck.isNotNull(ageLeft)){
+
+		// 年龄段左侧数据
+		if (ValidateCheck.isNotNull(ageLeft)) {
 			condition.put("age_left", ageLeft);
 		}
-		//年龄段右侧数据
-		if(ValidateCheck.isNotNull(ageRight)){
+		// 年龄段右侧数据
+		if (ValidateCheck.isNotNull(ageRight)) {
 			condition.put("age_right", ageRight);
 		}
-		
-		if(ValidateCheck.isNotNull(bigStatusMark)){
-			//1表示查询已结束的检修，0代表查询进行中的检修
-			if(bigStatusMark.equals("1")){				
+
+		if (ValidateCheck.isNotNull(bigStatusMark)) {
+			// 1表示查询已结束的检修，0代表查询进行中的检修
+			if (bigStatusMark.equals("1")) {
 				condition.put("bigStatus", "已结束");
-			}else{
+			} else {
 				condition.put("bigStatus", "进行中");
 			}
 		}
-		
-		//培训类型标记
-		if(ValidateCheck.isNotNull(markTrainType)){
-			//判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
-			if(markTrainType.equals("0")){
-				condition.put("markTrainType_In", markTrainType);				
-			}else{
+
+		// 培训类型标记
+		if (ValidateCheck.isNotNull(markTrainType)) {
+			// 判断标记字段的值，0表示内部正式员工和长委，1表示外来单位
+			if (markTrainType.equals("0")) {
+				condition.put("markTrainType_In", markTrainType);
+			} else {
 				condition.put("markTrainType_Out", markTrainType);
 			}
-			//正式新员工培训大修ID
+			// 正式新员工培训大修ID
 			condition.put("regular_train", DefaultValue.REGULAR_EMPLOYEE_TRAIN);
-			//长委新员工培训大修ID
+			// 长委新员工培训大修ID
 			condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
 		}
-		
-		//组装查询条件,封装违章信息显示类型的条件(即当前年还是历史的违章)lixianyuan
+
+		// 组装查询条件,封装违章信息显示类型的条件(即当前年还是历史的违章)lixianyuan
 		Map<String, Object> condition2 = generateConditionForbreakInfoType(condition);
-		
+
 		return condition2;
-		
+
 	}
+
 	public Map<String, Object> getResult() {
 		return result;
 	}
@@ -432,7 +429,7 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	public void setCurrentCount(String currentCount) {
 		this.currentCount = currentCount;
 	}
-	
+
 	public String getEmployeeOutName() {
 		return employeeOutName;
 	}
@@ -552,64 +549,65 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	public void setMarkTrainType(String markTrainType) {
 		this.markTrainType = markTrainType;
 	}
-	
-	
-	//lixianyuan start
-	private String empBreakInfoType;//标记是当前年的还是历史的违章
-	private String fstarttime;//违章时间开始
-	private String fendtime;//违章时间结束
-	
+
+	// lixianyuan start
+	private String empBreakInfoType;// 标记是当前年的还是历史的违章
+	private String fstarttime;// 违章时间开始
+	private String fendtime;// 违章时间结束
+
 	public String getEmpBreakInfoType() {
 		return empBreakInfoType;
 	}
+
 	public void setEmpBreakInfoType(String empBreakInfoType) {
 		this.empBreakInfoType = empBreakInfoType;
 	}
-	
+
 	public String getFstarttime() {
 		return fstarttime;
 	}
+
 	public void setFstarttime(String fstarttime) {
 		this.fstarttime = fstarttime;
 	}
-	
+
 	public String getFendtime() {
 		return fendtime;
 	}
+
 	public void setFendtime(String fendtime) {
 		this.fendtime = fendtime;
 	}
 
-	//组装查询条件,封装违章信息显示类型的条件(即当前年还是历史的违章)并且封装 查询条件的时间段
-	private Map<String,Object> generateConditionForbreakInfoType(Map<String,Object> condition){
-		/*判断若为0表示显示的是当前违章信息，封装条件获取当前年
-		 * 若为1表示的是历史违章信息，封装条件为历史年份
-		 * 默认为当前年的违章信息
+	// 组装查询条件,封装违章信息显示类型的条件(即当前年还是历史的违章)并且封装 查询条件的时间段
+	private Map<String, Object> generateConditionForbreakInfoType(Map<String, Object> condition) {
+		/*
+		 * 判断若为0表示显示的是当前违章信息，封装条件获取当前年 若为1表示的是历史违章信息，封装条件为历史年份 默认为当前年的违章信息
 		 */
-		if(empBreakInfoType!=null &&empBreakInfoType.equals("1")){
-			//获取系统当前时间为积分周期为一年封装条件
-			String currentYear = DateHandler.dateToString(new Date(), "yyyy");			
-			Integer currentYear_Int = Integer.valueOf(currentYear);			
-			//根据当前年计算历史记录年份
-			String historyYear = String.valueOf(currentYear_Int-DefaultValue.YEAR_RANGE);
-			if(ValidateCheck.isNotNull(historyYear)){
-				condition.put("history_Year", historyYear+"0101");
+		if (empBreakInfoType != null && empBreakInfoType.equals("1")) {
+			// 获取系统当前时间为积分周期为一年封装条件
+			String currentYear = DateHandler.dateToString(new Date(), "yyyy");
+			Integer currentYear_Int = Integer.valueOf(currentYear);
+			// 根据当前年计算历史记录年份
+			String historyYear = String.valueOf(currentYear_Int - DefaultValue.YEAR_RANGE);
+			if (ValidateCheck.isNotNull(historyYear)) {
+				condition.put("history_Year", historyYear + "0101");
 			}
-		}else{
-			//获取系统当前时间为积分周期为一年封装条件
-			String currentYear = DateHandler.dateToString(new Date(), "yyyy");			
-			if(ValidateCheck.isNotNull(currentYear)){
+		} else {
+			// 获取系统当前时间为积分周期为一年封装条件
+			String currentYear = DateHandler.dateToString(new Date(), "yyyy");
+			if (ValidateCheck.isNotNull(currentYear)) {
 				condition.put("current_Year", currentYear);
 			}
 		}
-		
-		if(ValidateCheck.isNotNull(fendtime)){
+
+		if (ValidateCheck.isNotNull(fendtime)) {
 			condition.put("fendtime", fendtime);// 开始时间
 		}
-		if(ValidateCheck.isNotNull(fstarttime)){
+		if (ValidateCheck.isNotNull(fstarttime)) {
 			condition.put("fstarttime", fstarttime);// 结束时间
 		}
-		
+
 		return condition;
 	}
 
@@ -676,7 +674,7 @@ public class EmployeeOutPersonAction extends ActionSupport{
 	public void setEmployeeOutPhy(String employeeOutPhy) {
 		this.employeeOutPhy = employeeOutPhy;
 	}
-	//lixianyuan end
+	// lixianyuan end
 
 	public String getSafeHatNum() {
 		return safeHatNum;
