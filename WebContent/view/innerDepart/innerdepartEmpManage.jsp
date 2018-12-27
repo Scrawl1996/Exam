@@ -445,7 +445,7 @@ hasOperatingEmpin = true;
 									<table class="table table-hover table-bordered">
 										<thead>
 											<tr>
-												<th>选择</th>
+												<th><input type="checkbox" id='empCheckAll'></th>
 												<th>姓名</th>
 												<th>性别</th>
 												<th>出生年月</th>

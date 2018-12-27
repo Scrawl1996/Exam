@@ -205,6 +205,11 @@ $(function() {
 	
 	//初始化员工学历和身体状况下拉列表
 	initEmployeePhyAndEducate();
+	
+//  多选框联动
+    $("#empCheckAll").click(function(){
+        $("input[name='el_chooseBreakRules']").prop("checked",$(this).prop("checked"));
+    })
 })
 
 /** *********************请求树信息********************* */
