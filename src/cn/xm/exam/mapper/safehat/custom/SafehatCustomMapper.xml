@@ -18,7 +18,7 @@
 		unit.unitid
 		<where>
 			<if test="userName != null">
-				and NAME like '%${userName}%'
+				and employee_out.NAME like '%${userName}%'
 			</if>
 			<if test="safeHatNum != null">
 				and safehat.safeHatNum like '%${safeHatNum}%'
