@@ -34,6 +34,11 @@ public class BlackListAction extends ActionSupport{
 	private String employeeId;
 	//员工类型
 	private String employeeType;
+	
+	/**
+	 * 标记查询违章信息的来源页面
+	 */
+	private String selectBreakRulesFrom;
 	/**
 	 * 查询黑名单员工信息
 	 * @return
@@ -80,7 +85,12 @@ public class BlackListAction extends ActionSupport{
 	public String selectBreakRulesInfo(){
 		result = new HashMap<String,Object>();
 		try {
-			Map<String, Object> map = blackListEmpOutService.getBreakRulesInfoList(employeeId, employeeType);
+			Map<String, Object> map = null;
+			if ("fromBlackList".equals(selectBreakRulesFrom)) {
+				map = blackListEmpOutService.getBreakRulesInfoList(employeeId, employeeType,selectBreakRulesFrom);
+			}else{
+				map = blackListEmpOutService.getBreakRulesInfoList(employeeId, employeeType,null);
+			}
 			result.put("breakListInfo", map);
 		} catch (SQLException e) {			
 			e.printStackTrace();
@@ -140,6 +150,12 @@ public class BlackListAction extends ActionSupport{
 	public void setEmployeeType(String employeeType) {
 		this.employeeType = employeeType;
 	}
-	
-	
+
+	public String getSelectBreakRulesFrom() {
+		return selectBreakRulesFrom;
+	}
+
+	public void setSelectBreakRulesFrom(String selectBreakRulesFrom) {
+		this.selectBreakRulesFrom = selectBreakRulesFrom;
+	}
 }

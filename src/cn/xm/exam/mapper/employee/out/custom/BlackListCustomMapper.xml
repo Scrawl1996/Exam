@@ -27,7 +27,6 @@
 						breakrules
 					WHERE
 						employeeId = blacklist.employeeId
-					AND breaktime LIKE CONCAT(YEAR(CURDATE()), '%')
 				)
 			ELSE
 				(
@@ -37,7 +36,6 @@
 						emplyin_breakrules
 					WHERE
 						empInEmployeeId = blacklist.employeeId
-					AND empInBreakTime LIKE CONCAT(YEAR(CURDATE()), '%')
 				)
 			END AS minusnum
 			FROM
@@ -74,16 +72,20 @@
 	</delete>
 	
 	<!-- 短委员工 查询违章记录 -->
-	<select id="getEmplyOutBreakrulesById" parameterType="String" resultType="cn.xm.exam.bean.employee.out.Breakrules">
-		SELECT * FROM breakrules where employeeId = #{value}
+	<select id="getEmplyOutBreakrulesById" resultType="cn.xm.exam.bean.employee.out.Breakrules">
+		SELECT * FROM breakrules where employeeId = #{employeeId}
+		<if test="from == null || from == ''">
 			AND breakTime LIKE CONCAT(YEAR(CURDATE()),'%')
+		</if>
 			ORDER BY breakTime DESC
 	</select>
 	
 	<!-- 长委员工 查询违章记录 -->
-	<select id="getEmplyInBreakrulesById" parameterType="String" resultType="cn.xm.exam.bean.employee.in.EmplyinBreakrules">
-		SELECT * FROM emplyin_breakrules where empInEmployeeId = #{value}
+	<select id="getEmplyInBreakrulesById" resultType="cn.xm.exam.bean.employee.in.EmplyinBreakrules">
+		SELECT * FROM emplyin_breakrules where empInEmployeeId = #{employeeId}
+		<if test="from == null || from == ''">
 			AND empInBreakTime LIKE CONCAT(YEAR(CURDATE()),'%')
+		</if>
 			ORDER BY empInBreakTime DESC
 	</select>
 	

@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.xm.exam.bean.employee.in.EmplyinBreakrules;
 import cn.xm.exam.bean.employee.out.Breakrules;
 
@@ -38,16 +40,18 @@ public interface BlackListCustomMapper {
 	/**
 	 * 长委员工
 	 * 查询当前年的违章记录
+	 * @param from 
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<EmplyinBreakrules> getEmplyInBreakrulesById(String employeeId) throws SQLException;
+	public List<EmplyinBreakrules> getEmplyInBreakrulesById(@Param("employeeId")String employeeId, @Param("from")String from) throws SQLException;
 	
 	/**
 	 * 短委员工
 	 * 查询当前年的违章记录
+	 * @param from 
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Breakrules> getEmplyOutBreakrulesById(String employeeId) throws SQLException;
+	public List<Breakrules> getEmplyOutBreakrulesById(@Param("employeeId")String employeeId, @Param("from")String from) throws SQLException;
 }
