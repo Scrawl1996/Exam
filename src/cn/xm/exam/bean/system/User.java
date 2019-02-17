@@ -1,12 +1,17 @@
 package cn.xm.exam.bean.system;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 
-public class User {
-    private String userid;
+public class User implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3207880482640325843L;
+
+	private String userid;
 
     private String useridcard;
 

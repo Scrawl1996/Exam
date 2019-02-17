@@ -1,65 +1,72 @@
 package cn.xm.exam.bean.system;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Role {
-    private String roleid;
+public class Role implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5953744147850640661L;
 
-    private String rolename;
+	private String roleid;
 
-    private String rolestatus;
+	private String rolename;
 
-    private String description;
-    
-    private String departmentid;
-    
-    private String departmentname;
+	private String rolestatus;
 
-    private String remark;
-    
-    private Date datetime;
+	private String description;
 
-    private List<Permission> permissions;
-    public String getRoleid() {
-        return roleid;
-    }
+	private String departmentid;
 
-    public void setRoleid(String roleid) {
-        this.roleid = roleid == null ? null : roleid.trim();
-    }
+	private String departmentname;
 
-    public String getRolename() {
-        return rolename;
-    }
+	private String remark;
 
-    public void setRolename(String rolename) {
-        this.rolename = rolename == null ? null : rolename.trim();
-    }
+	private Date datetime;
 
-    public String getRolestatus() {
-        return rolestatus;
-    }
+	private List<Permission> permissions;
 
-    public void setRolestatus(String rolestatus) {
-        this.rolestatus = rolestatus == null ? null : rolestatus.trim();
-    }
+	public String getRoleid() {
+		return roleid;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setRoleid(String roleid) {
+		this.roleid = roleid == null ? null : roleid.trim();
+	}
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
+	public String getRolename() {
+		return rolename;
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public void setRolename(String rolename) {
+		this.rolename = rolename == null ? null : rolename.trim();
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
+	public String getRolestatus() {
+		return rolestatus;
+	}
+
+	public void setRolestatus(String rolestatus) {
+		this.rolestatus = rolestatus == null ? null : rolestatus.trim();
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description == null ? null : description.trim();
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark == null ? null : remark.trim();
+	}
 
 	public List<Permission> getPermissions() {
 		return permissions;

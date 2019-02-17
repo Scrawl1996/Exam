@@ -1,103 +1,110 @@
 package cn.xm.exam.bean.system;
 
-public class Permission {
-    private String permissionid;
+import java.io.Serializable;
 
-    private String name;
+public class Permission implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2064605796098387365L;
 
-    private String status;
+	private String permissionid;
 
-    private String type;
+	private String name;
 
-    private String url;
+	private String status;
 
-    private String permissioncode;
+	private String type;
 
-    private String parentid;
+	private String url;
 
-    private String parentsid;
+	private String permissioncode;
 
-    private String sortno;
+	private String parentid;
 
-    private String description;
+	private String parentsid;
 
-    public String getPermissionid() {
-        return permissionid;
-    }
+	private String sortno;
 
-    public void setPermissionid(String permissionid) {
-        this.permissionid = permissionid == null ? null : permissionid.trim();
-    }
+	private String description;
 
-    public String getName() {
-        return name;
-    }
+	public String getPermissionid() {
+		return permissionid;
+	}
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
+	public void setPermissionid(String permissionid) {
+		this.permissionid = permissionid == null ? null : permissionid.trim();
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
-    }
+	public void setName(String name) {
+		this.name = name == null ? null : name.trim();
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
-    }
+	public void setStatus(String status) {
+		this.status = status == null ? null : status.trim();
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
-    }
+	public void setType(String type) {
+		this.type = type == null ? null : type.trim();
+	}
 
-    public String getPermissioncode() {
-        return permissioncode;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public void setPermissioncode(String permissioncode) {
-        this.permissioncode = permissioncode == null ? null : permissioncode.trim();
-    }
+	public void setUrl(String url) {
+		this.url = url == null ? null : url.trim();
+	}
 
-    public String getParentid() {
-        return parentid;
-    }
+	public String getPermissioncode() {
+		return permissioncode;
+	}
 
-    public void setParentid(String parentid) {
-        this.parentid = parentid == null ? null : parentid.trim();
-    }
+	public void setPermissioncode(String permissioncode) {
+		this.permissioncode = permissioncode == null ? null : permissioncode.trim();
+	}
 
-    public String getParentsid() {
-        return parentsid;
-    }
+	public String getParentid() {
+		return parentid;
+	}
 
-    public void setParentsid(String parentsid) {
-        this.parentsid = parentsid == null ? null : parentsid.trim();
-    }
+	public void setParentid(String parentid) {
+		this.parentid = parentid == null ? null : parentid.trim();
+	}
 
-    public String getSortno() {
-        return sortno;
-    }
+	public String getParentsid() {
+		return parentsid;
+	}
 
-    public void setSortno(String sortno) {
-        this.sortno = sortno == null ? null : sortno.trim();
-    }
+	public void setParentsid(String parentsid) {
+		this.parentsid = parentsid == null ? null : parentsid.trim();
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getSortno() {
+		return sortno;
+	}
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
+	public void setSortno(String sortno) {
+		this.sortno = sortno == null ? null : sortno.trim();
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description == null ? null : description.trim();
+	}
 }
