@@ -232,7 +232,8 @@ public class EmployeeOutPersonAction extends ActionSupport {
 				result.put("result", "添加失败！");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("addEmployeeOutBatch error,haulEmployeeOutList->{},employeeOutList->{}", haulEmployeeOutList,
+					employeeOutList, e);
 		}
 		return SUCCESS;
 	}
@@ -264,7 +265,7 @@ public class EmployeeOutPersonAction extends ActionSupport {
 				result.put("result", "修改失败！");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("updateHaulEmployeeOutInfo error", e);
 		}
 		return SUCCESS;
 	}

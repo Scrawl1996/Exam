@@ -35,8 +35,9 @@ public interface BlackListEmpOutService {
 	 * 根据员工ID和员工类型查询违章信息
 	 * @param employeeId
 	 * @param employeeType
+	 * @param selectBreakRulesFrom 
 	 * @return
 	 * @throws SQLException
 	 */
-	public Map<String,Object> getBreakRulesInfoList(String employeeId,String employeeType) throws SQLException;
+	public Map<String,Object> getBreakRulesInfoList(String employeeId,String employeeType, String selectBreakRulesFrom) throws SQLException;
 }

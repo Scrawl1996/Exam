@@ -16,24 +16,44 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class HSSFWorkExcel {
+public class ExcelExporter {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(HSSFWorkExcel.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ExcelExporter.class);
 
 	private String[] headerNames;
-	private HSSFWorkbook workBook;
-	private HSSFSheet sheet;
+	private Workbook workBook;
+	private Sheet sheet;
 
-	public HSSFWorkExcel(String[] headerNames, String sheetName) {
+	/**
+	 * 
+	 * @param headerNames
+	 *            表头
+	 * @param sheetName
+	 *            sheet的名称
+	 * @param excelVerson
+	 *            excel的版本
+	 */
+	public ExcelExporter(String[] headerNames, String sheetName, String excelVerson) {
 		this.headerNames = headerNames;
 		// 创建一个工作簿
-		workBook = new HSSFWorkbook();
+		if ("07".equals(excelVerson)) {
+			// workBook = new XSSFWorkbook();//处理07版本excel
+			workBook = new SXSSFWorkbook();// 处理07版本，但是适用于大数据量，导出之后数据不会占用内存
+		} else {
+			workBook = new HSSFWorkbook();
+		}
 		// 创建一个工作表sheet
 		sheet = workBook.createSheet(sheetName);
 		initHeader();
@@ -44,8 +64,8 @@ public class HSSFWorkExcel {
 	 */
 	private void initHeader() {
 		// 创建第一行
-		HSSFRow row = sheet.createRow(0);
-		HSSFCell cell = null;
+		Row row = sheet.createRow(0);
+		Cell cell = null;
 		// 创建表头
 		for (int i = 0; i < headerNames.length; i++) {
 			cell = row.createCell(i);
@@ -60,12 +80,12 @@ public class HSSFWorkExcel {
 	 * @param cell
 	 *            单元格
 	 */
-	public void setCellStyle(HSSFCell cell) {
+	public void setCellStyle(Cell cell) {
 		// 设置样式
-		HSSFCellStyle cellStyle = workBook.createCellStyle();
+		CellStyle cellStyle = workBook.createCellStyle();
 		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 设置字体居中
 		// 设置字体
-		HSSFFont font = workBook.createFont();
+		Font font = workBook.createFont();
 		font.setFontName("宋体");
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
 		font.setFontHeightInPoints((short) 13);
@@ -84,8 +104,8 @@ public class HSSFWorkExcel {
 	 */
 	public void createTableRow(List<String> datas, int rowIndex) {
 		// 创建第i行
-		HSSFRow row = sheet.createRow(rowIndex);
-		HSSFCell cell = null;
+		Row row = sheet.createRow(rowIndex);
+		Cell cell = null;
 		// 写入数据
 		for (int index = 0, length = datas.size(); index < length; index++) {
 			// 参数代表第几列
@@ -109,8 +129,8 @@ public class HSSFWorkExcel {
 			}
 			// 创建行(从第二行开始)
 			Map<String, Object> data = datas.get(i);
-			HSSFRow row = sheet.createRow(i + 1);
-			HSSFCell cell = null;
+			Row row = sheet.createRow(i + 1);
+			Cell cell = null;
 			for (int j = 0, length_2 = keys.length; j < length_2; j++) {
 				// 单元格获取map中的key
 				String key = keys[j];
@@ -128,6 +148,10 @@ public class HSSFWorkExcel {
 	 * 根据表头自动调整列宽度
 	 */
 	public void autoAllSizeColumn() {
+		if (sheet instanceof SXSSFSheet) {// 如果是SXSSFSheet，需要调用trackAllColumnsForAutoSizing方法一次
+			SXSSFSheet tmpSheet = (SXSSFSheet) sheet;
+			tmpSheet.trackAllColumnsForAutoSizing();
+		}
 		for (int i = 0, length = headerNames.length; i < length; i++) {
 			sheet.autoSizeColumn(i);
 		}
@@ -155,7 +179,7 @@ public class HSSFWorkExcel {
 	}
 
 	public static void test1() {
-		HSSFWorkExcel hssfWorkExcel = new HSSFWorkExcel(new String[] { "姓名", "年龄" }, "人员基本信息");
+		ExcelExporter hssfWorkExcel = new ExcelExporter(new String[] { "姓名", "年龄" }, "人员基本信息", "03");
 		for (int i = 0; i < 10; i++) {
 			List<String> data = new ArrayList<>();
 			data.add("namesssssssssssssss水水水水水水水水水水水水水水水水水水水ssssssssssssssss" + i);
@@ -170,7 +194,7 @@ public class HSSFWorkExcel {
 	}
 
 	public static void test2() {
-		HSSFWorkExcel hssfWorkExcel = new HSSFWorkExcel(new String[] { "姓名", "年龄" }, "人员基本信息");
+		ExcelExporter hssfWorkExcel = new ExcelExporter(new String[] { "姓名", "年龄" }, "人员基本信息", "07");
 		List<Map<String, Object>> datas = new ArrayList<>();
 		for (int i = 0; i < 10; i++) {
 			Map data = new HashMap<>();
@@ -180,7 +204,7 @@ public class HSSFWorkExcel {
 		}
 		hssfWorkExcel.createTableRows(datas, new String[] { "name", "age" });
 		try {
-			hssfWorkExcel.exportExcel(new FileOutputStream(new File("e:/test1.xls")));
+			hssfWorkExcel.exportExcel(new FileOutputStream(new File("e:/test1.xlsx")));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

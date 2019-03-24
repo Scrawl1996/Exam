@@ -28,7 +28,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import cn.xm.exam.service.safehat.EmpInSafehatService;
 import cn.xm.exam.service.safehat.SafehatService;
 import cn.xm.exam.utils.ExamSystemUtils;
-import cn.xm.exam.utils.HSSFWorkExcel;
+import cn.xm.exam.utils.ExcelExporter;
 import cn.xm.exam.utils.ValidateCheck;
 
 /**
@@ -65,7 +65,7 @@ public class ExtSafeHatInTaizhang extends ActionSupport {
 			// 写入文件中
 			String[] headerNames = new String[] { "序号", "姓名", "性别", "年龄", "部门", "学历", "身体状况", "职务", "身份证号", "安全帽编号",
 					"备注" };
-			HSSFWorkExcel hssfWorkExcel = new HSSFWorkExcel(headerNames, "安全帽台账信息");
+			ExcelExporter hssfWorkExcel = new ExcelExporter(headerNames, "安全帽台账信息","03");
 			String[] keys = new String[] { "index", "name", "sex", "age", "departmentName", "empeducate",
 					"empphysicalstatus", "duty", "idCode", "safeHatNum", "description" };
 			hssfWorkExcel.createTableRows(safehatTaizhang, keys);

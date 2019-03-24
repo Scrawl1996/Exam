@@ -85,7 +85,7 @@ public class BlackListEmpOutServiceImpl implements BlackListEmpOutService {
 	}
 
 	@Override
-	public Map<String, Object> getBreakRulesInfoList(String employeeId, String employeeType) throws SQLException {
+	public Map<String, Object> getBreakRulesInfoList(String employeeId, String employeeType,String from) throws SQLException {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 			
@@ -95,7 +95,7 @@ public class BlackListEmpOutServiceImpl implements BlackListEmpOutService {
 			EmplyinBreakrulesExample.Criteria emplyInCriteria = emplyinBreakrules.createCriteria();
 			emplyInCriteria.andEmpinemployeeidEqualTo(employeeId);			
 			List<EmplyinBreakrules> list = emplyInBreakRulesMapper.selectByExample(emplyinBreakrules);*/
-			List<EmplyinBreakrules> list = blackListCustomMapper.getEmplyInBreakrulesById(employeeId);
+			List<EmplyinBreakrules> list = blackListCustomMapper.getEmplyInBreakrulesById(employeeId,from);
 			
 			map.put("list", list);
 			return map;
@@ -105,7 +105,7 @@ public class BlackListEmpOutServiceImpl implements BlackListEmpOutService {
 			emplyOutCriteria.andEmployeeidEqualTo(employeeId);
 			List<Breakrules> list = breakRulesMapper.selectByExample(breakRulesExample);
 			*/
-			List<Breakrules> list = blackListCustomMapper.getEmplyOutBreakrulesById(employeeId);
+			List<Breakrules> list = blackListCustomMapper.getEmplyOutBreakrulesById(employeeId,from);
 			map.put("list", list);
 			return map;
 		}

@@ -5,6 +5,23 @@
 
 
 /** **S QLQ************ */
+/**
+ * 一个值如果是null或者''返回-
+ * @param value 需要处理的值
+ * @param length 需要截取的字符的长度的值,未指定的时候返回全部
+ * @returns {*} 处理过的值
+ */
+function replaceNull(value,length) {
+    //判断截取的值是否为空
+    if(value == null || value==undefined || value == "" || value=='undefined'){
+        return "";
+    }
+    //判断长度是否为空
+    if(length == null || length == ''){
+        return value;
+    }
+    return value.toString().substr(0,length);
+}
 /** **S 查询检修部门树**** */
 $(document).ready(function() {
 		// 查询单位信息
@@ -277,11 +294,11 @@ function showBlackListInfo(data){
 										+(blackListInfo[i].sex>1?'女':'男')+"</td><td>"
 										+(blackListInfo[i].employeeStatus>0?'短委':'长委')+"</td><td>"
 										+blackListInfo[i].time.substring(0,10)+"</td><td onclick='findBreakRulesInfo(this)' title='点击查看具体的违章记录' class='el_delButton' style='color:darkblue;'>"
-										+blackListInfo[i].minusnum+"</td><td>"
+										+replaceNull(blackListInfo[i].minusnum)+"</td><td>"
 										+blackListInfo[i].blackIdcard+"</td><td>"
 										// 有删除修改权限就显示连接
 										if (hasBlackDeleteOperating) {
-											showBlackListInfoInfoStr += '<a href="javascript:void(0)" onclick="deleteBlackInfo('+blackListInfo[i].id+')" title="删除此单位"><span class="glyphicon glyphicon-trash"></span></a><br />';
+											showBlackListInfoInfoStr += '<a href="javascript:void(0)" onclick="deleteBlackInfo('+blackListInfo[i].id+')" title="删除此人员"><span class="glyphicon glyphicon-trash"></span></a><br />';
 										} else {
 											showBlackListInfoInfoStr += "--";
 										}
@@ -345,7 +362,7 @@ function findBreakRulesInfo(obj){
 	$.ajax({
 		url:contextPath +"/blackListEmpOut_selectBreakRulesInfo.action",
 		dataType:"json",
-		data:{"employeeType":employeeType,"employeeId":employeeId},
+		data:{"employeeType":employeeType,"employeeId":employeeId,"selectBreakRulesFrom":"fromBlackList"},
 		type:"post",		
 		success:function(data){
 			showBreakRulesInfo(data,employeeType);

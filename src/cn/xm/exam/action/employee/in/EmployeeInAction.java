@@ -193,8 +193,7 @@ public class EmployeeInAction extends ActionSupport {
 		try {
 			flag = employeeInService.addEmployeeInBatch(employeeInList);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("addEmployeeInBatch error,employeeInList -> {}", employeeInList, e);
 		}
 		if (flag) {
 			result.put("flag", "添加成功！");
