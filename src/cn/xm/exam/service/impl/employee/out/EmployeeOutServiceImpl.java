@@ -13,11 +13,12 @@ import javax.annotation.Resource;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import cn.xm.exam.bean.employee.out.Breakrules;
 import cn.xm.exam.bean.employee.out.EmployeeOut;
 import cn.xm.exam.bean.employee.out.EmployeeOutExample;
-import cn.xm.exam.bean.employee.out.EmployeeOutExample.Criteria;
 import cn.xm.exam.bean.employee.out.Employeeoutdistribute;
 import cn.xm.exam.bean.employee.out.EmployeeoutdistributeExample;
 import cn.xm.exam.bean.grade.EmployeeexamExample;
@@ -30,6 +31,7 @@ import cn.xm.exam.mapper.employee.out.custom.EmployeeOutCustomMapper;
 import cn.xm.exam.mapper.grade.EmployeeexamMapper;
 import cn.xm.exam.mapper.haul.HaulemployeeoutMapper;
 import cn.xm.exam.service.employee.out.EmployeeOutService;
+import cn.xm.exam.service.safehat.SafehatService;
 import cn.xm.exam.utils.DefaultValue;
 import cn.xm.exam.utils.PageBean;
 import cn.xm.exam.vo.employee.out.EmployeeOutBaseInfo;
@@ -59,6 +61,8 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 	private EmployeeexamMapper employeeExamMapper;
 	@Resource
 	private BlacklistMapper blacklistMapper;
+	@Autowired
+	private SafehatService safehatService;
 
 	@Override
 	public String getNextEmployeeOutId(String unitId) throws Exception {
@@ -407,6 +411,9 @@ public class EmployeeOutServiceImpl implements EmployeeOutService {
 		// 删除参加大修员工表中的信息
 		int deleteHaulEmployeeOutInfo = haulEmployeeOutMapper
 				.deleteByPrimaryKey(employeeOutBaseInfo.getBigemployeeoutid());
+
+		// 删除安全帽信息
+		safehatService.deleteSafehatBybigEmployeeOutId(employeeOutBaseInfo.getBigemployeeoutid());
 
 		return deleteHaulEmployeeOutInfo > 0 ? true : false;
 	}

@@ -28,6 +28,7 @@ import cn.xm.exam.service.common.DictionaryService;
 import cn.xm.exam.service.employee.in.DepartmentService;
 import cn.xm.exam.service.employee.in.EmployeeInService;
 import cn.xm.exam.service.exam.exam.ExamService;
+import cn.xm.exam.service.safehat.EmpInSafehatService;
 import cn.xm.exam.utils.BSASE64;
 import cn.xm.exam.utils.DefaultValue;
 import cn.xm.exam.utils.PageBean;
@@ -43,6 +44,9 @@ public class EmployeeInAction extends ActionSupport {
 	private File fileName;
 	private String fileNameContentType;
 	private String fileNameFileName;
+
+	@Autowired
+	private EmpInSafehatService empInSafehatService;
 
 	public File getFileName() {
 		return fileName;
@@ -451,6 +455,9 @@ public class EmployeeInAction extends ActionSupport {
 		result = new HashMap<String, Object>();
 
 		boolean flag = employeeInService.deleteEmployeeInById(employeeId);
+
+		// 删除帽子
+		empInSafehatService.deleteSafehatByEmpId(employeeId);
 
 		// 判断
 		if (flag) {

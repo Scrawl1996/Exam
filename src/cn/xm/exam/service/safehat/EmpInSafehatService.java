@@ -23,4 +23,11 @@ public interface EmpInSafehatService {
 
 	void updateSafeNum(String safeHatNum, String newSafeHatNum);
 
+	/**
+	 * 根据内部员工ID回收帽子
+	 * 
+	 * @param empId
+	 */
+	public void deleteSafehatByEmpId(String empId);
+
 }

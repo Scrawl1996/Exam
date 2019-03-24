@@ -14,12 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ctc.wstx.util.StringUtil;
-
 import cn.xm.exam.bean.employee.in.Department;
 import cn.xm.exam.bean.employee.in.EmployeeIn;
+import cn.xm.exam.bean.safehat.Safehat;
 import cn.xm.exam.bean.safehat.SafehatIn;
 import cn.xm.exam.bean.safehat.SafehatInExample;
+import cn.xm.exam.bean.safehat.SafehatInExample.Criteria;
 import cn.xm.exam.bean.system.User;
 import cn.xm.exam.mapper.employee.in.DepartmentMapper;
 import cn.xm.exam.mapper.employee.in.EmployeeInMapper;
@@ -265,6 +265,23 @@ public class EmpInSafehatServiceImpl implements EmpInSafehatService {
 		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("userinfo");
 		safehat.appendChangeLog(geneChangeLog(user, "将帽子编号修改为" + newSafeHatNum, "【修改编号】"));
 		safehatInMapper.updateByPrimaryKeyWithBLOBs(safehat);
+	}
+
+	@Override
+	public void deleteSafehatByEmpId(String empId) {
+		// 1.查到帽子
+		SafehatInExample example = new SafehatInExample();
+		Criteria createCriteria = example.createCriteria();
+		createCriteria.andUserempidEqualTo(empId);
+		List<SafehatIn> hats = safehatInMapper.selectByExampleWithBLOBs(example);
+		if (CollectionUtils.isEmpty(hats)) {
+			return;
+		}
+
+		// 2.删除帽子
+		SafehatIn safehatIn = hats.get(0);
+		deleteSafehat(safehatIn.getSafehatnum(),
+				(User) ServletActionContext.getRequest().getSession().getAttribute("userinfo"));
 	}
 
 }

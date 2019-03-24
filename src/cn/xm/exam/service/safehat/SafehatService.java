@@ -23,4 +23,11 @@ public interface SafehatService {
 
 	List<Map<String, Object>> getSafehatTaizhang(Map condition);
 
+	/**
+	 * 根据大修员工ID回收安全帽
+	 * 
+	 * @param bigEmployeeOutId
+	 */
+	void deleteSafehatBybigEmployeeOutId(String bigEmployeeOutId);
+
 }

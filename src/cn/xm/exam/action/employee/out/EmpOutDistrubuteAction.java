@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
@@ -25,6 +26,7 @@ import cn.xm.exam.bean.system.User;
 import cn.xm.exam.service.common.DictionaryService;
 import cn.xm.exam.service.employee.out.EmployeeOutService;
 import cn.xm.exam.service.employee.out.EmpoutDistributeService;
+import cn.xm.exam.service.safehat.SafehatService;
 import cn.xm.exam.utils.DefaultValue;
 import cn.xm.exam.utils.PageBean;
 import cn.xm.exam.utils.ValidateCheck;
@@ -41,13 +43,16 @@ import cn.xm.exam.utils.ValidateCheck;
 public class EmpOutDistrubuteAction extends ActionSupport {
 
 	private static final Logger log = LoggerFactory.getLogger(EmpOutDistrubuteAction.class);
-	
+
 	private Map<String, Object> response;
 	@Resource
 	private EmpoutDistributeService empoutDistributeService;
 	private String markTrainType;// 标记外来还是内部常委
-	//大修状态标记 1表示查看所有检修
+	// 大修状态标记 1表示查看所有检修
 	private String bigStatusMark;
+
+	@Autowired
+	private SafehatService safehatService;
 
 	/**
 	 * 跟句当前用户的ID查询大修单位数
@@ -64,7 +69,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			// 获取用户信息
 			Subject currentUser = SecurityUtils.getSubject();
 			boolean permitted = currentUser.isPermitted("trainStatus:factory");// 判断是否有查看所有人培训信息权限
-			String departmentId = permitted ? "01002" :departmentIdSession ;//有权限将01002设为当前部门
+			String departmentId = permitted ? "01002" : departmentIdSession;// 有权限将01002设为当前部门
 			condition.put("departmentId", departmentId);
 			// 培训类型标记
 			if (ValidateCheck.isNotNull(markTrainType)) {
@@ -79,11 +84,11 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 				// 长委新员工培训大修ID
 				condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
 			}
-			if(ValidateCheck.isNotNull(bigStatusMark)){
-				//1表示查询已结束的检修，0代表查询进行中的检修
-				if(bigStatusMark.equals("1")){				
+			if (ValidateCheck.isNotNull(bigStatusMark)) {
+				// 1表示查询已结束的检修，0代表查询进行中的检修
+				if (bigStatusMark.equals("1")) {
 					condition.put("bigStatus", "已结束");
-				}else{
+				} else {
 					condition.put("bigStatus", "进行中");
 				}
 			}
@@ -128,6 +133,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 	private String employeeOutSex;
 	@Autowired
 	private DictionaryService dictionaryService;
+
 	/**
 	 * 分页查询分配信息
 	 * 
@@ -154,8 +160,8 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		// 获取用户信息
 		Subject currentUser = SecurityUtils.getSubject();
 		boolean permitted = currentUser.isPermitted("trainStatus:factory");// 判断是否有查看所有人培训信息权限
-		String departmentId = permitted ? "01002" :departmentIdSession ;//有权限将01002设为当前部门
-		//如果是具有厂级权限的部门来查看将部门ID设为01
+		String departmentId = permitted ? "01002" : departmentIdSession;// 有权限将01002设为当前部门
+		// 如果是具有厂级权限的部门来查看将部门ID设为01
 		if (ValidateCheck.isNotNull(departmentIdSession)) {
 			condition.put("departmentId", departmentId);
 		}
@@ -178,11 +184,11 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			// 长委新员工培训大修ID
 			condition.put("longterm_train", DefaultValue.LONGTERM_EMPLOYEE_TRAIN);
 		}
-		if(ValidateCheck.isNotNull(bigStatusMark)){
-			//1表示查询已结束的检修，0代表查询进行中的检修
-			if(bigStatusMark.equals("1")){				
+		if (ValidateCheck.isNotNull(bigStatusMark)) {
+			// 1表示查询已结束的检修，0代表查询进行中的检修
+			if (bigStatusMark.equals("1")) {
 				condition.put("bigStatus", "已结束");
-			}else{
+			} else {
 				condition.put("bigStatus", "进行中");
 			}
 		}
@@ -279,17 +285,15 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		response.put("result", result);
 		return SUCCESS;
 	}
-	
-	
-	
-	
-	
-	private List<Haulemployeeout> haulemployeeouts;//二次分配的大修员工信息
-	public String reDistribute(){
+
+	private List<Haulemployeeout> haulemployeeouts;// 二次分配的大修员工信息
+
+	public String reDistribute() {
 		response = new HashMap<String, Object>();
 		String result = "";
 		try {
-				result = empoutDistributeService.addSecondFenpeiInfoBatch(haulemployeeouts,employeeoutdistributes) ? "二次分配成功" : "二次分配失败";
+			result = empoutDistributeService.addSecondFenpeiInfoBatch(haulemployeeouts, employeeoutdistributes)
+					? "二次分配成功" : "二次分配失败";
 		} catch (SQLException e) {
 			result = "二次分配失败";
 			log.error("二次分配失败", e);
@@ -297,17 +301,18 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		response.put("result", result);
 		return SUCCESS;
 	}
-	
-	
+
 	/**
 	 * 重新分配检修单位
+	 * 
 	 * @return
 	 */
-	public String reDistributeUnit(){
+	public String reDistributeUnit() {
 		response = new HashMap<String, Object>();
 		String result = "";
 		try {
-			result = empoutDistributeService.addSecondFenpeiUnitBatch(haulemployeeouts,employeeoutdistributes) ? "分配单位成功" : "二次分配失败";
+			result = empoutDistributeService.addSecondFenpeiUnitBatch(haulemployeeouts, employeeoutdistributes)
+					? "分配单位成功" : "二次分配失败";
 		} catch (SQLException e) {
 			result = "二次分配失败";
 			log.error("二次分配失败", e);
@@ -315,9 +320,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		response.put("result", result);
 		return SUCCESS;
 	}
-	
-	
-	
+
 	/**
 	 * 生成工作证的操作
 	 * 
@@ -361,12 +364,14 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 	public String revokeWordCard() {
 		Map condition = new HashMap();
 		response = new HashMap<String, Object>();
+
+		List<String> bigEmployeeOutIdsList = null;
 		if (ValidateCheck.isNotNull(bigEmployeeOutIds)) {
 			// 分割为数组
 			String[] bigEmployeeOutIds_array = bigEmployeeOutIds.split(",");
 			// 转为list
-			List<String> bigEmployeeOutIds = Arrays.asList(bigEmployeeOutIds_array);
-			condition.put("bigEmployeeOutIds", bigEmployeeOutIds);
+			bigEmployeeOutIdsList = Arrays.asList(bigEmployeeOutIds_array);
+			condition.put("bigEmployeeOutIds", bigEmployeeOutIdsList);
 		}
 		condition.put("trainStatus", "3");
 		String result = null;
@@ -377,18 +382,28 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 			log.error("回收工作证出错！！！", e);
 			result = "回收工作证出错！！！";
 		}
+
+		// 进行安全帽回收
+		if (CollectionUtils.isNotEmpty(bigEmployeeOutIdsList)) {
+			for (String bigEmployeeOutId : bigEmployeeOutIdsList) {
+				safehatService.deleteSafehatBybigEmployeeOutId(bigEmployeeOutId);
+			}
+		}
+
 		response.put("result", result);
 		return SUCCESS;
 	}
 
-	private String distributeId;//分配ID
-	public String updateDistributeForMiankao(){
+	private String distributeId;// 分配ID
+
+	public String updateDistributeForMiankao() {
 		Map condition = new HashMap();
 		response = new HashMap<String, Object>();
 		String result = null;
-		if(ValidateCheck.isNotNull(distributeId)){
+		if (ValidateCheck.isNotNull(distributeId)) {
 			try {
-				result = empoutDistributeService.updateDistributeForMiankao(distributeId)? "免培训成功，请到待分配下将该员工分配到下级":"免培训失败";
+				result = empoutDistributeService.updateDistributeForMiankao(distributeId) ? "免培训成功，请到待分配下将该员工分配到下级"
+						: "免培训失败";
 			} catch (SQLException e) {
 				log.error("免培训失败!", e);
 				e.printStackTrace();
@@ -397,6 +412,7 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 		response.put("result", result);
 		return SUCCESS;
 	}
+
 	// get,set
 	public Map<String, Object> getResponse() {
 		return response;
@@ -533,6 +549,5 @@ public class EmpOutDistrubuteAction extends ActionSupport {
 	public void setDistributeId(String distributeId) {
 		this.distributeId = distributeId;
 	}
-	
 
 }

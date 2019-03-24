@@ -9,6 +9,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -291,6 +292,23 @@ public class SafehatServiceImpl implements SafehatService {
 	@Override
 	public List<Map<String, Object>> getSafehatTaizhang(Map condition) {
 		return safehatCustomMapper.getSafehatTaizhang(condition);
+	}
+
+	@Override
+	public void deleteSafehatBybigEmployeeOutId(String bigEmployeeOutId) {
+		// 1.查到帽子
+		SafehatExample example = new SafehatExample();
+		Criteria createCriteria = example.createCriteria();
+		createCriteria.andUserhaulempidEqualTo(bigEmployeeOutId);
+		List<Safehat> hats = safehatMapper.selectByExampleWithBLOBs(example);
+		if (CollectionUtils.isEmpty(hats)) {
+			return;
+		}
+
+		// 2.删除帽子
+		Safehat safehat = hats.get(0);
+		deleteSafehat(safehat.getSafehatnum(),
+				(User) ServletActionContext.getRequest().getSession().getAttribute("userinfo"));
 	}
 
 }
